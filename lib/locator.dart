@@ -1,3 +1,4 @@
+import 'package:educate_me/data/services/firestore_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
@@ -19,6 +20,7 @@ Future setupLocator() async {
   locator.registerLazySingleton(() => ImageSelector());
   locator.registerLazySingleton(() => AuthenticationService());
   locator.registerLazySingleton(() => ApiService());
+  locator.registerLazySingleton(() => FirestoreService());
 
   var instance = await LocalStorageService.getInstance();
   locator.registerSingleton<LocalStorageService>(instance!);

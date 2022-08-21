@@ -208,8 +208,12 @@ class AuthenticationService {
   Future<FirebaseResult> isUserLoggedIn() async {
     try {
       var user = _firebaseAuth.currentUser;
-      await populateCurrentUser(user!.uid);
-      return FirebaseResult(data: controller.appUser);
+      if (user != null) {
+        await populateCurrentUser(user.uid);
+        return FirebaseResult(data: controller.appUser);
+      } else {
+        return FirebaseResult.error(errorMessage: 'no_user_found');
+      }
     } catch (e) {
       return FirebaseResult.error(errorMessage: e.toString());
     }

@@ -51,6 +51,7 @@ class _StartUpViewState extends State<StartUpView>
         body: Stack(
           children: [
             const BrandBgWidget(imgName: kImgSplash),
+            const BackgroundOverlayWidget(isDark: true,),
             Align(
               alignment: Alignment.center,
               child: Column(
@@ -73,7 +74,7 @@ class _StartUpViewState extends State<StartUpView>
                 ],
               ).paddingAll(16),
             ),
-            const BackgroundOverlayWidget()
+
           ],
         ),
       ),

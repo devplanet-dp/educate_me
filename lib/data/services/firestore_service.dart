@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+
 import '../../locator.dart';
 import '../firebase_result.dart';
 import '../user.dart';
@@ -98,6 +99,7 @@ class FirestoreService {
     var userData = await _usersCollectionReference.doc(uid).get();
     return UserModel.fromSnapshot(userData);
   }
+
   Stream<List<UserModel>> streamServiceProviders() {
     Stream<QuerySnapshot> snap = _usersCollectionReference
         .where('role', isEqualTo: 1)
@@ -108,6 +110,7 @@ class FirestoreService {
           return UserModel.fromSnapshot(doc);
         }).toList());
   }
+
   Future<FirebaseResult> getUser(String uid) async {
     try {
       var userData = await _usersCollectionReference.doc(uid).get();
@@ -120,7 +123,4 @@ class FirestoreService {
       return FirebaseResult.error(errorMessage: e.toString());
     }
   }
-
-
-
 }

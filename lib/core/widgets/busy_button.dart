@@ -35,7 +35,7 @@ class BoxButtonWidget extends StatelessWidget {
       elevation: 0,
       color: isEnabled ? buttonColor ?? kcPrimaryColor : Colors.black12,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(6))),
+          borderRadius: BorderRadius.all(Radius.circular(30))),
       onPressed: isEnabled
           ? isLoading
               ? null

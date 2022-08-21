@@ -13,23 +13,24 @@ class RichTextWidget extends StatelessWidget {
 
   const RichTextWidget(
       {Key? key,
-        required this.firstTxt,
-        required this.secondTxt,
-        required this.onTap,  this.isLight=false})
+      required this.firstTxt,
+      required this.secondTxt,
+      required this.onTap,
+      this.isLight = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return RichText(
-
       text: TextSpan(
           text: firstTxt.tr,
-          style: kBodyStyle.copyWith(color: kcTextPrimary),
+          style:
+              kBodyStyle.copyWith(color: isLight ? kcTextPrimary : kAltWhite),
           children: <TextSpan>[
             TextSpan(
                 text: ' ${secondTxt.tr}',
                 style: kBodyStyle.copyWith(
-                    color: isLight?kAltBgDark: kcPrimaryColor),
+                    color: isLight ? kAltBgDark : kcPrimaryColor),
                 recognizer: TapGestureRecognizer()..onTap = onTap)
           ]),
     );

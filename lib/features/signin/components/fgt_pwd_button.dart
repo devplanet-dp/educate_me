@@ -24,8 +24,8 @@ class ForgotPwdButton extends StatelessWidget {
           ),
           hSpaceSmall,
           Text(
-            'frgt.pwd'.tr,
-            style: kCaptionStyle,
+            'text007'.tr,
+            style: kCaptionStyle.copyWith(color: kAltWhite),
           )
         ],
       ),
