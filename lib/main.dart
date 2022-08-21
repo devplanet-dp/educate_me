@@ -1,4 +1,5 @@
 import 'package:educate_me/core/utils/app_controller.dart';
+import 'package:educate_me/features/teacher/home/teacher_home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Math Educate Me',
             theme: themeData,
-            home: const StartUpView(),
+            home: const TeacherHomeView(),
           );
         });
   }
