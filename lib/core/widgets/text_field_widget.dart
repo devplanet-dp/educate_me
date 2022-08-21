@@ -57,13 +57,13 @@ class AppTextField extends StatelessWidget {
     this.prefixIcon,
     this.onChanged,
     this.onEditingComplete,
-    this.verticalPadding = 12,
+    this.verticalPadding = 16,
     this.validator,
     this.minLine = 1,
     this.fillColor = kFillColor,
-    this.borderColor = Colors.transparent,
+    this.borderColor = kcStroke,
     this.textInputAction = TextInputAction.next,
-    this.borderRadius = 6,
+    this.borderRadius = 30,
     required this.label, this.suffixIcon,
   }) : super(key: key);
 
@@ -75,12 +75,12 @@ class AppTextField extends StatelessWidget {
         label.isEmpty
             ? const SizedBox.shrink()
             : Text(
-                label.tr,
-                style: kBodyStyle.copyWith(fontWeight: FontWeight.w700),
-              ),
+          label.tr,
+          style: kBody1Style.copyWith(fontWeight: FontWeight.w700),
+        ),
         label.isEmpty ? const SizedBox.shrink() : vSpaceSmall,
         TextFormField(
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.start,
           initialValue: controller == null ? initialValue : null,
           controller: controller,
           obscureText: isPassword,
@@ -99,21 +99,20 @@ class AppTextField extends StatelessWidget {
           maxLines: isTextArea && !isPassword
               ? null
               : isPassword
-                  ? 1
-                  : 3,
+              ? 1
+              : 3,
           keyboardType: isEmail
               ? TextInputType.emailAddress
               : isPhone
-                  ? TextInputType.phone
-                  : isMoney
-                      ? const TextInputType.numberWithOptions()
-                      : TextInputType.multiline,
+              ? TextInputType.phone
+              : isMoney
+              ? const TextInputType.numberWithOptions()
+              : TextInputType.multiline,
           style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 15,
               color: isDark ? Colors.white : textColor),
           decoration: InputDecoration(
-            floatingLabelBehavior: FloatingLabelBehavior.never,
             hintText: initialValue,
             labelText: hintText,
             labelStyle: TextStyle(
@@ -124,15 +123,13 @@ class AppTextField extends StatelessWidget {
                     : textColor.withOpacity(0.4)),
             counterText: "",
             contentPadding:
-                EdgeInsets.symmetric(horizontal: 30, vertical: verticalPadding),
+            EdgeInsets.symmetric(horizontal: 30, vertical: verticalPadding),
             fillColor: fillColor,
             prefixText: prefix,
             prefix: prefixWidget,
             prefixIcon: prefixIcon,
-            prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
             suffixIcon: suffixIcon,
             suffix: suffix,
-            focusColor: Colors.transparent,
             errorStyle: TextStyle(
                 fontWeight: FontWeight.w200,
                 fontSize: 11,
@@ -140,7 +137,6 @@ class AppTextField extends StatelessWidget {
             hintStyle: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 15,
-
                 color: isDark ? Colors.white.withOpacity(0.9) : Colors.black),
             filled: true,
             border: OutlineInputBorder(
@@ -157,7 +153,7 @@ class AppTextField extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: const BorderSide(color: kcFocusBorder, width: 1),
+              borderSide: BorderSide(color: borderColor, width: 1),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),

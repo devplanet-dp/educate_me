@@ -15,16 +15,16 @@ class OrSeperator extends StatelessWidget {
       children: [
         Expanded(
             child: Divider(
-          color: isDark ? kcAccent : Colors.black,
+          color: isDark ? kcPrimaryColor : Colors.black,
           thickness: 1.2,
         )),
         Text(
           'or',
-          style: TextStyle(color: isDark ? kcAccent : Colors.black),
+          style: TextStyle(color: isDark ? kcPrimaryColor : Colors.black),
         ).padding(horizontal: 24),
         Expanded(
             child: Divider(
-                color: isDark ? kcAccent : Colors.black, thickness: 1.2)),
+                color: isDark ? kcPrimaryColor : Colors.black, thickness: 1.2)),
       ],
     ).padding(horizontal: 16);
   }

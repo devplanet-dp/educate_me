@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -43,14 +44,14 @@ class GoogleSignInButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
+                  SvgPicture.asset(
                     kIcGoogle,
                     height: 24,
                     width: 24,
                   ),
                   hSpaceMedium,
                   Text(
-                    isSignUp ? 'signup_google'.tr : 'sign_google'.tr,
+                    isSignUp ? 'text011'.tr : 'text010'.tr,
                     style: kBody1Style.copyWith(fontWeight: FontWeight.w500),
                   )
                 ],

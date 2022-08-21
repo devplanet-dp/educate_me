@@ -1,7 +1,7 @@
 const String kImgWelcome = 'assets/images/img_welcom.png';
 const String kImgBg = 'assets/images/bg-image.jpg';
 const String kImgSplash = 'assets/images/img_splash.png';
-const String kImgVerified = 'assets/images/img_verified.png';
+const String kImgLogin = 'assets/images/img_login.jpg';
 const String kImgLogo = 'assets/images/img-logo-text.png';
 const String kImgProfile = 'assets/icons/user.svg';
 const String kImgSectionOverlay = 'assets/images/img_section_overlay.png';

@@ -49,9 +49,6 @@ String getFormattedHtml(String preview) {
 showErrorMessage({required String message, title = 'Info!'}) {
   if (message.isEmpty) return;
 
-  Get.dialog(
-    AppDialog(title: title, desc: message),
-  );
   Get.snackbar(title, message,
       backgroundColor: kcTextSecondary,
       colorText: kAltWhite,
