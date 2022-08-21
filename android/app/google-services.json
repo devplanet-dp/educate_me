@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "763894577183",
+    "project_id": "math-educate-me",
+    "storage_bucket": "math-educate-me.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763894577183:android:090afc0884f62ad6d77d2a",
+        "android_client_info": {
+          "package_name": "com.educateme.educate_me"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763894577183-21okjb74pj8ghe150n9q4np45sdiqt8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAgIL91OPvLya2XLVDX66oVFwK3KBhzqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763894577183-21okjb74pj8ghe150n9q4np45sdiqt8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

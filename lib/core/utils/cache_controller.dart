@@ -1,0 +1,3 @@
+class Glob {
+  Glob._();
+}
