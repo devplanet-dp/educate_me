@@ -63,7 +63,7 @@ class AppTextField extends StatelessWidget {
     this.fillColor = kFillColor,
     this.borderColor = kcStroke,
     this.textInputAction = TextInputAction.next,
-    this.borderRadius = 30,
+    this.borderRadius = 8,
     required this.label, this.suffixIcon,
   }) : super(key: key);
 

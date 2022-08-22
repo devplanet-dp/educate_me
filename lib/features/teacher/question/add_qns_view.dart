@@ -7,7 +7,6 @@ import 'package:educate_me/features/teacher/question/qns_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
-import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/utils/device_utils.dart';
 import '../../../core/widgets/busy_button.dart';
@@ -21,47 +20,49 @@ class AddQuestionView extends StatelessWidget {
     return ViewModelBuilder<QnsViewModel>.reactive(
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
-        child: SafeArea(
-          child: Scaffold(
-            bottomNavigationBar: BoxButtonWidget(
-              buttonText: 'Add',
-              isLoading: vm.isBusy,
-              onPressed: () =>vm.addQuestion(),
-            ).paddingAll(8),
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              title: const Text(
-                'Create your question',
-              ),
+        child: Scaffold(
+          bottomNavigationBar: BoxButtonWidget(
+            buttonText: 'Add',
+            isLoading: vm.isBusy,
+            onPressed: () => vm.addQuestion(),
+          ).paddingAll(8),
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: const Text(
+              'Create your question',
             ),
-            body: Form(
-              key: vm.formKey,
-              child: SingleChildScrollView(
-                padding: fieldPadding,
-                child: Column(
-                  children: [
-                    vSpaceSmall,
-                    const QnsTypeSelector(),
-                    vSpaceSmall,
-                    AppTextField(
-                      controller: vm.qnsTEC,
-                      borderRadius: kRadiusSmall,
-                      hintText: 'Enter question',
-                      label: 'Question',
-                      minLine: 3,
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return 'Question is mandatory';
-                        }
-                        return null;
-                      },
-                    ),
-                    vSpaceMedium,
-                    const _MultipleQns(),
-                    vSpaceMedium,
-                  ],
-                ),
+          ),
+          body: Form(
+            key: vm.formKey,
+            child: SingleChildScrollView(
+              padding: fieldPadding,
+              child: Column(
+                children: [
+                  vSpaceSmall,
+                  const QnsTypeSelector(),
+                  vSpaceSmall,
+                  AppTextField(
+                    controller: vm.qnsTEC,
+                    borderRadius: kRadiusSmall,
+                    hintText: 'Enter question',
+                    label: 'Question',
+                    minLine: 3,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Question is mandatory';
+                      }
+                      return null;
+                    },
+                  ),
+                  vSpaceMedium,
+                   AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      child: vm.isMultipleChoice
+                          ? const _MultipleQns()
+                          : const _AnswerInput()),
+                  vSpaceMedium,
+                ],
               ),
             ),
           ),
@@ -88,5 +89,19 @@ class _MultipleQns extends ViewModelWidget<QnsViewModel> {
                 )),
             child: AddQnWidget(model.addedQns[index])),
         itemCount: model.addedQns.length);
+  }
+}
+
+class _AnswerInput extends ViewModelWidget<QnsViewModel> {
+  const _AnswerInput({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, QnsViewModel model) {
+    return AppTextField(
+        controller: model.ansTEC,
+        hintText: 'Enter the answer',
+        borderRadius: kRadiusSmall,
+        minLine: 3,
+        label: 'Answer');
   }
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../../data/question.dart';
+import '../../../data/option.dart';
 
 class QnsViewModel extends BaseViewModel {
   final formKey = GlobalKey<FormState>();
   final qnsTEC = TextEditingController();
+  final ansTEC = TextEditingController();
 
   bool _isMultiple = true;
 
@@ -16,17 +17,17 @@ class QnsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  List<Question> addedQns = [
-    Question(index: 0, qns: '', isCorrect: false),
-    Question(index: 1, qns: '', isCorrect: false),
-    Question(index: 2, qns: '', isCorrect: false),
-    Question(index: 3, qns: '', isCorrect: false),
+  List<OptionModel> addedQns = [
+    OptionModel(index: 0, option: '', isCorrect: false),
+    OptionModel(index: 1, option: '', isCorrect: false),
+    OptionModel(index: 2, option: '', isCorrect: false),
+    OptionModel(index: 3, option: '', isCorrect: false),
   ];
 
-  void updateQn(Question qns) {
+  void updateQn(OptionModel qns) {
     addedQns.removeAt(qns.index);
     addedQns.add(
-        Question(index: qns.index, qns: qns.qns, isCorrect: qns.isCorrect));
+        OptionModel(index: qns.index, option: qns.option, isCorrect: qns.isCorrect));
     addedQns.sort((a, b) => a.index.compareTo(b.index));
     notifyListeners();
   }

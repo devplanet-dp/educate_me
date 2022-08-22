@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../../locator.dart';
 import '../firebase_result.dart';
+import '../level.dart';
 import '../user.dart';
 import 'cloud_storage_service.dart';
 
@@ -12,8 +13,8 @@ class FirestoreService {
   final CollectionReference _usersCollectionReference =
       FirebaseFirestore.instance.collection('users');
 
-  final CollectionReference _bookingCollectionRef =
-      FirebaseFirestore.instance.collection(tbBooking);
+  final CollectionReference _levelReference =
+      FirebaseFirestore.instance.collection(tbLevel);
 
   final CollectionReference _categoryCollectionRef =
       FirebaseFirestore.instance.collection('categories');
@@ -25,7 +26,7 @@ class FirestoreService {
   final CollectionReference _requestCollectionRef =
       FirebaseFirestore.instance.collection(tbRequests);
 
-  static const String tbBooking = 'booking';
+  static const String tbLevel = 'level';
   static const String tbMyReviews = 'reviews';
   static const String tbMyComments = 'comments';
   static const String tbRequests = 'request';
@@ -120,6 +121,39 @@ class FirestoreService {
         return FirebaseResult.error(errorMessage: e.message.toString());
       }
 
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
+  //start_level
+  Future<FirebaseResult> createLevel(LevelModel level) async {
+    try {
+      await _levelReference
+          .doc(level.id)
+          .set(level.toJson(), SetOptions(merge: true));
+      return FirebaseResult(data: true);
+    } catch (e) {
+      if (e is PlatformException) {
+        return FirebaseResult.error(errorMessage: e.message.toString());
+      }
+
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
+  Stream<List<LevelModel>> streamLevels() {
+    Stream<QuerySnapshot> snap = _levelReference.snapshots();
+
+    return snap.map((snapshot) => snapshot.docs.map((doc) {
+          return LevelModel.fromSnapshot(doc);
+        }).toList());
+  }
+
+  Future<FirebaseResult> removeLevel(String id) async {
+    try {
+      await _levelReference.doc(id).delete();
+      return FirebaseResult(data: true);
+    } catch (e) {
       return FirebaseResult.error(errorMessage: e.toString());
     }
   }

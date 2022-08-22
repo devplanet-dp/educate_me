@@ -1,4 +1,4 @@
-import 'package:educate_me/data/question.dart';
+import 'package:educate_me/data/option.dart';
 import 'package:educate_me/features/teacher/question/components/qns_index_widget.dart';
 import 'package:educate_me/features/teacher/question/qns_view_model.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import '../../../../core/shared/shared_styles.dart';
 import '../../../../core/shared/ui_helpers.dart';
 
 class AddQnWidget extends ViewModelWidget<QnsViewModel> {
-  final Question qns;
+  final OptionModel qns;
 
   const AddQnWidget(this.qns, {Key? key}) : super(key: key);
 
@@ -24,12 +24,12 @@ class AddQnWidget extends ViewModelWidget<QnsViewModel> {
         QnsIndexWidget(index: qns.index),
         hSpaceSmall,
         Text(
-          qns.qns.isEmpty ? 'Add answer here' : qns.qns,
+          qns.option.isEmpty ? 'Add answer here' : qns.option,
           style: kBody1Style,
         ),
       ],
     ).paddingAll(4).card(
-        color: qns.qns.isEmpty
+        color: qns.option.isEmpty
             ? kcPrimaryColor.withOpacity(.2)
             : qns.isCorrect
                 ? kcCorrectAns

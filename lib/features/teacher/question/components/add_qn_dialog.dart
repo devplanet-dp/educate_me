@@ -5,14 +5,14 @@ import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/utils/device_utils.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/core/widgets/text_field_widget.dart';
-import 'package:educate_me/data/question.dart';
+import 'package:educate_me/data/option.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 class AddQnDialog extends StatefulWidget {
-  final Question question;
-  final Function(Question) onQuestionAdded;
+  final OptionModel question;
+  final Function(OptionModel) onQuestionAdded;
 
   const AddQnDialog(
       {Key? key, required this.question, required this.onQuestionAdded})
@@ -30,8 +30,8 @@ class _AddQnDialogState extends State<AddQnDialog> {
   @override
   void initState() {
     super.initState();
-    if (widget.question.qns.isNotEmpty) {
-      controller.text = widget.question.qns;
+    if (widget.question.option.isNotEmpty) {
+      controller.text = widget.question.option;
       _isCorrect = widget.question.isCorrect;
     }
   }
@@ -92,9 +92,9 @@ class _AddQnDialogState extends State<AddQnDialog> {
                     buttonText: 'Done',
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        widget.onQuestionAdded(Question(
+                        widget.onQuestionAdded(OptionModel(
                             index: widget.question.index,
-                            qns: controller.text,
+                            option: controller.text,
                             isCorrect: _isCorrect));
                         Get.back();
                       }
