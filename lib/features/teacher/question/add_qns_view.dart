@@ -13,7 +13,9 @@ import '../../../core/widgets/busy_button.dart';
 import 'components/qns_type_selector.dart';
 
 class AddQuestionView extends StatelessWidget {
-  const AddQuestionView({Key? key}) : super(key: key);
+  final String id;
+
+  const AddQuestionView({Key? key, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,10 @@ class AddQuestionView extends StatelessWidget {
           bottomNavigationBar: BoxButtonWidget(
             buttonText: 'Add',
             isLoading: vm.isBusy,
-            onPressed: () => vm.addQuestion(),
+            isEnabled: vm.isMultipleChoice
+                ? vm.addedQns.where((e) => e.option?.isEmpty ?? false).isEmpty
+                : true,
+            onPressed: () => vm.addQuestion(id),
           ).paddingAll(8),
           appBar: AppBar(
             elevation: 0,
@@ -56,7 +61,7 @@ class AddQuestionView extends StatelessWidget {
                     },
                   ),
                   vSpaceMedium,
-                   AnimatedSwitcher(
+                  AnimatedSwitcher(
                       duration: const Duration(milliseconds: 500),
                       child: vm.isMultipleChoice
                           ? const _MultipleQns()
@@ -102,6 +107,12 @@ class _AnswerInput extends ViewModelWidget<QnsViewModel> {
         hintText: 'Enter the answer',
         borderRadius: kRadiusSmall,
         minLine: 3,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Please add an answer';
+          }
+          return null;
+        },
         label: 'Answer');
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import '../../locator.dart';
 import '../firebase_result.dart';
 import '../level.dart';
+import '../question.dart';
 import '../user.dart';
 import 'cloud_storage_service.dart';
 
@@ -16,8 +17,8 @@ class FirestoreService {
   final CollectionReference _levelReference =
       FirebaseFirestore.instance.collection(tbLevel);
 
-  final CollectionReference _categoryCollectionRef =
-      FirebaseFirestore.instance.collection('categories');
+  final CollectionReference _questionReference =
+      FirebaseFirestore.instance.collection(tbQuestions);
 
   final CollectionReference _offersCollection =
       FirebaseFirestore.instance.collection(tbOffers);
@@ -27,7 +28,7 @@ class FirestoreService {
       FirebaseFirestore.instance.collection(tbRequests);
 
   static const String tbLevel = 'level';
-  static const String tbMyReviews = 'reviews';
+  static const String tbQuestions = 'questions';
   static const String tbMyComments = 'comments';
   static const String tbRequests = 'request';
   static const String tbMySupplyVehicle = 'my_supply_vehicles';
@@ -154,6 +155,58 @@ class FirestoreService {
       await _levelReference.doc(id).delete();
       return FirebaseResult(data: true);
     } catch (e) {
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
+  //questions
+  Future<FirebaseResult> addStartUpQuestion(
+      QuestionModel qns, String levelId) async {
+    try {
+      await _levelReference
+          .doc(levelId)
+          .collection(tbQuestions)
+          .doc(qns.id ?? '')
+          .set(qns.toJson(), SetOptions(merge: true));
+      //update index number
+      await _levelReference
+          .doc(levelId)
+          .collection(tbQuestions)
+          .doc(qns.id)
+          .update({'index': FieldValue.increment(1)});
+      return FirebaseResult(data: true);
+    } catch (e) {
+      if (e is PlatformException) {
+        return FirebaseResult.error(errorMessage: e.message.toString());
+      }
+
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
+  Stream<List<QuestionModel>> streamStartUpQuestions(String levelId) {
+    Stream<QuerySnapshot> snap =
+        _levelReference.doc(levelId).collection(tbQuestions).snapshots();
+
+    return snap.map((snapshot) => snapshot.docs.map((doc) {
+          return QuestionModel.fromSnapshot(doc);
+        }).toList());
+  }
+
+  Future<FirebaseResult> removeStartUpQuestion(
+      QuestionModel qns, String levelId) async {
+    try {
+      await _levelReference
+          .doc(levelId)
+          .collection(tbQuestions)
+          .doc(qns.id)
+          .delete();
+      return FirebaseResult(data: true);
+    } catch (e) {
+      if (e is PlatformException) {
+        return FirebaseResult.error(errorMessage: e.message.toString());
+      }
+
       return FirebaseResult.error(errorMessage: e.toString());
     }
   }

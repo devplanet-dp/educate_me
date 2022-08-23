@@ -56,7 +56,7 @@ class BoxButtonWidget extends StatelessWidget {
                       buttonText,
                       style: kBodyStyle.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: kButtonTextColor,
+                        color: isEnabled? kButtonTextColor:kAltBg,
                       ),
                     ))),
     );

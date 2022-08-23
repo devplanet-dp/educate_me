@@ -26,7 +26,9 @@ class AddLessonQns extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             backgroundColor: kcPrimaryColor,
             child: const Icon(Iconsax.add),
-            onPressed: () => Get.to(() => const AddQuestionView()),
+            onPressed: () => Get.to(() => AddQuestionView(
+                  id: level.id ?? '',
+                )),
           ),
           body: Container(),
         ),

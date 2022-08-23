@@ -30,9 +30,9 @@ class _AddQnDialogState extends State<AddQnDialog> {
   @override
   void initState() {
     super.initState();
-    if (widget.question.option.isNotEmpty) {
-      controller.text = widget.question.option;
-      _isCorrect = widget.question.isCorrect;
+    if (widget.question.option?.isNotEmpty??false) {
+      controller.text = widget.question.option!;
+      _isCorrect = widget.question.isCorrect!;
     }
   }
 
@@ -46,7 +46,7 @@ class _AddQnDialogState extends State<AddQnDialog> {
           child: [
             vSpaceSmall,
             Text(
-              'Add answer for ${getIndexName(widget.question.index)}',
+              'Add answer for ${getIndexName(widget.question.index??0)}',
               style: kBodyStyle.copyWith(
                   color: kcPrimaryColor, fontWeight: FontWeight.bold),
             ),

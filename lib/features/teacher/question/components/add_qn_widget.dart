@@ -17,21 +17,22 @@ class AddQnWidget extends ViewModelWidget<QnsViewModel> {
 
   @override
   Widget build(BuildContext context, QnsViewModel model) {
+    bool isOptionAdded = qns.option?.isNotEmpty ?? false;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        QnsIndexWidget(index: qns.index),
+        QnsIndexWidget(index: qns.index ?? 0),
         hSpaceSmall,
         Text(
-          qns.option.isEmpty ? 'Add answer here' : qns.option,
+          !isOptionAdded ? 'Add answer here' : qns.option ?? '',
           style: kBody1Style,
         ),
       ],
     ).paddingAll(4).card(
-        color: qns.option.isEmpty
+        color: !isOptionAdded
             ? kcPrimaryColor.withOpacity(.2)
-            : qns.isCorrect
+            : qns.isCorrect ?? false
                 ? kcCorrectAns
                 : kcIncorrectAns,
         elevation: 0,
