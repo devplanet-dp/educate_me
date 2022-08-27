@@ -7,8 +7,8 @@ class LessonModel {
   String? description;
   String? introduction;
   String? cover;
-  String? thumbnail;
-  String? order;
+  int? maxQuestions;
+  int? order;
   Timestamp? createdAt;
   List<QuestionModel>? questions;
   String? video;
@@ -19,7 +19,7 @@ class LessonModel {
         this.description,
         this.introduction,
         this.cover,
-        this.thumbnail,
+        this.maxQuestions,
         this.order,
         this.createdAt,
         this.questions,
@@ -31,7 +31,7 @@ class LessonModel {
     description = json['description'];
     introduction = json['introduction'];
     cover = json['cover'];
-    thumbnail = json['thumbnail'];
+    maxQuestions = json['maxQuestions'];
     order = json['order'];
     createdAt = json['createdAt'];
     if (json['questions'] != null) {
@@ -52,7 +52,7 @@ class LessonModel {
     data['description'] = description;
     data['introduction'] = introduction;
     data['cover'] = cover;
-    data['thumbnail'] = thumbnail;
+    data['maxQuestions'] = maxQuestions;
     data['order'] = order;
     data['createdAt'] = createdAt;
     data['questions'] =

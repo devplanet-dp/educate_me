@@ -1,8 +1,7 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_overlay.dart';
-import 'package:educate_me/data/level.dart';
-import 'package:educate_me/features/teacher/level/level_view_model.dart';
+import 'package:educate_me/features/teacher/level/teacher_level_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -14,14 +13,33 @@ import '../../../core/utils/device_utils.dart';
 import '../question/add_qns_view.dart';
 
 class TeacherQnsView extends StatelessWidget {
-  const TeacherQnsView({Key? key, required this.level}) : super(key: key);
-  final LevelModel level;
+  const TeacherQnsView(
+      {Key? key,
+      required this.levelId,
+      this.topicId,
+      this.subTopicId,
+      this.lessonId,
+      this.isStartUp = false})
+      : super(key: key);
+  final String levelId;
+  final String? topicId;
+  final String? subTopicId;
+  final String? lessonId;
+  final bool isStartUp;
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<LevelViewModel>.reactive(
+    return ViewModelBuilder<TeacherLevelViewModel>.reactive(
       onModelReady: (model) {
-        model.listenToQns(level.id ?? '');
+        if (isStartUp) {
+          model.listenToStartUpQns(levelId);
+        } else {
+          model.listenToQns(
+              levelId: levelId,
+              subTopicId: subTopicId,
+              lessonId: lessonId,
+              topiId: topicId);
+        }
       },
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
@@ -33,7 +51,13 @@ class TeacherQnsView extends StatelessWidget {
               title: const Text('Add Questions here'),
               actions: [
                 IconButton(
-                    onPressed: () => vm.removeLevel(level.id ?? ''),
+                    onPressed: () => isStartUp
+                        ? vm.removeLevel(levelId)
+                        : vm.removeLesson(
+                            levelId: levelId,
+                            topic: topicId,
+                            subTopic: subTopicId,
+                            lessonId: lessonId),
                     icon: const Icon(
                       Iconsax.trash,
                       color: kErrorRed,
@@ -44,31 +68,50 @@ class TeacherQnsView extends StatelessWidget {
               backgroundColor: kcPrimaryColor,
               child: const Icon(Iconsax.add),
               onPressed: () => Get.to(() => AddQuestionView(
-                    id: level.id ?? '',
+                    topicId: topicId,
+                    lessonId: lessonId,
+                    levelId: levelId,
+                    subTopicId: subTopicId,
+                    isStartUp: isStartUp,
                   )),
             ),
-            body:
-
-            vm.questions.isEmpty
+            body: vm.questions.isEmpty
                 ? const AppInfoWidget(
                         translateKey: 'No questions found',
                         iconData: Iconsax.message_question)
                     .center()
-                : _QuestionsGrid(level.id ?? ''),
+                : _QuestionsGrid(
+                    levelId: levelId,
+                    topicId: topicId,
+                    subTopicId: subTopicId,
+                    lessonId: lessonId,
+                    isStartUp: isStartUp,
+                  ),
           ),
         ),
       ),
-      viewModelBuilder: () => LevelViewModel(),
+      viewModelBuilder: () => TeacherLevelViewModel(),
     );
   }
 }
 
-class _QuestionsGrid extends ViewModelWidget<LevelViewModel> {
-  const _QuestionsGrid(this.levelId, {Key? key}) : super(key: key);
+class _QuestionsGrid extends ViewModelWidget<TeacherLevelViewModel> {
+  const _QuestionsGrid({
+    Key? key,
+    required this.levelId,
+    this.topicId,
+    this.subTopicId,
+    this.lessonId,
+    required this.isStartUp,
+  }) : super(key: key);
   final String levelId;
+  final String? topicId;
+  final String? subTopicId;
+  final String? lessonId;
+  final bool isStartUp;
 
   @override
-  Widget build(BuildContext context, LevelViewModel model) {
+  Widget build(BuildContext context, TeacherLevelViewModel model) {
     return GridView.count(
       crossAxisCount: 5,
       crossAxisSpacing: 8,
@@ -77,8 +120,12 @@ class _QuestionsGrid extends ViewModelWidget<LevelViewModel> {
         return InkWell(
           borderRadius: kBorderLarge,
           onTap: () => Get.to(() => AddQuestionView(
-                id: levelId,
                 question: model.questions[index],
+                lessonId: lessonId,
+                topicId: topicId,
+                subTopicId: subTopicId,
+                levelId: levelId,
+                isStartUp: isStartUp,
               )),
           child: Text(
             '${index + 1}',

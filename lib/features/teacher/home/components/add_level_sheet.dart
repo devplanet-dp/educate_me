@@ -1,7 +1,7 @@
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/input_sheet.dart';
 import 'package:educate_me/core/widgets/text_field_widget.dart';
-import 'package:educate_me/features/teacher/level/level_view_model.dart';
+import 'package:educate_me/features/teacher/level/teacher_level_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -14,7 +14,7 @@ class AddLevelSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<LevelViewModel>.reactive(
+    return ViewModelBuilder<TeacherLevelViewModel>.reactive(
       onModelReady: (model){
         if(level!=null) {
           model.setInitData(level!);
@@ -57,7 +57,7 @@ class AddLevelSheet extends StatelessWidget {
           ].toColumn(),
         ),
       ),
-      viewModelBuilder: () => LevelViewModel(),
+      viewModelBuilder: () => TeacherLevelViewModel(),
     );
   }
 }

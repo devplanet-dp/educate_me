@@ -1,7 +1,6 @@
 import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/data/level.dart';
 import 'package:educate_me/data/services/firestore_service.dart';
-import 'package:educate_me/features/teacher/lesson/teacher_lesson_view.dart';
 import 'package:educate_me/features/teacher/level/teacher_qns_view.dart';
 import 'package:educate_me/features/teacher/topic/teacher_topic_view.dart';
 import 'package:educate_me/locator.dart';
@@ -13,7 +12,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../data/question.dart';
 
-class LevelViewModel extends BaseViewModel {
+class TeacherLevelViewModel extends BaseViewModel {
   final _service = locator<FirestoreService>();
   final _dialogService = locator<DialogService>();
   final formKey = GlobalKey<FormState>();
@@ -38,13 +37,13 @@ class LevelViewModel extends BaseViewModel {
           id: id, order: int.parse(orderTEC.text), name: nameTEC.text);
       var result = await _service.createLevel(level);
       if (!result.hasError) {
-        if(l==null) {
+        if (l == null) {
           if (level.order == 0) {
-            Get.off(() => TeacherQnsView(level: level));
+            Get.off(() => TeacherQnsView(levelId: level.id??''));
           } else {
             Get.off(() => TeacherTopicView(level: level));
           }
-        }else{
+        } else {
           Get.back();
         }
       } else {
@@ -65,8 +64,44 @@ class LevelViewModel extends BaseViewModel {
     }
   }
 
-  listenToQns(String id) {
+  Future removeLesson(
+      {required levelId,
+      required topic,
+      required subTopic,
+      required lessonId}) async {
+    var response = await _dialogService.showConfirmationDialog(
+        title: 'Are you sure?', description: 'Delete this lesson');
+    if (response?.confirmed ?? false) {
+      setBusy(true);
+      await _service.removeLesson(
+          levelId: levelId,
+          topicId: topic,
+          subTopic: subTopic,
+          lessonId: lessonId);
+      setBusy(false);
+      Get.back();
+    }
+  }
+
+  listenToStartUpQns(String id) {
     _service.streamStartUpQuestions(id).listen((d) {
+      _questions = d;
+      notifyListeners();
+    });
+  }
+
+  listenToQns(
+      {required levelId,
+      required topiId,
+      required subTopicId,
+      required lessonId}) {
+    _service
+        .streamQuestions(
+            subTopicId: subTopicId,
+            levelId: levelId,
+            lessonId: lessonId,
+            topicId: topiId)
+        .listen((d) {
       _questions = d;
       notifyListeners();
     });

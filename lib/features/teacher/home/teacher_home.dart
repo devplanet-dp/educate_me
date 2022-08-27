@@ -96,7 +96,10 @@ class _LevelGrid extends ViewModelWidget<TeacherViewModel> {
                 ? Get.to(() => TeacherTopicView(
                       level: model.levels[index],
                     ))
-                : Get.to(() => TeacherQnsView(level: model.levels[index])),
+                : Get.to(() => TeacherQnsView(
+                      levelId: model.levels[index].id ?? '',
+                      isStartUp: true,
+                    )),
             isDark: false);
       }),
     ).paddingSymmetric(horizontal: 12);

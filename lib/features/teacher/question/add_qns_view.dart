@@ -16,10 +16,21 @@ import '../../../core/widgets/busy_button.dart';
 import 'components/qns_type_selector.dart';
 
 class AddQuestionView extends StatelessWidget {
-  final String id;
+  final String levelId;
+  final String? topicId;
+  final String? subTopicId;
+  final String? lessonId;
   final QuestionModel? question;
+  final bool isStartUp;
 
-  const AddQuestionView({Key? key, required this.id, this.question})
+  const AddQuestionView(
+      {Key? key,
+      required this.levelId,
+      this.question,
+      required this.topicId,
+      required this.subTopicId,
+      required this.lessonId,
+      this.isStartUp = false})
       : super(key: key);
 
   @override
@@ -28,67 +39,81 @@ class AddQuestionView extends StatelessWidget {
       onModelReady: (model) {
         model.setQuestionData(question);
       },
-      builder: (context, vm, child) =>
-          GestureDetector(
-            onTap: () => DeviceUtils.hideKeyboard(context),
-            child: Scaffold(
-              bottomNavigationBar: BoxButtonWidget(
-                buttonText:question==null? 'Add':'Update',
-                isLoading: vm.isBusy,
-                isEnabled: vm.isMultipleChoice
-                    ? vm.addedQns
-                    .where((e) => e.option?.isEmpty ?? false)
-                    .isEmpty
-                    : true,
-                onPressed: () => vm.addQuestion(levelId: id,question: question),
-              ).paddingAll(8),
-              appBar: AppBar(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                title: const Text(
-                  'Create your question',
-                ),
-                actions: [
-                  question != null ? IconButton(onPressed: () =>
-                      vm.removeQuestion(levelId: id, qId: question!.id),
-                      icon: const Icon(Iconsax.trash, color: kErrorRed,)):emptyBox()
-                ],
-              ),
-              body: Form(
-                key: vm.formKey,
-                child: SingleChildScrollView(
-                  padding: fieldPadding,
-                  child: Column(
-                    children: [
-                      vSpaceSmall,
-                      const QnsTypeSelector(),
-                      vSpaceSmall,
-                      AppTextField(
-                        controller: vm.qnsTEC,
-                        borderRadius: kRadiusSmall,
-                        hintText: 'Enter question',
-                        label: 'Question',
-                        minLine: 3,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Question is mandatory';
-                          }
-                          return null;
-                        },
-                      ),
-                      vSpaceMedium,
-                      AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 500),
-                          child: vm.isMultipleChoice
-                              ? const _MultipleQns()
-                              : const _AnswerInput()),
-                      vSpaceMedium,
-                    ],
+      builder: (context, vm, child) => GestureDetector(
+        onTap: () => DeviceUtils.hideKeyboard(context),
+        child: Scaffold(
+          bottomNavigationBar: BoxButtonWidget(
+            buttonText: question == null ? 'Add' : 'Update',
+            isLoading: vm.isBusy,
+            isEnabled: vm.isMultipleChoice
+                ? vm.addedQns.where((e) => e.option?.isEmpty ?? false).isEmpty
+                : true,
+            onPressed: () => vm.addQuestion(
+                levelId: levelId,
+                question: question,
+                topicId: topicId,
+                subtopicId: subTopicId,
+                lessonId: lessonId,
+                isStartup: isStartUp),
+          ).paddingAll(8),
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: const Text(
+              'Create your question',
+            ),
+            actions: [
+              question != null
+                  ? IconButton(
+                      onPressed: () => vm.removeQuestion(
+                          levelId: levelId,
+                          qId: question!.id,
+                          lessonId: lessonId,
+                          isStartUp: isStartUp,
+                          topicId: topicId,
+                          subTopicId: subTopicId),
+                      icon: const Icon(
+                        Iconsax.trash,
+                        color: kErrorRed,
+                      ))
+                  : emptyBox()
+            ],
+          ),
+          body: Form(
+            key: vm.formKey,
+            child: SingleChildScrollView(
+              padding: fieldPadding,
+              child: Column(
+                children: [
+                  vSpaceSmall,
+                  const QnsTypeSelector(),
+                  vSpaceSmall,
+                  AppTextField(
+                    controller: vm.qnsTEC,
+                    borderRadius: kRadiusSmall,
+                    hintText: 'Enter question',
+                    label: 'Question',
+                    minLine: 3,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Question is mandatory';
+                      }
+                      return null;
+                    },
                   ),
-                ),
+                  vSpaceMedium,
+                  AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      child: vm.isMultipleChoice
+                          ? const _MultipleQns()
+                          : const _AnswerInput()),
+                  vSpaceMedium,
+                ],
               ),
             ),
           ),
+        ),
+      ),
       viewModelBuilder: () => QnsViewModel(),
     );
   }
@@ -102,15 +127,15 @@ class _MultipleQns extends ViewModelWidget<QnsViewModel> {
     return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (_, index) =>
-            InkWell(
-                borderRadius: kBorderSmall,
-                onTap: () =>
-                    Get.bottomSheet(AddQnDialog(
-                      onQuestionAdded: (qns) => model.updateQn(qns),
-                      question: model.addedQns[index],
-                    )),
-                child: AddQnWidget(model.addedQns[index])),
+        itemBuilder: (_, index) => InkWell(
+            borderRadius: kBorderSmall,
+            onTap: () => Get.bottomSheet(
+                AddQnDialog(
+                  onQuestionAdded: (qns) => model.updateQn(qns),
+                  question: model.addedQns[index],
+                ),
+                isScrollControlled: true),
+            child: AddQnWidget(model.addedQns[index])),
         itemCount: model.addedQns.length);
   }
 }
