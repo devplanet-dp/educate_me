@@ -33,7 +33,7 @@ class BusyOverlay extends StatelessWidget {
                   height: screenSize.height,
                   alignment: Alignment.center,
                   color: Colors.transparent,
-                  child: const LoadingAnim(),
+                  child: const Center(child: CircularProgressIndicator(),),
                 ),
               ),
             )),

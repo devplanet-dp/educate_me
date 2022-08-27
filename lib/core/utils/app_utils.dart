@@ -8,9 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../shared/app_colors.dart';
 import '../widgets/app_dialog.dart';
 
-
-
-
 String removeFirstWord(String word) {
   if (word.isNotEmpty) {
     int i = word.indexOf(" ") + 1;
@@ -29,8 +26,9 @@ extension ParseToString on Object {
 final kFormatCurrency = NumberFormat.compactCurrency(
     decimalDigits: 0, locale: 'en_US', symbol: "€");
 
-Future<bool> launchURL(String url) async =>
-    await canLaunchUrl(Uri.parse(url)) ? await launchUrl(Uri.parse(url)) : throw 'Could not launch $url';
+Future<bool> launchURL(String url) async => await canLaunchUrl(Uri.parse(url))
+    ? await launchUrl(Uri.parse(url))
+    : throw 'Could not launch $url';
 
 extension CurrencyExtentions on String {
   String formatCurrency(currency) {
@@ -135,4 +133,19 @@ class HexColor extends Color {
   }
 
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+}
+
+String getIndexName(int index) {
+  switch (index) {
+    case 0:
+      return 'A';
+    case 1:
+      return 'B';
+    case 2:
+      return 'C';
+    case 3:
+      return 'D';
+    default:
+      return '';
+  }
 }

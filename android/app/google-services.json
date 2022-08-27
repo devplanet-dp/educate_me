@@ -29,6 +29,13 @@
             {
               "client_id": "763894577183-21okjb74pj8ghe150n9q4np45sdiqt8u.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "763894577183-61gpm0nl45lhpkcjknmt92he23nnjq05.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.educateme.educateMe"
+              }
             }
           ]
         }
