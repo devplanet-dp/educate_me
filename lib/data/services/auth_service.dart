@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educate_me/features/signin/signin_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -243,7 +244,7 @@ class AuthenticationService {
     localStorage.userToken = '';
     controller.appUser = null;
     await _firebaseAuth.signOut();
-    // Get.offAll(() => const SignInView());
+    Get.offAll(() => const SignInView());
   }
 
   Future deleteUserProfile() async {

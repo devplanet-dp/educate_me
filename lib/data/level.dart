@@ -4,7 +4,7 @@ import 'package:educate_me/data/question.dart';
 class LevelModel {
   String? id;
   String? name;
-  String? order;
+  int? order;
 
   LevelModel({this.id, this.name, this.order});
 

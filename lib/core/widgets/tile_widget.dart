@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class TileWidget extends StatelessWidget {
   final Widget header;
   final String subHeader;
-  final IconData icon;
+  final Widget icon;
   final Color primaryColor;
   final VoidCallback onTap;
   final bool isDark;
@@ -56,13 +56,7 @@ class TileWidget extends StatelessWidget {
                 decoration:
                     const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                 child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      icon,
-                      color: primaryColor,
-                    ),
-                  ),
+                  child: icon,
                 ),
               ),
             ),

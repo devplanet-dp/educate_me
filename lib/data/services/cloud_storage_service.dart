@@ -48,17 +48,55 @@ class CloudStorageService {
     }
   }
 
-  Future<CloudStorageResult> uploadVehicleImage({
+  Future<CloudStorageResult> uploadTopicImage({
     required File? imageToUpload,
-    required String uid,
-    required String vin,
+    required String levelId,
+    required String topicId,
   }) async {
     if (imageToUpload != null) {
       var imageFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
       final Reference firebaseStorageRef = FirebaseStorage.instance
           .ref()
-          .child('vehicles/$uid/$vin/$imageFileName');
+          .child('level/$levelId/$topicId/$imageFileName');
+
+      UploadTask uploadTask = firebaseStorageRef.putFile(imageToUpload);
+      _progressController.add(0);
+      uploadTask.snapshotEvents.listen((event) {
+        if (event.state == TaskState.running) {
+          final double progress = event.bytesTransferred / event.totalBytes;
+          _progressController.add(progress);
+        }
+      });
+
+      String downloadUrl = "";
+      await uploadTask
+          .then((ts) async => downloadUrl = await ts.ref.getDownloadURL());
+
+      var url = downloadUrl.toString();
+      return CloudStorageResult(
+        imageUrl: url,
+        imageFileName: imageFileName,
+      );
+    } else {
+      return CloudStorageResult(
+        imageUrl: '',
+        imageFileName: '',
+      );
+    }
+  }
+  Future<CloudStorageResult> uploadSubTopicImage({
+    required File? imageToUpload,
+    required String levelId,
+    required String topicId,
+    required String subtopicId,
+  }) async {
+    if (imageToUpload != null) {
+      var imageFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+      final Reference firebaseStorageRef = FirebaseStorage.instance
+          .ref()
+          .child('level/$levelId/$topicId/$subtopicId/$imageFileName');
 
       UploadTask uploadTask = firebaseStorageRef.putFile(imageToUpload);
       _progressController.add(0);
@@ -86,81 +124,6 @@ class CloudStorageService {
     }
   }
 
-  Future<CloudStorageResult> uploadRequestImage({
-    required File? imageToUpload,
-    required String uid,
-    required String requestId,
-  }) async {
-    if (imageToUpload != null) {
-      var imageFileName = DateTime.now().millisecondsSinceEpoch.toString();
-
-      final Reference firebaseStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('request/$uid/$requestId/$imageFileName');
-
-      UploadTask uploadTask = firebaseStorageRef.putFile(imageToUpload);
-      _progressController.add(0);
-      uploadTask.snapshotEvents.listen((event) {
-        if (event.state == TaskState.running) {
-          final double progress = event.bytesTransferred / event.totalBytes;
-          _progressController.add(progress);
-        }
-      });
-
-      String downloadUrl = "";
-      await uploadTask
-          .then((ts) async => downloadUrl = await ts.ref.getDownloadURL());
-
-      var url = downloadUrl.toString();
-      return CloudStorageResult(
-        imageUrl: url,
-        imageFileName: imageFileName,
-      );
-    } else {
-      return CloudStorageResult(
-        imageUrl: '',
-        imageFileName: '',
-      );
-    }
-  }
-
-  Future<CloudStorageResult> uploadOfferImage({
-    required File? imageToUpload,
-    required String requestId,
-    required String supplierId,
-  }) async {
-    if (imageToUpload != null) {
-      var imageFileName = DateTime.now().millisecondsSinceEpoch.toString();
-
-      final Reference firebaseStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('offer/$requestId/$supplierId/$imageFileName');
-
-      UploadTask uploadTask = firebaseStorageRef.putFile(imageToUpload);
-      _progressController.add(0);
-      uploadTask.snapshotEvents.listen((event) {
-        if (event.state == TaskState.running) {
-          final double progress = event.bytesTransferred / event.totalBytes;
-          _progressController.add(progress);
-        }
-      });
-
-      String downloadUrl = "";
-      await uploadTask
-          .then((ts) async => downloadUrl = await ts.ref.getDownloadURL());
-
-      var url = downloadUrl.toString();
-      return CloudStorageResult(
-        imageUrl: url,
-        imageFileName: imageFileName,
-      );
-    } else {
-      return CloudStorageResult(
-        imageUrl: '',
-        imageFileName: '',
-      );
-    }
-  }
 
   Future deleteImage(String imgeUrl) async {
     final Reference firebaseStorageRef =

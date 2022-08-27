@@ -6,16 +6,24 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
+import '../../../../data/level.dart';
+
 class AddLevelSheet extends StatelessWidget {
-  const AddLevelSheet({Key? key}) : super(key: key);
+  const AddLevelSheet({Key? key, this.level}) : super(key: key);
+  final LevelModel? level;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LevelViewModel>.reactive(
+      onModelReady: (model){
+        if(level!=null) {
+          model.setInitData(level!);
+        }
+      },
       builder: (context, vm, child) => InputSheetWidget(
         isBusy: vm.isBusy,
         onCancel: () {},
-        onDone: () => vm.addLevel(),
+        onDone: () => vm.addLevel(level),
         title: 'Add level',
         child: Form(
           key: vm.formKey,

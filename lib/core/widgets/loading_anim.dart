@@ -10,6 +10,6 @@ class LoadingAnim extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Lottie.asset(kAnimLoading,height: Get.height*.3,width: Get.width*.3);
+    return const Center(child: CircularProgressIndicator(),);
   }
 }

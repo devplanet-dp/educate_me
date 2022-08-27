@@ -1,10 +1,12 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
+import 'package:educate_me/core/widgets/loading_anim.dart';
 import 'package:educate_me/core/widgets/tile_widget.dart';
 import 'package:educate_me/features/teacher/home/components/add_level_sheet.dart';
 import 'package:educate_me/features/teacher/home/teacher_home_view_model.dart';
-import 'package:educate_me/features/teacher/level/add_level.dart';
+import 'package:educate_me/features/teacher/level/teacher_qns_view.dart';
+import 'package:educate_me/features/teacher/topic/teacher_topic_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -28,7 +30,8 @@ class TeacherHomeView extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             backgroundColor: kcPrimaryColor,
             child: const Icon(Iconsax.add),
-            onPressed: () => Get.bottomSheet(const AddLevelSheet()),
+            onPressed: () => Get.bottomSheet(const AddLevelSheet(),
+                isScrollControlled: true),
           ),
           appBar: AppBar(
             elevation: 0,
@@ -37,13 +40,24 @@ class TeacherHomeView extends StatelessWidget {
               'Hi Admin 👋',
               style: kHeading3Style.copyWith(fontWeight: FontWeight.bold),
             ),
+            actions: [
+              PopupMenuButton(
+                  itemBuilder: (_) => [
+                        PopupMenuItem(
+                          child: const Text('Sign out'),
+                          onTap: () => vm.signOut(),
+                        )
+                      ])
+            ],
           ),
           body: vm.levels.isEmpty
               ? const AppInfoWidget(
                       translateKey: 'No Levels added yet',
                       iconData: Iconsax.book)
                   .center()
-              : const _LevelGrid(),
+              : vm.isBusy
+                  ? const LoadingAnim()
+                  : const _LevelGrid(),
         ),
       ),
       viewModelBuilder: () => TeacherViewModel(),
@@ -69,9 +83,20 @@ class _LevelGrid extends ViewModelWidget<TeacherViewModel> {
                   fontWeight: FontWeight.bold, color: kAltWhite),
             ),
             subHeader: l.name ?? '',
-            icon: Iconsax.book,
+            icon: IconButton(
+              icon: const Icon(Iconsax.edit),
+              onPressed: () => Get.bottomSheet(
+                  AddLevelSheet(
+                    level: l,
+                  ),
+                  isScrollControlled: true),
+            ),
             primaryColor: kcPrimaryColor.withOpacity(.5),
-            onTap: () => Get.to(() => AddLessonQns(level: model.levels[index])),
+            onTap: () => model.levels[index].order != 0
+                ? Get.to(() => TeacherTopicView(
+                      level: model.levels[index],
+                    ))
+                : Get.to(() => TeacherQnsView(level: model.levels[index])),
             isDark: false);
       }),
     ).paddingSymmetric(horizontal: 12);

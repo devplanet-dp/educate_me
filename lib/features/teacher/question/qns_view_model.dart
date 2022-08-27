@@ -5,15 +5,28 @@ import 'package:educate_me/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../data/option.dart';
 
 class QnsViewModel extends BaseViewModel {
   final _service = locator<FirestoreService>();
+  final _dialogService = locator<DialogService>();
   final formKey = GlobalKey<FormState>();
   final qnsTEC = TextEditingController();
   final ansTEC = TextEditingController();
+
+  setQuestionData(QuestionModel? question) {
+    if (question != null) {
+      qnsTEC.text = question.question ?? '';
+      ansTEC.text = question.inputAnswer ?? '';
+      _isMultiple = question.inputAnswer?.isEmpty ?? false;
+      addedQns = question.options ?? [];
+    } else {
+      addedQns = emptyQns;
+    }
+  }
 
   bool _isMultiple = true;
 
@@ -24,7 +37,8 @@ class QnsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  List<OptionModel> addedQns = [
+  List<OptionModel> addedQns = [];
+  List<OptionModel> emptyQns = [
     OptionModel(index: 0, option: '', isCorrect: false),
     OptionModel(index: 1, option: '', isCorrect: false),
     OptionModel(index: 2, option: '', isCorrect: false),
@@ -39,11 +53,11 @@ class QnsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> addQuestion(String levelId) async {
+  Future<void> addQuestion({required String levelId, QuestionModel? question}) async {
     if (formKey.currentState!.validate()) {
       setBusy(true);
       QuestionModel qn = QuestionModel(
-          id: const Uuid().v4(),
+          id: question == null ? const Uuid().v4() : question.id,
           options: addedQns,
           question: qnsTEC.text,
           inputAnswer: ansTEC.text);
@@ -53,6 +67,17 @@ class QnsViewModel extends BaseViewModel {
         showInfoMessage(message: 'Question added successfully.');
       }
       setBusy(false);
+    }
+  }
+
+  Future removeQuestion({required levelId, required qId}) async {
+    var response = await _dialogService.showConfirmationDialog(
+        title: 'Are you sure?', description: 'Delete this question?');
+    if (response?.confirmed ?? false) {
+      setBusy(true);
+      await _service.removeStartUpQuestion(qId: qId, levelId: levelId);
+      setBusy(false);
+      Get.back();
     }
   }
 
