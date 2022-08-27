@@ -3,6 +3,7 @@ import 'package:educate_me/data/level.dart';
 import 'package:educate_me/data/services/firestore_service.dart';
 import 'package:educate_me/features/teacher/lesson/teacher_lesson_view.dart';
 import 'package:educate_me/features/teacher/level/teacher_qns_view.dart';
+import 'package:educate_me/features/teacher/topic/teacher_topic_view.dart';
 import 'package:educate_me/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,7 +42,7 @@ class LevelViewModel extends BaseViewModel {
           if (level.order == 0) {
             Get.off(() => TeacherQnsView(level: level));
           } else {
-            Get.off(() => TeacherLessonView(level: level));
+            Get.off(() => TeacherTopicView(level: level));
           }
         }else{
           Get.back();

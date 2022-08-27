@@ -1,4 +1,4 @@
-import 'package:educate_me/data/level.dart';
+import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/features/teacher/lesson/teacher_lesson_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,8 +13,15 @@ import '../../../core/widgets/busy_overlay.dart';
 import '../question/add_qns_view.dart';
 
 class TeacherLessonView extends StatelessWidget {
-  const TeacherLessonView({Key? key, required this.level}) : super(key: key);
-  final LevelModel level;
+  const TeacherLessonView(
+      {Key? key,
+      required this.levelId,
+      required this.topicId,
+      required this.subTopic})
+      : super(key: key);
+  final String levelId;
+  final String topicId;
+  final SubTopicModel subTopic;
 
   @override
   Widget build(BuildContext context) {
@@ -24,32 +31,29 @@ class TeacherLessonView extends StatelessWidget {
         child: BusyOverlay(
           show: vm.isBusy,
           child: Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              title:  Text('Add Lessons for ${level.name}'),
-              actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Iconsax.trash,
-                      color: kErrorRed,
-                    ))
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: kcPrimaryColor,
-              child: const Icon(Iconsax.add),
-              onPressed: () => Get.to(() => AddQuestionView(
-                id: level.id ?? '',
-              )),
-            ),
-            body:
-
-            const AppInfoWidget(
-                translateKey: 'No lessons found',
-                iconData: Iconsax.message_question)
-                .center()
-          ),
+              appBar: AppBar(
+                elevation: 0,
+                title: Text('Add Lessons for ${subTopic.title}'),
+                actions: [
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Iconsax.trash,
+                        color: kErrorRed,
+                      ))
+                ],
+              ),
+              floatingActionButton: FloatingActionButton(
+                backgroundColor: kcPrimaryColor,
+                child: const Icon(Iconsax.add),
+                onPressed: () => Get.to(() => AddQuestionView(
+                      id: levelId,
+                    )),
+              ),
+              body: const AppInfoWidget(
+                      translateKey: 'No lessons found',
+                      iconData: Iconsax.message_question)
+                  .center()),
         ),
       ),
       viewModelBuilder: () => TeacherLessonViewModel(),

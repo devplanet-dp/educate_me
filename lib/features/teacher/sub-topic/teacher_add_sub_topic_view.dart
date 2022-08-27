@@ -1,3 +1,4 @@
+import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/features/teacher/sub-topic/teacher_sub_topic_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -11,18 +12,24 @@ import '../../../core/widgets/text_field_widget.dart';
 
 class TeacherAddSubTopicView extends StatelessWidget {
   const TeacherAddSubTopicView(
-      {Key? key, required this.levelId, required this.topicId})
+      {Key? key, required this.levelId, required this.topicId, this.topic})
       : super(key: key);
   final String levelId;
   final String topicId;
+  final SubTopicModel? topic;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TeacherSubTopicViewModel>.reactive(
+      onModelReady: (model){
+        if(topic!=null){
+          model.setInitDate(topic!);
+        }
+      },
       builder: (context, vm, child) => InputSheetWidget(
         isBusy: vm.isBusy,
         onCancel: () {},
-        onDone: () => vm.addSubTopic(levelId: levelId, topicId: topicId),
+        onDone: () => vm.addSubTopic(levelId: levelId, topicId: topicId,t: topic),
         title: 'Add sub-topic',
         child: Form(
           key: vm.formKey,

@@ -269,6 +269,7 @@ class FirestoreService {
         .collection(tbTopic)
         .doc(topicId)
         .collection(tbSubTopic)
+        .orderBy('order')
         .snapshots();
     return snap.map((snapshot) => snapshot.docs.map((doc) {
           return SubTopicModel.fromSnapshot(doc);

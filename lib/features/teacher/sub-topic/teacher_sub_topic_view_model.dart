@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educate_me/features/teacher/lesson/teacher_lesson_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
@@ -39,15 +40,15 @@ class TeacherSubTopicViewModel extends BaseViewModel {
   setInitDate(SubTopicModel topic) {
     orderTEC.text = '${topic.order}';
     nameTEC.text = topic.title ?? '';
-    descTEC.text = topic.description??'';
+    descTEC.text = topic.description ?? '';
     _uploadedImages = topic.cover;
     notifyListeners();
   }
 
-  Future addSubTopic({required topicId, required levelId}) async {
+  Future addSubTopic({required topicId, required levelId,required SubTopicModel? t}) async {
     if (formKey.currentState!.validate()) {
       setBusy(true);
-      var id = const Uuid().v4();
+      var id = t==null? const Uuid().v4():t.id;
       await _uploadImage(levelId: levelId, topicId: topicId, subtopicId: id);
       var topic = SubTopicModel(
           id: id,
@@ -59,6 +60,13 @@ class TeacherSubTopicViewModel extends BaseViewModel {
       var result = await _service.addSubTopic(
           topicId: topicId, subTopic: topic, levelId: levelId);
       if (!result.hasError) {
+        if(t==null) {
+          Get.off(() =>
+              TeacherLessonView(
+                  levelId: levelId, topicId: topicId, subTopic: topic));
+        }else{
+          Get.back();
+        }
       } else {
         showErrorMessage(message: result.errorMessage);
       }
@@ -88,6 +96,7 @@ class TeacherSubTopicViewModel extends BaseViewModel {
     var isCamera = await Get.bottomSheet(const ImageSelectorSheet(),
         isScrollControlled: false);
     if (isCamera != null) {
+      clearImage();
       var tempImage = await _imageSelector.selectImage(isCamera);
       if (tempImage != null) {
         _images = File(tempImage.path);
@@ -98,7 +107,7 @@ class TeacherSubTopicViewModel extends BaseViewModel {
 
   void clearImage() {
     _images = null;
-    if(uploadedImages!=null){
+    if (uploadedImages != null) {
       deleteImage(uploadedImages!);
     }
     notifyListeners();
