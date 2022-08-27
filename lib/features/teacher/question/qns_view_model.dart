@@ -53,7 +53,13 @@ class QnsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> addQuestion({required String levelId, QuestionModel? question}) async {
+  Future<void> addQuestion(
+      {required levelId,
+      required topicId,
+      required subtopicId,
+      required lessonId,
+      required bool isStartup,
+      QuestionModel? question}) async {
     if (formKey.currentState!.validate()) {
       setBusy(true);
       QuestionModel qn = QuestionModel(
@@ -61,7 +67,15 @@ class QnsViewModel extends BaseViewModel {
           options: addedQns,
           question: qnsTEC.text,
           inputAnswer: ansTEC.text);
-      var data = await _service.addStartUpQuestion(qn, levelId);
+
+      var data = isStartup
+          ? await _service.addStartUpQuestion(qn, levelId)
+          : await _service.addQuestions(
+              question: qn,
+              levelId: levelId,
+              topicId: topicId,
+              subTopicId: subtopicId,
+              lessonId: lessonId);
       if (!data.hasError) {
         Get.back();
         showInfoMessage(message: 'Question added successfully.');
@@ -70,12 +84,25 @@ class QnsViewModel extends BaseViewModel {
     }
   }
 
-  Future removeQuestion({required levelId, required qId}) async {
+  Future removeQuestion(
+      {required levelId,
+      required topicId,
+      required subTopicId,
+      required lessonId,
+      required bool isStartUp,
+      required qId}) async {
     var response = await _dialogService.showConfirmationDialog(
         title: 'Are you sure?', description: 'Delete this question?');
     if (response?.confirmed ?? false) {
       setBusy(true);
-      await _service.removeStartUpQuestion(qId: qId, levelId: levelId);
+      isStartUp
+          ? await _service.removeStartUpQuestion(qId: qId, levelId: levelId)
+          : await _service.removeQuestion(
+              levelId: levelId,
+              topicId: topicId,
+              subTopic: subTopicId,
+              lessonId: lessonId,
+              questionId: qId);
       setBusy(false);
       Get.back();
     }
