@@ -1,6 +1,6 @@
 import 'package:educate_me/data/topic.dart';
+import 'package:educate_me/features/teacher/lesson/teacher_lesson_view.dart';
 import 'package:educate_me/features/teacher/sub-topic/teacher_add_sub_topic_view.dart';
-import 'package:educate_me/features/teacher/topic/teacher_topic_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -64,14 +64,14 @@ class TeacherSubTopicView extends StatelessWidget {
   }
 }
 
-class _TopicGridView extends ViewModelWidget<TeacherTopicViewModel> {
+class _TopicGridView extends ViewModelWidget<TeacherSubTopicViewModel> {
   const _TopicGridView(this.levelId, this.topicId, {Key? key})
       : super(key: key);
   final String levelId;
   final String topicId;
 
   @override
-  Widget build(BuildContext context, TeacherTopicViewModel model) {
+  Widget build(BuildContext context, TeacherSubTopicViewModel model) {
     return GridView.count(
       crossAxisCount: 2,
       crossAxisSpacing: 8,
@@ -79,14 +79,18 @@ class _TopicGridView extends ViewModelWidget<TeacherTopicViewModel> {
       children: List.generate(model.topics.length, (index) {
         var t = model.topics[index];
         return TopicCard(
-          onTap: () => Get.to(() => TeacherSubTopicView(
+          onTap: () => Get.to(() => TeacherLessonView(
+                subTopic: t,
+                topicId: topicId,
                 levelId: levelId,
-                topic: t,
               )),
           url: t.cover ?? '',
-          title: t.name ?? '', onEditTap: () {  },
+          title: t.title ?? '',
+          onEditTap: () => Get.bottomSheet(
+              TeacherAddSubTopicView(levelId: levelId, topicId: topicId,topic: t,),
+              isScrollControlled: true),
         );
       }),
-    );
+    ).paddingSymmetric(horizontal: 12);
   }
 }
