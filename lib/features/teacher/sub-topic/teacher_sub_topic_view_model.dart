@@ -36,6 +36,14 @@ class TeacherSubTopicViewModel extends BaseViewModel {
 
   List<SubTopicModel> get topics => _topics;
 
+  setInitDate(SubTopicModel topic) {
+    orderTEC.text = '${topic.order}';
+    nameTEC.text = topic.title ?? '';
+    descTEC.text = topic.description??'';
+    _uploadedImages = topic.cover;
+    notifyListeners();
+  }
+
   Future addSubTopic({required topicId, required levelId}) async {
     if (formKey.currentState!.validate()) {
       setBusy(true);
@@ -90,6 +98,9 @@ class TeacherSubTopicViewModel extends BaseViewModel {
 
   void clearImage() {
     _images = null;
+    if(uploadedImages!=null){
+      deleteImage(uploadedImages!);
+    }
     notifyListeners();
   }
 
@@ -116,6 +127,7 @@ class TeacherSubTopicViewModel extends BaseViewModel {
   void dispose() {
     orderTEC.dispose();
     nameTEC.dispose();
+    descTEC.dispose();
     super.dispose();
   }
 }

@@ -1,16 +1,17 @@
 import 'dart:io';
 
+import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:educate_me/core/utils/constants/app_assets.dart';
 
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
 
 class ImageUploadCard extends StatelessWidget {
   final File? images;
+  final String? uploadImage;
   final VoidCallback onBrowseTap;
   final VoidCallback onClearTap;
 
@@ -18,7 +19,8 @@ class ImageUploadCard extends StatelessWidget {
       {Key? key,
       this.images,
       required this.onBrowseTap,
-      required this.onClearTap})
+      required this.onClearTap,
+      this.uploadImage})
       : super(key: key);
 
   @override
@@ -33,6 +35,7 @@ class ImageUploadCard extends StatelessWidget {
           : _FileImage(
               images: images,
               onClear: onClearTap,
+              url: uploadImage,
             ),
     );
   }
@@ -43,9 +46,11 @@ class _FileImage extends StatelessWidget {
     Key? key,
     required this.images,
     required this.onClear,
+    this.url,
   }) : super(key: key);
 
   final File? images;
+  final String? url;
   final VoidCallback onClear;
 
   @override
@@ -53,10 +58,15 @@ class _FileImage extends StatelessWidget {
     return Stack(
       children: [
         Positioned.fill(
-          child: Image.file(
-            images!,
-            fit: BoxFit.cover,
-          ),
+          child: url != null
+              ? Image.network(
+                  url!,
+                  fit: BoxFit.cover,
+                )
+              : Image.file(
+                  images!,
+                  fit: BoxFit.cover,
+                ),
         ),
         Positioned(
             top: 4,

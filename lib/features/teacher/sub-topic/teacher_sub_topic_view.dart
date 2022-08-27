@@ -79,11 +79,13 @@ class _TopicGridView extends ViewModelWidget<TeacherTopicViewModel> {
       children: List.generate(model.topics.length, (index) {
         var t = model.topics[index];
         return TopicCard(
-            topic: t,
-            onTap: () => Get.to(() => TeacherSubTopicView(
-                  levelId: levelId,
-                  topic: t,
-                )));
+          onTap: () => Get.to(() => TeacherSubTopicView(
+                levelId: levelId,
+                topic: t,
+              )),
+          url: t.cover ?? '',
+          title: t.name ?? '', onEditTap: () {  },
+        );
       }),
     );
   }

@@ -220,7 +220,7 @@ class FirestoreService {
 
   Stream<List<TopicModel>> streamLevelTopics(String levelId) {
     Stream<QuerySnapshot> snap =
-        _levelReference.doc(levelId).collection(tbTopic).snapshots();
+        _levelReference.doc(levelId).collection(tbTopic).orderBy('order').snapshots();
     return snap.map((snapshot) => snapshot.docs.map((doc) {
           return TopicModel.fromSnapshot(doc);
         }).toList());
