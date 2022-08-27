@@ -8,19 +8,26 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../core/shared/ui_helpers.dart';
 import '../../../core/widgets/input_sheet.dart';
 import '../../../core/widgets/text_field_widget.dart';
+import '../../../data/topic.dart';
 
 class TeacherAddTopicView extends StatelessWidget {
-  const TeacherAddTopicView({Key? key, required this.levelId})
+  const TeacherAddTopicView({Key? key, required this.levelId, this.topic})
       : super(key: key);
   final String levelId;
+  final TopicModel? topic;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TeacherTopicViewModel>.reactive(
+      onModelReady: (model){
+        if(topic!=null){
+          model.setInitDate(topic!);
+        }
+      },
       builder: (context, vm, child) => InputSheetWidget(
         isBusy: vm.isBusy,
         onCancel: () {},
-        onDone: () => vm.addTopic(levelId),
+        onDone: () => vm.addTopic(levelId: levelId,t: topic),
         title: 'Add level',
         child: Form(
           key: vm.formKey,
@@ -58,6 +65,7 @@ class TeacherAddTopicView extends StatelessWidget {
               onBrowseTap: () => vm.selectImage(),
               onClearTap: () => vm.clearImage(),
               images: vm.fileImages,
+              uploadImage: vm.uploadedImages,
             ),
             vSpaceSmall,
           ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),

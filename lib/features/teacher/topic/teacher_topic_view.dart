@@ -12,7 +12,6 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../core/shared/app_colors.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../../core/widgets/app_info.dart';
-import '../../../core/widgets/busy_overlay.dart';
 
 class TeacherTopicView extends StatelessWidget {
   const TeacherTopicView({Key? key, required this.level}) : super(key: key);
@@ -21,8 +20,8 @@ class TeacherTopicView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TeacherTopicViewModel>.reactive(
-      onModelReady: (model){
-        model.listenToTopics(level.id??'');
+      onModelReady: (model) {
+        model.listenToTopics(level.id ?? '');
       },
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
@@ -53,7 +52,7 @@ class TeacherTopicView extends StatelessWidget {
                         translateKey: 'No topics found',
                         iconData: Iconsax.message_question)
                     .center()
-                :  _TopicGridView(level.id??'')),
+                : _TopicGridView(level.id ?? '')),
       ),
       viewModelBuilder: () => TeacherTopicViewModel(),
     );
@@ -73,11 +72,19 @@ class _TopicGridView extends ViewModelWidget<TeacherTopicViewModel> {
       children: List.generate(model.topics.length, (index) {
         var t = model.topics[index];
         return TopicCard(
-            topic: t,
-            onTap: () => Get.to(() => TeacherSubTopicView(
-                  levelId: levelId,
-                  topic: t,
-                )));
+          url: t.cover ?? '',
+          title: t.name ?? '',
+          onTap: () => Get.to(() => TeacherSubTopicView(
+                levelId: levelId,
+                topic: t,
+              )),
+          onEditTap: () => Get.bottomSheet(
+              TeacherAddTopicView(
+                levelId: levelId,
+                topic: t,
+              ),
+              isScrollControlled: true),
+        );
       }),
     ).paddingSymmetric(horizontal: 12);
   }

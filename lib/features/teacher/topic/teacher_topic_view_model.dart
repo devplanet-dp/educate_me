@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educate_me/data/topic.dart';
-import 'package:educate_me/features/teacher/sub-topic/teacher_add_sub_topic_view.dart';
 import 'package:educate_me/features/teacher/sub-topic/teacher_sub_topic_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,10 +36,17 @@ class TeacherTopicViewModel extends BaseViewModel {
 
   List<TopicModel> get topics => _topics;
 
-  Future addTopic(levelId) async {
+  setInitDate(TopicModel topic) {
+    orderTEC.text = '${topic.order}';
+    nameTEC.text = topic.name ?? '';
+    _uploadedImages = topic.cover;
+    notifyListeners();
+  }
+
+  Future addTopic({required levelId, TopicModel? t}) async {
     if (formKey.currentState!.validate()) {
       setBusy(true);
-      var id = const Uuid().v4();
+      var id = t == null ? const Uuid().v4() : t.id;
       await _uploadImage(levelId: levelId, topicId: id);
 
       var topic = TopicModel(
@@ -52,10 +58,14 @@ class TeacherTopicViewModel extends BaseViewModel {
 
       var result = await _service.addTopic(topic, levelId);
       if (!result.hasError) {
-        Get.off(() => TeacherSubTopicView(
-              topic: topic,
-              levelId: levelId,
-            ));
+        if (t == null) {
+          Get.off(() => TeacherSubTopicView(
+                topic: topic,
+                levelId: levelId,
+              ));
+        } else {
+          Get.back();
+        }
       } else {
         showErrorMessage(message: result.errorMessage);
       }
@@ -85,6 +95,7 @@ class TeacherTopicViewModel extends BaseViewModel {
     var isCamera = await Get.bottomSheet(const ImageSelectorSheet(),
         isScrollControlled: false);
     if (isCamera != null) {
+      clearImage();
       var tempImage = await _imageSelector.selectImage(isCamera);
       if (tempImage != null) {
         _images = File(tempImage.path);
@@ -93,8 +104,11 @@ class TeacherTopicViewModel extends BaseViewModel {
     }
   }
 
-  void clearImage() {
+  void clearImage() async {
     _images = null;
+    if (uploadedImages != null) {
+      deleteImage(uploadedImages!);
+    }
     notifyListeners();
   }
 
