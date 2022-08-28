@@ -28,7 +28,7 @@ class ImageUploadCard extends StatelessWidget {
     return SizedBox(
       height: 80.h,
       width: 80.w,
-      child: images == null
+      child: images == null &&  uploadImage==null
           ? _AddImageButton(
               onTap: onBrowseTap,
             )

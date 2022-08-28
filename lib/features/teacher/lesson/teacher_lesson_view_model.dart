@@ -89,19 +89,17 @@ class TeacherLessonViewModel extends BaseViewModel {
     }
   }
 
-  Future removeLesson(
+  Future removeSubTopic(
       {required levelId,
       required topicId,
-      required subTopicId,
-      required lessonId}) async {
+      required subTopicId}) async {
     var response = await _dialogService.showConfirmationDialog(
-        title: 'Are you sure?', description: 'Delete this lesson');
+        title: 'Are you sure?', description: 'Delete this Sub-Topic');
     if (response?.confirmed ?? false) {
       setBusy(true);
-      await _service.removeLesson(
+      await _service.removeSubTopic(
           levelId: levelId,
           subTopic: subTopicId,
-          lessonId: lessonId,
           topicId: topicId);
       setBusy(false);
       Get.back();
