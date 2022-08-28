@@ -42,7 +42,10 @@ class TeacherLessonView extends StatelessWidget {
                 title: Text('Add Lessons for ${subTopic.title}'),
                 actions: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () => vm.removeSubTopic(
+                          levelId: levelId,
+                          topicId: topicId,
+                          subTopicId: subTopic.id),
                       icon: const Icon(
                         Iconsax.trash,
                         color: kErrorRed,

@@ -83,6 +83,7 @@ class TeacherAddSubTopicView extends StatelessWidget {
               onBrowseTap: () => vm.selectImage(),
               onClearTap: () => vm.clearImage(),
               images: vm.fileImages,
+              uploadImage: vm.uploadedImages,
             ),
             vSpaceSmall,
           ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
