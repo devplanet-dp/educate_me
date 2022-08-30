@@ -6,6 +6,7 @@ import 'package:stacked/stacked.dart';
 
 import '../../data/services/auth_service.dart';
 import '../../locator.dart';
+import '../welcome/welcome_view.dart';
 
 class StartUpViewModel extends BaseViewModel {
   final _authenticationService = locator<AuthenticationService>();
@@ -13,7 +14,7 @@ class StartUpViewModel extends BaseViewModel {
   Future handleStartUpLogic() async {
     var currentUser = await _authenticationService.isUserLoggedIn();
     if (currentUser.hasError) {
-      Get.off(() => const SignInView());
+      Get.off(() => const WelcomeView());
     } else {
       _handleUserFlow(currentUser.data as UserModel);
     }

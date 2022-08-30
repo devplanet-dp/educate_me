@@ -44,7 +44,7 @@ class _StartUpViewState extends State<StartUpView>
       onModelReady: (model) {
         _controller.addStatusListener((status) {
           if (status == AnimationStatus.completed) {
-            // model.handleStartUpLogic();
+            model.handleStartUpLogic();
           }
         });
       },
