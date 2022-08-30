@@ -1,6 +1,8 @@
+import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/core/widgets/background_overlay.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
@@ -42,16 +44,14 @@ class _StartUpViewState extends State<StartUpView>
       onModelReady: (model) {
         _controller.addStatusListener((status) {
           if (status == AnimationStatus.completed) {
-            model.handleStartUpLogic();
+            // model.handleStartUpLogic();
           }
         });
       },
       builder: (context, vm, child) => Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: kcPrimaryColor,
         body: Stack(
           children: [
-            const BrandBgWidget(imgName: kImgSplash),
-            const BackgroundOverlayWidget(isDark: true,),
             Align(
               alignment: Alignment.center,
               child: Column(
@@ -65,10 +65,16 @@ class _StartUpViewState extends State<StartUpView>
                             parent: _controller,
                             curve: const Interval(.3, 1.0,
                                 curve: Curves.easeOut))),
-                    child:  Text(
-                      'Math Educate Me',
-                      style: kHeading3Style.copyWith(color: Colors.white),
-                      textAlign: TextAlign.center,
+                    child:  Column(
+                      children: [
+                        Image.asset(kAppLogo),
+                        Text(
+                          'MATH EDU ME',
+                          style: kHeading1Style.copyWith(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        )
+
+                      ],
                     ),
                   ),
                 ],
