@@ -12,10 +12,10 @@ class UserModel {
   UserRole? role;
   String? lName;
   String? fName;
-  String? comName;
   String? playerId;
   String? age;
   String? aboutMe;
+  Stats? stats;
 
   UserModel(
       {required this.name,
@@ -27,9 +27,9 @@ class UserModel {
       this.fName,
       this.playerId,
       this.lName,
-      this.comName,
       this.aboutMe,
       this.age,
+      this.stats,
       this.isActive = true});
 
   UserModel.fromMap(Map<String, dynamic>? json) {
@@ -45,9 +45,9 @@ class UserModel {
     createdDate = json['createdDate'];
     fName = json['fName'];
     lName = json['lName'];
-    comName = json['comName'];
     playerId = json['playerId'];
     aboutMe = json['about_me'];
+    stats = json['stats'] == null ? null : Stats.fromJson(json['stats']);
   }
 
   Map<String, dynamic> toJson() {
@@ -64,10 +64,39 @@ class UserModel {
     data['playerId'] = playerId;
     data['lName'] = lName;
     data['age'] = age;
-    data['comName'] = comName;
+    data['stats'] = stats?.toJson();
     return data;
   }
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data() as Map<String, dynamic>);
+}
+
+class Stats {
+  int? totalAnswered;
+  int? totalCorrect;
+  int? totalIncorrect;
+  String? unlockedLevels;
+
+  Stats(
+      {this.totalAnswered,
+      this.totalCorrect,
+      this.totalIncorrect,
+      this.unlockedLevels});
+
+  Stats.fromJson(Map<String, dynamic> json) {
+    totalAnswered = json['total_answered'];
+    totalCorrect = json['total_correct'];
+    totalIncorrect = json['total_incorrect'];
+    unlockedLevels = json['unlocked_levels'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total_answered'] = totalAnswered;
+    data['total_correct'] = totalCorrect;
+    data['total_incorrect'] = totalIncorrect;
+    data['unlocked_levels'] = unlockedLevels;
+    return data;
+  }
 }

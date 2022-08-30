@@ -1,4 +1,6 @@
 import 'package:educate_me/core/utils/app_controller.dart';
+import 'package:educate_me/features/signin/components/create_account_text.dart';
+import 'package:educate_me/features/signup/create_account_view.dart';
 import 'package:educate_me/features/teacher/home/teacher_home.dart';
 import 'package:educate_me/features/welcome/welcome_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -50,7 +52,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Math Educate Me',
             theme: themeData,
-            home: const StartUpView(),
+            home: const CreateAccountView(),
           );
         });
   }
