@@ -6,8 +6,9 @@ const String kImgLogo = 'assets/images/img-logo-text.png';
 const String kImgProfile = 'assets/icons/user.svg';
 const String kImgSectionOverlay = 'assets/images/img_section_overlay.png';
 const String kAppLogo = 'assets/icons/ic_logo.png';
+const String kAppLogoOutlined = 'assets/icons/ic_logo_outlined.png';
 const String kAppLogoText = 'assets/icons/ic_logo_text.svg';
-const String kImgRecordBg = 'assets/images/img_record.png';
+
 //icons
 const String kIcMen = 'assets/icons/ic_men.png';
 const String kIcWomen = 'assets/icons/ic_women.png';
@@ -21,6 +22,7 @@ const String kIcRecord = 'assets/icons/ic_record.svg';
 const String kIcPlay = 'assets/icons/ic_play.svg';
 const String kIcStop = 'assets/icons/ic_stop.svg';
 const String kIcPause = 'assets/icons/ic_pause.svg';
+const String kImgUnionFaded = 'assets/images/img_union_faded.svg';
 
 //icons
 const String kIcGoogle = 'assets/icons/ic_google.svg';

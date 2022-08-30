@@ -30,6 +30,7 @@ class BoxButtonWidget extends StatelessWidget {
     return MaterialButton(
       padding: EdgeInsets.zero,
       clipBehavior: Clip.antiAlias,
+      highlightElevation: 0,
       disabledColor: buttonColor??kcPrimaryColor,
       height: 45.h,
       elevation: 0,
@@ -56,7 +57,8 @@ class BoxButtonWidget extends StatelessWidget {
                       buttonText,
                       style: kBodyStyle.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: isEnabled? kButtonTextColor:kAltBg,
+                        color: isEnabled? Colors.white:kAltBg,
+                        fontSize: 24.sp
                       ),
                     ))),
     );
