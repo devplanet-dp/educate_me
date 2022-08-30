@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const Color kcPrimaryColor = Color(0xff59C7D6);
 const Color kcAccent = Color(0xFFF8E23D);
 const Color kcTextPrimary = Color(0xFF010302);
-const Color kcTextSecondary = Color(0xFF5F5F5F);
+const Color kcTextSecondary = Color(0xFF6B6B6B);
 const Color kcTextWhite = Color(0xFFFCFCFC);
 const Color kButtonTextColor = Color(0xFFEAEAEA);
 const Color kcOtherChatBubbleColor = Color(0xFFD9FAFF);

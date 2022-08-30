@@ -5,7 +5,7 @@ class AppLocale extends Translations {
   Map<String, Map<String, String>> get keys => {
         "en_US": {
           'text001':'By signing up for Tone me, you agree your terms & conditions.Learn how we process your data in our privacy and cookies policy',
-          'text002':'Sign in',
+          'text002':'Welcome Back!',
           'text003':'Email',
           'text004':'Enter email ',
           'text004.error':'Please check your emails',
@@ -13,11 +13,11 @@ class AppLocale extends Translations {
           'text006':'Enter password',
           'text006.error':'Please enter the password',
           'text007':'Forgot your password?',
-          'text008':'Don\'t you have an account?',
-          'text009':'Sign up',
+          'text008':'Or Create a New Account',
+          'text009':'Login',
           'text010':'Sign in with Google',
           'text011':'Sign up with Google',
-          'text012':'*The OTP you’ve entered is wrong .Please try again',
+          'text012':'Enter Your Username & Password',
           'text013':'Great You are verified !',
           'text014':'Welcome to ToneMe',
           'text015':'Create Profile',

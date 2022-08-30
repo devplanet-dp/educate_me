@@ -25,12 +25,12 @@ class RichTextWidget extends StatelessWidget {
       text: TextSpan(
           text: firstTxt.tr,
           style:
-              kBodyStyle.copyWith(color: isLight ? kcTextPrimary : kAltWhite),
+              kBodyStyle.copyWith(color: isLight ? kcTextSecondary : kAltWhite),
           children: <TextSpan>[
             TextSpan(
                 text: ' ${secondTxt.tr}',
                 style: kBodyStyle.copyWith(
-                    color: isLight ? kAltBgDark : kcPrimaryColor),
+                    color: isLight ? kcTextPrimary : kcPrimaryColor),
                 recognizer: TapGestureRecognizer()..onTap = onTap)
           ]),
     );
