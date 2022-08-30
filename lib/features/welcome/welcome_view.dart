@@ -15,12 +15,14 @@ class WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: const [
-          _BackgroundUnion(),
-          _WelcomeTitle()
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: const [
+            _BackgroundUnion(),
+            _WelcomeTitle()
+          ],
+        ),
       ),
     );
   }

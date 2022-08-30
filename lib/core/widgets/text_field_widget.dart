@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../shared/app_colors.dart';
@@ -57,7 +58,7 @@ class AppTextField extends StatelessWidget {
     this.prefixIcon,
     this.onChanged,
     this.onEditingComplete,
-    this.verticalPadding = 16,
+    this.verticalPadding = 18,
     this.validator,
     this.minLine = 1,
     this.fillColor = kFillColor,
@@ -72,8 +73,8 @@ class AppTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        label.isEmpty
-            ? const SizedBox.shrink()
+        label.isNotEmpty
+            ? emptyBox()
             : Text(
           label.tr,
           style: kBody1Style.copyWith(fontWeight: FontWeight.w700),
@@ -111,19 +112,19 @@ class AppTextField extends StatelessWidget {
           style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 15,
-              color: isDark ? Colors.white : textColor),
+              color: isDark ? Colors.black : textColor),
           decoration: InputDecoration(
             hintText: initialValue,
             labelText: hintText,
             labelStyle: TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 15,
+                fontSize: 18.sp,
                 color: isDark
-                    ? Colors.white.withOpacity(0.9)
+                    ? kcTextSecondary
                     : textColor.withOpacity(0.4)),
             counterText: "",
             contentPadding:
-            EdgeInsets.symmetric(horizontal: 30, vertical: verticalPadding),
+            EdgeInsets.symmetric(horizontal: 12, vertical: verticalPadding),
             fillColor: fillColor,
             prefixText: prefix,
             prefix: prefixWidget,
@@ -133,36 +134,12 @@ class AppTextField extends StatelessWidget {
             errorStyle: TextStyle(
                 fontWeight: FontWeight.w200,
                 fontSize: 11,
-                color: isDark ? Colors.white : Colors.red),
+                color: isDark ? kErrorRed : Colors.red),
             hintStyle: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 15,
-                color: isDark ? Colors.white.withOpacity(0.9) : Colors.black),
-            filled: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(color: borderColor, width: 1),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: const BorderSide(color: Colors.red, width: 1),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(color: borderColor, width: 1),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(color: borderColor, width: 1),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(color: borderColor, width: 1),
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(color: borderColor, width: 1),
-            ),
+                color: isDark ? kcTextSecondary : Colors.black),
+            filled: false,
           ),
         ),
       ],

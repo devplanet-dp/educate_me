@@ -21,7 +21,7 @@ const String kIcDivider = 'assets/icons/ic_divider.png';
 const String kIcRecord = 'assets/icons/ic_record.svg';
 const String kIcPlay = 'assets/icons/ic_play.svg';
 const String kIcStop = 'assets/icons/ic_stop.svg';
-const String kIcPause = 'assets/icons/ic_pause.svg';
+const String kImgUnion = 'assets/images/img_union.svg';
 const String kImgUnionFaded = 'assets/images/img_union_faded.svg';
 
 //icons
