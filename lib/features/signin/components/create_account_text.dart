@@ -1,3 +1,4 @@
+import 'package:educate_me/features/signup/signup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,7 +11,7 @@ class CreateAccountText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () => Get.to(() => const ForgotPwdView()),
+      onTap: () => Get.to(() => const SignUpView()),
       child: Text(
         'text008'.tr,
         style: kBodyStyle.copyWith(color: kcTextSecondary),

@@ -28,7 +28,7 @@ class FirestoreService {
   static const String tbTopic = 'topic';
   static const String tbSubTopic = 'sub_topic';
   static const String tbLesson = 'tbLesson';
-  static const String tbMyServices = 'my_services';
+  static const String tbChild = 'child';
   static const String tbOffers = 'offers';
   static const String tbFilteredRequest = 'my_out_request';
 
@@ -45,6 +45,23 @@ class FirestoreService {
       await _usersCollectionReference
           .doc(user.userId)
           .set(user.toJson(), SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      if (e is PlatformException) {
+        return e.message;
+      }
+
+      return e.toString();
+    }
+  }
+
+  Future createChild({required parentId, required UserModel child}) async {
+    try {
+      await _usersCollectionReference
+          .doc(parentId)
+          .collection(tbChild)
+          .doc(child.userId)
+          .set(child.toJson(), SetOptions(merge: true));
       return true;
     } catch (e) {
       if (e is PlatformException) {
@@ -219,8 +236,11 @@ class FirestoreService {
   }
 
   Stream<List<TopicModel>> streamLevelTopics(String levelId) {
-    Stream<QuerySnapshot> snap =
-        _levelReference.doc(levelId).collection(tbTopic).orderBy('order').snapshots();
+    Stream<QuerySnapshot> snap = _levelReference
+        .doc(levelId)
+        .collection(tbTopic)
+        .orderBy('order')
+        .snapshots();
     return snap.map((snapshot) => snapshot.docs.map((doc) {
           return TopicModel.fromSnapshot(doc);
         }).toList());

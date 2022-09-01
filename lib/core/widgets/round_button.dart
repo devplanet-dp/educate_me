@@ -14,8 +14,8 @@ class RoundButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: onTap,
-      height: 46.h,
-      minWidth: 46.w,
+      height: 64.h,
+      minWidth: 64.w,
       shape: const CircleBorder(),
       elevation: 0,
       color: bgColor,
