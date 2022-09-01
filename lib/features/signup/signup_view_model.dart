@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educate_me/data/services/firestore_service.dart';
+import 'package:educate_me/data/user.dart';
+import 'package:educate_me/features/signup/create_account_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../core/utils/app_controller.dart';
 import '../../core/utils/app_utils.dart';
@@ -8,25 +13,30 @@ import '../../data/services/auth_service.dart';
 import '../../locator.dart';
 
 class SignUpViewModel extends BaseViewModel {
-  final _service = locator<AuthenticationService>();
+  final _authService = locator<AuthenticationService>();
+  final _fireService = locator<FirestoreService>();
   final AppController controller = Get.find<AppController>();
   final usernameTEC = TextEditingController();
   final emailTEC = TextEditingController();
   final passwordTEC = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  int _childCount = 1;
+  final List<ChildController> _childCount = [
+    ChildController(
+        nameTEC: TextEditingController(), ageTEC: TextEditingController())
+  ];
 
-  int get childCount => _childCount;
+  List<ChildController> get childCount => _childCount;
 
   incrementChild() {
-    _childCount++;
+    _childCount.add(ChildController(
+        nameTEC: TextEditingController(), ageTEC: TextEditingController()));
     notifyListeners();
   }
 
   decrementChildCount() {
-    if(_childCount!=0) {
-      _childCount--;
+    if (_childCount.length != 1) {
+      _childCount.removeLast();
       notifyListeners();
     }
   }
@@ -40,15 +50,33 @@ class SignUpViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> doSignIn() async {
+  Future<void> doSignSignUp() async {
     if (formKey.currentState!.validate()) {
       setBusy(true);
-      var result = await _service.loginWithEmail(
-          email: usernameTEC.text.trim(), password: passwordTEC.text.trim());
+      var result = await _authService.signUpUserWithEmail(
+          email: emailTEC.text, password: passwordTEC.text);
       if (!result.hasError) {
-        _handleUserFlow();
+        Get.off(() => const CreateAccountView());
       } else {
-        showErrorMessage(message: result.errorMessage);
+        showErrorMessage(message: result.errorMessage ?? '');
+      }
+      setBusy(false);
+    }
+  }
+
+  Future<void> addUsers() async {
+    if (formKey.currentState!.validate()) {
+      setBusy(true);
+      for (var child in childCount) {
+        var user = UserModel(
+            name: child.nameTEC.text,
+            email: '',
+            role: UserRole.student,
+            userId: const Uuid().v4(),
+            createdDate: Timestamp.now(),
+            age: child.ageTEC.text);
+        var result = await _fireService.createChild(
+            parentId: controller.appUser?.userId ?? '', child: user);
       }
       setBusy(false);
     }
@@ -67,6 +95,17 @@ class SignUpViewModel extends BaseViewModel {
     emailTEC.dispose();
     usernameTEC.dispose();
     passwordTEC.dispose();
+    for (var e in childCount) {
+      e.nameTEC.dispose();
+      e.ageTEC.dispose();
+    }
     super.dispose();
   }
+}
+
+class ChildController {
+  final TextEditingController nameTEC;
+  final TextEditingController ageTEC;
+
+  ChildController({required this.nameTEC, required this.ageTEC});
 }

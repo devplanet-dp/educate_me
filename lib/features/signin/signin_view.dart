@@ -70,7 +70,6 @@ class SignInView extends StatelessWidget {
               return null;
             },
           ),
-          Spacer(),
           AppTextField(
               controller: vm.passwordTEC,
               hintText: 'text005'.tr,

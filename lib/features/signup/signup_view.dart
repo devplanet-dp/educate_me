@@ -52,7 +52,7 @@ class SignUpView extends StatelessWidget {
           ),
           const Spacer(flex: 2,),
           AppTextField(
-            controller: vm.usernameTEC,
+            controller: vm.emailTEC,
             hintText: 'text003'.tr,
             isEmail: true,
             isDark: true,
@@ -97,7 +97,7 @@ class SignUpView extends StatelessWidget {
             isLoading: vm.isBusy,
             onPressed: () {
               DeviceUtils.hideKeyboard(context);
-              vm.doSignIn();
+              vm.doSignSignUp();
             },
           ),
           const Spacer(flex: 2,)

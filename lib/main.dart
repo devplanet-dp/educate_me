@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Math Educate Me',
             theme: themeData,
-            home: const CreateAccountView(),
+            home: const StartUpView(),
           );
         });
   }

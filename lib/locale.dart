@@ -21,7 +21,7 @@ class AppLocale extends Translations {
           'text013':'Create account :)',
           'text014':'Enter The Email & Password',
           'text015':'Next',
-          'text016':'Next',
+          'text016':'Create Account',
           'text017':'What Is Your Gender',
           'text018':'Men',
           'text019':'Women',

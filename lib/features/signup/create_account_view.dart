@@ -1,15 +1,14 @@
+import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/features/signup/components/add_child_widget.dart';
 import 'package:educate_me/features/signup/components/child_controller_widget.dart';
 import 'package:educate_me/features/signup/signup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../core/shared/app_colors.dart';
 import '../../core/shared/shared_styles.dart';
-import '../../core/shared/ui_helpers.dart';
 import '../../core/utils/device_utils.dart';
 import '../../core/widgets/busy_button.dart';
-import '../../core/widgets/text_field_widget.dart';
 import '../signin/components/app_bg.dart';
 import '../signin/components/custom_app_bar.dart';
 
@@ -23,6 +22,11 @@ class CreateAccountView extends StatelessWidget {
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: SafeArea(
           child: Scaffold(
+            bottomNavigationBar:  BoxButtonWidget(
+              buttonText: 'text016'.tr,
+              isLoading: vm.isBusy,
+              onPressed: () =>vm.addUsers(),
+            ).paddingSymmetric(horizontal: 16,vertical: 8),
             body: Stack(
               children: [
                 const AppBgWidget(),
@@ -35,14 +39,14 @@ class CreateAccountView extends StatelessWidget {
       viewModelBuilder: () => SignUpViewModel(),
     );
   }
+
   Widget _buildBody(SignUpViewModel vm, BuildContext context) {
-    return Form(
-      key: vm.formKey,
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const CustomAppBar(),
-          const Spacer(),
+          vSpaceMedium,
           Text(
             'text010'.tr,
             style: kHeading3Style.copyWith(
@@ -51,21 +55,11 @@ class CreateAccountView extends StatelessWidget {
           Text(
             'text011'.tr,
           ),
-          const Spacer(),
+          vSpaceMedium,
           const ChildControllerWidget(),
-          const Spacer(),
-          BoxButtonWidget(
-            buttonText: 'text015'.tr,
-            isLoading: vm.isBusy,
-            onPressed: () {
-              DeviceUtils.hideKeyboard(context);
-              vm.doSignIn();
-            },
-          ),
-          const Spacer(flex: 2,)
+          const AddChildWidget(),
         ],
       ).paddingSymmetric(horizontal: 16),
     );
   }
-
 }

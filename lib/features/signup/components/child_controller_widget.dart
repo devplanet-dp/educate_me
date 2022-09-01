@@ -26,7 +26,7 @@ class ChildControllerWidget extends ViewModelWidget<SignUpViewModel> {
         onTap: () => model.decrementChildCount(),
       ),
       AutoSizeText(
-        '${model.childCount}',
+        '${model.childCount.length}',
         style: kHeading1Style,
         maxLines: 1,
       ).center().width(64.w),

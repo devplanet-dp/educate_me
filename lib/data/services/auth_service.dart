@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/features/signin/signin_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -95,7 +96,7 @@ class AuthenticationService {
           email: email,
           userId: authResult.user!.uid,
           createdDate: Timestamp.now(),
-          role: null));
+          role: UserRole.student));
     } on FirebaseAuthException catch (e) {
       var msg = 'Sorry! Please try again later';
       if (e.code == 'weak-password') {
