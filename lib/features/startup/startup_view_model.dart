@@ -1,4 +1,5 @@
 import 'package:educate_me/data/user.dart';
+import 'package:educate_me/features/student/navigation/navigation_view.dart';
 import 'package:educate_me/features/signin/signin_view.dart';
 import 'package:educate_me/features/teacher/home/teacher_home.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,8 @@ class StartUpViewModel extends BaseViewModel {
   void _handleUserFlow(UserModel u) {
     if (u.role == UserRole.teacher) {
       Get.offAll(() => const TeacherHomeView());
+    }else{
+      Get.offAll(()=>const NavigationView());
     }
   }
 }
