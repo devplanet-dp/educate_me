@@ -58,7 +58,7 @@ class SignUpViewModel extends BaseViewModel {
       if (!result.hasError) {
         Get.off(() => const CreateAccountView());
       } else {
-        showErrorMessage(message: result.errorMessage ?? '');
+        showErrorMessage(message: result.errorMessage);
       }
       setBusy(false);
     }

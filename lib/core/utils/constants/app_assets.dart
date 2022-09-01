@@ -21,8 +21,12 @@ const String kIcDivider = 'assets/icons/ic_divider.png';
 const String kIcBack = 'assets/icons/ic_back.svg';
 const String kIcPlay = 'assets/icons/ic_play.svg';
 const String kIcStop = 'assets/icons/ic_stop.svg';
+const String kIcStat = 'assets/icons/ic_stat.svg';
+const String kIcTopic = 'assets/icons/ic_topic.svg';
+const String kIcSettings = 'assets/icons/ic_settings.svg';
 const String kImgUnion = 'assets/images/img_union.svg';
 const String kImgUnionFaded = 'assets/images/img_union_faded.svg';
+
 
 //icons
 const String kIcGoogle = 'assets/icons/ic_google.svg';
