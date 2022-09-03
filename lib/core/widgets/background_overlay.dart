@@ -13,7 +13,6 @@ class BackgroundOverlayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: context.screenHeight(percent: 1),
       width: double.infinity,
       decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
@@ -22,7 +21,7 @@ class BackgroundOverlayWidget extends StatelessWidget {
                 : kBgDark.withOpacity(.8),
             !isDark
                 ? kcPrimaryColor.withOpacity(.6)
-                : kBgDark.withOpacity(.6)
+                : kBgDark.withOpacity(.1)
           ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
     );
   }

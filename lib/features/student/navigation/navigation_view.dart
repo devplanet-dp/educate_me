@@ -3,6 +3,7 @@ import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/features/student/settings/settings_view.dart';
 import 'package:educate_me/features/student/stats/stat_view.dart';
 import 'package:educate_me/features/student/topic/topic_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,9 @@ class NavigationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<NavigationViewModel>.reactive(
-      onModelReady: (model) {},
+      onModelReady: (model) {
+        model.initAppUsers();
+      },
       builder: (context, model, child) => Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: PageTransitionSwitcher(
@@ -35,7 +38,7 @@ class NavigationView extends StatelessWidget {
               child: child,
             );
           },
-          child: getViewForIndex(model.currentIndex),
+          child: model.isBusy?const Center(child:CupertinoActivityIndicator(),): getViewForIndex(model.currentIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
           elevation: 0,
