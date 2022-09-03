@@ -24,7 +24,7 @@ class AvatarView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       clipBehavior: Clip.antiAlias,
-      elevation: 3,
+      elevation: 0,
       shape: const CircleBorder(),
       child: Container(
         decoration: BoxDecoration(
@@ -53,7 +53,7 @@ class AvatarView extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .headline6
-              ?.copyWith(fontWeight: FontWeight.bold, color: kcTextSecondary),
+              ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
         ),
       );
 }

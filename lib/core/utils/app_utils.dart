@@ -59,7 +59,7 @@ showErrorMessage({required String message, title = 'Info!'}) {
 showMessage({String title = 'Info', required String message}) {
   if (message.isEmpty) return;
 
-  Get.dialog(AppDialog(title: title, desc: message));
+  Get.dialog(AppDialog(title: title, image: message));
 }
 
 showInfoMessage({required message, title = 'Info!'}) {

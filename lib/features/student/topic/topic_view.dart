@@ -1,8 +1,8 @@
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/data/topic.dart';
+import 'package:educate_me/features/student/sub-topic/sub_topic_view.dart';
 import 'package:educate_me/features/student/topic/topic_view_model.dart';
 import 'package:educate_me/features/teacher/topic/components/topic_card.dart';
-import 'package:educate_me/features/student/topic/topic_detailed_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
@@ -80,7 +80,7 @@ class _TopicList extends ViewModelWidget<TopicViewModel> {
                   final t = topics[index];
                   return TopicCard(
                           url: t.cover ?? '',
-                          onTap: () => Get.to(() => TopicDetailedView(
+                          onTap: () => Get.to(() => SubTopicView(
                                 topic: t,
                                 levelId: levelId,
                               )),

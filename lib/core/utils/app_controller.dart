@@ -29,4 +29,7 @@ class AppController extends GetxController {
   UserModel? appUser;
 
   List<UserModel> appChild=[];
+
+  UserModel? currentChild;
+
 }

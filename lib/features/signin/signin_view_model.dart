@@ -19,6 +19,8 @@ class SignInViewModel extends BaseViewModel {
   final passwordTEC = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
+
+
   bool _isObscure = true;
   bool _isAppleSignAvailable = false;
 

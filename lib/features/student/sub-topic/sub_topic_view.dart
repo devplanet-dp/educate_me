@@ -6,6 +6,7 @@ import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/data/topic.dart';
+import 'package:educate_me/features/student/lesson/lesson_view.dart';
 import 'package:educate_me/features/student/topic/topic_view_model.dart';
 import 'package:educate_me/features/teacher/lesson/components/lesson_card.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,8 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../../core/widgets/image_app_bar.dart';
 
-class TopicDetailedView extends StatelessWidget {
-  const TopicDetailedView(
-      {Key? key, required this.topic, required this.levelId})
+class SubTopicView extends StatelessWidget {
+  const SubTopicView({Key? key, required this.topic, required this.levelId})
       : super(key: key);
   final TopicModel topic;
   final String levelId;
@@ -38,7 +38,8 @@ class TopicDetailedView extends StatelessWidget {
           body: CustomScrollView(
             slivers: [
               ImageSliderAppBar(
-                images: topic.cover ?? '', title:topic.name??'',
+                images: topic.cover ?? '',
+                title: topic.name ?? '',
               ),
               SliverList(
                   delegate: SliverChildListDelegate([
@@ -113,7 +114,8 @@ class _SubTopicSection extends StatelessWidget {
             AutoSizeText(
               s.description ?? '',
               maxLines: 1,
-              style: kCaptionStyle.copyWith(color: kcTextDarkGrey,fontWeight: FontWeight.w400),
+              style: kCaptionStyle.copyWith(
+                  color: kcTextDarkGrey, fontWeight: FontWeight.w400),
             ).paddingOnly(left: 12),
             vSpaceSmall,
             _LessonList(
@@ -143,8 +145,10 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
         builder: (_, snapshot) {
           if (snapshot.hasData) {
             final lessons = snapshot.data ?? [];
-            if(lessons.isEmpty){
-              return AppInfoWidget(translateKey: 'text028'.tr, iconData: Iconsax.book).center();
+            if (lessons.isEmpty) {
+              return AppInfoWidget(
+                      translateKey: 'text028'.tr, iconData: Iconsax.book)
+                  .center();
             }
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -152,11 +156,14 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
                 children: List.generate(lessons.length, (index) {
                   final t = lessons[index];
                   return LessonCard(
-                          lesson: t,
-                          onTap: () {},)
-                      .paddingOnly(
-                          left: 10,
-                          right: index == lessons.length - 1 ? 10 : 0);
+                    lesson: t,
+                    onTap: () => Get.to(() => LessonView(
+                        lesson: t,
+                        levelId: levelId,
+                        topicId: topicId,
+                        subTopicId: subTopicId)),
+                  ).paddingOnly(
+                      left: 10, right: index == lessons.length - 1 ? 10 : 0);
                 }),
               ),
             );
