@@ -10,6 +10,7 @@ const Color kcTextDarkGrey = Color(0xFF767373);
 const Color kButtonColor = Color(0xFFD9D9D9);
 const Color kcOtherChatBubbleColor = Color(0xFFD9FAFF);
 const Color kcStroke = Color(0x8C59C7D6);
+const Color kcCardBgColor = Color(0xFF2385bd);
 const Color kcFocusBorder = Color(0xFF787878);
 const Color kcCorrectAns = Color(0xFF0ED082);
 const Color kcIncorrectAns = Color(0xFFE75244);

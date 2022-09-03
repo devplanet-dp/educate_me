@@ -8,6 +8,9 @@ const String kImgSectionOverlay = 'assets/images/img_section_overlay.png';
 const String kAppLogo = 'assets/icons/ic_logo.png';
 const String kAppLogoOutlined = 'assets/icons/ic_logo_outlined.png';
 const String kAppLogoText = 'assets/icons/ic_logo_text.svg';
+const String kImgUnion = 'assets/images/img_union.svg';
+const String kImgUnionFaded = 'assets/images/img_union_faded.svg';
+const String kImgCard = 'assets/images/img_card.png';
 
 //icons
 const String kIcMen = 'assets/icons/ic_men.png';
@@ -24,8 +27,11 @@ const String kIcStop = 'assets/icons/ic_stop.svg';
 const String kIcStat = 'assets/icons/ic_stat.svg';
 const String kIcTopic = 'assets/icons/ic_topic.svg';
 const String kIcSettings = 'assets/icons/ic_settings.svg';
-const String kImgUnion = 'assets/images/img_union.svg';
-const String kImgUnionFaded = 'assets/images/img_union_faded.svg';
+const String kIcQuiz = 'assets/images/ic_quiz.svg';
+const String kIcAsk = 'assets/icons/ic_ask.svg';
+const String kIcCorrect = 'assets/icons/ic_correct.svg';
+const String kIcWrong = 'assets/icons/ic_wrong.svg';
+const String kIcAchievement = 'assets/icons/ic_achievement.png';
 
 
 //icons
