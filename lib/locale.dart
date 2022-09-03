@@ -52,7 +52,7 @@ class AppLocale extends Translations {
           'text042':'Retest',
           'text043':'Cancel',
           'text044':'Continue',
-          'text045':'Fitness',
+          'text045':'Are you sure you want to start the quiz?',
           'text046':'Outdoor Activities',
           'text047':'Games',
           'text048':'Dance',

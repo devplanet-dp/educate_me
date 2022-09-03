@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educate_me/data/lesson.dart';
+import 'package:educate_me/data/remote/api_result.dart';
 import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/data/topic.dart';
 import 'package:flutter/services.dart';
@@ -436,6 +437,30 @@ class FirestoreService {
     return snap.map((snapshot) => snapshot.docs.map((doc) {
           return QuestionModel.fromSnapshot(doc);
         }).toList());
+  }
+
+  Future<ApiResult> getQuestions(
+      {required levelId,
+      required topicId,
+      required subTopicId,
+      required lessonId}) async {
+    try {
+      var snap = await _levelReference
+          .doc(levelId)
+          .collection(tbTopic)
+          .doc(topicId)
+          .collection(tbSubTopic)
+          .doc(subTopicId)
+          .collection(tbLesson)
+          .doc(lessonId)
+          .collection(tbQuestions)
+          .get();
+      final dataList =
+          snap.docs.map((doc) => QuestionModel.fromSnapshot(doc)).toList();
+      return ApiResult(data: dataList);
+    } catch (e) {
+      return ApiResult.error(errorMessage: e.toString());
+    }
   }
 
   Future<FirebaseResult> removeQuestion(

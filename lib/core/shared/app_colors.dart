@@ -8,6 +8,7 @@ const Color kcTextSecondary = Color(0xFF6B6B6B);
 const Color kcTextGrey = Color(0xFF989898);
 const Color kcTextDarkGrey = Color(0xFF767373);
 const Color kButtonColor = Color(0xFFD9D9D9);
+const Color kButtonDisabledColor = Color(0xFFDBDBDB);
 const Color kcOtherChatBubbleColor = Color(0xFFD9FAFF);
 const Color kcStroke = Color(0x8C59C7D6);
 const Color kcCardBgColor = Color(0xFF2385bd);
