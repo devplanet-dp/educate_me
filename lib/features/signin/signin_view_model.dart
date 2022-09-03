@@ -1,4 +1,5 @@
 import 'package:educate_me/data/user.dart';
+import 'package:educate_me/features/student/navigation/navigation_view.dart';
 import 'package:educate_me/features/teacher/home/teacher_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -100,6 +101,8 @@ class SignInViewModel extends BaseViewModel {
     if (user != null) {
       if(user.role == UserRole.teacher){
         Get.offAll(()=>const TeacherHomeView());
+      }else{
+        Get.offAll(()=>const NavigationView());
       }
     }else{
       showErrorMessage(message: 'no_user'.tr);

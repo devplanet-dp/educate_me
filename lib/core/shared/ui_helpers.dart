@@ -1,6 +1,10 @@
+import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:styled_widget/styled_widget.dart';
+
 import 'app_colors.dart';
 
 const Widget hSpaceTiny = SizedBox(width: 5.0);
@@ -89,12 +93,30 @@ class ShimmerView extends StatelessWidget {
               width: thumbWidth,
               color: kcStroke,
             ))
-        .decorated(
-            borderRadius: const BorderRadius.all(Radius.circular(12)))
-        .padding(all: 8);
+        .card(
+            shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
+            clipBehavior: Clip.antiAlias,
+            elevation: 0);
   }
 }
 // Screen Size helpers
+
+class ShimmerTopic extends StatelessWidget {
+  const ShimmerTopic({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final h = 120.h;
+    final w = 165.w;
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List.generate(
+            3, (index) => ShimmerView(thumbHeight: h, thumbWidth: w).paddingOnly(left: index==0?10:0)),
+      ),
+    );
+  }
+}
 
 double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
 

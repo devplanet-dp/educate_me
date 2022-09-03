@@ -27,7 +27,9 @@ class AppInfoWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CircleAvatar(
-          backgroundColor: !isDark ? kcAccent.withOpacity(.4) : kcTextSecondary.withOpacity(0.8),
+          backgroundColor: !isDark
+              ? kcPrimaryColor.withOpacity(.4)
+              : kcTextSecondary.withOpacity(0.8),
           radius: 32,
           child: icon ??
               Icon(

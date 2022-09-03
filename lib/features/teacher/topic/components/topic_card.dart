@@ -1,5 +1,6 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
+import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/app_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,16 +15,17 @@ class TopicCard extends StatelessWidget {
       {Key? key,
       required this.url,
       required this.onTap,
-      required this.title,
-      required this.onEditTap})
+      required this.title, this.onEditTap})
       : super(key: key);
   final String url;
   final String title;
   final VoidCallback onTap;
-  final VoidCallback onEditTap;
+  final VoidCallback? onEditTap;
 
   @override
   Widget build(BuildContext context) {
+    final h = 120.h;
+    final w=165.w;
     return InkWell(
       onTap: onTap,
       borderRadius: kBorderSmall,
@@ -32,8 +34,8 @@ class TopicCard extends StatelessWidget {
           Positioned.fill(
             child: AppNetworkImage(
               path: url,
-              thumbHeight: 97.h,
-              thumbWidth: 165.w,
+              thumbHeight:h,
+              thumbWidth: w,
             ),
           ),
           Positioned(
@@ -44,14 +46,14 @@ class TopicCard extends StatelessWidget {
                 style: kCaptionStyle.copyWith(color: kAltWhite),
               ).paddingAll(8).decorated(
                   color: kAltBg.withOpacity(.4), borderRadius: kBorderSmall)),
-          Positioned(
+        onEditTap==null?emptyBox() : Positioned(
               right: 0,
               top: 0,
               child: AppIconWidget(
                 iconData: Iconsax.edit,
                 bgColor: kAltWhite,
                 iconColor: kAltBg,
-                onTap: onEditTap,
+                onTap: onEditTap!,
               ))
         ],
       ),
@@ -59,6 +61,6 @@ class TopicCard extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
         elevation: 0,
         color: Colors.transparent,
-        clipBehavior: Clip.antiAlias);
+        clipBehavior: Clip.antiAlias).height(h).width(w);
   }
 }

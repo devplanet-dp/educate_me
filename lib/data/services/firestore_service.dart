@@ -115,6 +115,12 @@ class FirestoreService {
     return UserModel.fromSnapshot(userData);
   }
 
+  Future<List<UserModel>> getChildUsers(String uid) async {
+    var userData =
+        await _usersCollectionReference.doc(uid).collection(tbChild).get();
+    return userData.docs.map((d) => UserModel.fromSnapshot(d)).toList();
+  }
+
   Stream<List<UserModel>> streamServiceProviders() {
     Stream<QuerySnapshot> snap = _usersCollectionReference
         .where('role', isEqualTo: 1)
@@ -156,7 +162,7 @@ class FirestoreService {
   }
 
   Stream<List<LevelModel>> streamLevels() {
-    Stream<QuerySnapshot> snap = _levelReference.snapshots();
+    Stream<QuerySnapshot> snap = _levelReference.orderBy('order').snapshots();
 
     return snap.map((snapshot) => snapshot.docs.map((doc) {
           return LevelModel.fromSnapshot(doc);
