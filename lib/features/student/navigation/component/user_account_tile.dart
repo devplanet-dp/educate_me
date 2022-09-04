@@ -23,7 +23,6 @@ class UserAccountTile extends StatelessWidget {
       AvatarView(path: user.profileUrl ?? '', userName: user.name ?? 'E'),
       hSpaceSmall,
       Expanded(
-        flex: 3,
         child: [
           Text(user.name ?? '',maxLines: 1,style: kCaptionStyle.copyWith(fontWeight: FontWeight.w500),),
           Text(
@@ -36,7 +35,6 @@ class UserAccountTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min),
       ),
       hSpaceMedium,
-      const Expanded(child: SizedBox()),
       const Icon(
         Icons.keyboard_arrow_right_sharp,
         color: kcTextGrey,

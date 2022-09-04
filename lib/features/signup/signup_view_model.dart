@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educate_me/data/services/firestore_service.dart';
 import 'package:educate_me/data/user.dart';
 import 'package:educate_me/features/signup/create_account_view.dart';
+import 'package:educate_me/features/student/navigation/navigation_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
@@ -78,6 +79,7 @@ class SignUpViewModel extends BaseViewModel {
         var result = await _fireService.createChild(
             parentId: controller.appUser?.userId ?? '', child: user);
       }
+      Get.offAll(()=>const NavigationView());
       setBusy(false);
     }
   }

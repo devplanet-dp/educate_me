@@ -54,7 +54,11 @@ class LessonView extends StatelessWidget {
               vSpaceMedium,
               BoxButtonWidget(
                 buttonText: 'text030'.tr,
-                onPressed: () {},
+                onPressed: () => vm.onStartQuizTapped(
+                    levelId: levelId,
+                    topicId: topicId,
+                    subTopicId: subTopicId,
+                    lessonId: lesson.id ?? ''),
                 radius: 8,
               ).paddingSymmetric(horizontal: 12),
               vSpaceMedium

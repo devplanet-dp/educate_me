@@ -18,7 +18,7 @@ class BoxButtonWidget extends StatelessWidget {
     Key? key,
     required this.buttonText,
     this.buttonColor,
-    this.textColor = kAltWhite,
+    this.textColor,
     required this.onPressed,
     this.isLoading = false,
     this.radius,
@@ -57,7 +57,7 @@ class BoxButtonWidget extends StatelessWidget {
                       buttonText,
                       style: kBodyStyle.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: isEnabled? Colors.white:kAltBg,
+                        color:  isEnabled? textColor?? Colors.white:kAltBg,
                         fontSize: 18.sp
                       ),
                     ))),

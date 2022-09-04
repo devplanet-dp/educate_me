@@ -99,6 +99,29 @@ class ShimmerView extends StatelessWidget {
             elevation: 0);
   }
 }
+class ShimmerQuiz extends StatelessWidget {
+  const ShimmerQuiz({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Spacer(),
+        ShimmerView(thumbHeight: 64.h, thumbWidth:Get.width),
+        const Spacer(),
+        ShimmerView(thumbHeight: 32.h, thumbWidth:Get.width),
+        vSpaceSmall,
+        ShimmerView(thumbHeight: 32.h, thumbWidth:Get.width),
+        vSpaceSmall,
+        ShimmerView(thumbHeight: 32.h, thumbWidth:Get.width),
+        vSpaceSmall,
+        ShimmerView(thumbHeight: 32.h, thumbWidth:Get.width),
+        Spacer(flex: 2,),
+      ],
+    ).paddingSymmetric(horizontal: 16);
+  }
+}
+
 // Screen Size helpers
 
 class ShimmerTopic extends StatelessWidget {
