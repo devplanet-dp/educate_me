@@ -31,6 +31,13 @@ const String kIcQuiz = 'assets/icons/ic_quiz.svg';
 const String kIcAsk = 'assets/icons/ic_ask.svg';
 const String kIcCorrect = 'assets/icons/ic_correct.svg';
 const String kIcWrong = 'assets/icons/ic_wrong.svg';
+const String kIcAccount = 'assets/icons/ic_account.svg';
+const String kIcCredit = 'assets/icons/ic_credit_card.svg';
+const String kIcHelp = 'assets/icons/ic_help.svg';
+const String kIcLang = 'assets/icons/ic_lang.svg';
+const String kIcLogout = 'assets/icons/ic_logout.svg';
+const String kIcAbout = 'assets/icons/ic_about.svg';
+const String kIcAcce = 'assets/icons/ic_acce.svg';
 const String kIcAchievement = 'assets/icons/ic_achievement.png';
 
 
