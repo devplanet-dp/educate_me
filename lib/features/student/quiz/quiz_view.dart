@@ -1,6 +1,11 @@
-import 'package:educate_me/core/shared/app_colors.dart';
-import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/widgets/app_info.dart';
+import 'package:educate_me/core/widgets/busy_button.dart';
+import 'package:educate_me/data/lesson.dart';
+import 'package:educate_me/features/student/quiz/components/page_navigation_widget.dart';
+import 'package:educate_me/features/student/quiz/components/page_progress_widget.dart';
+import 'package:educate_me/features/student/quiz/components/quiz_result_widget.dart';
+import 'package:educate_me/features/student/quiz/quiz_complete_page.dart';
 import 'package:educate_me/features/student/quiz/quiz_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +14,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/utils/device_utils.dart';
+import 'components/quetion_card.dart';
 
 class QuizView extends StatelessWidget {
   const QuizView(
@@ -16,12 +22,12 @@ class QuizView extends StatelessWidget {
       required this.levelId,
       required this.topicId,
       required this.subTopicId,
-      required this.lessonId})
+      required this.lesson})
       : super(key: key);
   final String levelId;
   final String topicId;
   final String subTopicId;
-  final String lessonId;
+  final LessonModel lesson;
 
   @override
   Widget build(BuildContext context) {
@@ -31,98 +37,57 @@ class QuizView extends StatelessWidget {
             levelId: levelId,
             topicId: topicId,
             subTopicId: subTopicId,
-            lessonId: lessonId);
+            lessonId: lesson.id??'');
       },
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
+          bottomNavigationBar: !vm.isLastPage()
+              ? emptyBox()
+              : Container(
+                  child: BoxButtonWidget(
+                    radius: 8,
+                    buttonText: 'text055'.tr,
+                    onPressed: ()=>vm.finishExam(lesson),
+                  ).paddingSymmetric(horizontal: 16, vertical: 8),
+                ),
           appBar: AppBar(
-            title: Text('Level 1: Quize'),
+            title: Text('Level 1: ${vm.controller.topicName}'),
           ),
           body: vm.isBusy
               ? const ShimmerQuiz()
               : Column(
                   children: [
                     vSpaceMedium,
-                    const QnsProgressBar().paddingSymmetric(horizontal: 16),
+                    vm.isLastPage()
+                        ? emptyBox()
+                        : const PageProgressWidget()
+                            .paddingSymmetric(horizontal: 16),
                     vSpaceMedium,
-                    const QnNavigationWidget(),
+                    vm.isLastPage()
+                        ? const QuizResultsWidget()
+                        : const PageNavigationWidget(),
                     vSpaceMedium,
-                    Expanded(
-                        child: PageView(
-                      controller: vm.pageController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      onPageChanged: (index) =>
-                          vm.selectedQn = vm.questions[index],
-                      children: List.generate(
-                          vm.questions.length, (index) => const QuestionCard()),
-                    ))
+                    vm.questions.isEmpty
+                        ? AppInfoWidget(
+                                translateKey: 'text053'.tr,
+                                iconData: Iconsax.book_1)
+                            .center()
+                        : Expanded(
+                            child: PageView(
+                            controller: vm.pageController,
+                            physics: const NeverScrollableScrollPhysics(),
+                            onPageChanged: (index) =>
+                                vm.selectedQn = vm.questions[index],
+                            children: List.generate(vm.questions.length,
+                                (index) => const QuestionCard())
+                              ..add(const QuizCompletePage()),
+                          ))
                   ],
                 ),
         ),
       ),
       viewModelBuilder: () => QuizViewModel(),
-    );
-  }
-}
-
-class QnNavigationWidget extends ViewModelWidget<QuizViewModel> {
-  const QnNavigationWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, QuizViewModel model) {
-    return [
-      IconButton(
-          onPressed: () => model.goToPrvQn(),
-          icon: const Icon(Iconsax.arrow_circle_left)),
-      Text.rich(TextSpan(
-          text: 'Question:',
-          style: kBodyStyle.copyWith(
-              color: Colors.black, fontWeight: FontWeight.w500),
-          children: [
-            TextSpan(
-                text: ' ${model.qnNo}/${model.questions.length}',
-                style: kBodyStyle.copyWith(
-                    color: kcPrimaryColor, fontWeight: FontWeight.w500))
-          ])),
-      IconButton(
-          onPressed: () => model.goToNextQn(),
-          icon: const Icon(Iconsax.arrow_circle_right)),
-    ].toRow(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center);
-  }
-}
-
-class QuestionCard extends ViewModelWidget<QuizViewModel> {
-  const QuestionCard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, QuizViewModel model) {
-    return Column(
-      children: [_buildQuestion(model.selectedQn?.question ?? '')],
-    );
-  }
-
-  Widget _buildQuestion(String qns) => Text(qns).decorated().width(Get.width);
-}
-
-class QnsProgressBar extends ViewModelWidget<QuizViewModel> {
-  const QnsProgressBar({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, QuizViewModel model) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: SizedBox(
-        height: 10,
-        child: LinearProgressIndicator(
-          value: model.qnNo / model.questions.length,
-          // percent filled
-          valueColor: const AlwaysStoppedAnimation<Color>(kcPrimaryColor),
-          backgroundColor: kcPrimaryColor.withOpacity(.4),
-        ),
-      ),
     );
   }
 }

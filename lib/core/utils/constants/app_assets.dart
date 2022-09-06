@@ -11,6 +11,8 @@ const String kAppLogoText = 'assets/icons/ic_logo_text.svg';
 const String kImgUnion = 'assets/images/img_union.svg';
 const String kImgUnionFaded = 'assets/images/img_union_faded.svg';
 const String kImgCard = 'assets/images/img_card.png';
+const String kImgSuccess = 'assets/images/img_success.png';
+const String kImgFail = 'assets/images/img_fail.png';
 
 //icons
 const String kIcMen = 'assets/icons/ic_men.png';
@@ -38,6 +40,7 @@ const String kIcLang = 'assets/icons/ic_lang.svg';
 const String kIcLogout = 'assets/icons/ic_logout.svg';
 const String kIcAbout = 'assets/icons/ic_about.svg';
 const String kIcAcce = 'assets/icons/ic_acce.svg';
+const String kIcBrush = 'assets/icons/ic_brush.png';
 const String kIcAchievement = 'assets/icons/ic_achievement.png';
 
 

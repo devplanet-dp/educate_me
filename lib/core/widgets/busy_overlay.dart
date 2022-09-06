@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
 
 import 'loading_anim.dart';
@@ -23,7 +24,7 @@ class BusyOverlay extends StatelessWidget {
         child: Stack(children: <Widget>[
       child,
       IgnorePointer(
-        child: Opacity(
+        child:show? Opacity(
             opacity: show ? 1.0 : 0.0,
             child: ClipRRect(
               child: BackdropFilter(
@@ -36,7 +37,7 @@ class BusyOverlay extends StatelessWidget {
                   child: const Center(child: CircularProgressIndicator(),),
                 ),
               ),
-            )),
+            )):emptyBox(),
       ),
     ]));
   }

@@ -31,6 +31,9 @@ class SubTopicView extends StatelessWidget {
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     return ViewModelBuilder<TopicViewModel>.reactive(
+      onModelReady: (model){
+        model.onTopicSelected(topic.name??'');
+      },
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(

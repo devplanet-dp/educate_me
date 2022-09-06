@@ -1,5 +1,6 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -10,6 +11,7 @@ import 'busy_button.dart';
 
 class AppDialog extends StatelessWidget {
   final String title;
+  final String? subtitle;
   final String image;
   final VoidCallback? onNegativeTap;
   final VoidCallback? onPositiveTap;
@@ -19,7 +21,8 @@ class AppDialog extends StatelessWidget {
       required this.title,
       required this.image,
       this.onNegativeTap,
-      this.onPositiveTap})
+      this.onPositiveTap,
+      this.subtitle})
       : super(key: key);
 
   @override
@@ -71,12 +74,28 @@ class AppDialog extends StatelessWidget {
   }
 
   Widget _buildHeader() {
-    return SvgPicture.asset(image);
+    return image.split('.')[1].contains('svg')? SvgPicture.asset(image):Image.asset(image,height: 105.h,width: 71.w,);
   }
 
-  _buildDialogContent() => Text(
-        title,
-        textAlign: TextAlign.center,
-        style: kBody1Style.copyWith(fontWeight: FontWeight.bold),
+  _buildDialogContent() => Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: subtitle == null
+                ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
+                : kSubheadingStyle.copyWith(
+                    fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          subtitle != null
+              ? Text(
+                  subtitle!,
+                  textAlign: TextAlign.center,
+                  style: kBody1Style.copyWith(
+                      fontWeight: FontWeight.bold, color: kcTextGrey),
+                )
+              : emptyBox()
+        ],
       );
 }

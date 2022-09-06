@@ -32,4 +32,7 @@ class AppController extends GetxController {
 
   UserModel? currentChild;
 
+  String? levelName;
+  String? topicName;
+
 }
