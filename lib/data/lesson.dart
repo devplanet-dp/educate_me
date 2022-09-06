@@ -12,6 +12,7 @@ class LessonModel {
   Timestamp? createdAt;
   List<QuestionModel>? questions;
   String? video;
+  int? noCorrectToPass;
 
   LessonModel(
       {this.id,
@@ -23,6 +24,7 @@ class LessonModel {
         this.order,
         this.createdAt,
         this.questions,
+        this.noCorrectToPass,
         this.video});
 
   LessonModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +33,7 @@ class LessonModel {
     description = json['description'];
     introduction = json['introduction'];
     cover = json['cover'];
+    noCorrectToPass = json['no_correct_pass']??0;
     maxQuestions = json['maxQuestions'];
     order = json['order'];
     createdAt = json['createdAt'];
@@ -53,6 +56,7 @@ class LessonModel {
     data['introduction'] = introduction;
     data['cover'] = cover;
     data['maxQuestions'] = maxQuestions;
+    data['no_correct_pass'] = noCorrectToPass;
     data['order'] = order;
     data['createdAt'] = createdAt;
     data['questions'] =

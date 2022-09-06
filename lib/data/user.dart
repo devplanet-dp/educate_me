@@ -100,3 +100,12 @@ class Stats {
     return data;
   }
 }
+
+class UserAnsModel {
+  final String id;
+  final int qIndex;
+  final int optionIndex;
+  final bool isCorrect;
+
+  UserAnsModel({required this.id,required this.qIndex,required this.optionIndex, required this.isCorrect});
+}

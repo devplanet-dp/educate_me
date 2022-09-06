@@ -1,14 +1,17 @@
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/data/topic.dart';
+import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../core/utils/app_controller.dart';
 import '../../../data/level.dart';
 import '../../../data/services/firestore_service.dart';
 import '../../../locator.dart';
 
 class TopicViewModel extends BaseViewModel {
   final _service = locator<FirestoreService>();
+  final AppController controller = Get.find<AppController>();
 
   List<LevelModel> _levels = [];
 
@@ -24,6 +27,9 @@ class TopicViewModel extends BaseViewModel {
     });
   }
 
+  onTopicSelected(String topicName){
+    controller.topicName = topicName;
+  }
   Stream<List<TopicModel>> streamLevelTopics(String levelId) =>
       _service.streamLevelTopics(levelId);
 

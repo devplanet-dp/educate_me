@@ -26,6 +26,7 @@ class TeacherLessonViewModel extends BaseViewModel {
   final maxQnsTEC = TextEditingController();
   final nameTEC = TextEditingController();
   final descTEC = TextEditingController();
+  final correctPassTEC = TextEditingController();
 
   File? _images;
   String? _uploadedImages;
@@ -43,6 +44,7 @@ class TeacherLessonViewModel extends BaseViewModel {
     nameTEC.text = lesson.title ?? '';
     maxQnsTEC.text = '${lesson.maxQuestions}';
     descTEC.text = lesson.description ?? '';
+    correctPassTEC.text = '${lesson.noCorrectToPass??0}';
     _uploadedImages = lesson.cover;
     notifyListeners();
   }
@@ -64,6 +66,7 @@ class TeacherLessonViewModel extends BaseViewModel {
           maxQuestions: int.parse(maxQnsTEC.text),
           title: nameTEC.text,
           description: descTEC.text,
+          noCorrectToPass: int.parse(correctPassTEC.text),
           createdAt: Timestamp.now());
 
       var result = await _service.addLesson(
@@ -158,6 +161,7 @@ class TeacherLessonViewModel extends BaseViewModel {
     nameTEC.dispose();
     descTEC.dispose();
     maxQnsTEC.dispose();
+    correctPassTEC.dispose();
     super.dispose();
   }
 }

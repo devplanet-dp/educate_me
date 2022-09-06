@@ -9,15 +9,18 @@ class LessonViewModel extends BaseViewModel {
       {required levelId,
       required topicId,
       required subTopicId,
-      required lessonId}) {
+      required lesson}) {
     Get.dialog(AppDialog(
       title: 'text045'.tr,
       image: kIcQuiz,
-      onPositiveTap: () => Get.to(() => QuizView(
-          levelId: levelId,
-          topicId: topicId,
-          subTopicId: subTopicId,
-          lessonId: lessonId)),
+      onPositiveTap: () {
+        Get.back();
+        Get.to(() => QuizView(
+            levelId: levelId,
+            topicId: topicId,
+            subTopicId: subTopicId,
+            lesson: lesson));
+      },
     ));
   }
 }

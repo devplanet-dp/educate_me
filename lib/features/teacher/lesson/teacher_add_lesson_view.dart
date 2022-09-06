@@ -73,6 +73,19 @@ class TeacherAddLessonView extends StatelessWidget {
             ),
             vSpaceSmall,
             AppTextField(
+              controller: vm.correctPassTEC,
+              hintText: 'No questions to pass the quiz',
+              label: 'No correct quiz',
+              isNumber: true,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter the number';
+                }
+                return null;
+              },
+            ),
+            vSpaceSmall,
+            AppTextField(
               controller: vm.nameTEC,
               hintText: 'Lesson name',
               label: 'Name',

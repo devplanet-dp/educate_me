@@ -58,7 +58,7 @@ class LessonView extends StatelessWidget {
                     levelId: levelId,
                     topicId: topicId,
                     subTopicId: subTopicId,
-                    lessonId: lesson.id ?? ''),
+                    lesson: lesson),
                 radius: 8,
               ).paddingSymmetric(horizontal: 12),
               vSpaceMedium
