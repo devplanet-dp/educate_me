@@ -4,6 +4,7 @@ import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/features/student/language/lan_change_view.dart';
 import 'package:educate_me/features/student/settings/components/category_tile_widget.dart';
 import 'package:educate_me/features/student/settings/settings_view_model.dart';
+import 'package:educate_me/features/student/support/support_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
@@ -54,7 +55,7 @@ class SettingsView extends StatelessWidget {
                       icon: kIcHelp,
                       backgroundColor: Colors.green,
                       title: 'text048',
-                      onTap: () {}),
+                      onTap: () =>Get.to(()=>const SupportView())),
                   const Divider(
                     color: kcTextGrey,
                   ),

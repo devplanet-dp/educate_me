@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educate_me/data/complain_model.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/remote/api_result.dart';
 import 'package:educate_me/data/sub_topic.dart';
@@ -21,8 +22,8 @@ class FirestoreService {
   final CollectionReference _levelReference =
       FirebaseFirestore.instance.collection(tbLevel);
 
-  final CollectionReference _questionReference =
-      FirebaseFirestore.instance.collection(tbQuestions);
+  final CollectionReference _complainReference =
+      FirebaseFirestore.instance.collection(tbComplain);
 
   static const String tbLevel = 'level';
   static const String tbQuestions = 'questions';
@@ -30,7 +31,7 @@ class FirestoreService {
   static const String tbSubTopic = 'sub_topic';
   static const String tbLesson = 'tbLesson';
   static const String tbChild = 'child';
-  static const String tbOffers = 'offers';
+  static const String tbComplain = 'complain';
   static const String tbFilteredRequest = 'my_out_request';
 
   late FirebaseFirestore _firestore;
@@ -488,6 +489,33 @@ class FirestoreService {
       }
 
       return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
+  ///complains
+  Future createAComplain(ComplainModel complain) async {
+    try {
+      await _complainReference
+          .doc(complain.id)
+          .set(complain.toJson(), SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      if (e is PlatformException) {
+        return e.message;
+      }
+
+      return e.toString();
+    }
+  }
+
+  Future<ApiResult> getComplains() async {
+    try {
+      var snap = await _complainReference.get();
+      final dataList =
+          snap.docs.map((doc) => ComplainModel.fromSnapshot(doc)).toList();
+      return ApiResult(data: dataList);
+    } catch (e) {
+      return ApiResult.error(errorMessage: e.toString());
     }
   }
 }
