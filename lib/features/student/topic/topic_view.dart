@@ -10,6 +10,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/shared/shared_styles.dart';
 import '../../../core/utils/device_utils.dart';
+import '../../signin/components/custom_app_bar.dart';
 
 class TopicView extends StatelessWidget {
   const TopicView({Key? key}) : super(key: key);
@@ -24,13 +25,11 @@ class TopicView extends StatelessWidget {
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: SafeArea(
           child: Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              title: Text(
-                'text024'.tr,
-                style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold),
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: SwitchUserAppBar(
+                title: 'text024'.tr,
+                onUserUpdated:()=>vm.notifyListeners(),
               ),
             ),
             body: const _LevelSection(),

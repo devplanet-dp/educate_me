@@ -1,6 +1,7 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
+import 'package:educate_me/features/student/language/lan_change_view.dart';
 import 'package:educate_me/features/student/settings/components/category_tile_widget.dart';
 import 'package:educate_me/features/student/settings/settings_view_model.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class SettingsView extends StatelessWidget {
                       icon: kIcLang,
                       backgroundColor: Colors.orange,
                       title: 'text047',
-                      onTap: () {}),
+                      onTap: () =>Get.to(()=>const LanChangeView())),
                   const Divider(
                     color: kcTextGrey,
                   ),
