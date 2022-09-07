@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ComplainModel {
   String? id;
-  String? createdAt;
+  Timestamp? createdAt;
   String? authorId;
   String? name;
   String? email;

@@ -493,18 +493,18 @@ class FirestoreService {
   }
 
   ///complains
-  Future createAComplain(ComplainModel complain) async {
+  Future<ApiResult> createAComplain(ComplainModel complain) async {
     try {
       await _complainReference
           .doc(complain.id)
           .set(complain.toJson(), SetOptions(merge: true));
-      return true;
+      return ApiResult(data: true);
     } catch (e) {
       if (e is PlatformException) {
-        return e.message;
+        return ApiResult.error(errorMessage: e.message);
       }
 
-      return e.toString();
+      return  ApiResult.error(errorMessage: e.toString());
     }
   }
 

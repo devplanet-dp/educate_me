@@ -80,6 +80,8 @@ class AppLocale extends Translations {
           'text070':'Enter Full Name',
           'text071':'Name',
           'text072':'Send',
+          'text073':'Thank you for contacting us. A support member will contact you shortly if necessary',
+
 
 
         }

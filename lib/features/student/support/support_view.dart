@@ -74,6 +74,7 @@ class SupportView extends StatelessWidget {
                 BoxButtonWidget(
                     buttonText: 'text072'.tr,
                     radius: 8,
+                    isLoading: vm.isBusy,
                     onPressed: () => vm.onSendPressed()),
                 const Spacer(),
               ],
