@@ -74,9 +74,14 @@ class AppLocale extends Translations {
           'text064':'Something went wrong. Please try it again.',
           'text065':'Save Changes',
           'text066':'Type here',
-          'text067':'Tap to start record',
-          'text068':'Impress your Partner',
-          'text069':'This field is required*',
+          'text067':'Message',
+          'text068':'Write messages...',
+          'text069':'Support',
+          'text070':'Enter Full Name',
+          'text071':'Name',
+          'text072':'Send',
+          'text073':'Thank you for contacting us. A support member will contact you shortly if necessary',
+
 
 
         }
