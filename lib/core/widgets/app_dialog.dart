@@ -15,15 +15,17 @@ class AppDialog extends StatelessWidget {
   final String image;
   final VoidCallback? onNegativeTap;
   final VoidCallback? onPositiveTap;
+  final String? positiveText;
 
-  const AppDialog(
-      {Key? key,
-      required this.title,
-      required this.image,
-      this.onNegativeTap,
-      this.onPositiveTap,
-      this.subtitle})
-      : super(key: key);
+  const AppDialog({
+    Key? key,
+    required this.title,
+    required this.image,
+    this.onNegativeTap,
+    this.onPositiveTap,
+    this.subtitle,
+    this.positiveText,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +61,12 @@ class AppDialog extends StatelessWidget {
             radius: 8,
             buttonColor: kButtonDisabledColor,
             textColor: kcTextDarkGrey,
-            onPressed: () {
-              Get.back();
-            }),
+            onPressed: onNegativeTap ?? () => Get.back()),
       ),
       hSpaceSmall,
       Expanded(
         child: BoxButtonWidget(
-            buttonText: 'text044'.tr,
+            buttonText: positiveText ?? 'text044'.tr,
             radius: 8,
             onPressed: onPositiveTap ?? () => Get.back()),
       ),
@@ -74,7 +74,13 @@ class AppDialog extends StatelessWidget {
   }
 
   Widget _buildHeader() {
-    return image.split('.')[1].contains('svg')? SvgPicture.asset(image):Image.asset(image,height: 105.h,width: 71.w,);
+    return image.split('.')[1].contains('svg')
+        ? SvgPicture.asset(image)
+        : Image.asset(
+            image,
+            height: 105.h,
+            width: 71.w,
+          );
   }
 
   _buildDialogContent() => Column(

@@ -1,10 +1,17 @@
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/core/widgets/app_dialog.dart';
+import 'package:educate_me/data/controllers/quiz_controller.dart';
+import 'package:educate_me/data/services/firestore_service.dart';
 import 'package:educate_me/features/student/quiz/quiz_view.dart';
+import 'package:educate_me/locator.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
 class LessonViewModel extends BaseViewModel {
+
+  final QuizController quizController = Get.find<QuizController>();
+  final service = locator<FirestoreService>();
+
   void onStartQuizTapped(
       {required levelId,
       required topicId,

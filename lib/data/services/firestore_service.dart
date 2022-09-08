@@ -7,7 +7,9 @@ import 'package:educate_me/data/remote/api_result.dart';
 import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/data/topic.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
+import '../../core/utils/app_controller.dart';
 import '../../locator.dart';
 import '../firebase_result.dart';
 import '../level.dart';
@@ -16,6 +18,8 @@ import '../user.dart';
 import 'cloud_storage_service.dart';
 
 class FirestoreService {
+  final AppController controller = Get.find<AppController>();
+
   final CollectionReference _usersCollectionReference =
       FirebaseFirestore.instance.collection('users');
 
@@ -102,6 +106,46 @@ class FirestoreService {
     }
   }
 
+  Future<FirebaseResult> updateChildStat(
+      {required totalAnswers, required correct, required incorrect}) async {
+    try {
+      await _usersCollectionReference
+          .doc(controller.appUser?.userId ?? '')
+          .collection(tbChild)
+          .doc(controller.currentChild?.userId ?? '')
+          .set({
+        'stats': {
+          'total_answered': FieldValue.increment(totalAnswers),
+          'total_correct': FieldValue.increment(correct),
+          'total_incorrect': FieldValue.increment(incorrect)
+        },
+      }, SetOptions(merge: true));
+      await populateCurrentChild();
+      return FirebaseResult(data: true);
+    } catch (e) {
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+  Future<FirebaseResult> resetChildStat() async {
+    try {
+      await _usersCollectionReference
+          .doc(controller.appUser?.userId ?? '')
+          .collection(tbChild)
+          .doc(controller.currentChild?.userId ?? '')
+          .set({
+        'stats': {
+          'total_answered': 0,
+          'total_correct': 0,
+          'total_incorrect': 0
+        },
+      }, SetOptions(merge: true));
+      await populateCurrentChild();
+      return FirebaseResult(data: true);
+    } catch (e) {
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
   Future<bool> isUserExists(String uid) async {
     var doc = await _usersCollectionReference.doc(uid).get();
     return doc.exists;
@@ -115,6 +159,18 @@ class FirestoreService {
   Future<UserModel> getUserById(String uid) async {
     var userData = await _usersCollectionReference.doc(uid).get();
     return UserModel.fromSnapshot(userData);
+  }
+
+  Future populateCurrentChild() async {
+    var userData = await _usersCollectionReference
+        .doc(controller.appUser?.userId ?? '')
+        .collection(tbChild)
+        .doc(controller.currentChild?.userId ?? '')
+        .get();
+    if (userData.exists) {
+      controller.currentChild = UserModel.fromSnapshot(userData);
+      controller.update();
+    }
   }
 
   Future<List<UserModel>> getChildUsers(String uid) async {
@@ -504,7 +560,7 @@ class FirestoreService {
         return ApiResult.error(errorMessage: e.message);
       }
 
-      return  ApiResult.error(errorMessage: e.toString());
+      return ApiResult.error(errorMessage: e.toString());
     }
   }
 

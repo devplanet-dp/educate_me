@@ -33,8 +33,6 @@ void main() async{
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  AppController controller = Get.put(AppController());
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

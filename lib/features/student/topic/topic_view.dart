@@ -1,6 +1,6 @@
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/data/level.dart';
 import 'package:educate_me/data/topic.dart';
-import 'package:educate_me/features/student/sub-topic/sub_topic_view.dart';
 import 'package:educate_me/features/student/topic/topic_view_model.dart';
 import 'package:educate_me/features/teacher/topic/components/topic_card.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class TopicView extends StatelessWidget {
               preferredSize: const Size.fromHeight(kToolbarHeight),
               child: SwitchUserAppBar(
                 title: 'text024'.tr,
-                onUserUpdated:()=>vm.notifyListeners(),
+                onUserUpdated: () => vm.notifyListeners(),
               ),
             ),
             body: const _LevelSection(),
@@ -56,19 +56,19 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
                 style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold),
               ).paddingOnly(left: 12),
               vSpaceSmall,
-              _TopicList(model.levels[index].id ?? '')
+              _TopicList(model.levels[index])
             ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
   }
 }
 
 class _TopicList extends ViewModelWidget<TopicViewModel> {
-  const _TopicList(this.levelId, {Key? key}) : super(key: key);
-  final String levelId;
+  const _TopicList(this.level, {Key? key}) : super(key: key);
+  final LevelModel level;
 
   @override
   Widget build(BuildContext context, TopicViewModel model) {
     return StreamBuilder<List<TopicModel>>(
-        stream: model.streamLevelTopics(levelId),
+        stream: model.streamLevelTopics(level.id ?? ''),
         builder: (_, snapshot) {
           if (snapshot.hasData) {
             final topics = snapshot.data ?? [];
@@ -79,10 +79,8 @@ class _TopicList extends ViewModelWidget<TopicViewModel> {
                   final t = topics[index];
                   return TopicCard(
                           url: t.cover ?? '',
-                          onTap: () => Get.to(() => SubTopicView(
-                                topic: t,
-                                levelId: levelId,
-                              )),
+                          onTap: () =>
+                              model.goToSubtopic(level: level, topic: t),
                           title: t.name ?? '')
                       .paddingOnly(
                           left: 10, right: index == topics.length - 1 ? 10 : 0);
