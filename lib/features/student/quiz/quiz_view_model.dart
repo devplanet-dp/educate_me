@@ -1,6 +1,6 @@
 import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_dialog.dart';
-import 'package:educate_me/data/lesson.dart';
+import 'package:educate_me/data/controllers/quiz_controller.dart';
 import 'package:educate_me/data/option.dart';
 import 'package:educate_me/data/user.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ import '../../../locator.dart';
 class QuizViewModel extends BaseViewModel {
   final _service = locator<FirestoreService>();
   final AppController controller = Get.find<AppController>();
+  final QuizController quizController = Get.find<QuizController>();
   final PageController pageController = PageController(initialPage: 0);
 
   List<UserAnsModel> _ans = [];
@@ -44,7 +45,7 @@ class QuizViewModel extends BaseViewModel {
   int get qnNo => _qnNo;
 
   _incrementQno() {
-    if (qnNo < questions.length+1) {
+    if (qnNo < questions.length + 1) {
       _qnNo++;
       notifyListeners();
     }
@@ -99,9 +100,9 @@ class QuizViewModel extends BaseViewModel {
     return -1;
   }
 
-  bool isLastPage() =>qnNo > questions.length;
+  bool isLastPage() => qnNo > questions.length;
 
-  int noCorrectAns()=>ans.where((e) => e.isCorrect).length;
+  int noCorrectAns() => ans.where((e) => e.isCorrect).length;
 
   Future getQuestions(
       {required levelId,
@@ -125,13 +126,38 @@ class QuizViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-  Future finishExam(LessonModel lesson)async{
-    if(noCorrectAns()>=lesson.noCorrectToPass!) {
+  retryQns() {
+    _qnNo = 1;
+    _selectedQn = questions[0];
+    _ans.clear();
+    pageController.animateToPage(0,
+        duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+    notifyListeners();
+  }
+
+  Future finishExam({required lesson}) async {
+    if (lesson.noCorrectToPass != 0 &&
+        noCorrectAns() >= lesson.noCorrectToPass!) {
       Get.dialog(AppDialog(
-        title: 'text056'.tr, image: kImgSuccess, subtitle: 'text057'.tr,));
-    }else{
+        title: 'text056'.tr,
+        image: kImgSuccess,
+        subtitle: 'text057'.tr,
+        onPositiveTap: () {
+          Get.back();
+          Get.back();
+        },
+      ));
+    } else {
       Get.dialog(AppDialog(
-        title: 'text058'.tr, image: kImgFail, subtitle: 'text059'.tr,));
+        title: 'text058'.tr,
+        image: kImgFail,
+        subtitle: 'text059'.tr,
+        positiveText: 'text074'.tr,
+        onPositiveTap: () {
+          Get.back();
+          retryQns();
+        },
+      ));
     }
   }
 }

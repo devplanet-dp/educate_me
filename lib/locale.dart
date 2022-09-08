@@ -81,6 +81,7 @@ class AppLocale extends Translations {
           'text071':'Name',
           'text072':'Send',
           'text073':'Thank you for contacting us. A support member will contact you shortly if necessary',
+          'text074':'Retry',
 
 
 

@@ -6,7 +6,6 @@ import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/data/topic.dart';
-import 'package:educate_me/features/student/lesson/lesson_view.dart';
 import 'package:educate_me/features/student/topic/topic_view_model.dart';
 import 'package:educate_me/features/teacher/lesson/components/lesson_card.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +30,7 @@ class SubTopicView extends StatelessWidget {
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     return ViewModelBuilder<TopicViewModel>.reactive(
-      onModelReady: (model){
-        model.onTopicSelected(topic.name??'');
-      },
+      onModelReady: (model) {},
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
@@ -160,11 +157,12 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
                   final t = lessons[index];
                   return LessonCard(
                     lesson: t,
-                    onTap: () => Get.to(() => LessonView(
-                        lesson: t,
+                    onTap: () => model.goToLessonView(
+                        currentLesson: t,
                         levelId: levelId,
                         topicId: topicId,
-                        subTopicId: subTopicId)),
+                        subTopicId: subTopicId,
+                        lessons: lessons),
                   ).paddingOnly(
                       left: 10, right: index == lessons.length - 1 ? 10 : 0);
                 }),

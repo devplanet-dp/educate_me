@@ -37,7 +37,7 @@ class QuizView extends StatelessWidget {
             levelId: levelId,
             topicId: topicId,
             subTopicId: subTopicId,
-            lessonId: lesson.id??'');
+            lessonId: lesson.id ?? '');
       },
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
@@ -48,11 +48,12 @@ class QuizView extends StatelessWidget {
                   child: BoxButtonWidget(
                     radius: 8,
                     buttonText: 'text055'.tr,
-                    onPressed: ()=>vm.finishExam(lesson),
+                    onPressed: () => vm.finishExam(lesson: lesson),
                   ).paddingSymmetric(horizontal: 16, vertical: 8),
                 ),
           appBar: AppBar(
-            title: Text('Level 1: ${vm.controller.topicName}'),
+            title: Text(
+                '${vm.quizController.currentLevel?.name}: ${vm.quizController.currentTopicName}'),
           ),
           body: vm.isBusy
               ? const ShimmerQuiz()

@@ -1,3 +1,4 @@
+import 'package:educate_me/data/controllers/quiz_controller.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/data/topic.dart';
@@ -8,10 +9,13 @@ import '../../../core/utils/app_controller.dart';
 import '../../../data/level.dart';
 import '../../../data/services/firestore_service.dart';
 import '../../../locator.dart';
+import '../lesson/lesson_view.dart';
+import '../sub-topic/sub_topic_view.dart';
 
 class TopicViewModel extends BaseViewModel {
   final _service = locator<FirestoreService>();
   final AppController controller = Get.find<AppController>();
+  final QuizController quizController = Get.find<QuizController>();
 
   List<LevelModel> _levels = [];
 
@@ -27,9 +31,6 @@ class TopicViewModel extends BaseViewModel {
     });
   }
 
-  onTopicSelected(String topicName){
-    controller.topicName = topicName;
-  }
   Stream<List<TopicModel>> streamLevelTopics(String levelId) =>
       _service.streamLevelTopics(levelId);
 
@@ -41,4 +42,21 @@ class TopicViewModel extends BaseViewModel {
           {required levelId, required topicId, required subTopicId}) =>
       _service.streamLessons(
           levelId: levelId, topicId: topicId, subTopicId: subTopicId);
+
+  goToSubtopic({required LevelModel level, required TopicModel topic}) {
+    quizController.currentLevel = level;
+    quizController.currentTopicName = topic.name;
+    Get.to(() => SubTopicView(
+          topic: topic,
+          levelId: level.id ?? '',
+        ));
+  }
+  goToLessonView({required LessonModel currentLesson, required levelId,required topicId,required subTopicId,required lessons}) {
+    quizController.lessonModel = lessons;
+    Get.to(() => LessonView(
+        lesson: currentLesson,
+        levelId: levelId,
+        topicId: topicId,
+        subTopicId: subTopicId));
+  }
 }
