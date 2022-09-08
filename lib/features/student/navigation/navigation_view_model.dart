@@ -10,7 +10,6 @@ class NavigationViewModel extends IndexTrackingViewModel {
   final _service = locator<FirestoreService>();
   final AppController controller = Get.find<AppController>();
 
-
   Future initAppUsers() async {
     setBusy(true);
     final child =
@@ -21,8 +20,11 @@ class NavigationViewModel extends IndexTrackingViewModel {
     }
     setBusy(false);
   }
-  void onSwitchProfile(UserModel child){
+
+  void onSwitchProfile(UserModel child) async {
     controller.currentChild = child;
-    notifyListeners();
+    setBusy(true);
+    await _service.populateCurrentChild();
+    setBusy(false);
   }
 }

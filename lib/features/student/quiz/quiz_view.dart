@@ -47,6 +47,7 @@ class QuizView extends StatelessWidget {
               : Container(
                   child: BoxButtonWidget(
                     radius: 8,
+                    isLoading: vm.isBusy,
                     buttonText: 'text055'.tr,
                     onPressed: () => vm.finishExam(lesson: lesson),
                   ).paddingSymmetric(horizontal: 16, vertical: 8),
@@ -78,8 +79,11 @@ class QuizView extends StatelessWidget {
                             child: PageView(
                             controller: vm.pageController,
                             physics: const NeverScrollableScrollPhysics(),
-                            onPageChanged: (index) =>
-                                vm.selectedQn = vm.questions[index],
+                            onPageChanged: (index) {
+                              if(!vm.isLastPage()) {
+                                vm.selectedQn = vm.questions[index];
+                              }
+                            },
                             children: List.generate(vm.questions.length,
                                 (index) => const QuestionCard())
                               ..add(const QuizCompletePage()),

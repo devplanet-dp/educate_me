@@ -135,29 +135,50 @@ class QuizViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future<bool> updateChildStats() async {
+    setBusy(true);
+    var result = await _service.updateChildStat(
+        totalAnswers: questions.length,
+        correct: noCorrectAns(),
+        incorrect: (questions.length - noCorrectAns()));
+    setBusy(false);
+    return !result.hasError;
+  }
+
   Future finishExam({required lesson}) async {
-    if (lesson.noCorrectToPass != 0 &&
-        noCorrectAns() >= lesson.noCorrectToPass!) {
-      Get.dialog(AppDialog(
-        title: 'text056'.tr,
-        image: kImgSuccess,
-        subtitle: 'text057'.tr,
-        onPositiveTap: () {
-          Get.back();
-          Get.back();
-        },
-      ));
-    } else {
-      Get.dialog(AppDialog(
-        title: 'text058'.tr,
-        image: kImgFail,
-        subtitle: 'text059'.tr,
-        positiveText: 'text074'.tr,
-        onPositiveTap: () {
-          Get.back();
-          retryQns();
-        },
-      ));
+    var result = await updateChildStats();
+    if(result) {
+      if (lesson.noCorrectToPass != 0 &&
+          noCorrectAns() >= lesson.noCorrectToPass!) {
+        Get.dialog(AppDialog(
+          title: 'text056'.tr,
+          image: kImgSuccess,
+          subtitle: 'text057'.tr,
+          onNegativeTap: (){
+            Get.back();
+            Get.back();
+          },
+          onPositiveTap: () {
+            Get.back();
+            Get.back();
+          },
+        ));
+      } else {
+        Get.dialog(AppDialog(
+          title: 'text058'.tr,
+          image: kImgFail,
+          subtitle: 'text059'.tr,
+          positiveText: 'text074'.tr,
+          onNegativeTap: (){
+            Get.back();
+            Get.back();
+          },
+          onPositiveTap: () {
+            Get.back();
+            retryQns();
+          },
+        ));
+      }
     }
   }
 }

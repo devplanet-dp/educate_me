@@ -1,9 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/avatar_widget.dart';
 import 'package:educate_me/data/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -12,10 +12,12 @@ class UserAccountTile extends StatelessWidget {
   const UserAccountTile(
       {Key? key,
       required this.user,
-      required this.isSelected})
+      required this.isSelected,
+      required this.isBusy})
       : super(key: key);
   final UserModel user;
   final bool isSelected;
+  final bool isBusy;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,11 @@ class UserAccountTile extends StatelessWidget {
       hSpaceSmall,
       Expanded(
         child: [
-          Text(user.name ?? '',maxLines: 1,style: kCaptionStyle.copyWith(fontWeight: FontWeight.w500),),
+          Text(
+            user.name ?? '',
+            maxLines: 1,
+            style: kCaptionStyle.copyWith(fontWeight: FontWeight.w500),
+          ),
           Text(
             'text039'.tr,
             style: kLabelStyle.copyWith(
@@ -35,18 +41,23 @@ class UserAccountTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min),
       ),
       hSpaceMedium,
-      const Icon(
-        Icons.keyboard_arrow_right_sharp,
-        color: kcTextGrey,
-        size: 24,
-      )
+      isBusy
+          ? const SizedBox(
+              height: 24, width: 24, child: CupertinoActivityIndicator())
+          : const Icon(
+              Icons.keyboard_arrow_right_sharp,
+              color: kcTextGrey,
+              size: 24,
+            )
     ]
         .toRow(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center).paddingAll(8)
+            mainAxisAlignment: MainAxisAlignment.center)
+        .paddingAll(8)
         .decorated(
             borderRadius: const BorderRadius.all(Radius.circular(56)),
-            border:
-                Border.all(color: isSelected ? kcPrimaryColor : kcTextGrey.withOpacity(.4)));
+            border: Border.all(
+                color:
+                    isSelected ? kcPrimaryColor : kcTextGrey.withOpacity(.4)));
   }
 }

@@ -61,9 +61,7 @@ class AppDialog extends StatelessWidget {
             radius: 8,
             buttonColor: kButtonDisabledColor,
             textColor: kcTextDarkGrey,
-            onPressed: () {
-              Get.back();
-            }),
+            onPressed: onNegativeTap ?? () => Get.back()),
       ),
       hSpaceSmall,
       Expanded(
