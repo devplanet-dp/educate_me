@@ -13,7 +13,8 @@ const String kImgUnionFaded = 'assets/images/img_union_faded.svg';
 const String kImgCard = 'assets/images/img_card.png';
 const String kImgSuccess = 'assets/images/img_success.png';
 const String kImgFail = 'assets/images/img_fail.png';
-const String kImgThink = 'assets/images/img_think.png';
+const String kImgThink = 'assets/images/imgpas_think.png';
+const String kImgCompleted = 'assets/images/img_completed.png';
 
 //icons
 const String kIcMen = 'assets/icons/ic_men.png';
