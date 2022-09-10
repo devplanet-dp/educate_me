@@ -15,6 +15,7 @@ const String kImgSuccess = 'assets/images/img_success.png';
 const String kImgFail = 'assets/images/img_fail.png';
 const String kImgThink = 'assets/images/imgpas_think.png';
 const String kImgCompleted = 'assets/images/img_completed.png';
+const String kImgAbout = 'assets/images/img_about.png';
 
 //icons
 const String kIcMen = 'assets/icons/ic_men.png';
@@ -55,5 +56,7 @@ const String kIcTermsDoc = 'assets/pdf/privacy.pdf';
 
 //anim
 const String kAnimLoading = 'assets/anim/round-loader.json';
+
+
 
 
