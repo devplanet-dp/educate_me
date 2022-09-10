@@ -76,6 +76,14 @@ class SettingsView extends StatelessWidget {
                     color: kcTextGrey,
                   ),
                   CategoryTileWidget(
+                      icon: kIcAbout,
+                      backgroundColor: const Color(0xFF6C68FF),
+                      title: 'text051',
+                      onTap: () {}),
+                  const Divider(
+                    color: kcTextGrey,
+                  ),
+                  CategoryTileWidget(
                       icon: kIcLogout,
                       backgroundColor: const Color(0xFF0479FA),
                       title: 'text052',
