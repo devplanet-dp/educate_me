@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educate_me/data/complain_model.dart';
+import 'package:educate_me/data/completed_lesson_model.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/remote/api_result.dart';
 import 'package:educate_me/data/sub_topic.dart';
@@ -117,7 +118,7 @@ class FirestoreService {
         'stats': {
           'total_answered': FieldValue.increment(totalAnswers),
           'total_correct': FieldValue.increment(correct),
-          'total_incorrect': FieldValue.increment(incorrect)
+          'total_incorrect': FieldValue.increment(incorrect),
         },
       }, SetOptions(merge: true));
       await populateCurrentChild();
@@ -126,6 +127,44 @@ class FirestoreService {
       return FirebaseResult.error(errorMessage: e.toString());
     }
   }
+
+  Future<FirebaseResult> updateChildCompletedLesson(
+      {required CompletedLessonModel completed}) async {
+    try {
+      await _usersCollectionReference
+          .doc(controller.appUser?.userId ?? '')
+          .collection(tbChild)
+          .doc(controller.currentChild?.userId ?? '')
+          .set({
+        'stats': {
+          'completed_lessons': FieldValue.arrayUnion([completed.toJson()]),
+        },
+      }, SetOptions(merge: true));
+      await populateCurrentChild();
+      return FirebaseResult(data: true);
+    } catch (e) {
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
+  Future<FirebaseResult> updateChildLevels({required String levelId}) async {
+    try {
+      await _usersCollectionReference
+          .doc(controller.appUser?.userId ?? '')
+          .collection(tbChild)
+          .doc(controller.currentChild?.userId ?? '')
+          .set({
+        'stats': {
+          'unlocked_levels': FieldValue.arrayUnion([levelId]),
+        },
+      }, SetOptions(merge: true));
+      await populateCurrentChild();
+      return FirebaseResult(data: true);
+    } catch (e) {
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
   Future<FirebaseResult> resetChildStat() async {
     try {
       await _usersCollectionReference

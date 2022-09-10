@@ -56,14 +56,25 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
                 style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold),
               ).paddingOnly(left: 12),
               vSpaceSmall,
-              _TopicList(model.levels[index])
+              _TopicList(
+                level: model.levels[index],
+                isLocked: model.isLevelLocked(model.levels[index].id??''),
+                isCompleted: false,
+              )
             ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
   }
 }
 
 class _TopicList extends ViewModelWidget<TopicViewModel> {
-  const _TopicList(this.level, {Key? key}) : super(key: key);
+  const _TopicList(
+      {Key? key,
+      required this.level,
+      this.isLocked = false,
+      this.isCompleted = false})
+      : super(key: key);
   final LevelModel level;
+  final bool isLocked;
+  final bool isCompleted;
 
   @override
   Widget build(BuildContext context, TopicViewModel model) {
@@ -78,6 +89,8 @@ class _TopicList extends ViewModelWidget<TopicViewModel> {
                 children: List.generate(topics.length, (index) {
                   final t = topics[index];
                   return TopicCard(
+                          isLocked: isLocked,
+                          isCompleted: isCompleted,
                           url: t.cover ?? '',
                           onTap: () =>
                               model.goToSubtopic(level: level, topic: t),

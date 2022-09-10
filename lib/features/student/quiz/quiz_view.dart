@@ -42,14 +42,18 @@ class QuizView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
-          bottomNavigationBar: !vm.isLastPage()
+          bottomNavigationBar: !vm.isLastPage() || vm.questions.isEmpty
               ? emptyBox()
               : Container(
                   child: BoxButtonWidget(
                     radius: 8,
                     isLoading: vm.isBusy,
                     buttonText: 'text055'.tr,
-                    onPressed: () => vm.finishExam(lesson: lesson),
+                    onPressed: () => vm.finishExam(
+                        lesson: lesson,
+                        levelId: levelId,
+                        topicId: topicId,
+                        subTopicId: subTopicId),
                   ).paddingSymmetric(horizontal: 16, vertical: 8),
                 ),
           appBar: AppBar(
@@ -58,38 +62,37 @@ class QuizView extends StatelessWidget {
           ),
           body: vm.isBusy
               ? const ShimmerQuiz()
-              : Column(
-                  children: [
-                    vSpaceMedium,
-                    vm.isLastPage()
-                        ? emptyBox()
-                        : const PageProgressWidget()
-                            .paddingSymmetric(horizontal: 16),
-                    vSpaceMedium,
-                    vm.isLastPage()
-                        ? const QuizResultsWidget()
-                        : const PageNavigationWidget(),
-                    vSpaceMedium,
-                    vm.questions.isEmpty
-                        ? AppInfoWidget(
-                                translateKey: 'text053'.tr,
-                                iconData: Iconsax.book_1)
-                            .center()
-                        : Expanded(
+              : vm.questions.isEmpty
+                  ? AppInfoWidget(
+                          translateKey: 'text053'.tr, iconData: Iconsax.book_1)
+                      .center()
+                  : Column(
+                      children: [
+                        vSpaceMedium,
+                        vm.isLastPage()
+                            ? emptyBox()
+                            : const PageProgressWidget()
+                                .paddingSymmetric(horizontal: 16),
+                        vSpaceMedium,
+                        vm.isLastPage()
+                            ? const QuizResultsWidget()
+                            : const PageNavigationWidget(),
+                        vSpaceMedium,
+                        Expanded(
                             child: PageView(
-                            controller: vm.pageController,
-                            physics: const NeverScrollableScrollPhysics(),
-                            onPageChanged: (index) {
-                              if(!vm.isLastPage()) {
-                                vm.selectedQn = vm.questions[index];
-                              }
-                            },
-                            children: List.generate(vm.questions.length,
-                                (index) => const QuestionCard())
-                              ..add(const QuizCompletePage()),
-                          ))
-                  ],
-                ),
+                          controller: vm.pageController,
+                          physics: const NeverScrollableScrollPhysics(),
+                          onPageChanged: (index) {
+                            if (!vm.isLastPage()) {
+                              vm.selectedQn = vm.questions[index];
+                            }
+                          },
+                          children: List.generate(vm.questions.length,
+                              (index) => const QuestionCard())
+                            ..add(const QuizCompletePage()),
+                        ))
+                      ],
+                    ),
         ),
       ),
       viewModelBuilder: () => QuizViewModel(),
