@@ -88,7 +88,11 @@ class AppLocale extends Translations {
           'text078':'Your account updated successfully',
           'text079':'Confirm',
           'text080':'This field is required*',
-          'text081':'Please enter the account password to access the My Account page.'
+          'text081':'Please enter the account password to access the My Account page.',
+          'text082':'A password change request has been sent to your email. Please check your emails and proceed further. Thank you',
+          'text083':'Reset password',
+          'text084':'Reset',
+          'text085':'We will send you an email to reset your password',
 
 
 

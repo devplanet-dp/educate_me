@@ -85,7 +85,7 @@ class SignInViewModel extends BaseViewModel {
       var result = await _service.sendPasswordResetEmail(emailTEC.text.trim());
       if (!result.hasError) {
         Get.back();
-        showInfoMessage(message: 'pwd.reset.email.send'.tr);
+        showInfoMessage(message: 'text082'.tr);
       } else {
         showErrorMessage(message: result.errorMessage);
       }

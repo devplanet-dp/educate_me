@@ -1,10 +1,16 @@
+import 'package:educate_me/core/shared/app_colors.dart';
+import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/core/widgets/app_dialog.dart';
 import 'package:educate_me/features/student/account/account_view.dart';
+import 'package:educate_me/features/student/forgot/forgot_pwd_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../../data/services/auth_service.dart';
 import '../../../locator.dart';
@@ -31,7 +37,6 @@ class SettingViewModel extends BaseViewModel {
     } else {
       return showErrorMessage(message: result.errorMessage ?? '');
     }
-
   }
 
   void goToAccountView() async {
@@ -40,6 +45,15 @@ class SettingViewModel extends BaseViewModel {
       image: kIcSafe,
       subtitle: 'text081'.tr,
       onNegativeTap: () => Get.back(),
+      secondaryActionWidget: TextButton(
+        onPressed: () =>Get.off(()=>const ForgotPwdView()),
+        child: Text(
+          'text083'.tr,
+          style: kCaptionStyle.copyWith(
+            color: kcPrimaryColor,
+              fontSize: 12.sp, fontWeight: FontWeight.w500),
+        ).alignment(Alignment.topLeft),
+      ),
       onPositiveTap: (input) {
         authToAccount(input);
       },
