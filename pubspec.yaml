@@ -64,6 +64,9 @@ dependencies:
   flutter_picker:
   #payments
   flutter_inapp_purchase: ^5.1.2
+  #drawing
+  flutter_colorpicker:
+  signature: ^5.2.1
 
 dev_dependencies:
   flutter_test:
