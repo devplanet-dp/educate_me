@@ -113,6 +113,7 @@ class AppDialogWithInput extends StatefulWidget {
   final String image;
   final VoidCallback? onNegativeTap;
   final Function(String)? onPositiveTap;
+  final Widget? secondaryActionWidget;
 
   const AppDialogWithInput({
     Key? key,
@@ -120,7 +121,7 @@ class AppDialogWithInput extends StatefulWidget {
     required this.image,
     this.onNegativeTap,
     this.onPositiveTap,
-    this.subtitle,
+    this.subtitle, this.secondaryActionWidget,
   }) : super(key: key);
 
   @override
@@ -158,6 +159,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
           _buildDialogContent(),
           vSpaceMedium,
           _buildDialogInput(),
+          widget.secondaryActionWidget??emptyBox(),
           vSpaceMedium,
           _buildDialogController(),
           vSpaceMedium,
