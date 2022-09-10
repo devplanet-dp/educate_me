@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_dialog.dart';
+import 'package:educate_me/data/completed_lesson_model.dart';
 import 'package:educate_me/data/controllers/quiz_controller.dart';
+import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/option.dart';
 import 'package:educate_me/data/user.dart';
 import 'package:flutter/material.dart';
@@ -145,31 +148,61 @@ class QuizViewModel extends BaseViewModel {
     return !result.hasError;
   }
 
-  Future finishExam({required lesson}) async {
+  Future<bool> updateCompletedLesson(
+      {required lesson,
+      required levelId,
+      required topicId,
+      required subTopicId}) async {
+    setBusy(true);
+    final completed = CompletedLessonModel(
+        createdAt: Timestamp.now(),
+        levelId: levelId,
+        topicId: topicId,
+        subtopicId: subTopicId,
+        lessonId: lesson);
+    var result =
+        await _service.updateChildCompletedLesson(completed: completed);
+    setBusy(false);
+    return !result.hasError;
+  }
+
+  Future finishExam(
+      {required LessonModel lesson,
+      required levelId,
+      required topicId,
+      required subTopicId}) async {
+    //update children statitics
     var result = await updateChildStats();
-    if(result) {
+    if (result) {
       if (lesson.noCorrectToPass != 0 &&
           noCorrectAns() >= lesson.noCorrectToPass!) {
+        //update the quiz as completed
+        await updateCompletedLesson(
+            lesson: lesson.id,
+            levelId: levelId,
+            topicId: topicId,
+            subTopicId: subTopicId);
         Get.dialog(AppDialog(
           title: 'text056'.tr,
           image: kImgSuccess,
           subtitle: 'text057'.tr,
-          onNegativeTap: (){
+          onNegativeTap: () {
             Get.back();
             Get.back();
           },
-          onPositiveTap: () {
+          onPositiveTap: () async {
             Get.back();
             Get.back();
           },
         ));
       } else {
+        //on question fail
         Get.dialog(AppDialog(
           title: 'text058'.tr,
           image: kImgFail,
           subtitle: 'text059'.tr,
           positiveText: 'text074'.tr,
-          onNegativeTap: (){
+          onNegativeTap: () {
             Get.back();
             Get.back();
           },

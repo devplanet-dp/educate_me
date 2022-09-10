@@ -157,6 +157,7 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
                   final t = lessons[index];
                   return LessonCard(
                     lesson: t,
+                    isCompleted: model.isLessonCompleted(t.id??''),
                     onTap: () => model.goToLessonView(
                         currentLesson: t,
                         levelId: levelId,

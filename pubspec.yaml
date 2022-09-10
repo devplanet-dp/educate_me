@@ -64,10 +64,6 @@ dependencies:
   flutter_picker:
   #payments
   flutter_inapp_purchase: ^5.1.2
-  #drawing
-  flutter_drawing_board:
-  draw_your_image:
-  painter:
 
 dev_dependencies:
   flutter_test:

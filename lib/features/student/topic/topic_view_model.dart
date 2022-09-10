@@ -51,12 +51,29 @@ class TopicViewModel extends BaseViewModel {
           levelId: level.id ?? '',
         ));
   }
-  goToLessonView({required LessonModel currentLesson, required levelId,required topicId,required subTopicId,required lessons}) {
+
+  goToLessonView(
+      {required LessonModel currentLesson,
+      required levelId,
+      required topicId,
+      required subTopicId,
+      required lessons}) {
     quizController.lessonModel = lessons;
     Get.to(() => LessonView(
         lesson: currentLesson,
         levelId: levelId,
         topicId: topicId,
         subTopicId: subTopicId));
+  }
+
+  bool isLessonCompleted(String lessonId) {
+    final completedLessons =
+        controller.currentChild?.stats?.completedLesson ?? [];
+    return completedLessons.where((e) => e.lessonId == lessonId).isNotEmpty;
+  }
+  bool isLevelLocked(String levelId) {
+    final completedLevels =
+        controller.currentChild?.stats?.unlockedLevels ?? [];
+    return !completedLevels.contains(levelId);
   }
 }

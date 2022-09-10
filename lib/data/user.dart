@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'completed_lesson_model.dart';
+
 enum UserRole { student, teacher }
 
 class UserModel {
@@ -76,19 +78,36 @@ class Stats {
   int? totalAnswered;
   int? totalCorrect;
   int? totalIncorrect;
-  String? unlockedLevels;
+  List<String>? unlockedLevels;
+  List<CompletedLessonModel>? completedLesson;
 
   Stats(
       {this.totalAnswered,
       this.totalCorrect,
       this.totalIncorrect,
-      this.unlockedLevels});
+      this.unlockedLevels,
+      this.completedLesson});
 
   Stats.fromJson(Map<String, dynamic> json) {
     totalAnswered = json['total_answered'];
     totalCorrect = json['total_correct'];
     totalIncorrect = json['total_incorrect'];
-    unlockedLevels = json['unlocked_levels'];
+    if (json['unlocked_levels'] != null) {
+      unlockedLevels = [];
+      json['unlocked_levels'].forEach((v) {
+        unlockedLevels!.add(v);
+      });
+    } else {
+      unlockedLevels = [];
+    }
+    if (json['completed_lessons'] != null) {
+      completedLesson = [];
+      json['completed_lessons'].forEach((v) {
+        completedLesson!.add(CompletedLessonModel.fromJson(v));
+      });
+    } else {
+      completedLesson = [];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -97,6 +116,9 @@ class Stats {
     data['total_correct'] = totalCorrect;
     data['total_incorrect'] = totalIncorrect;
     data['unlocked_levels'] = unlockedLevels;
+    data['completed_lessons'] = completedLesson != null
+        ? completedLesson!.map((e) => e.toJson()).toList()
+        : null;
     return data;
   }
 }
@@ -107,5 +129,9 @@ class UserAnsModel {
   final int optionIndex;
   final bool isCorrect;
 
-  UserAnsModel({required this.id,required this.qIndex,required this.optionIndex, required this.isCorrect});
+  UserAnsModel(
+      {required this.id,
+      required this.qIndex,
+      required this.optionIndex,
+      required this.isCorrect});
 }
