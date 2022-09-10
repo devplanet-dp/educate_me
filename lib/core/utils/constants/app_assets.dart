@@ -45,6 +45,7 @@ const String kIcAbout = 'assets/icons/ic_about.svg';
 const String kIcAcce = 'assets/icons/ic_acce.svg';
 const String kIcBrush = 'assets/icons/ic_brush.png';
 const String kIcAchievement = 'assets/icons/ic_achievement.png';
+const String kIcSafe = 'assets/icons/ic_safe.svg';
 
 
 //icons

@@ -45,6 +45,26 @@ class AuthenticationService {
     }
   }
 
+  Future<FirebaseResult> getAuthWithPassword({
+    required String password,
+  }) async {
+    try {
+      var authResult = await _firebaseAuth.signInWithEmailAndPassword(
+        email: controller.appUser?.email??'',
+        password: password,
+      );
+      return FirebaseResult(data: authResult.user);
+    } on FirebaseAuthException catch (e) {
+      var msg = 'Sorry! Please try again later';
+      if (e.code == 'user-not-found') {
+        msg = 'No user found for the email.';
+      } else if (e.code == 'wrong-password') {
+        msg = 'Wrong password provided';
+      }
+      return FirebaseResult.error(errorMessage: msg);
+    }
+  }
+
   Future<FirebaseResult> sendEmailVerification(email, password) async {
     try {
       var user = await _firebaseAuth.signInWithEmailAndPassword(
