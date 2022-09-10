@@ -1,6 +1,8 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
+import 'package:educate_me/features/about/about_view.dart';
+import 'package:educate_me/features/student/account/account_view.dart';
 import 'package:educate_me/features/student/language/lan_change_view.dart';
 import 'package:educate_me/features/student/settings/components/category_tile_widget.dart';
 import 'package:educate_me/features/student/settings/settings_view_model.dart';
@@ -39,7 +41,8 @@ class SettingsView extends StatelessWidget {
                       icon: kIcAccount,
                       backgroundColor: Colors.blue,
                       title: 'text046',
-                      onTap: () {}),
+                      isBusy: vm.busy(vm.accountAuthBusy),
+                      onTap: ()=>vm.goToAccountView()),
                   const Divider(
                     color: kcTextGrey,
                   ),
@@ -72,6 +75,14 @@ class SettingsView extends StatelessWidget {
                       backgroundColor: const Color(0xFF0979FE),
                       title: 'text050',
                       onTap: () {}),
+                  const Divider(
+                    color: kcTextGrey,
+                  ),
+                  CategoryTileWidget(
+                      icon: kIcAbout,
+                      backgroundColor: const Color(0xFF6C68FF),
+                      title: 'text051',
+                      onTap: () =>Get.to(()=>const AboutView())),
                   const Divider(
                     color: kcTextGrey,
                   ),

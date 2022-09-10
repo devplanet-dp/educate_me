@@ -82,7 +82,14 @@ class AppLocale extends Translations {
           'text072':'Send',
           'text073':'Thank you for contacting us. A support member will contact you shortly if necessary',
           'text074':'Retry',
-          'text075':'Are you sure you want to reset your statistics'
+          'text075':'Are you sure you want to reset your statistics',
+          'text076':'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fermentum ornare rhoncus. Ut semper vel nibh in rhoncus. Cras eu enim quam. Donec sed lacu et lacus consectetur volutpat ut imperdiet odio. U Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fermentum ornare rhoncus. Ut semper vel nibh in rhoncus. Cras eu enim quam. Donec sed lacu et lacus consectetur volutpat ut imperdiet odio. U Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fermentum ornare rhoncus. Ut semper vel nibh in rhoncus. Cras eu enim quam. Donec sed lacu et lacus consectetur volutpat ut imperdiet odio. U Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fermentum ornare rhoncus. Ut semper vel nibh in rhoncus. Cras eu enim quam. Donec sed lacu et lacus consectetur volutpat ut imperdiet odio. U Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fermentum ornare rhoncus. Ut semper vel nibh in rhoncus. Cras eu enim quam. Donec sed lacu et lacus consectetur volutpat ut imperdiet odio. U Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fermentum ornare rhoncus. Ut semper vel nibh in rhoncus. Cras eu enim quam. Donec sed lacu et lacus consectetur volutpat ut imperdiet odio. U Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fermentum ornare rhoncus. Ut semper vel nibh in rhoncus. Cras eu enim quam. Donec sed lacu et lacus consectetur volutpat ut imperdiet odio. U',
+          'text077':'Age',
+          'text078':'Your account updated successfully',
+          'text079':'Confirm',
+          'text080':'This field is required*',
+          'text081':'Please enter the account password to access the My Account page.'
+
 
 
 

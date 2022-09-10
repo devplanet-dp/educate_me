@@ -292,7 +292,7 @@ class AppTextFieldSecondary extends StatelessWidget {
               offset: const Offset(2, 3), // changes position of shadow
             ),
           ],
-          color: Colors.white,
+          color: isEnabled ? Colors.white : kcTextGrey.withOpacity(.1),
         ),
       ],
     );

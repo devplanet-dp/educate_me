@@ -165,6 +165,20 @@ class FirestoreService {
     }
   }
 
+  Future<FirebaseResult> updateChildAccount({required String name}) async {
+    try {
+      await _usersCollectionReference
+          .doc(controller.appUser?.userId ?? '')
+          .collection(tbChild)
+          .doc(controller.currentChild?.userId ?? '')
+          .set({'name': name}, SetOptions(merge: true));
+      await populateCurrentChild();
+      return FirebaseResult(data: true);
+    } catch (e) {
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
   Future<FirebaseResult> resetChildStat() async {
     try {
       await _usersCollectionReference

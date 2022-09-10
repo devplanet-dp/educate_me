@@ -69,7 +69,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
       return PopupMenuItem(
         onTap: (){
           model.onSwitchProfile(c);
-          // onUserUpdated();
+          onUserUpdated();
         },
           child: UserAccountTile(
             isSelected: c == model.controller.currentChild,
