@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -48,6 +45,16 @@ class DefaultFirebaseOptions {
         );
     }
   }
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCzO_MlOmFycyCyL1qMzbtwBr_PEb2OlLg',
+    appId: '1:763894577183:web:d9a4fcd29f09bff4d77d2a',
+    messagingSenderId: '763894577183',
+    projectId: 'math-educate-me',
+    authDomain: 'math-educate-me.firebaseapp.com',
+    storageBucket: 'math-educate-me.appspot.com',
+    measurementId: 'G-2PJF8WNXNH',
+  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDAgIL91OPvLya2XLVDX66oVFwK3KBhzqs',
