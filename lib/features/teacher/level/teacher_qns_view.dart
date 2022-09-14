@@ -2,6 +2,8 @@ import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_overlay.dart';
 import 'package:educate_me/features/teacher/level/teacher_level_view_model.dart';
+import 'package:educate_me/features/teacher/question/import_qns_view.dart';
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -64,16 +66,32 @@ class TeacherQnsView extends StatelessWidget {
                     ))
               ],
             ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: kcPrimaryColor,
-              child: const Icon(Iconsax.add),
-              onPressed: () => Get.to(() => AddQuestionView(
-                    topicId: topicId,
-                    lessonId: lessonId,
-                    levelId: levelId,
-                    subTopicId: subTopicId,
-                    isStartUp: isStartUp,
-                  )),
+            floatingActionButton: FabCircularMenu(
+              ringColor: kcPrimaryColor,
+              fabOpenIcon: const Icon(Iconsax.add),
+              animationDuration: const Duration(milliseconds: 300),
+              children: [
+                const SizedBox(),
+                ActionChip(
+                  label: const Text('Import'),
+                  onPressed: () => Get.to(() => ImportQnsView(
+                      levelId: levelId,
+                      topicId: topicId,
+                      subTopicId: subTopicId,
+                      lessonId: lessonId)),
+                ),
+                ActionChip(
+                  label: const Text('Create'),
+                  onPressed: () => Get.to(() => AddQuestionView(
+                        topicId: topicId,
+                        lessonId: lessonId,
+                        levelId: levelId,
+                        subTopicId: subTopicId,
+                        isStartUp: isStartUp,
+                      )),
+                ),
+                const SizedBox(),
+              ],
             ),
             body: vm.questions.isEmpty
                 ? const AppInfoWidget(

@@ -1,5 +1,6 @@
 import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/data/level.dart';
+import 'package:educate_me/data/option.dart';
 import 'package:educate_me/data/services/firestore_service.dart';
 import 'package:educate_me/features/teacher/level/teacher_qns_view.dart';
 import 'package:educate_me/features/teacher/topic/teacher_topic_view.dart';
@@ -39,7 +40,7 @@ class TeacherLevelViewModel extends BaseViewModel {
       if (!result.hasError) {
         if (l == null) {
           if (level.order == 0) {
-            Get.off(() => TeacherQnsView(levelId: level.id??''));
+            Get.off(() => TeacherQnsView(levelId: level.id ?? ''));
           } else {
             Get.off(() => TeacherTopicView(level: level));
           }
@@ -106,6 +107,8 @@ class TeacherLevelViewModel extends BaseViewModel {
       notifyListeners();
     });
   }
+
+
 
   @override
   void dispose() {

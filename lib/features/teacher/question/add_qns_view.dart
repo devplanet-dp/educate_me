@@ -85,8 +85,8 @@ class AddQuestionView extends StatelessWidget {
               padding: fieldPadding,
               child: Column(
                 children: [
-                  vSpaceSmall,
-                  const QnsTypeSelector(),
+                  // vSpaceSmall,
+                  // const QnsTypeSelector(),
                   vSpaceSmall,
                   AppTextField(
                     controller: vm.qnsTEC,
@@ -102,11 +102,7 @@ class AddQuestionView extends StatelessWidget {
                     },
                   ),
                   vSpaceMedium,
-                  AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 500),
-                      child: vm.isMultipleChoice
-                          ? const _MultipleQns()
-                          : const _AnswerInput()),
+                  const _MultipleQns(),
                   vSpaceMedium,
                 ],
               ),
@@ -140,22 +136,3 @@ class _MultipleQns extends ViewModelWidget<QnsViewModel> {
   }
 }
 
-class _AnswerInput extends ViewModelWidget<QnsViewModel> {
-  const _AnswerInput({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, QnsViewModel model) {
-    return AppTextField(
-        controller: model.ansTEC,
-        hintText: 'Enter the answer',
-        borderRadius: kRadiusSmall,
-        minLine: 3,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Please add an answer';
-          }
-          return null;
-        },
-        label: 'Answer');
-  }
-}

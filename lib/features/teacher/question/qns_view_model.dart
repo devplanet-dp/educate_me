@@ -15,13 +15,11 @@ class QnsViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final formKey = GlobalKey<FormState>();
   final qnsTEC = TextEditingController();
-  final ansTEC = TextEditingController();
+  final importTEC = TextEditingController();
 
   setQuestionData(QuestionModel? question) {
     if (question != null) {
       qnsTEC.text = question.question ?? '';
-      ansTEC.text = question.inputAnswer ?? '';
-      _isMultiple = question.inputAnswer?.isEmpty ?? false;
       addedQns = question.options ?? [];
     } else {
       addedQns = emptyQns;
@@ -53,29 +51,27 @@ class QnsViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> addQuestion(
-      {required levelId,
-      required topicId,
-      required subtopicId,
-      required lessonId,
-      required bool isStartup,
-      QuestionModel? question}) async {
+  Future<void> addQuestion({required levelId,
+    required topicId,
+    required subtopicId,
+    required lessonId,
+    required bool isStartup,
+    QuestionModel? question}) async {
     if (formKey.currentState!.validate()) {
       setBusy(true);
       QuestionModel qn = QuestionModel(
           id: question == null ? const Uuid().v4() : question.id,
           options: addedQns,
-          question: qnsTEC.text,
-          inputAnswer: ansTEC.text);
+          question: qnsTEC.text);
 
       var data = isStartup
           ? await _service.addStartUpQuestion(qn, levelId)
           : await _service.addQuestions(
-              question: qn,
-              levelId: levelId,
-              topicId: topicId,
-              subTopicId: subtopicId,
-              lessonId: lessonId);
+          question: qn,
+          levelId: levelId,
+          topicId: topicId,
+          subTopicId: subtopicId,
+          lessonId: lessonId);
       if (!data.hasError) {
         Get.back();
         showInfoMessage(message: 'Question added successfully.');
@@ -84,13 +80,12 @@ class QnsViewModel extends BaseViewModel {
     }
   }
 
-  Future removeQuestion(
-      {required levelId,
-      required topicId,
-      required subTopicId,
-      required lessonId,
-      required bool isStartUp,
-      required qId}) async {
+  Future removeQuestion({required levelId,
+    required topicId,
+    required subTopicId,
+    required lessonId,
+    required bool isStartUp,
+    required qId}) async {
     var response = await _dialogService.showConfirmationDialog(
         title: 'Are you sure?', description: 'Delete this question?');
     if (response?.confirmed ?? false) {
@@ -98,19 +93,97 @@ class QnsViewModel extends BaseViewModel {
       isStartUp
           ? await _service.removeStartUpQuestion(qId: qId, levelId: levelId)
           : await _service.removeQuestion(
-              levelId: levelId,
-              topicId: topicId,
-              subTopic: subTopicId,
-              lessonId: lessonId,
-              questionId: qId);
+          levelId: levelId,
+          topicId: topicId,
+          subTopic: subTopicId,
+          lessonId: lessonId,
+          questionId: qId);
       setBusy(false);
       Get.back();
     }
   }
 
+  Future importQnsFromText({required levelId,
+    required topicId,
+    required subtopicId,
+    required lessonId}) async {
+    if (formKey.currentState!.validate()) {
+      try {
+        var import = importTEC.text.trim();
+
+        List<String> qns = import.split(',');
+        List<QuestionModel> q = [];
+
+        for (var i = 0; i < qns.length; i++) {
+
+          List<String> a = qns[i].split('|');
+          q.add(QuestionModel(
+              index: i,
+              id: const Uuid().v4(),
+              question: a[0],
+              promptOne: a[5],
+              promptTwo: a[6],
+              options: [
+                OptionModel(
+                    index: 0,
+                    option: a[1].replaceAll('*', ''),
+                    isCorrect: a[1].contains('*')),
+                OptionModel(
+                    index: 1,
+                    option: a[2].replaceAll('*', ''),
+                    isCorrect: a[2].contains('*')),
+                OptionModel(
+                    index: 2,
+                    option: a[3].replaceAll('*', ''),
+                    isCorrect: a[3].contains('*')),
+                OptionModel(
+                    index: 3,
+                    option: a[4].replaceAll('*', ''),
+                    isCorrect: a[4].contains('*'))
+              ]));
+
+        }
+        await addImportedQuestions(questions: q,
+            levelId: levelId,
+            topicId: topicId,
+            subtopicId: subtopicId,
+            lessonId: lessonId);
+      } catch (e) {
+        lg(e);
+        showErrorMessage(
+            message:
+            'Error in format, Please check for the format again please');
+      }
+    }
+  }
+
+  Future addImportedQuestions({
+    required List<QuestionModel> questions,
+    required levelId,
+    required topicId,
+    required subtopicId,
+    required lessonId,
+  }) async {
+    setBusy(true);
+    for (var q in questions) {
+      final data = await _service.addQuestions(
+          question: q,
+          levelId: levelId,
+          topicId: topicId,
+          subTopicId: subtopicId,
+          lessonId: lessonId);
+    }
+    Get.back();
+    showInfoMessage(message: 'Questions imported successfully.');
+
+    setBusy(false);
+  }
+
   @override
   void dispose() {
     qnsTEC.dispose();
+    importTEC.dispose();
+    importTEC.removeListener(() { });
     super.dispose();
   }
 }

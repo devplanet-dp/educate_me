@@ -60,6 +60,7 @@ dependencies:
   badges:
   flutter_screenutil:
   uuid:
+  fab_circular_menu:
   #pickers
   flutter_picker:
   #payments
