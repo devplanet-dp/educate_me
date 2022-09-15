@@ -46,40 +46,42 @@ class ImportQnsView extends StatelessWidget {
           ),
           body: Form(
             key: vm.formKey,
-            child: Column(
-              children: [
-                const Spacer(),
-                AppTextFieldSecondary(
-                  controller: vm.importTEC,
-                  borderRadius: kRadiusSmall,
-                  hintText: 'text086'.tr,
-                  label: 'text087'.tr,
-                  minLine: 10,
-                  onChanged: (value){
-                    vm.notifyListeners();
-                  },
-                  maxLength: 500000,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'This field is mandatory';
-                    }
-                    return null;
-                  },
-                ),
-                const Spacer(flex: 2,),
-                BoxButtonWidget(
-                  buttonText: 'Import',
-                  isLoading: vm.isBusy,
-                  isEnabled: vm.importTEC.text.isNotEmpty,
-                  onPressed: () => vm.importQnsFromText(
-                      levelId: levelId,
-                      topicId: topicId,
-                      subtopicId: subTopicId,
-                      lessonId: lessonId),
-                ),
-                const Spacer(flex: 3,),
-              ],
-            ).paddingSymmetric(horizontal: 16),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  vSpaceMedium,
+                  AppTextFieldSecondary(
+                    controller: vm.importTEC,
+                    borderRadius: kRadiusSmall,
+                    hintText: 'text086'.tr,
+                    label: 'text087'.tr,
+                    minLine: 10,
+                    onChanged: (value){
+                      vm.notifyListeners();
+                    },
+                    maxLength: 500000,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'This field is mandatory';
+                      }
+                      return null;
+                    },
+                  ),
+                  vSpaceMedium,
+                  BoxButtonWidget(
+                    buttonText: 'Import',
+                    isLoading: vm.isBusy,
+                    isEnabled: vm.importTEC.text.isNotEmpty,
+                    onPressed: () => vm.importQnsFromText(
+                        levelId: levelId,
+                        topicId: topicId,
+                        subtopicId: subTopicId,
+                        lessonId: lessonId),
+                  ),
+                  vSpaceMedium,
+                ],
+              ).paddingSymmetric(horizontal: 16),
+            ),
           ),
         ),
       ),

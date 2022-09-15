@@ -111,12 +111,12 @@ class QnsViewModel extends BaseViewModel {
       try {
         var import = importTEC.text.trim();
 
-        List<String> qns = import.split(',');
+        List<String> qns = import.split('|');
         List<QuestionModel> q = [];
 
         for (var i = 0; i < qns.length; i++) {
 
-          List<String> a = qns[i].split('|');
+          List<String> a = qns[i].split(',,,');
           q.add(QuestionModel(
               index: i,
               id: const Uuid().v4(),

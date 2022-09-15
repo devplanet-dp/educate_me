@@ -22,6 +22,24 @@ class QuizViewModel extends BaseViewModel {
   final QuizController quizController = Get.find<QuizController>();
   final PageController pageController = PageController(initialPage: 0);
 
+  bool _isFirstAttempt = false;
+
+  bool get isFirstAttempt => _isFirstAttempt;
+
+  set isFirstAttempt(value) {
+    _isFirstAttempt = value;
+    notifyListeners();
+  }
+
+  bool _isSecondAttempt = false;
+
+  bool get isSecondAttempt => _isSecondAttempt;
+
+  set isSecondAttempt(value) {
+    _isSecondAttempt = value;
+    notifyListeners();
+  }
+
   List<UserAnsModel> _ans = [];
 
   List<UserAnsModel> get ans => _ans;
@@ -62,29 +80,44 @@ class QuizViewModel extends BaseViewModel {
   }
 
   goToNextQn() {
+    _resetAttempts();
     pageController.animateToPage((pageController.page! + 1).toInt(),
         duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
     _incrementQno();
   }
 
   goToPrvQn() {
+    _resetAttempts();
     pageController.animateToPage((pageController.page! - 1).toInt(),
         duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
     _decrementQno();
   }
 
   void onOptionSelected(OptionModel option) {
+    //disable selection on answered question
     if (!isAnswered()) {
-      final userAnswer = UserAnsModel(
-        optionIndex: option.index ?? -1,
-        id: selectedQn?.id ?? '',
-        isCorrect: option.isCorrect ?? false,
-        qIndex: qnNo,
-      );
-      _ans.removeWhere((e) => e.id == selectedQn?.id);
-      _ans.add(userAnswer);
-      notifyListeners();
+      isFirstAttempt = true; //user tap once on option
+
+      if (option.isCorrect ?? false) {
+        _addQuestionAsAnswered(option);
+      } else {
+        isSecondAttempt
+            ? showSecondAttemptWrongDialog(option)
+            : showFirstAttemptWrongPrompt();
+      }
     }
+  }
+
+  void _addQuestionAsAnswered(OptionModel option) {
+    final userAnswer = UserAnsModel(
+      optionIndex: option.index ?? -1,
+      id: selectedQn?.id ?? '',
+      isCorrect: option.isCorrect ?? false,
+      qIndex: qnNo,
+    );
+    _ans.removeWhere((e) => e.id == selectedQn?.id);
+    _ans.add(userAnswer);
+    notifyListeners();
   }
 
   bool isAnswered() => _ans.any((e) => selectedQn?.id == e.id);
@@ -130,6 +163,7 @@ class QuizViewModel extends BaseViewModel {
   }
 
   retryQns() {
+    _resetAttempts();
     _qnNo = 1;
     _selectedQn = questions[0];
     _ans.clear();
@@ -213,5 +247,40 @@ class QuizViewModel extends BaseViewModel {
         ));
       }
     }
+  }
+
+  void showFirstAttemptWrongPrompt() {
+    Get.dialog(AppDialogSingle(
+      title: 'text088'.tr,
+      content: selectedQn?.promptOne ?? '',
+      subtitle: selectedQn?.question ?? '',
+      positiveText: 'text090'.tr,
+      onPositiveTap: () {
+        isSecondAttempt = true;
+        _ans.removeWhere((e) => e.id == selectedQn?.id);
+        notifyListeners();
+        Get.back();
+      },
+    ));
+  }
+
+  void showSecondAttemptWrongDialog(OptionModel option) {
+    Get.dialog(AppDialogSingle(
+      title: 'text089'.tr,
+      content: selectedQn?.promptTwo ?? '',
+      subtitle: selectedQn?.question ?? '',
+      positiveText: 'text091'.tr,
+      onPositiveTap: () {
+        _resetAttempts();
+        Get.back();
+        _addQuestionAsAnswered(option);
+        goToNextQn();
+      },
+    ));
+  }
+
+  _resetAttempts() {
+    isFirstAttempt = false;
+    isSecondAttempt = false;
   }
 }

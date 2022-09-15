@@ -72,6 +72,8 @@ class TopicViewModel extends BaseViewModel {
     return completedLessons.where((e) => e.lessonId == lessonId).isNotEmpty;
   }
   bool isLevelLocked(String levelId) {
+    return false;
+    //todo implementation
     final completedLevels =
         controller.currentChild?.stats?.unlockedLevels ?? [];
     return !completedLevels.contains(levelId);
