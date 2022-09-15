@@ -104,8 +104,6 @@ class AddQuestionView extends StatelessWidget {
                   vSpaceMedium,
                   const _MultipleQns(),
                   vSpaceMedium,
-                  Text(question?.promptOne??''),
-                  Text(question?.promptTwo??''),
                 ],
               ),
             ),

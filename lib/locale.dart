@@ -94,7 +94,11 @@ class AppLocale extends Translations {
           'text084':'Reset',
           'text085':'We will send you an email to reset your password',
           'text086':'what is 2+2|6ans|10ans|3ans|*4asn|prompt123|prompt344,what is 2+2|6ans|10ans|3ans|*4asn|prompt123|prompt344',
-          'text087':'Copy and Paste your data here (from Word, Excel, Google Docs, etc.)'
+          'text087':'Copy and Paste your data here (from Word, Excel, Google Docs, etc.)',
+          'text088':'Nice try!',
+          'text089':'This is how it’s done',
+          'text090':'Try again',
+          'text091':'Next question',
 
 
 

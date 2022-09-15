@@ -121,7 +121,8 @@ class AppDialogWithInput extends StatefulWidget {
     required this.image,
     this.onNegativeTap,
     this.onPositiveTap,
-    this.subtitle, this.secondaryActionWidget,
+    this.subtitle,
+    this.secondaryActionWidget,
   }) : super(key: key);
 
   @override
@@ -159,7 +160,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
           _buildDialogContent(),
           vSpaceMedium,
           _buildDialogInput(),
-          widget.secondaryActionWidget??emptyBox(),
+          widget.secondaryActionWidget ?? emptyBox(),
           vSpaceMedium,
           _buildDialogController(),
           vSpaceMedium,
@@ -220,32 +221,106 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
             style: widget.subtitle == null
                 ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
                 : kSubheadingStyle.copyWith(
-                    fontWeight: FontWeight.w600, color: Colors.black,fontSize: 25.sp),
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontSize: 25.sp),
           ),
           widget.subtitle != null
               ? Text(
                   widget.subtitle!,
                   textAlign: TextAlign.center,
                   style: kBody1Style.copyWith(
-                      fontWeight: FontWeight.w500, color: kcTextGrey,fontSize: 12.sp),
+                      fontWeight: FontWeight.w500,
+                      color: kcTextGrey,
+                      fontSize: 12.sp),
                 )
               : emptyBox()
         ],
       ).paddingSymmetric(horizontal: 16);
 
   _buildDialogInput() => Form(
-    key: formKey,
-    child: AppTextFieldSecondary(
-        controller: controller,
-        hintText: '',
-        fillColor: Colors.white,
-        isPassword: true,
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'text080'.tr;
-          }
-          return null;
-        },
-        label: ''),
-  );
+        key: formKey,
+        child: AppTextFieldSecondary(
+            controller: controller,
+            hintText: '',
+            fillColor: Colors.white,
+            isPassword: true,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'text080'.tr;
+              }
+              return null;
+            },
+            label: ''),
+      );
+}
+
+class AppDialogSingle extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String? content;
+  final VoidCallback? onPositiveTap;
+  final String? positiveText;
+
+  const AppDialogSingle({
+    Key? key,
+    required this.title,
+    required this.content,
+    this.onPositiveTap,
+    required this.subtitle,
+    this.positiveText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          vSpaceMedium,
+          _buildHeader(),
+          vSpaceSmall,
+          _buildSubtitle(),
+          vSpaceSmall,
+          _buildDialogContent(),
+          vSpaceMedium,
+          _buildDialogController(),
+          vSpaceMedium,
+        ],
+      ).paddingSymmetric(horizontal: 12).card(
+          clipBehavior: Clip.antiAlias,
+          shape: RoundedRectangleBorder(
+            borderRadius: kBorderSmall,
+          ),
+          elevation: 4),
+    );
+  }
+
+  Widget _buildDialogController() {
+    return BoxButtonWidget(
+        buttonText: positiveText ?? '',
+        radius: 8,
+        onPressed: onPositiveTap ?? () => Get.back());
+  }
+
+  Widget _buildHeader() => Text(
+        title,
+        style:
+            kBodyStyle.copyWith(fontSize: 25.sp, fontWeight: FontWeight.w600),
+      );
+
+  Widget _buildSubtitle() => Text(
+        subtitle,
+        style:
+            kBodyStyle.copyWith(fontSize: 14.sp, fontWeight: FontWeight.w400),
+      );
+
+  _buildDialogContent() => Text(
+        content ?? '',
+        textAlign: TextAlign.center,
+        style: kCaptionStyle.copyWith(color: kcTextGrey),
+      );
 }
