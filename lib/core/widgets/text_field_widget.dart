@@ -1,7 +1,7 @@
+import 'package:educate_me/core/utils/textfield_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:styled_widget/styled_widget.dart';
 
 import '../shared/app_colors.dart';
 import '../shared/shared_styles.dart';
@@ -256,7 +256,33 @@ class AppTextFieldSecondary extends StatelessWidget {
               fontSize: 15,
               color: isDark ? Colors.black : textColor),
           decoration: InputDecoration(
-            border: InputBorder.none,
+            focusedBorder: DecoratedInputBorder(
+              child: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              shadow: BoxShadow(
+                color: kcTextGrey.withOpacity(.2),
+                blurRadius: 8,
+              ),
+            ),
+            enabledBorder: DecoratedInputBorder(
+              child: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              shadow: BoxShadow(
+                color: kcTextGrey.withOpacity(.2),
+                blurRadius: 8,
+              ),
+            ),
+            border: DecoratedInputBorder(
+              child: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              shadow: BoxShadow(
+                color: kcTextGrey.withOpacity(.2),
+                blurRadius: 8,
+              ),
+            ),
             hintText: initialValue,
             labelText: hintText,
             floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -283,17 +309,7 @@ class AppTextFieldSecondary extends StatelessWidget {
                 color: isDark ? kcTextSecondary : Colors.black),
             filled: false,
           ),
-        ).decorated(
-          boxShadow: [
-            BoxShadow(
-              color: kcTextGrey.withOpacity(0.1),
-              spreadRadius: 4,
-              blurRadius: 4,
-              offset: const Offset(2, 3), // changes position of shadow
-            ),
-          ],
-          color: isEnabled ? Colors.white : kcTextGrey.withOpacity(.1),
-        ),
+        )
       ],
     );
   }
