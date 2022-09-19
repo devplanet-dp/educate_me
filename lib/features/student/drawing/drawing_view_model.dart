@@ -1,18 +1,19 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:signature/signature.dart';
 import 'package:stacked/stacked.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class DrawingViewModel extends BaseViewModel {
-  final SignatureController signatureController = SignatureController(
-    penStrokeWidth: 5,
-    penColor: Colors.black,
-    exportBackgroundColor: Colors.blue,
-  );
+  final GlobalKey<SfSignaturePadState> signatureGlobalKey = GlobalKey();
+  List<Color> strokeColors = <Color>[
+    Colors.black,
+    kcStrokeYellow,
+    kcStrokeGreen
+  ];
+  Color? selectedStroke;
 
-  final List<Color> colors = [Colors.black, kcAccent, kcSecondary];
-
-  void onColorSelected(index){
+  void onColorSelected(index) {
+    selectedStroke = strokeColors[index];
+    notifyListeners();
   }
-
 }

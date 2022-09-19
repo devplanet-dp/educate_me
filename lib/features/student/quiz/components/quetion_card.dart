@@ -24,7 +24,8 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
           vSpaceSmall,
           _buildQuestion(model.selectedQn?.question ?? ''),
           vSpaceSmall,
-          _buildBrushButton(model.selectedQn?.question ?? '')
+          _buildBrushButton(model.selectedQn?.question ?? '',
+                  model.selectedQn?.enableDraw ?? true)
               .alignment(Alignment.topRight),
           vSpaceSmall,
           const MultipleChoiceQns(),
@@ -48,17 +49,30 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
         ],
       ).width(Get.width);
 
-  Widget _buildBrushButton(String qns) => MaterialButton(
-      color: Colors.white,
-      elevation: 3,
-      shape: const CircleBorder(),
-      child: Image.asset(
-        kIcBrush,
-        height: 20.h,
-        width: 20.h,
-      ),
-      onPressed: () =>
-          Get.dialog(DrawQnsView(question: qns), barrierDismissible: false));
+  Widget _buildBrushButton(String qns, bool enableDraw) => InkWell(
+        borderRadius: kBorderLarge,
+        onTap: () => Get.dialog(
+            enableDraw ? DrawQnsView(question: qns) : const DisableDraw(),
+            barrierDismissible: false),
+        child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: enableDraw ? Colors.white : kErrorRed.withOpacity(.3),
+              boxShadow: [
+                BoxShadow(
+                  color: kcTextGrey.withOpacity(.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 1), // Shadow position
+                ),
+              ],
+            ),
+            child: Image.asset(
+              kIcBrush,
+              height: 20.h,
+              width: 20.h,
+              color: enableDraw ? Colors.black : kErrorRed,
+            ).paddingAll(8)).paddingSymmetric(vertical: 12),
+      );
 }
 
 class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {

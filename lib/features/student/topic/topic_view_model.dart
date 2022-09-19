@@ -24,9 +24,6 @@ class TopicViewModel extends BaseViewModel {
   listenToLevels() {
     _service.streamLevels().listen((d) {
       _levels = d;
-      if (levels.isNotEmpty) {
-        _levels.removeAt(0);
-      }
       notifyListeners();
     });
   }

@@ -22,6 +22,8 @@ const Color kIconUnselected = Color(0xffCDCDCD);
 const Color kCheckBoxColor = Color(0xffD9D9D9);
 const Color kcGreen = Color(0xFF26EB4B);
 const Color kcBlue = Color(0xFF006492);
+const Color kcStrokeYellow = Color(0xFFF4F771);
+const Color kcStrokeGreen = Color(0xFF94F771);
 const Color kcIconColor = Color(0xFFFFD456);
 const Color kcBlueDark = Color(0xFF0070e8);
 const Color kcOrange = Color(0xFFE2A70F);
@@ -39,7 +41,7 @@ const Color kBgDark = Colors.black38;
 const Color kBlack = Colors.black87;
 Color kBgLight = kAltWhite.withOpacity(0.4);
 const Color kFillColor = Color(0xFFF1F1F1);
-const Color kErrorRed = Color(0xFFFF2E00);
+const Color kErrorRed = Color(0xFFFB3C33);
 const Color kNewMessage = Color(0xFFFFA979);
 const kPrimaryGradient = LinearGradient(
   colors: [kcPrimaryColor, kcAccent],

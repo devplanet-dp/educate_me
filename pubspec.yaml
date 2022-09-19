@@ -68,6 +68,7 @@ dependencies:
   #drawing
   flutter_colorpicker:
   signature: ^5.2.1
+  syncfusion_flutter_signaturepad: ^20.2.49
 
 dev_dependencies:
   flutter_test:

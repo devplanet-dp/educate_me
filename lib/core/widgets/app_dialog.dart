@@ -314,6 +314,7 @@ class AppDialogSingle extends StatelessWidget {
 
   Widget _buildSubtitle() => Text(
         subtitle,
+        textAlign: TextAlign.center,
         style:
             kBodyStyle.copyWith(fontSize: 14.sp, fontWeight: FontWeight.w400),
       );

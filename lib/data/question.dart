@@ -8,6 +8,8 @@ class QuestionModel {
   List<OptionModel>? options;
   String? promptOne;
   String? promptTwo;
+  bool? enableDraw;
+  String? photoUrl;
 
   QuestionModel(
       {this.id,
@@ -15,6 +17,8 @@ class QuestionModel {
       this.question,
       this.options,
       this.promptOne,
+        this.enableDraw,
+        this.photoUrl,
       this.promptTwo});
 
   QuestionModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +28,8 @@ class QuestionModel {
       question = json['question'];
       promptOne = json['promptOne'];
       promptTwo = json['promptTwo'];
+      enableDraw = json['enableDraw'];
+      photoUrl = json['photoUrl'];
       if (json['options'] != null) {
         options = [];
         json['options'].forEach((v) {
@@ -42,6 +48,8 @@ class QuestionModel {
     data['question'] = question;
     data['promptOne'] = promptOne;
     data['promptTwo'] = promptTwo;
+    data['enableDraw'] = enableDraw;
+    data['photoUrl'] = photoUrl;
     data['options'] =
         options != null ? options!.map((e) => e.toJson()).toList() : null;
     return data;

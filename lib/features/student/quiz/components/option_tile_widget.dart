@@ -34,6 +34,7 @@ class OptionTileWidget extends StatelessWidget {
         hSpaceSmall,
         Text(
           option,
+          textAlign: TextAlign.center,
           style: kBody1Style,
         ),
       ],
