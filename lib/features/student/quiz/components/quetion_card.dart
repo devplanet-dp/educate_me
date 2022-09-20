@@ -1,6 +1,7 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
+import 'package:educate_me/core/widgets/app_network_image.dart';
 import 'package:educate_me/features/student/quiz/components/option_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,38 +23,50 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
       child: Column(
         children: [
           vSpaceSmall,
-          _buildQuestion(model.selectedQn?.question ?? ''),
+          _buildQuestion(model.selectedQn?.question ?? '',model.selectedQn?.photoUrl),
           vSpaceSmall,
           _buildBrushButton(model.selectedQn?.question ?? '',
-                  model.selectedQn?.enableDraw ?? true)
+              model.selectedQn?.enableDraw ?? true)
               .alignment(Alignment.topRight),
           vSpaceSmall,
           const MultipleChoiceQns(),
+          vSpaceSmall,
         ],
       ),
     );
   }
 
-  Widget _buildQuestion(String qns) => Text(
-        qns,
-        textAlign: TextAlign.center,
-        style: kBodyStyle.copyWith(fontWeight: FontWeight.w500),
-      ).paddingAll(8).decorated(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: kcTextGrey.withOpacity(.2),
-            blurRadius: 9,
-            offset: const Offset(0, 1), // Shadow position
-          ),
+  Widget _buildQuestion(String qns, String? photoUrl) =>
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          photoUrl == null ? emptyBox() : AppNetworkImage(
+            path: photoUrl, thumbWidth: 212.w, thumbHeight: 198.h,)
+              .paddingSymmetric(horizontal: 16),
+          Text(
+            qns,
+            textAlign: TextAlign.center,
+            style: kBodyStyle.copyWith(fontWeight: FontWeight.w500),
+          ).paddingAll(8).decorated(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: kcTextGrey.withOpacity(.2),
+                blurRadius: 9,
+                offset: const Offset(0, 1), // Shadow position
+              ),
+            ],
+          ).width(Get.width),
         ],
-      ).width(Get.width);
+      );
 
-  Widget _buildBrushButton(String qns, bool enableDraw) => InkWell(
+  Widget _buildBrushButton(String qns, bool enableDraw) =>
+      InkWell(
         borderRadius: kBorderLarge,
-        onTap: () => Get.dialog(
-            enableDraw ? DrawQnsView(question: qns) : const DisableDraw(),
-            barrierDismissible: false),
+        onTap: () =>
+            Get.dialog(
+                enableDraw ? DrawQnsView(question: qns) : const DisableDraw(),
+                barrierDismissible: false),
         child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -132,7 +145,7 @@ class _DrawingPadWidgetState extends State<DrawingPadWidget> {
               Colors.green,
               Colors.yellow
             ].map(
-              (color) {
+                  (color) {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
@@ -148,9 +161,9 @@ class _DrawingPadWidgetState extends State<DrawingPadWidget> {
                       child: Center(
                         child: _currentColor == color
                             ? const Icon(
-                                Icons.brush,
-                                color: Colors.white,
-                              )
+                          Icons.brush,
+                          color: Colors.white,
+                        )
                             : const SizedBox.shrink(),
                       ),
                     ),

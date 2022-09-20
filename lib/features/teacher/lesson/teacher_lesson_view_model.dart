@@ -44,8 +44,17 @@ class TeacherLessonViewModel extends BaseViewModel {
     nameTEC.text = lesson.title ?? '';
     maxQnsTEC.text = '${lesson.maxQuestions}';
     descTEC.text = lesson.description ?? '';
-    correctPassTEC.text = '${lesson.noCorrectToPass??0}';
+    correctPassTEC.text = '${lesson.noCorrectToPass ?? 0}';
     _uploadedImages = lesson.cover;
+    notifyListeners();
+  }
+
+  calculatePassQuizLimit() {
+    if (maxQnsTEC.text.isNotEmpty) {
+      correctPassTEC.text = '${(int.parse(maxQnsTEC.text) * .8).round()}';
+    }else{
+      correctPassTEC.text='';
+    }
     notifyListeners();
   }
 
@@ -93,17 +102,13 @@ class TeacherLessonViewModel extends BaseViewModel {
   }
 
   Future removeSubTopic(
-      {required levelId,
-      required topicId,
-      required subTopicId}) async {
+      {required levelId, required topicId, required subTopicId}) async {
     var response = await _dialogService.showConfirmationDialog(
         title: 'Are you sure?', description: 'Delete this Sub-Topic');
     if (response?.confirmed ?? false) {
       setBusy(true);
       await _service.removeSubTopic(
-          levelId: levelId,
-          subTopic: subTopicId,
-          topicId: topicId);
+          levelId: levelId, subTopic: subTopicId, topicId: topicId);
       setBusy(false);
       Get.back();
     }

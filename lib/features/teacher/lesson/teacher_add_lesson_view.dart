@@ -64,6 +64,9 @@ class TeacherAddLessonView extends StatelessWidget {
               label: 'Limit',
               maxLength: 3,
               isNumber: true,
+              onChanged: (value){
+                vm.calculatePassQuizLimit();
+              },
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Please enter the limit';
@@ -101,7 +104,8 @@ class TeacherAddLessonView extends StatelessWidget {
               controller: vm.descTEC,
               hintText: 'Lesson description',
               label: 'Description',
-              minLine: 3,
+              minLine: 2,
+              maxLength: 31,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Please enter the description';
