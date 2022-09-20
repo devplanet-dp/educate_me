@@ -30,6 +30,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
               .alignment(Alignment.topRight),
           vSpaceSmall,
           const MultipleChoiceQns(),
+          vSpaceSmall,
         ],
       ),
     );
