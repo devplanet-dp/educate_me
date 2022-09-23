@@ -100,6 +100,12 @@ class AppLocale extends Translations {
           'text090':'Try again',
           'text091':'Next question',
           'text092':'For this question, we ask that you work it out in your head. Good luck! :)',
+          'text093':'Continue',
+          'text094':'So, now try a practice question!',
+          'text095':'Check answer',
+          'text096':'Good job!',
+          'text097':'Try again',
+          'text098':'Please do the quiz',
 
 
 

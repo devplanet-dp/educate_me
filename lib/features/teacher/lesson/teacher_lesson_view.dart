@@ -55,13 +55,11 @@ class TeacherLessonView extends StatelessWidget {
               floatingActionButton: FloatingActionButton(
                 backgroundColor: kcPrimaryColor,
                 child: const Icon(Iconsax.add),
-                onPressed: () => Get.bottomSheet(
-                    TeacherAddLessonView(
+                onPressed: () => Get.to(() => TeacherAddLessonView(
                       topicId: topicId,
                       subTopicId: subTopic.id ?? '',
                       levelId: levelId,
-                    ),
-                    isScrollControlled: true),
+                    )),
               ),
               body: vm.lessons.isEmpty
                   ? const AppInfoWidget(
@@ -104,14 +102,12 @@ class _LessonGridView extends ViewModelWidget<TeacherLessonViewModel> {
               )),
           url: t.cover ?? '',
           title: t.title ?? '',
-          onEditTap: () => Get.bottomSheet(
-              TeacherAddLessonView(
+          onEditTap: () => Get.to(() => TeacherAddLessonView(
                 levelId: levelId,
                 topicId: topicId,
                 subTopicId: subTopicId,
                 lesson: t,
-              ),
-              isScrollControlled: true),
+              )),
         );
       }),
     ).paddingSymmetric(horizontal: 12);

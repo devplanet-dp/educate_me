@@ -61,6 +61,7 @@ dependencies:
   flutter_screenutil:
   uuid:
   fab_circular_menu:
+  device_preview:
   #pickers
   flutter_picker:
   #payments
@@ -69,6 +70,9 @@ dependencies:
   flutter_colorpicker:
   signature: ^5.2.1
   syncfusion_flutter_signaturepad: ^20.2.49
+  #html
+  html_editor_enhanced:
+  flutter_widget_from_html: ^0.8.5
 
 dev_dependencies:
   flutter_test:

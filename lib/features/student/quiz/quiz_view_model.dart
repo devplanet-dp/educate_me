@@ -22,6 +22,7 @@ class QuizViewModel extends BaseViewModel {
   final QuizController quizController = Get.find<QuizController>();
   final PageController pageController = PageController(initialPage: 0);
 
+
   bool _isFirstAttempt = false;
 
   bool get isFirstAttempt => _isFirstAttempt;

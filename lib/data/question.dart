@@ -17,8 +17,8 @@ class QuestionModel {
       this.question,
       this.options,
       this.promptOne,
-        this.enableDraw,
-        this.photoUrl,
+      this.enableDraw,
+      this.photoUrl,
       this.promptTwo});
 
   QuestionModel.fromJson(Map<String, dynamic> json) {
@@ -57,4 +57,20 @@ class QuestionModel {
 
   QuestionModel.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromJson(snapshot.data() as Map<String, dynamic>);
+}
+
+class PracticeAnswerModel {
+   int index;
+   String answer;
+   int attemptCount;
+   AnswerState state;
+
+  PracticeAnswerModel(
+      {required this.index, required this.answer, required this.attemptCount,required this.state});
+}
+enum AnswerState{
+  init,
+  correct,
+  tryAgain,
+  failed;
 }

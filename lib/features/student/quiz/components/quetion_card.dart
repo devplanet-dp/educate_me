@@ -1,7 +1,7 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
-import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/core/widgets/app_network_image.dart';
+import 'package:educate_me/features/student/quiz/components/draw_brush_widget.dart';
 import 'package:educate_me/features/student/quiz/components/option_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,7 +10,6 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/shared/app_colors.dart';
-import '../../drawing/drawing_view.dart';
 import '../quiz_view_model.dart';
 
 class QuestionCard extends ViewModelWidget<QuizViewModel> {
@@ -23,10 +22,12 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
       child: Column(
         children: [
           vSpaceSmall,
-          _buildQuestion(model.selectedQn?.question ?? '',model.selectedQn?.photoUrl),
+          _buildQuestion(
+              model.selectedQn?.question ?? '', model.selectedQn?.photoUrl),
           vSpaceSmall,
-          _buildBrushButton(model.selectedQn?.question ?? '',
-              model.selectedQn?.enableDraw ?? true)
+          DrawBrushWidget(
+                  qns: model.selectedQn?.question ?? '',
+                  enableDraw: model.selectedQn?.enableDraw ?? true)
               .alignment(Alignment.topRight),
           vSpaceSmall,
           const MultipleChoiceQns(),
@@ -36,13 +37,16 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
     );
   }
 
-  Widget _buildQuestion(String qns, String? photoUrl) =>
-      Column(
+  Widget _buildQuestion(String qns, String? photoUrl) => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          photoUrl == null ? emptyBox() : AppNetworkImage(
-            path: photoUrl, thumbWidth: 212.w, thumbHeight: 198.h,)
-              .paddingSymmetric(horizontal: 16),
+          photoUrl == null
+              ? emptyBox()
+              : AppNetworkImage(
+                  path: photoUrl,
+                  thumbWidth: 212.w,
+                  thumbHeight: 198.h,
+                ).paddingSymmetric(horizontal: 16),
           Text(
             qns,
             textAlign: TextAlign.center,
@@ -58,33 +62,6 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
             ],
           ).width(Get.width),
         ],
-      );
-
-  Widget _buildBrushButton(String qns, bool enableDraw) =>
-      InkWell(
-        borderRadius: kBorderLarge,
-        onTap: () =>
-            Get.dialog(
-                enableDraw ? DrawQnsView(question: qns) : const DisableDraw(),
-                barrierDismissible: false),
-        child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: enableDraw ? Colors.white : kErrorRed.withOpacity(.3),
-              boxShadow: [
-                BoxShadow(
-                  color: kcTextGrey.withOpacity(.2),
-                  blurRadius: 10,
-                  offset: const Offset(0, 1), // Shadow position
-                ),
-              ],
-            ),
-            child: Image.asset(
-              kIcBrush,
-              height: 20.h,
-              width: 20.h,
-              color: enableDraw ? Colors.black : kErrorRed,
-            ).paddingAll(8)).paddingSymmetric(vertical: 12),
       );
 }
 
@@ -145,7 +122,7 @@ class _DrawingPadWidgetState extends State<DrawingPadWidget> {
               Colors.green,
               Colors.yellow
             ].map(
-                  (color) {
+              (color) {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
@@ -161,9 +138,9 @@ class _DrawingPadWidgetState extends State<DrawingPadWidget> {
                       child: Center(
                         child: _currentColor == color
                             ? const Icon(
-                          Icons.brush,
-                          color: Colors.white,
-                        )
+                                Icons.brush,
+                                color: Colors.white,
+                              )
                             : const SizedBox.shrink(),
                       ),
                     ),
