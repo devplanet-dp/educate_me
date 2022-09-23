@@ -13,19 +13,21 @@ class LessonModel {
   List<QuestionModel>? questions;
   String? video;
   int? noCorrectToPass;
+  List<String>? content;
 
   LessonModel(
       {this.id,
-        this.title,
-        this.description,
-        this.introduction,
-        this.cover,
-        this.maxQuestions,
-        this.order,
-        this.createdAt,
-        this.questions,
-        this.noCorrectToPass,
-        this.video});
+      this.title,
+      this.description,
+      this.introduction,
+      this.cover,
+      this.maxQuestions,
+      this.order,
+      this.createdAt,
+      this.content,
+      this.questions,
+      this.noCorrectToPass,
+      this.video});
 
   LessonModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,7 +35,7 @@ class LessonModel {
     description = json['description'];
     introduction = json['introduction'];
     cover = json['cover'];
-    noCorrectToPass = json['no_correct_pass']??0;
+    noCorrectToPass = json['no_correct_pass'] ?? 0;
     maxQuestions = json['maxQuestions'];
     order = json['order'];
     createdAt = json['createdAt'];
@@ -44,6 +46,14 @@ class LessonModel {
       });
     } else {
       questions = [];
+    }
+    if (json['content'] != null) {
+      content = [];
+      json['content'].forEach((v) {
+        content!.add(v);
+      });
+    } else {
+      content = [];
     }
     video = json['video'];
   }
@@ -58,14 +68,14 @@ class LessonModel {
     data['maxQuestions'] = maxQuestions;
     data['no_correct_pass'] = noCorrectToPass;
     data['order'] = order;
+    data['content'] = content != null ? content!.map((e) => e).toList() : null;
     data['createdAt'] = createdAt;
     data['questions'] =
-    questions != null ? questions!.map((e) => e.toJson()).toList() : null;
+        questions != null ? questions!.map((e) => e.toJson()).toList() : null;
     data['video'] = video;
     return data;
   }
+
   LessonModel.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromJson(snapshot.data() as Map<String, dynamic>);
 }
-
-

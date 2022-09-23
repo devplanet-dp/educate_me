@@ -109,7 +109,8 @@ class QnsViewModel extends BaseViewModel {
       {required levelId,
       required topicId,
       required subtopicId,
-      required lessonId}) async {
+      required lessonId,
+      required isPractice}) async {
     if (formKey.currentState!.validate()) {
       try {
         var import = importTEC.text.trim();
@@ -119,15 +120,15 @@ class QnsViewModel extends BaseViewModel {
 
         for (var i = 0; i < qns.length; i++) {
           List<String> a = qns[i].split(',,,');
-          if(a[0].isNotEmpty) {
+          if (a[0].isNotEmpty) {
             q.add(QuestionModel(
                 index: i,
                 id: const Uuid().v4(),
                 question: a[0],
                 promptOne: a[5],
                 promptTwo: a[6],
-                enableDraw:  a[7].toLowerCase().trim() == 'enabledraw',
-                photoUrl: a.length ==9  ? a[8] : null,
+                enableDraw: a[7].toLowerCase().trim() == 'enabledraw',
+                photoUrl: a.length == 9 ? a[8] : null,
                 options: [
                   OptionModel(
                       index: 0,
@@ -148,12 +149,22 @@ class QnsViewModel extends BaseViewModel {
                 ]));
           }
         }
-        await addImportedQuestions(
-            questions: q,
-            levelId: levelId,
-            topicId: topicId,
-            subtopicId: subtopicId,
-            lessonId: lessonId);
+        if (!isPractice) {
+          await addImportedQuestions(
+              questions: q,
+              levelId: levelId,
+              topicId: topicId,
+              subtopicId: subtopicId,
+              lessonId: lessonId);
+        } else {
+          //add practice questions to lesson
+          await addImportedPracticeQuestions(
+              questions: q,
+              levelId: levelId,
+              topicId: topicId,
+              subtopicId: subtopicId,
+              lessonId: lessonId);
+        }
       } catch (e) {
         lg(e);
         showErrorMessage(
@@ -181,6 +192,26 @@ class QnsViewModel extends BaseViewModel {
     }
     Get.back();
     showInfoMessage(message: 'Questions imported successfully.');
+
+    setBusy(false);
+  }
+
+  Future addImportedPracticeQuestions({
+    required List<QuestionModel> questions,
+    required levelId,
+    required topicId,
+    required subtopicId,
+    required lessonId,
+  }) async {
+    setBusy(true);
+    final data = await _service.addPracticeQuestion(
+        question: questions,
+        levelId: levelId,
+        topicId: topicId,
+        subTopicId: subtopicId,
+        lessonId: lessonId);
+    Get.back();
+    showInfoMessage(message: 'Practice question imported successfully.');
 
     setBusy(false);
   }

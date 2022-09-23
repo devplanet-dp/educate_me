@@ -71,7 +71,24 @@ class TeacherQnsView extends StatelessWidget {
               fabOpenIcon: const Icon(Iconsax.add),
               animationDuration: const Duration(milliseconds: 300),
               children: [
-                const SizedBox(),
+                ActionChip(
+                  label: const Text('Create'),
+                  onPressed: () => Get.to(() => AddQuestionView(
+                    topicId: topicId,
+                    lessonId: lessonId,
+                    levelId: levelId,
+                    subTopicId: subTopicId,
+                    isStartUp: isStartUp,
+                  )),
+                ),
+                ActionChip(
+                  label: const Text('Import practice'),
+                  onPressed: () => Get.to(() => ImportQnsView(
+                      levelId: levelId,
+                      topicId: topicId,
+                      subTopicId: subTopicId,
+                      lessonId: lessonId,isPractice: true,)),
+                ),
                 ActionChip(
                   label: const Text('Import'),
                   onPressed: () => Get.to(() => ImportQnsView(
@@ -79,16 +96,6 @@ class TeacherQnsView extends StatelessWidget {
                       topicId: topicId,
                       subTopicId: subTopicId,
                       lessonId: lessonId)),
-                ),
-                ActionChip(
-                  label: const Text('Create'),
-                  onPressed: () => Get.to(() => AddQuestionView(
-                        topicId: topicId,
-                        lessonId: lessonId,
-                        levelId: levelId,
-                        subTopicId: subTopicId,
-                        isStartUp: isStartUp,
-                      )),
                 ),
                 const SizedBox(),
               ],

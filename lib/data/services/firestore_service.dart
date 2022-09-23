@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/data/complain_model.dart';
 import 'package:educate_me/data/completed_lesson_model.dart';
 import 'package:educate_me/data/lesson.dart';
@@ -519,6 +520,32 @@ class FirestoreService {
           .collection(tbQuestions)
           .doc(question.id)
           .set(question.toJson(), SetOptions(merge: true));
+      return FirebaseResult(data: true);
+    } catch (e) {
+      if (e is PlatformException) {
+        return FirebaseResult.error(errorMessage: e.message.toString());
+      }
+
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
+  Future<FirebaseResult> addPracticeQuestion(
+      {required List<QuestionModel> question,
+      required levelId,
+      required topicId,
+      required subTopicId,
+      required lessonId}) async {
+    try {
+      await _levelReference
+          .doc(levelId)
+          .collection(tbTopic)
+          .doc(topicId)
+          .collection(tbSubTopic)
+          .doc(subTopicId)
+          .collection(tbLesson)
+          .doc(lessonId)
+          .update({'questions': question.map((e) => e.toJson()).toList()});
       return FirebaseResult(data: true);
     } catch (e) {
       if (e is PlatformException) {

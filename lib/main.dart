@@ -1,8 +1,4 @@
-import 'package:educate_me/core/utils/app_controller.dart';
-import 'package:educate_me/features/signin/components/create_account_text.dart';
-import 'package:educate_me/features/signup/create_account_view.dart';
-import 'package:educate_me/features/teacher/home/teacher_home.dart';
-import 'package:educate_me/features/welcome/welcome_view.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +11,7 @@ import 'firebase_options.dart';
 import 'locale.dart';
 import 'locator.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -35,23 +31,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-        designSize: const Size(360, 800),
-        splitScreenMode: true,
-        builder: (context, _) {
-          return GetMaterialApp(
-            translations: AppLocale(),
-            locale: Get.deviceLocale,
-            fallbackLocale: const Locale(
-              'en_US',
-            ),
-            darkTheme: themeDataDark,
-            themeMode: ThemeMode.light,
-            debugShowCheckedModeBanner: false,
-            title: 'Math Educate Me',
-            theme: themeData,
-            home: const StartUpView(),
-          );
-        });
+    return DevicePreview(
+        enabled: true,
+        builder: (_) => ScreenUtilInit(
+            designSize: const Size(360, 800),
+            splitScreenMode: true,
+            builder: (context, _) {
+              return GetMaterialApp(
+                translations: AppLocale(),
+                locale: Get.deviceLocale,
+                fallbackLocale: const Locale(
+                  'en_US',
+                ),
+                darkTheme: themeDataDark,
+                themeMode: ThemeMode.light,
+                debugShowCheckedModeBanner: false,
+                title: 'Math Educate Me',
+                theme: themeData,
+                home: const StartUpView(),
+              );
+            }));
   }
 }
