@@ -33,21 +33,31 @@ class OptionTileWidget extends StatelessWidget {
         QnsIndexWidget(index: index),
         hSpaceSmall,
         Text(
-          option,
+          option.trim(),
           textAlign: TextAlign.center,
-          style: kBody1Style,
+          style: kBody1Style.copyWith(
+            fontWeight: FontWeight.w800,
+              color: !isOptionSelected
+                  ? kcPrimaryColor
+                  : (index == userSelectedIndex)
+                      ? isUserOptionCorrect
+                          ? Colors.white
+                          : Colors.white
+                      : isCorrectOption
+                          ? Colors.white
+                          : kcPrimaryColor),
         ),
       ],
-    ).paddingAll(4).card(
+    ).paddingAll(8).card(
         color: !isOptionSelected
-            ? kcPrimaryColor.withOpacity(.4)
+            ? kcPrimaryColor.withOpacity(.2)
             : (index == userSelectedIndex)
                 ? isUserOptionCorrect
                     ? kcCorrectAns
                     : kcIncorrectAns
                 : isCorrectOption
                     ? kcCorrectAns
-                    : kcPrimaryColor.withOpacity(.4),
+                    : kcPrimaryColor.withOpacity(.2),
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: kBorderSmall));
   }

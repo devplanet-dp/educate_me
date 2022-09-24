@@ -2,6 +2,7 @@ import 'package:educate_me/features/signin/components/app_bg.dart';
 import 'package:educate_me/features/signin/components/create_account_text.dart';
 import 'package:educate_me/features/signin/components/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -39,77 +40,85 @@ class SignInView extends StatelessWidget {
   }
 
   Widget _buildBody(SignInViewModel vm, BuildContext context) {
-    return Form(
-      key: vm.formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Spacer(),
-          Text(
-            'text002'.tr,
-            style: kHeading3Style.copyWith(
-                fontWeight: FontWeight.w600, color: Colors.black),
-          ),
-          Text(
-            'text012'.tr,
-          ),
-          const Spacer(flex: 2,),
-          AppTextField(
-            controller: vm.usernameTEC,
-            hintText: 'text003'.tr,
-            isEmail: true,
-            isDark: true,
-            textColor: kcPrimaryColor,
-            fillColor: kcPrimaryColor.withOpacity(.1),
-            borderColor: kcStroke,
-            label: '',
-            validator: (value) {
-              if (!GetUtils.isEmail(value!)) {
-                return 'text004.error'.tr;
-              }
-              return null;
-            },
-          ),
-          AppTextField(
-              controller: vm.passwordTEC,
-              hintText: 'text005'.tr,
-              isPassword: vm.isObscure,
+    return KeyboardVisibilityBuilder(builder: (context, isVisible) {
+      return Form(
+        key: vm.formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const CustomAppBar(),
+            const Spacer(),
+            Text(
+              'text002'.tr,
+              style: kHeading3Style.copyWith(
+                  fontWeight: FontWeight.w600, color: Colors.black),
+            ),
+            Text(
+              'text012'.tr,
+            ),
+            const Spacer(
+              flex: 2,
+            ),
+            AppTextField(
+              controller: vm.usernameTEC,
+              hintText: 'text003'.tr,
+              isEmail: true,
               isDark: true,
+              textColor: kcPrimaryColor,
               fillColor: kcPrimaryColor.withOpacity(.1),
               borderColor: kcStroke,
-              suffix: InkWell(
-                onTap: () => vm.toggleObscure(),
-                child: Icon(
-                  vm.isObscure
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: kcPrimaryColor,
-                  size: 18,
-                ),
-              ),
+              label: '',
               validator: (value) {
-                if (value!.isEmpty) {
-                  return 'text006.error'.tr;
+                if (!GetUtils.isEmail(value!)) {
+                  return 'text004.error'.tr;
                 }
                 return null;
               },
-              label: ''),
-          const Spacer(),
-          BoxButtonWidget(
-            buttonText: 'text009'.tr,
-            isLoading: vm.isBusy,
-            onPressed: () {
-              DeviceUtils.hideKeyboard(context);
-              vm.doSignIn();
-            },
-          ),
-          vSpaceMedium,
-          const ForgotPwdButton().center(),
-          vSpaceTiny,
-          const CreateAccountText().center(),
-          const Spacer(flex: 2,)
-        ],
-      ).paddingSymmetric(horizontal: 16),
-    );
+            ),
+            AppTextField(
+                controller: vm.passwordTEC,
+                hintText: 'text005'.tr,
+                isPassword: vm.isObscure,
+                isDark: true,
+                fillColor: kcPrimaryColor.withOpacity(.1),
+                borderColor: kcStroke,
+                suffix: InkWell(
+                  onTap: () => vm.toggleObscure(),
+                  child: Icon(
+                    vm.isObscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: kcPrimaryColor,
+                    size: 18,
+                  ),
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'text006.error'.tr;
+                  }
+                  return null;
+                },
+                label: ''),
+            const Spacer(),
+            BoxButtonWidget(
+              buttonText: 'text009'.tr,
+              isLoading: vm.isBusy,
+              onPressed: () {
+                DeviceUtils.hideKeyboard(context);
+                vm.doSignIn();
+              },
+            ),
+            isVisible ? emptyBox() : const Spacer(),
+            isVisible ? emptyBox() : const ForgotPwdButton().center(),
+            isVisible ? emptyBox() : const CreateAccountText().center(),
+            isVisible
+                ? emptyBox()
+                : const Spacer(
+                    flex: 2,
+                  )
+          ],
+        ).paddingSymmetric(horizontal: 16),
+      );
+    });
   }
 }

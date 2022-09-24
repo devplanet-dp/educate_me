@@ -21,8 +21,8 @@ class CustomAppBar extends StatelessWidget {
       const Expanded(child: SizedBox()),
       Image.asset(
         kAppLogoOutlined,
-        width: 63.h,
-        height: 63.h,
+        width: 48.h,
+        height: 48.h,
       ),
     ].toRow().paddingOnly(top: 12);
   }

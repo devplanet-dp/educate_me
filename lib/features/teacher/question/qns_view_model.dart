@@ -120,35 +120,117 @@ class QnsViewModel extends BaseViewModel {
 
         for (var i = 0; i < qns.length; i++) {
           List<String> a = qns[i].split(',,,');
+
           if (a[0].isNotEmpty) {
-            q.add(QuestionModel(
-                index: i,
-                id: const Uuid().v4(),
-                question: a[0],
-                promptOne: a[5],
-                promptTwo: a[6],
-                enableDraw: a[7].toLowerCase().trim() == 'enabledraw',
-                photoUrl: a.length == 9 ? a[8] : null,
-                options: [
-                  OptionModel(
+            final importMap = a.asMap();
+            final qType = _getQuestionTypeByLength(a.length, a[1].trim());
+            switch (qType) {
+              case QuestionType.multipleChoice:
+                final question = QuestionModel(
+                    index: i,
+                    type: QuestionType.multipleChoice,
+                    id: const Uuid().v4(),
+                    question: a[0].trim(),
+                    promptOne: a[5].trim(),
+                    promptTwo: a[6].trim(),
+                    enableDraw: a[7].toLowerCase().trim() == 'enabledraw',
+                    photoUrl: importMap.containsKey(8) ? a[8].trim() : null);
+
+                final List<OptionModel> options = [];
+                for (int i = 0; i < 4; i++) {
+                  if (importMap.containsKey(i + 1)) {
+                    options.add(OptionModel(
+                        index: i,
+                        option: a[i + 1].replaceAll('*', ''),
+                        isCorrect: a[i + 1].contains('*')));
+                  }
+                }
+
+                question.options = options;
+
+                q.add(question);
+                break;
+              case QuestionType.inputSingle:
+                final question = QuestionModel(
+                    index: i,
+                    type: QuestionType.inputSingle,
+                    id: const Uuid().v4(),
+                    question: a[0].trim(),
+                    promptOne: a[2].trim(),
+                    promptTwo: a[3].trim(),
+                    enableDraw: a[4].toLowerCase().trim() == 'enabledraw',
+                    photoUrl: importMap.containsKey(5) ? a[5].trim() : null);
+
+                final List<OptionModel> options = [];
+                if (importMap.containsKey(1)) {
+                  options.add(OptionModel(
                       index: 0,
                       option: a[1].replaceAll('*', ''),
-                      isCorrect: a[1].contains('*')),
-                  OptionModel(
-                      index: 1,
-                      option: a[2].replaceAll('*', ''),
-                      isCorrect: a[2].contains('*')),
-                  OptionModel(
-                      index: 2,
-                      option: a[3].replaceAll('*', ''),
-                      isCorrect: a[3].contains('*')),
-                  OptionModel(
-                      index: 3,
-                      option: a[4].replaceAll('*', ''),
-                      isCorrect: a[4].contains('*'))
-                ]));
+                      isCorrect: a[1].contains('*')));
+                }
+                question.options = options;
+
+                q.add(question);
+                break;
+              case QuestionType.inputMultiple:
+                final question = QuestionModel(
+                    index: i,
+                    type: QuestionType.inputMultiple,
+                    id: const Uuid().v4(),
+                    question: a[0].trim(),
+                    promptOne: a[3].trim(),
+                    promptTwo: a[4].trim(),
+                    enableDraw: a[5].toLowerCase().trim() == 'enabledraw',
+                    photoUrl: importMap.containsKey(6) ? a[6].trim() : null);
+
+                final List<OptionModel> options = [];
+                for (int i = 0; i < 2; i++) {
+                  if (importMap.containsKey(i + 1)) {
+                    options.add(OptionModel(
+                        index: i,
+                        option: a[i + 1].replaceAll('*', ''),
+                        isCorrect: a[i + 1].contains('*')));
+                  }
+                }
+
+                question.options = options;
+
+                q.add(question);
+                break;
+              case QuestionType.singleChoice:
+                final question = QuestionModel(
+                    index: i,
+                    type: QuestionType.singleChoice,
+                    id: const Uuid().v4(),
+                    question: a[0].trim(),
+                    promptOne: a[2].trim(),
+                    promptTwo: a[3].trim(),
+                    enableDraw: a[4].toLowerCase().trim() == 'enabledraw',
+                    photoUrl: importMap.containsKey(5) ? a[5].trim() : null);
+
+                final List<OptionModel> options = [];
+                if (importMap.containsKey(1)) {
+                  options.add(OptionModel(
+                      index: 0,
+                      option: a[1].replaceAll('*', ''),
+                      isCorrect: true));
+                }
+
+                ///add remaining option
+                options.add(OptionModel(
+                    index: 1,
+                    isCorrect: false,
+                    option: options[0].option!.trim().toLowerCase() == 'true'
+                        ? 'false'
+                        : 'true'));
+                question.options = options;
+
+                q.add(question);
+                break;
+            }
           }
         }
+
         if (!isPractice) {
           await addImportedQuestions(
               questions: q,
@@ -214,6 +296,21 @@ class QnsViewModel extends BaseViewModel {
     showInfoMessage(message: 'Practice question imported successfully.');
 
     setBusy(false);
+  }
+
+  QuestionType _getQuestionTypeByLength(int length, String firstAnswer) {
+    if (length >= 9) {
+      return QuestionType.multipleChoice;
+    } else if (length == 6) {
+      if (firstAnswer.toLowerCase() == 'true' ||
+          firstAnswer.toLowerCase() == 'false') {
+        return QuestionType.singleChoice;
+      } else {
+        return QuestionType.inputSingle;
+      }
+    } else {
+      return QuestionType.inputMultiple;
+    }
   }
 
   @override

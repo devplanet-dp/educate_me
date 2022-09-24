@@ -1,6 +1,8 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/app_network_image.dart';
+import 'package:educate_me/core/widgets/busy_button.dart';
+import 'package:educate_me/data/question.dart';
 import 'package:educate_me/features/student/quiz/components/draw_brush_widget.dart';
 import 'package:educate_me/features/student/quiz/components/option_tile_widget.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/shared/app_colors.dart';
+import '../../../../core/widgets/text_field_widget.dart';
 import '../quiz_view_model.dart';
 
 class QuestionCard extends ViewModelWidget<QuizViewModel> {
@@ -30,7 +33,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
                   enableDraw: model.selectedQn?.enableDraw ?? true)
               .alignment(Alignment.topRight),
           vSpaceSmall,
-          const MultipleChoiceQns(),
+          _buildAnswer(model.selectedQn?.type ?? QuestionType.multipleChoice),
           vSpaceSmall,
         ],
       ),
@@ -40,13 +43,13 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
   Widget _buildQuestion(String qns, String? photoUrl) => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          photoUrl == null
+          photoUrl == null || photoUrl.trim().toLowerCase() == 'noimage'
               ? emptyBox()
               : AppNetworkImage(
                   path: photoUrl,
                   thumbWidth: 212.w,
                   thumbHeight: 198.h,
-                ).paddingSymmetric(horizontal: 16),
+                ).paddingSymmetric(horizontal: 16, vertical: 8),
           Text(
             qns,
             textAlign: TextAlign.center,
@@ -63,6 +66,19 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
           ).width(Get.width),
         ],
       );
+
+  Widget _buildAnswer(QuestionType type) {
+    switch (type) {
+      case QuestionType.multipleChoice:
+      case QuestionType.singleChoice:
+        return const MultipleChoiceQns();
+      case QuestionType.inputSingle:
+      case QuestionType.inputMultiple:
+        return const InputTypeQns();
+      default:
+        return const MultipleChoiceQns();
+    }
+  }
 }
 
 class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
@@ -90,6 +106,41 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
             ),
           );
         });
+  }
+}
+
+class InputTypeQns extends ViewModelWidget<QuizViewModel> {
+  const InputTypeQns({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, QuizViewModel model) {
+    final options = model.selectedQn?.options ?? [];
+    final TextEditingController controller = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    return Form(
+        key: formKey,
+        child: Column(
+          children: [
+            AppTextFieldSecondary(
+              controller: controller,
+              hintText: 'Answer',
+              label: '',
+              minLine: 2,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Enter an answer';
+                }
+                return null;
+              },
+            ),
+            vSpaceSmall,
+            BoxButtonWidget(
+              buttonText: 'text095'.tr,
+              onPressed: () {},
+              radius: 8,
+            ).width(Get.width / 2)
+          ],
+        ));
   }
 }
 

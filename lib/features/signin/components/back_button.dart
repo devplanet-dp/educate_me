@@ -18,9 +18,9 @@ class CustomBackButton extends StatelessWidget {
         primary: kButtonColor,
         elevation: 0,
         shape: const CircleBorder(),
-        minimumSize: Size(48.h, 48.h)
+        minimumSize: Size(40.h, 40.h)
       ),
-      child: SvgPicture.asset(kIcBack),
+      child: SvgPicture.asset(kIcBack,height: 18,width: 18,),
     );
   }
 }

@@ -15,14 +15,9 @@ class WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: const [
-            _BackgroundUnion(),
-            _WelcomeTitle()
-          ],
-        ),
+    return Scaffold(
+      body: Stack(
+        children: const [_BackgroundUnion(), _WelcomeTitle()],
       ),
     );
   }
@@ -37,17 +32,20 @@ class _WelcomeTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
         left: 18,
-        bottom: Get.width*.18,
+        bottom: 0,
         right: 18,
         child: [
           Text(
             'Let’s Get \nStarted',
             style: kHeading1Style.copyWith(
-                fontWeight: FontWeight.bold, fontSize: 64.sp),
+                fontWeight: FontWeight.bold, fontSize: 48.sp),
           ),
           const Text('We Math-welcome you :)'),
           vSpaceMedium,
-          BoxButtonWidget(onPressed: () =>Get.to(()=>const SignInView()), buttonText: 'Join now',).width(Get.width*1),
+          BoxButtonWidget(
+            onPressed: () => Get.to(() => const SignInView()),
+            buttonText: 'Join now',
+          ).width(Get.width * 1),
           vSpaceMedium
         ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
   }
@@ -67,7 +65,7 @@ class _BackgroundUnion extends StatelessWidget {
           child: SvgPicture.asset(
             kImgUnion,
             width: Get.width * .2,
-            height: Get.height * .68,
+            height: Get.height * .48,
           ),
         ),
         Positioned(
