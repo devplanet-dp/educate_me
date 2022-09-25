@@ -1,7 +1,9 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_network_image.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
+import 'package:educate_me/data/option.dart';
 import 'package:educate_me/data/question.dart';
 import 'package:educate_me/features/student/quiz/components/draw_brush_widget.dart';
 import 'package:educate_me/features/student/quiz/components/option_tile_widget.dart';
@@ -114,9 +116,9 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
-    final options = model.selectedQn?.options ?? [];
     final TextEditingController controller = TextEditingController();
     final formKey = GlobalKey<FormState>();
+    controller.text = model.getUserInputAns();
     return Form(
         key: formKey,
         child: Column(
@@ -135,9 +137,19 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
             ),
             vSpaceSmall,
             BoxButtonWidget(
-              buttonText: 'text095'.tr,
-              onPressed: () {},
+              buttonText:
+              (model.getButtonStyle()['text'] as String).tr,
               radius: 8,
+              buttonColor: model.getButtonStyle()['color'],
+              onPressed: () {
+                //check user has already answered
+                if(!model.isAnswered()) {
+                  if (formKey.currentState!.validate()) {
+                    model.onInputTypeSubmit(
+                        controller.text.trim().toLowerCase());
+                  }
+                }
+              },
             ).width(Get.width / 2)
           ],
         ));

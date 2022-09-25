@@ -128,10 +128,12 @@ class UserAnsModel {
   final int qIndex;
   final int optionIndex;
   final bool isCorrect;
+  final String? inputAnswer;
 
   UserAnsModel(
       {required this.id,
       required this.qIndex,
+      this.inputAnswer,
       required this.optionIndex,
       required this.isCorrect});
 }
