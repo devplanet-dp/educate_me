@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
@@ -45,15 +46,19 @@ class Answers extends ViewModelWidget<StatViewModel> {
   @override
   Widget build(BuildContext context, StatViewModel model) {
     return [
-      _AnswerCard(
-          title: 'text033'.tr,
-          image: kIcCorrect,
-          amount: model.controller.currentChild?.stats?.totalCorrect ?? 0),
-      const Expanded(child: SizedBox()),
-      _AnswerCard(
-          title: 'text036'.tr,
-          image: kIcWrong,
-          amount: model.controller.currentChild?.stats?.totalIncorrect ?? 0),
+      Expanded(
+        child: _AnswerCard(
+            title: 'text033'.tr,
+            image: kIcCorrect,
+            amount: model.controller.currentChild?.stats?.totalCorrect ?? 0),
+      ),
+      hSpaceSmall,
+      Expanded(
+        child: _AnswerCard(
+            title: 'text036'.tr,
+            image: kIcWrong,
+            amount: model.controller.currentChild?.stats?.totalIncorrect ?? 0),
+      ),
     ].toRow();
   }
 }
@@ -75,8 +80,10 @@ class _AnswerCard extends StatelessWidget {
       vSpaceSmall,
       SvgPicture.asset(image),
       vSpaceSmall,
-      Text(
+      AutoSizeText(
         title.tr,
+        textAlign: TextAlign.center,
+        maxLines: 1,
         style: kBody1Style.copyWith(color: kcTextDarkGrey),
       ),
       vSpaceSmall,
@@ -88,6 +95,7 @@ class _AnswerCard extends StatelessWidget {
     ]
         .toColumn(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min).paddingSymmetric(horizontal: 26.w,vertical: 10)
         .decorated(
       color: Colors.white,

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../core/shared/app_colors.dart';
 import '../../../core/utils/app_controller.dart';
 import '../../../core/utils/constants/app_assets.dart';
 import '../../../data/question.dart';
@@ -21,7 +22,6 @@ class QuizViewModel extends BaseViewModel {
   final AppController controller = Get.find<AppController>();
   final QuizController quizController = Get.find<QuizController>();
   final PageController pageController = PageController(initialPage: 0);
-
 
   bool _isFirstAttempt = false;
 
@@ -81,10 +81,15 @@ class QuizViewModel extends BaseViewModel {
   }
 
   goToNextQn() {
-    _resetAttempts();
-    pageController.animateToPage((pageController.page! + 1).toInt(),
-        duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
-    _incrementQno();
+    if(!isLastPage()) {
+      _resetAttempts();
+      pageController.animateToPage((pageController.page! + 1).toInt(),
+          duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+      _incrementQno();
+    }else{
+      pageController.animateToPage((questions.length+1).toInt(),
+          duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+    }
   }
 
   goToPrvQn() {
@@ -102,11 +107,24 @@ class QuizViewModel extends BaseViewModel {
       if (option.isCorrect ?? false) {
         _addQuestionAsAnswered(option);
       } else {
-        isSecondAttempt
-            ? showSecondAttemptWrongDialog(option)
-            : showFirstAttemptWrongPrompt();
+        ///show only one prompt for single choice questions
+        if (selectedQn?.type == QuestionType.singleChoice) {
+          showSecondAttemptWrongDialog(option);
+        } else {
+          isSecondAttempt
+              ? showSecondAttemptWrongDialog(option)
+              : showFirstAttemptWrongPrompt();
+        }
       }
     }
+  }
+
+  void onInputTypeSubmit(String answer) {
+    bool? isCorrect = selectedQn?.options!
+        .any((e) => e.option?.trim().toLowerCase() == answer);
+    OptionModel p =
+        OptionModel(index: 0, isCorrect: isCorrect ?? false, option: answer);
+    onOptionSelected(p);
   }
 
   void _addQuestionAsAnswered(OptionModel option) {
@@ -115,6 +133,7 @@ class QuizViewModel extends BaseViewModel {
       id: selectedQn?.id ?? '',
       isCorrect: option.isCorrect ?? false,
       qIndex: qnNo,
+      inputAnswer: option.option
     );
     _ans.removeWhere((e) => e.id == selectedQn?.id);
     _ans.add(userAnswer);
@@ -135,6 +154,31 @@ class QuizViewModel extends BaseViewModel {
       return _ans.firstWhere((e) => e.id == selectedQn?.id).optionIndex;
     }
     return -1;
+  }
+
+  String getUserInputAns() {
+    if (isAnswered()) {
+      return _ans.firstWhere((e) => e.id == selectedQn?.id).inputAnswer ?? '';
+    }
+    return '';
+  }
+
+  Map<String, dynamic> getButtonStyle() {
+    if (isAnswered()) {
+      if (isUserCorrect()) {
+        return {'text': 'text096', 'color': kcCorrectAns};
+      } else {
+        return {'text': 'text098', 'color': kcFailedAns};
+      }
+    } else {
+      if (_isFirstAttempt) {
+        return {'text': 'text097', 'color': kcTryAgainAns};
+      } else if (_isSecondAttempt) {
+        return {'text': 'text098', 'color': kcFailedAns};
+      } else {
+        return {'text': 'text095', 'color': kcPrimaryColor};
+      }
+    }
   }
 
   bool isLastPage() => qnNo > questions.length;

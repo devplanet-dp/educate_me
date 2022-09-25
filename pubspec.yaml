@@ -62,6 +62,8 @@ dependencies:
   uuid:
   fab_circular_menu:
   device_preview:
+  flutter_keyboard_visibility:
+
   #pickers
   flutter_picker:
   #payments

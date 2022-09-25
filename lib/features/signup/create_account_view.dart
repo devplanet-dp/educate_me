@@ -20,19 +20,17 @@ class CreateAccountView extends StatelessWidget {
     return ViewModelBuilder<SignUpViewModel>.reactive(
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
-        child: SafeArea(
-          child: Scaffold(
-            bottomNavigationBar:  BoxButtonWidget(
-              buttonText: 'text016'.tr,
-              isLoading: vm.isBusy,
-              onPressed: () =>vm.addUsers(),
-            ).paddingSymmetric(horizontal: 16,vertical: 8),
-            body: Stack(
-              children: [
-                const AppBgWidget(),
-                _buildBody(vm, context),
-              ],
-            ),
+        child: Scaffold(
+          bottomNavigationBar:  BoxButtonWidget(
+            buttonText: 'text016'.tr,
+            isLoading: vm.isBusy,
+            onPressed: () =>vm.addUsers(),
+          ).paddingSymmetric(horizontal: 16,vertical: 8),
+          body: Stack(
+            children: [
+              const AppBgWidget(),
+              _buildBody(vm, context),
+            ],
           ),
         ),
       ),

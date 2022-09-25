@@ -20,6 +20,14 @@ class LessonViewModel extends BaseViewModel {
 
   bool isAnswered(index) => answers.any((element) => element.index == index);
 
+  String? getUserAnswer(index) => isAnswered(index)
+      ? answers[answers.indexWhere((e) => e.index == index)].answer
+      : null;
+
+  bool isQuizEnabled(){
+    return !answers.every((e) => e.state == AnswerState.correct || e.state==AnswerState.failed);
+  }
+
   onQuestionAnswered(
       {required String text,
       required int index,
