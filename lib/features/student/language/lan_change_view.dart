@@ -1,29 +1,37 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
-import 'package:educate_me/features/student/language/language_view_model.dart';
+import 'package:educate_me/features/student/navigation/navigation_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/shared/shared_styles.dart';
+import '../../../core/widgets/two_row_button.dart';
+import '../../signin/components/custom_app_bar.dart';
 
 class LanChangeView extends StatelessWidget {
   const LanChangeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<LangViewModel>.reactive(
+    return ViewModelBuilder<NavigationViewModel>.reactive(
       builder: (context, vm, child) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          automaticallyImplyLeading: true,
-          title: Text(
-            'text063'.tr,
-            style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold),
+        bottomNavigationBar: TwoRowButton(
+          onPositiveTap: () =>vm.updateChildAccountDetails(),
+          onNegativeTap: () => Get.back(),
+          negativeText: 'text043'.tr,
+          positiveText: 'text065'.tr,
+          isBusy: vm.isBusy,
+        ),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: SwitchUserAppBar(
+            title: 'text063'.tr,
+            onUserUpdated: (){
+              vm.initChildAccountDetails();
+            },
           ),
-          centerTitle: true,
         ),
         body: [
           vSpaceSmall,
@@ -37,11 +45,11 @@ class LanChangeView extends StatelessWidget {
             .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
             .paddingSymmetric(horizontal: 16),
       ),
-      viewModelBuilder: () => LangViewModel(),
+      viewModelBuilder: () => NavigationViewModel(),
     );
   }
 
-  Widget _buildLangCard(LangViewModel model) => InkWell(
+  Widget _buildLangCard(NavigationViewModel model) => InkWell(
         onTap: () => Get.bottomSheet(
             LanguageSelectorSheet(
               onLanSelected: () => model.notifyListeners(),
@@ -78,7 +86,7 @@ class LanguageSelectorSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<LangViewModel>.reactive(
+    return ViewModelBuilder<NavigationViewModel>.reactive(
       builder: (context, model, child) => Card(
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: kBorderMedium),
@@ -104,7 +112,7 @@ class LanguageSelectorSheet extends StatelessWidget {
                   )),
         ),
       ),
-      viewModelBuilder: () => LangViewModel(),
+      viewModelBuilder: () => NavigationViewModel(),
     );
   }
 }

@@ -81,10 +81,15 @@ class QuizViewModel extends BaseViewModel {
   }
 
   goToNextQn() {
-    _resetAttempts();
-    pageController.animateToPage((pageController.page! + 1).toInt(),
-        duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
-    _incrementQno();
+    if(!isLastPage()) {
+      _resetAttempts();
+      pageController.animateToPage((pageController.page! + 1).toInt(),
+          duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+      _incrementQno();
+    }else{
+      pageController.animateToPage((questions.length+1).toInt(),
+          duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+    }
   }
 
   goToPrvQn() {

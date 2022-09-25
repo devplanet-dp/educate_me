@@ -2,29 +2,32 @@ import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/core/widgets/text_field_widget.dart';
+import 'package:educate_me/features/student/navigation/navigation_view_model.dart';
+import 'package:educate_me/features/student/navigation/navigation_view_model.dart';
 import 'package:educate_me/features/student/support/support_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../core/utils/device_utils.dart';
+import '../../signin/components/custom_app_bar.dart';
 
 class SupportView extends StatelessWidget {
   const SupportView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<SupportViewModel>.reactive(
+    return ViewModelBuilder<NavigationViewModel>.reactive(
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            centerTitle: true,
-            automaticallyImplyLeading: true,
-            title: Text(
-              'text048'.tr,
-              style: kBodyStyle.copyWith(fontWeight: FontWeight.bold),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: SwitchUserAppBar(
+              title: 'text048'.tr,
+              onUserUpdated: (){
+                vm.initChildAccountDetails();
+              },
             ),
           ),
           body: Form(
@@ -82,7 +85,7 @@ class SupportView extends StatelessWidget {
           ),
         ),
       ),
-      viewModelBuilder: () => SupportViewModel(),
+      viewModelBuilder: () => NavigationViewModel(),
     );
   }
 }

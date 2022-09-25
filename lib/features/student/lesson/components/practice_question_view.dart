@@ -39,15 +39,15 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
           ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemBuilder: (_, index) => _QnsCard(lesson.questions![index],
-                  index),
+              itemBuilder: (_, index) =>
+                  _QnsCard(lesson.questions![index], index),
               separatorBuilder: (_, index) => vSpaceMedium,
               itemCount: lesson.questions?.length ?? 0),
           vSpaceMedium,
           BoxButtonWidget(
               buttonText: 'text030'.tr,
               radius: 8,
-              isEnabled:  model.answers.length == lesson.questions?.length,
+              isEnabled: model.answers.length == lesson.questions?.length,
               onPressed: () => model.onStartQuizTapped(
                   levelId: levelId,
                   topicId: topicId,
@@ -60,8 +60,7 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
 }
 
 class _QnsCard extends ViewModelWidget<LessonViewModel> {
-  const _QnsCard(this.question, this.index, {Key? key})
-      : super(key: key);
+  const _QnsCard(this.question, this.index, {Key? key}) : super(key: key);
   final QuestionModel question;
   final int index;
 
@@ -91,18 +90,23 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
           [
             DrawBrushWidget(qns: question.question ?? '', enableDraw: true),
             hSpaceSmall,
-            Expanded(
-                child: AppTextFieldSecondary(
-              controller: controller,
-              hintText: 'Answer',
-              label: '',
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Enter an answer';
-                }
-                return null;
-              },
-            )),
+            Expanded(child: Builder(builder: (context) {
+
+              controller.text = model.getUserAnswer(index) ?? '';
+
+              return AppTextFieldSecondary(
+                controller: controller,
+                textColor: model.getButtonStyle(index)[index]['color'],
+                hintText: 'Answer',
+                label: '',
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Enter an answer';
+                  }
+                  return null;
+                },
+              );
+            })),
             hSpaceSmall,
             Builder(builder: (context) {
               return Expanded(
