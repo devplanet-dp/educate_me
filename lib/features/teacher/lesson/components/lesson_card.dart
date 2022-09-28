@@ -34,32 +34,46 @@ class LessonCard extends StatelessWidget {
             Stack(
               children: [
                 Positioned.fill(
-                  child: AppNetworkImage(
-                    path: lesson.cover ?? '',
-                    thumbHeight: h,
-                    thumbWidth: w,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8)),
+                    child: AppNetworkImage(
+                      path: lesson.cover ?? '',
+                      thumbHeight: h,
+                      thumbWidth: w,
+                    ),
                   ),
                 ),
-                Positioned(
-                    bottom: 8,
-                    left: 8,
-                    child: Text(
-                      lesson.title ?? '',
-                      style: kCaptionStyle.copyWith(color: kAltWhite),
-                    ).paddingAll(8).decorated(
-                        color: kAltBg.withOpacity(.4),
-                        borderRadius: kBorderSmall)),
                 isCompleted ? const CompletedOverlayWidget() : emptyBox(),
               ],
             ).height(h).width(w),
             vSpaceSmall,
             AutoSizeText(
-              lesson.description ?? '',
+              lesson.title ?? '',
+              maxLines: 1,
+              style: kBody2Style.copyWith(
+                  color: Colors.black,
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w600),
+            ).paddingSymmetric(horizontal: 12),
+            AutoSizeText(
+              '${lesson.description ?? ''}\n',
               maxLines: 2,
               style: kBody2Style.copyWith(color: kcTextGrey),
-            ).width(w),
+            ).paddingSymmetric(horizontal: 12),
             vSpaceSmall
           ],
-        ));
+        )).decorated(
+      color: Colors.white,
+      borderRadius: kBorderSmall,
+      boxShadow: [
+        BoxShadow(
+          color: kcTextGrey.withOpacity(.13),
+          blurRadius: 9,
+          offset: const Offset(0, 1), // Shadow position
+        ),
+      ],
+    ).width(w);
   }
 }

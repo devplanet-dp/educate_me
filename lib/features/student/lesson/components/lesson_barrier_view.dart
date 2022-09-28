@@ -26,36 +26,34 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
   @override
   Widget build(BuildContext context, LessonViewModel model) {
 
-    return Expanded(
-      child: PageView(
-        controller: model.barrierController,
-        physics: const NeverScrollableScrollPhysics(),
-        onPageChanged: (index){
-          model.resetScroll();
-        },
-        children: List.generate(
-            lesson.content?.length ?? 0,
-            (index) => SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      LessonBarrierView(content: lesson.content?[index] ?? ''),
-                      vSpaceMedium,
-                      BoxButtonWidget(
-                        radius: 8,
-                        buttonText:
-                            '${'text093'.tr}(${index + 1}/${lesson.content?.length})',
-                        onPressed: () => model.goToNextBarrier(),
-                      ),
-                      vSpaceMedium,
-                    ],
-                  ),
-                ))
-          ..add(PracticeQuestionView(
-              levelId: levelId,
-              topicId: topicId,
-              subTopicId: subTopicId,
-              lesson: lesson)),
-      ),
+    return PageView(
+      controller: model.barrierController,
+      physics: const NeverScrollableScrollPhysics(),
+      onPageChanged: (index){
+        model.resetScroll();
+      },
+      children: List.generate(
+          lesson.content?.length ?? 0,
+          (index) => SingleChildScrollView(
+                child: Column(
+                  children: [
+                    LessonBarrierView(content: lesson.content?[index] ?? ''),
+                    vSpaceMedium,
+                    BoxButtonWidget(
+                      radius: 8,
+                      buttonText:
+                          '${'text093'.tr}(${index + 1}/${lesson.content?.length})',
+                      onPressed: () => model.goToNextBarrier(),
+                    ),
+                    vSpaceMedium,
+                  ],
+                ),
+              ))
+        ..add(PracticeQuestionView(
+            levelId: levelId,
+            topicId: topicId,
+            subTopicId: subTopicId,
+            lesson: lesson)),
     );
   }
 }

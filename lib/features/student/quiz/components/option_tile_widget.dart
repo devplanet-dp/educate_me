@@ -50,14 +50,14 @@ class OptionTileWidget extends StatelessWidget {
       ],
     ).paddingAll(8).card(
         color: !isOptionSelected
-            ? kcPrimaryColor.withOpacity(.2)
+            ? kcOptionColor
             : (index == userSelectedIndex)
                 ? isUserOptionCorrect
                     ? kcCorrectAns
                     : kcIncorrectAns
                 : isCorrectOption
                     ? kcCorrectAns
-                    : kcPrimaryColor.withOpacity(.2),
+                    : kcOptionColor,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: kBorderSmall));
   }

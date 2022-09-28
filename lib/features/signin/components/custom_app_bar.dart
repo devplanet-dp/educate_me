@@ -1,3 +1,4 @@
+import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/widgets/avatar_widget.dart';
 import 'package:educate_me/features/student/navigation/component/user_account_tile.dart';
 import 'package:educate_me/features/student/navigation/navigation_view_model.dart';
@@ -38,7 +39,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
     return AppBar(
       elevation: 0,
       centerTitle: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       title: Text(
         title.tr,
         style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold),
@@ -60,6 +61,16 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
               .paddingAll(8),
         ),
       ],
+    ).decorated(
+      color: Colors.white,
+      borderRadius: kBorderSmall,
+      boxShadow: [
+        const BoxShadow(
+          color: Color.fromRGBO(0,0, 0, 0.05),
+          blurRadius: 9,
+          offset: Offset(0, 1), // Shadow position
+        ),
+      ],
     );
   }
 
@@ -70,6 +81,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
         onTap: (){
           model.onSwitchProfile(c);
           onUserUpdated();
+          model.controller.update();
         },
           child: UserAccountTile(
             isSelected: c == model.controller.currentChild,

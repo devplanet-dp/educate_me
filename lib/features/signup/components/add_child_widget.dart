@@ -1,8 +1,12 @@
 import 'package:educate_me/core/widgets/text_field_widget.dart';
 import 'package:educate_me/features/signup/signup_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
+
+import '../../../core/widgets/busy_button.dart';
+import '../../../core/widgets/busy_button.dart';
 
 class AddChildWidget extends ViewModelWidget<SignUpViewModel> {
   const AddChildWidget({Key? key}) : super(key: key);
@@ -13,7 +17,11 @@ class AddChildWidget extends ViewModelWidget<SignUpViewModel> {
       key: model.formKey,
       child: Column(
         children: List.generate(
-            model.childCount.length, (index) => _inputFields(model, index)),
+            model.childCount.length, (index) => _inputFields(model, index))..add(BoxButtonWidget(
+          buttonText: 'text016'.tr,
+          isLoading: model.isBusy,
+          onPressed: () =>model.addUsers(),
+        ).paddingSymmetric(vertical: 12)),
       ),
     );
   }

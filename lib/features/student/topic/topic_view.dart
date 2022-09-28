@@ -1,3 +1,4 @@
+import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/data/level.dart';
 import 'package:educate_me/data/topic.dart';
@@ -23,17 +24,16 @@ class TopicView extends StatelessWidget {
       },
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
-        child: SafeArea(
-          child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(kToolbarHeight),
-              child: SwitchUserAppBar(
-                title: 'text024'.tr,
-                onUserUpdated: () => vm.notifyListeners(),
-              ),
+        child: Scaffold(
+          backgroundColor: kcBg,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: SwitchUserAppBar(
+              title: 'text024'.tr,
+              onUserUpdated: () => vm.notifyListeners(),
             ),
-            body: const _LevelSection(),
           ),
+          body: const _LevelSection(),
         ),
       ),
       viewModelBuilder: () => TopicViewModel(),

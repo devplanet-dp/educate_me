@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../core/shared/shared_styles.dart';
+import '../../core/utils/constants/app_assets.dart';
 import '../../core/utils/device_utils.dart';
 import '../../core/widgets/busy_button.dart';
 import '../signin/components/app_bg.dart';
@@ -20,17 +21,16 @@ class CreateAccountView extends StatelessWidget {
     return ViewModelBuilder<SignUpViewModel>.reactive(
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
-        child: Scaffold(
-          bottomNavigationBar:  BoxButtonWidget(
-            buttonText: 'text016'.tr,
-            isLoading: vm.isBusy,
-            onPressed: () =>vm.addUsers(),
-          ).paddingSymmetric(horizontal: 16,vertical: 8),
-          body: Stack(
-            children: [
-              const AppBgWidget(),
-              _buildBody(vm, context),
-            ],
+        child: Container(
+          decoration:   const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(kImgUnionPng2), fit: BoxFit.cover),
+          ),
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: _buildBody(vm, context),
+            ),
           ),
         ),
       ),

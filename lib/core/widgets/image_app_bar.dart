@@ -2,6 +2,7 @@ import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/widgets/app_network_image.dart';
 import 'package:educate_me/core/widgets/background_overlay.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -19,7 +20,7 @@ class ImageSliderAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: Get.height * .35,
+      expandedHeight: 255.h,
       floating: false,
       pinned: true,
       leading: AppRoundButton(
@@ -44,7 +45,7 @@ class ImageSliderAppBar extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.center,
-            child: Text(title,style: kBodyStyle.copyWith(color: Colors.white,fontWeight: FontWeight.w700),),
+            child: Text(title,style: kBodyStyle.copyWith(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 18.sp),),
           )
         ],
       )),

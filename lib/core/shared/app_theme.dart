@@ -7,7 +7,7 @@ import 'app_colors.dart';
 final ThemeData themeData = ThemeData(
   textTheme: GoogleFonts.poppinsTextTheme(),
   brightness: Brightness.light,
-  backgroundColor: Colors.white,
+  backgroundColor: kcBg,
   dividerColor: Colors.transparent,
   dialogTheme: const DialogTheme(
 

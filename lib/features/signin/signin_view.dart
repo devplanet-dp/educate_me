@@ -1,4 +1,3 @@
-import 'package:educate_me/features/signin/components/app_bg.dart';
 import 'package:educate_me/features/signin/components/create_account_text.dart';
 import 'package:educate_me/features/signin/components/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../core/shared/app_colors.dart';
 import '../../core/shared/shared_styles.dart';
 import '../../core/shared/ui_helpers.dart';
+import '../../core/utils/constants/app_assets.dart';
 import '../../core/utils/device_utils.dart';
 import '../../core/widgets/busy_button.dart';
 import '../../core/widgets/text_field_widget.dart';
@@ -25,12 +25,14 @@ class SignInView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: SafeArea(
-          child: Scaffold(
-            body: Stack(
-              children: [
-                const AppBgWidget(),
-                _buildBody(vm, context),
-              ],
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(kImgUnionPng), fit: BoxFit.cover),
+            ),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: _buildBody(vm, context),
             ),
           ),
         ),

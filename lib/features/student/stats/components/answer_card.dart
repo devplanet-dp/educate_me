@@ -16,19 +16,26 @@ class TotalAnswerCard extends ViewModelWidget<StatViewModel> {
 
   @override
   Widget build(BuildContext context, StatViewModel model) {
-    return ListTile(
-      title: Text(
-        'text032'.tr,
-        style: kBody1Style.copyWith(color: kcTextDarkGrey),
-      ),
-      leading: SvgPicture.asset(kIcAsk),
-      subtitle: Text(
-        '${model.controller.currentChild?.stats?.totalAnswered ?? 0}',
-        style: kHeading3Style.copyWith(
-            color: Colors.black, fontWeight: FontWeight.bold),
-      ),
-    ).decorated(
+    return Row(
+      children: [
+        SvgPicture.asset(kIcAsk,width: 32,height: 32,).paddingAll(16),
+        Expanded(
+          child: [
+            Text(
+              'text032'.tr,
+              style: kBody1Style.copyWith(color: kcTextDarkGrey),
+            ),
+            Text(
+              '${model.controller.currentChild?.stats?.totalAnswered ?? 0}',
+              style: kHeading3Style.copyWith(
+                  color: Colors.black, fontWeight: FontWeight.bold),
+            )
+          ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
+        )
+      ],
+    ).paddingSymmetric(vertical: 12).decorated(
       color: Colors.white,
+      borderRadius: kBorderSmall,
       boxShadow: [
         BoxShadow(
           color: kcTextGrey.withOpacity(.2),
@@ -99,6 +106,7 @@ class _AnswerCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min).paddingSymmetric(horizontal: 26.w,vertical: 10)
         .decorated(
       color: Colors.white,
+      borderRadius: kBorderSmall,
       boxShadow: [
         BoxShadow(
           color: kcTextGrey.withOpacity(.2),

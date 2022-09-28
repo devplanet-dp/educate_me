@@ -10,6 +10,7 @@ import 'package:educate_me/features/student/topic/topic_view_model.dart';
 import 'package:educate_me/features/teacher/lesson/components/lesson_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:stacked/stacked.dart';
@@ -34,6 +35,7 @@ class SubTopicView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
+          backgroundColor: kcBg,
           extendBodyBehindAppBar: true,
           body: CustomScrollView(
             slivers: [
@@ -108,7 +110,7 @@ class _SubTopicSection extends StatelessWidget {
           return [
             Text(
               s.title ?? '',
-              style: kBodyStyle.copyWith(fontWeight: FontWeight.bold),
+              style: kBodyStyle.copyWith(fontWeight: FontWeight.bold,fontSize: 16.sp,),
             ).paddingOnly(left: 12),
             vSpaceSmall,
             AutoSizeText(

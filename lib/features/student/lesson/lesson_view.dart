@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../core/shared/app_colors.dart';
+
 class LessonView extends StatelessWidget {
   const LessonView(
       {Key? key,
@@ -26,6 +28,7 @@ class LessonView extends StatelessWidget {
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return ViewModelBuilder<LessonViewModel>.reactive(
       builder: (context, vm, child) => Scaffold(
+        backgroundColor: kcBg,
         extendBodyBehindAppBar: true,
         body: NestedScrollView(
           controller: vm.scrollController,
@@ -35,13 +38,12 @@ class LessonView extends StatelessWidget {
                   images: lesson.cover ?? '', title: lesson.title ?? '')
             ];
           },
-          body: Expanded(
-              child: LessonContentPageView(
+          body: LessonContentPageView(
             lesson: lesson,
             levelId: levelId,
             topicId: topicId,
             subTopicId: subTopicId,
-          ).paddingSymmetric(horizontal: 16, vertical: 16)),
+          ).paddingSymmetric(horizontal: 16, vertical: 16),
         ),
       ),
       viewModelBuilder: () => LessonViewModel(),

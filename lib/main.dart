@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DevicePreview(
-        enabled: true,
+        enabled: false,
         builder: (_) => ScreenUtilInit(
             designSize: const Size(360, 800),
             splitScreenMode: true,

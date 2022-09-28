@@ -278,8 +278,8 @@ class AppTextFieldSecondary extends StatelessWidget {
               child: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.all(Radius.circular(5))),
-              shadow: BoxShadow(
-                color: kcTextGrey.withOpacity(.2),
+              shadow:const BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.2),
                 blurRadius: 8,
               ),
             ),

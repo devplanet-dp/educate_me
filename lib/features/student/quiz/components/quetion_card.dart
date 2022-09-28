@@ -58,11 +58,12 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
             style: kBodyStyle.copyWith(fontWeight: FontWeight.w500),
           ).paddingAll(8).decorated(
             color: Colors.white,
+            borderRadius: kBorderSmall,
             boxShadow: [
-              BoxShadow(
-                color: kcTextGrey.withOpacity(.2),
+              const BoxShadow(
+                color: Color.fromRGBO(0,0, 0, 0.05),
                 blurRadius: 9,
-                offset: const Offset(0, 1), // Shadow position
+                offset: Offset(0, 1), // Shadow position
               ),
             ],
           ).width(Get.width),

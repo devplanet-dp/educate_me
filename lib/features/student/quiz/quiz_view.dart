@@ -1,3 +1,4 @@
+import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
@@ -42,6 +43,7 @@ class QuizView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
+          backgroundColor: kcBgQuiz,
           bottomNavigationBar: !vm.isLastPage() || vm.questions.isEmpty
               ? emptyBox()
               : Container(
