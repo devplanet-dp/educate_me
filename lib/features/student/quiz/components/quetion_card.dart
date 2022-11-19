@@ -94,6 +94,13 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
   @override
   Widget build(BuildContext context, QuizViewModel model) {
     final options = model.selectedQn?.options ?? [];
+    // ///get only first 3 elements to shuffle
+    // final shuffleOptions=options.getRange(0, options.length-1).toList();
+    // //shuffle list order
+    // shuffleOptions.shuffle();
+    // //keep last option remains in order
+    // shuffleOptions.add(options.last);
+
     return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
