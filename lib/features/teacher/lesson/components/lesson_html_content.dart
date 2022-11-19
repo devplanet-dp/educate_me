@@ -27,22 +27,17 @@ class LessonContentAddView extends StatelessWidget {
           ),
           body: HtmlEditor(
             controller: vm.htmlController,
-            hint: 'Add your content here...',
-            toolbar: const [
-              Style(),
-              FontSetting(),
-              Font(),
-              ColorBar(),
-              Paragraph(),
-              Insert(),
-            ],
+
+            htmlEditorOptions: const HtmlEditorOptions(
+              hint: 'Add your content here...',
+
+            ),
             callbacks: Callbacks(onInit: () {
               vm.initHtmlEditor();
             }),
-            options: HtmlEditorOptions(
+            otherOptions: OtherOptions(
                 height: Get.height,
-                shouldEnsureVisible: true,
-                showBottomToolbar: true),
+               ),
           )),
       viewModelBuilder: () => TeacherLessonViewModel(),
     );
