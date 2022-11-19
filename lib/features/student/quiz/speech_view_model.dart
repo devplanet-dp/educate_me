@@ -16,12 +16,10 @@ class SpeechViewModel extends BaseViewModel{
   Future initSpeechEngine()async{
     await _setAwaitOptions();
     flutterTts.setStartHandler(() {
-        print("Playing");
         speechStat = SpeechStat.playing;
     });
 
     flutterTts.setCompletionHandler(() {
-        print("Complete");
         speechStat =SpeechStat.stopped;
     });
     flutterTts.setErrorHandler((message) {
@@ -31,7 +29,7 @@ class SpeechViewModel extends BaseViewModel{
   }
 
   Future speak(QuestionModel? question) async{
-    await flutterTts.setVolume(0.5);
+    await flutterTts.setVolume(1);
     await flutterTts.setSpeechRate(0.4);
     await flutterTts.setPitch(1);
     var result = await flutterTts.speak(question?.question??'');
