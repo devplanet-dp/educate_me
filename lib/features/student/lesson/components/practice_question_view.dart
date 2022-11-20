@@ -91,7 +91,6 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
             DrawBrushWidget(qns: question.question ?? '', enableDraw: true),
             hSpaceSmall,
             Expanded(child: Builder(builder: (context) {
-
               controller.text = model.getUserAnswer(index) ?? '';
 
               return AppTextFieldSecondary(
@@ -124,9 +123,13 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                           index: index,
                           correctAnswer: question.options!
                                   .where((o) => o.isCorrect ?? false)
-                                  .first
-                                  .option ??
-                              '');
+                                  .isNotEmpty
+                              ? question.options!
+                                      .where((o) => o.isCorrect ?? false)
+                                      .first
+                                      .option ??
+                                  'NO ANSWER'
+                              : 'NO ANSWER');
                     }
                   }
                 },

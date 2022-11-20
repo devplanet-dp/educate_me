@@ -107,6 +107,7 @@ class AppLocale extends Translations {
           'text097':'Try again',
           'text098':'Please do the quiz',
           'text099':'Submit',
+          'text100':'Lesson',
 
 
 

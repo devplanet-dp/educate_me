@@ -82,6 +82,14 @@ class TeacherQnsView extends StatelessWidget {
                   )),
                 ),
                 ActionChip(
+                  label: const Text('Edit practice'),
+                  onPressed: () => Get.to(() => ImportQnsView(
+                    levelId: levelId,
+                    topicId: topicId,
+                    subTopicId: subTopicId,
+                    lessonId: lessonId,isPractice: true,)),
+                ),
+                ActionChip(
                   label: const Text('Import practice'),
                   onPressed: () => Get.to(() => ImportQnsView(
                       levelId: levelId,
@@ -105,7 +113,7 @@ class TeacherQnsView extends StatelessWidget {
                         translateKey: 'No questions found',
                         iconData: Iconsax.message_question)
                     .center()
-                : _QuestionsGrid(
+                : QuestionsGrid(
                     levelId: levelId,
                     topicId: topicId,
                     subTopicId: subTopicId,
@@ -120,8 +128,8 @@ class TeacherQnsView extends StatelessWidget {
   }
 }
 
-class _QuestionsGrid extends ViewModelWidget<TeacherLevelViewModel> {
-  const _QuestionsGrid({
+class QuestionsGrid extends ViewModelWidget<TeacherLevelViewModel> {
+  const QuestionsGrid({
     Key? key,
     required this.levelId,
     this.topicId,

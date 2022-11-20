@@ -1,3 +1,4 @@
+import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/features/student/lesson/components/practice_question_view.dart';
@@ -37,12 +38,16 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
           (index) => SingleChildScrollView(
                 child: Column(
                   children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                        child: Text('text100'.tr,style: kBodyStyle.copyWith(fontSize: 18,fontWeight: FontWeight.w600),)),
+                    vSpaceSmall,
                     LessonBarrierView(content: lesson.content?[index] ?? ''),
                     vSpaceMedium,
                     BoxButtonWidget(
                       radius: 8,
                       buttonText:
-                          '${'text093'.tr}(${index + 1}/${lesson.content?.length})',
+                          '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
                       onPressed: () => model.goToNextBarrier(),
                     ),
                     vSpaceMedium,
