@@ -1,6 +1,7 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_overlay.dart';
+import 'package:educate_me/features/teacher/level/level_practice_qns_view.dart';
 import 'package:educate_me/features/teacher/level/teacher_level_view_model.dart';
 import 'package:educate_me/features/teacher/question/import_qns_view.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
@@ -83,11 +84,11 @@ class TeacherQnsView extends StatelessWidget {
                 ),
                 ActionChip(
                   label: const Text('Edit practice'),
-                  onPressed: () => Get.to(() => ImportQnsView(
+                  onPressed: () => Get.to(() => LevelPracticeQnsView(
                     levelId: levelId,
                     topicId: topicId,
                     subTopicId: subTopicId,
-                    lessonId: lessonId,isPractice: true,)),
+                    lessonId: lessonId,)),
                 ),
                 ActionChip(
                   label: const Text('Import practice'),

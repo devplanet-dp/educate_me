@@ -335,6 +335,7 @@ class FirestoreService {
     }
   }
 
+
   //topics
   Future<FirebaseResult> addTopic(TopicModel topic, String levelId) async {
     try {
@@ -555,6 +556,30 @@ class FirestoreService {
       return FirebaseResult.error(errorMessage: e.toString());
     }
   }
+  Future<FirebaseResult> removePracticeQuestion(
+      {required levelId,
+        required topicId,
+        required subTopic,
+        required lessonId}) async {
+    try {
+      await _levelReference
+          .doc(levelId)
+          .collection(tbTopic)
+          .doc(topicId)
+          .collection(tbSubTopic)
+          .doc(subTopic)
+          .collection(tbLesson)
+          .doc(lessonId)
+          .update({'questions': []});
+      return FirebaseResult(data: true);
+    } catch (e) {
+      if (e is PlatformException) {
+        return FirebaseResult.error(errorMessage: e.message.toString());
+      }
+
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
 
   Stream<List<QuestionModel>> streamQuestions(
       {required levelId,
@@ -595,6 +620,26 @@ class FirestoreService {
       final dataList =
           snap.docs.map((doc) => QuestionModel.fromSnapshot(doc)).toList();
       return ApiResult(data: dataList);
+    } catch (e) {
+      return ApiResult.error(errorMessage: e.toString());
+    }
+  }
+  Future<ApiResult> getPracticeQuestions(
+      {required levelId,
+        required topicId,
+        required subTopicId,
+        required lessonId}) async {
+    try {
+      var snap = await _levelReference
+          .doc(levelId)
+          .collection(tbTopic)
+          .doc(topicId)
+          .collection(tbSubTopic)
+          .doc(subTopicId)
+          .collection(tbLesson)
+          .doc(lessonId)
+          .get();
+      return ApiResult(data: LessonModel.fromSnapshot(snap));
     } catch (e) {
       return ApiResult.error(errorMessage: e.toString());
     }

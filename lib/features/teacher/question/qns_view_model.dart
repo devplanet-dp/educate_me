@@ -105,6 +105,25 @@ class QnsViewModel extends BaseViewModel {
     }
   }
 
+  Future removePracticeQuestion(
+      {required levelId,
+      required topicId,
+      required subTopicId,
+      required lessonId}) async {
+    var response = await _dialogService.showConfirmationDialog(
+        title: 'Are you sure?', description: 'Delete this question?');
+    if (response?.confirmed ?? false) {
+      setBusy(true);
+      await _service.removePracticeQuestion(
+          levelId: levelId,
+          topicId: topicId,
+          subTopic: subTopicId,
+          lessonId: lessonId);
+      setBusy(false);
+      Get.back();
+    }
+  }
+
   Future importQnsFromText(
       {required levelId,
       required topicId,
@@ -294,6 +313,27 @@ class QnsViewModel extends BaseViewModel {
         lessonId: lessonId);
     Get.back();
     showInfoMessage(message: 'Practice question imported successfully.');
+
+    setBusy(false);
+  }
+  Future updatePracticeQuestions({
+    required levelId,
+    required topicId,
+    required subtopicId,
+    required lessonId,
+    required QuestionModel question
+  }) async {
+    setBusy(true);
+    question.question=qnsTEC.text;
+    question.options = addedQns;
+    final data = await _service.addPracticeQuestion(
+        question: [question],
+        levelId: levelId,
+        topicId: topicId,
+        subTopicId: subtopicId,
+        lessonId: lessonId);
+    Get.back();
+    showInfoMessage(message: 'Practice question edited successfully.');
 
     setBusy(false);
   }

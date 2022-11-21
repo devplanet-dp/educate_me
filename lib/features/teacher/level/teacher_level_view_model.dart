@@ -1,6 +1,6 @@
 import 'package:educate_me/core/utils/app_utils.dart';
+import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/level.dart';
-import 'package:educate_me/data/option.dart';
 import 'package:educate_me/data/services/firestore_service.dart';
 import 'package:educate_me/features/teacher/level/teacher_qns_view.dart';
 import 'package:educate_me/features/teacher/topic/teacher_topic_view.dart';
@@ -21,8 +21,11 @@ class TeacherLevelViewModel extends BaseViewModel {
   final nameTEC = TextEditingController();
 
   List<QuestionModel> _questions = [];
+  List<QuestionModel> _practiceQns = [];
 
   List<QuestionModel> get questions => _questions;
+
+  List<QuestionModel> get practiceQns => _practiceQns;
 
   void setInitData(LevelModel level) {
     orderTEC.text = '${level.order}';
@@ -108,7 +111,23 @@ class TeacherLevelViewModel extends BaseViewModel {
     });
   }
 
-
+  Future getPracticeQuestion(
+      {required levelId,
+      required topicId,
+      required subTopicId,
+      required lessonId}) async {
+    setBusy(true);
+    final result = await _service.getPracticeQuestions(
+        levelId: levelId,
+        topicId: topicId,
+        subTopicId: subTopicId,
+        lessonId: lessonId);
+    if(!result.hasError){
+      var data = result.data as LessonModel;
+      _practiceQns = data.questions??[];
+    }
+    setBusy(false);
+  }
 
   @override
   void dispose() {

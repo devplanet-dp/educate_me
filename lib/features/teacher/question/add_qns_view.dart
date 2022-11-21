@@ -13,7 +13,6 @@ import 'package:stacked/stacked.dart';
 
 import '../../../core/utils/device_utils.dart';
 import '../../../core/widgets/busy_button.dart';
-import 'components/qns_type_selector.dart';
 
 class AddQuestionView extends StatelessWidget {
   final String levelId;
@@ -22,6 +21,7 @@ class AddQuestionView extends StatelessWidget {
   final String? lessonId;
   final QuestionModel? question;
   final bool isStartUp;
+  final bool isPractice;
 
   const AddQuestionView(
       {Key? key,
@@ -30,6 +30,7 @@ class AddQuestionView extends StatelessWidget {
       required this.topicId,
       required this.subTopicId,
       required this.lessonId,
+      this.isPractice = false,
       this.isStartUp = false})
       : super(key: key);
 
@@ -48,13 +49,20 @@ class AddQuestionView extends StatelessWidget {
             isEnabled: vm.isMultipleChoice
                 ? vm.addedQns.where((e) => e.option?.isEmpty ?? false).isEmpty
                 : true,
-            onPressed: () => vm.addQuestion(
-                levelId: levelId,
-                question: question,
-                topicId: topicId,
-                subtopicId: subTopicId,
-                lessonId: lessonId,
-                isStartup: isStartUp),
+            onPressed: () => isPractice
+                ? vm.updatePracticeQuestions(
+                    levelId: levelId,
+                    topicId: topicId,
+                    subtopicId: subTopicId,
+                    question: question!,
+                    lessonId: lessonId)
+                : vm.addQuestion(
+                    levelId: levelId,
+                    question: question,
+                    topicId: topicId,
+                    subtopicId: subTopicId,
+                    lessonId: lessonId,
+                    isStartup: isStartUp),
           ).paddingAll(8),
           appBar: AppBar(
             elevation: 0,
@@ -65,13 +73,19 @@ class AddQuestionView extends StatelessWidget {
             actions: [
               question != null
                   ? IconButton(
-                      onPressed: () => vm.removeQuestion(
-                          levelId: levelId,
-                          qId: question!.id,
-                          lessonId: lessonId,
-                          isStartUp: isStartUp,
-                          topicId: topicId,
-                          subTopicId: subTopicId),
+                      onPressed: () => isPractice
+                          ? vm.removePracticeQuestion(
+                              levelId: levelId,
+                              topicId: topicId,
+                              subTopicId: subTopicId,
+                              lessonId: lessonId)
+                          : vm.removeQuestion(
+                              levelId: levelId,
+                              qId: question!.id,
+                              lessonId: lessonId,
+                              isStartUp: isStartUp,
+                              topicId: topicId,
+                              subTopicId: subTopicId),
                       icon: const Icon(
                         Iconsax.trash,
                         color: kErrorRed,
@@ -136,4 +150,3 @@ class _MultipleQns extends ViewModelWidget<QnsViewModel> {
         itemCount: model.addedQns.length);
   }
 }
-
