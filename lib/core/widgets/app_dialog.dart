@@ -33,19 +33,20 @@ class AppDialog extends StatelessWidget {
     return Dialog(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          vSpaceMedium,
+
           _buildHeader(),
-          vSpaceMedium,
+          vSpaceSmall,
           _buildDialogContent(),
           vSpaceMedium,
           _buildDialogController(),
-          vSpaceMedium,
+
         ],
-      ).paddingSymmetric(horizontal: 12).card(
+      ).paddingSymmetric(horizontal: 24,vertical: 24).card(
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             borderRadius: kBorderSmall,
@@ -76,11 +77,11 @@ class AppDialog extends StatelessWidget {
 
   Widget _buildHeader() {
     return image.split('.')[1].contains('svg')
-        ? SvgPicture.asset(image)
+        ? SvgPicture.asset(image,)
         : Image.asset(
             image,
-            height: 105.h,
-            width: 71.w,
+            height: 124.h,
+            width: 124.w,
           );
   }
 
@@ -93,8 +94,9 @@ class AppDialog extends StatelessWidget {
             style: subtitle == null
                 ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
                 : kSubheadingStyle.copyWith(
-                    fontWeight: FontWeight.bold, color: Colors.black),
-          ),
+              fontSize: 25.sp,
+                    fontWeight: FontWeight.w600, color: Colors.black),
+          ).paddingAll(12),
           subtitle != null
               ? Text(
                   subtitle!,
@@ -275,12 +277,12 @@ class AppDialogSingle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       elevation: 0,
+      insetPadding: const EdgeInsets.all(12),
       backgroundColor: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          vSpaceMedium,
           _buildHeader(),
           vSpaceSmall,
           _buildSubtitle(),
@@ -288,9 +290,8 @@ class AppDialogSingle extends StatelessWidget {
           _buildDialogContent(),
           vSpaceMedium,
           _buildDialogController(),
-          vSpaceMedium,
         ],
-      ).paddingSymmetric(horizontal: 12).card(
+      ).paddingSymmetric(horizontal: 12,vertical: 18).card(
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             borderRadius: kBorderSmall,
@@ -303,7 +304,7 @@ class AppDialogSingle extends StatelessWidget {
     return BoxButtonWidget(
         buttonText: positiveText ?? '',
         radius: 8,
-        onPressed: onPositiveTap ?? () => Get.back());
+        onPressed: onPositiveTap ?? () => Get.back()).paddingSymmetric(horizontal: Get.width*.2);
   }
 
   Widget _buildHeader() => Text(
@@ -316,12 +317,22 @@ class AppDialogSingle extends StatelessWidget {
         subtitle,
         textAlign: TextAlign.center,
         style:
-            kBodyStyle.copyWith(fontSize: 14.sp, fontWeight: FontWeight.w400),
-      );
+            kBodyStyle.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w400),
+      ).paddingAll(8).decorated(
+    color: Colors.white,
+    borderRadius: kBorderSmall,
+    boxShadow: [
+      const BoxShadow(
+        color: Color.fromRGBO(0, 0, 0, 0.05),
+        blurRadius: 9,
+        offset: Offset(0, 1), // Shadow position
+      ),
+    ],
+  );
 
   _buildDialogContent() => Text(
         content ?? '',
         textAlign: TextAlign.center,
-        style: kCaptionStyle.copyWith(color: kcTextGrey),
+        style: kCaptionStyle.copyWith(color: kcTextGrey,fontSize: 13.5.sp),
       );
 }

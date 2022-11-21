@@ -52,7 +52,7 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
         separatorBuilder: (_, __) => vSpaceSmall,
         itemBuilder: (_, index) => [
               Text(
-                model.levels[index].name ?? '',
+                'Level ${model.levels[index].name ?? ''}',
                 style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold),
               ).paddingOnly(left: 12),
               vSpaceSmall,

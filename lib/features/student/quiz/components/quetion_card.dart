@@ -24,10 +24,10 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
       padding: fieldPadding,
       child: Column(
         children: [
-          vSpaceSmall,
+          SizedBox(height: 90.h,),
           _buildQuestion(
               model.selectedQn?.question ?? '', model.selectedQn?.photoUrl),
-          vSpaceSmall,
+          SizedBox(height: 60.h,),
           [
             DrawBrushWidget(
                 qns: model.selectedQn?.question ?? '',
@@ -60,7 +60,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
             qns,
             textAlign: TextAlign.center,
             style: kBodyStyle.copyWith(fontWeight: FontWeight.w500),
-          ).paddingAll(8).decorated(
+          ).paddingAll(14).decorated(
             color: Colors.white,
             borderRadius: kBorderSmall,
             boxShadow: [
@@ -70,7 +70,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
                 offset: Offset(0, 1), // Shadow position
               ),
             ],
-          ).width(Get.width),
+          ).width(Get.width).paddingSymmetric(horizontal: 16),
         ],
       );
 
@@ -149,9 +149,9 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
             ),
             vSpaceSmall,
             BoxButtonWidget(
-              buttonText: (model.getButtonStyle()['text'] as String).tr,
+              buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
               radius: 8,
-              buttonColor: model.getButtonStyle()['color'],
+              buttonColor: model.getButtonStyleQuiz()['color'],
               onPressed: () {
                 //check user has already answered
                 if (!model.isAnswered()) {

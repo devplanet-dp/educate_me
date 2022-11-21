@@ -180,6 +180,23 @@ class QuizViewModel extends BaseViewModel {
       }
     }
   }
+  Map<String, dynamic> getButtonStyleQuiz() {
+    if (isAnswered()) {
+      if (isUserCorrect()) {
+        return {'text': 'text096', 'color': kcCorrectAns};
+      } else {
+        return {'text': 'text101', 'color': kcFailedAns};
+      }
+    } else {
+      if (_isFirstAttempt) {
+        return {'text': 'text097', 'color': kcTryAgainAns};
+      } else if (_isSecondAttempt) {
+        return {'text': 'text101', 'color': kcFailedAns};
+      } else {
+        return {'text': 'text095', 'color': kcPrimaryColor};
+      }
+    }
+  }
 
   bool isLastPage() => qnNo > questions.length;
 
@@ -306,7 +323,7 @@ class QuizViewModel extends BaseViewModel {
         notifyListeners();
         Get.back();
       },
-    ));
+    ),barrierDismissible: false);
   }
 
   void showSecondAttemptWrongDialog(OptionModel option) {
@@ -321,7 +338,7 @@ class QuizViewModel extends BaseViewModel {
         _addQuestionAsAnswered(option);
         goToNextQn();
       },
-    ));
+    ),barrierDismissible: false);
   }
 
   _resetAttempts() {

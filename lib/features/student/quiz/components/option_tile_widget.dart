@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -48,7 +49,7 @@ class OptionTileWidget extends StatelessWidget {
                           : kcPrimaryColor),
         ),
       ],
-    ).paddingAll(8).card(
+    ).height(60.h).paddingAll(8).card(
         color: !isOptionSelected
             ? kcOptionColor
             : (index == userSelectedIndex)

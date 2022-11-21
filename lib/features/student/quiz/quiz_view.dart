@@ -59,8 +59,10 @@ class QuizView extends StatelessWidget {
                   ).paddingSymmetric(horizontal: 16, vertical: 8),
                 ),
           appBar: AppBar(
+            centerTitle: true,
             title: Text(
-                '${vm.quizController.currentLevel?.name}: ${vm.quizController.currentTopicName}'),
+                'Level ${vm.quizController.currentLevel?.name} - '
+                    '${vm.quizController.currentTopicName}'),
           ),
           body: vm.isBusy
               ? const ShimmerQuiz()
