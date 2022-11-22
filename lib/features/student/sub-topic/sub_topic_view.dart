@@ -112,7 +112,6 @@ class _SubTopicSection extends StatelessWidget {
               s.title ?? '',
               style: kBodyStyle.copyWith(fontWeight: FontWeight.bold,fontSize: 16.sp,),
             ).paddingOnly(left: 12),
-            vSpaceSmall,
             AutoSizeText(
               s.description ?? '',
               maxLines: 1,

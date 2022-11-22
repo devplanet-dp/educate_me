@@ -137,17 +137,18 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
           children: [
             AppTextFieldSecondary(
               controller: controller,
-              hintText: 'Answer',
+              hintText: 'Enter answer',
               label: '',
-              minLine: 2,
+              align: TextAlign.center,
+              minLine: 1,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Enter an answer';
                 }
                 return null;
               },
-            ),
-            vSpaceSmall,
+            ).paddingSymmetric(horizontal: Get.width*.2),
+            vSpaceMedium,
             BoxButtonWidget(
               buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
               radius: 8,

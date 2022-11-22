@@ -8,6 +8,7 @@ const Color kcBg = Color(0xFFfbfbfd);
 const Color kcBgQuiz = Color(0xFFfbfbfd);
 const Color kcTextPrimary = Color(0xFF010302);
 const Color kcTextSecondary = Color(0xFF6B6B6B);
+const Color kcTextHint = Color(0xFF959595);
 const Color kcTextGrey = Color(0xFF989898);
 const Color kcTextDarkGrey = Color(0xFF767373);
 const Color kButtonColor = Color(0xFFD9D9D9);

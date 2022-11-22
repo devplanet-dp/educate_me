@@ -174,6 +174,7 @@ class AppTextFieldSecondary extends StatelessWidget {
   final double verticalPadding;
   final TextInputAction textInputAction;
   final double borderRadius;
+  final TextAlign align;
 
   const AppTextFieldSecondary({
     Key? key,
@@ -193,6 +194,7 @@ class AppTextFieldSecondary extends StatelessWidget {
     this.isMoney = false,
     this.isNumber = false,
     this.isCapitalize = false,
+    this.align = TextAlign.start,
     this.textColor = kcTextPrimary,
     this.suffix,
     this.prefixWidget,
@@ -219,11 +221,11 @@ class AppTextFieldSecondary extends StatelessWidget {
             ? emptyBox()
             : Text(
                 label.tr,
-                style: kBodyStyle.copyWith(fontWeight: FontWeight.w700),
+                style: kBodyStyle.copyWith(fontWeight: FontWeight.w400,fontSize: 14.sp),
               ),
         label.isEmpty ? const SizedBox.shrink() : vSpaceSmall,
         TextFormField(
-          textAlign: TextAlign.start,
+          textAlign: align,
           initialValue: controller == null ? initialValue : null,
           controller: controller,
           obscureText: isPassword,
@@ -286,10 +288,11 @@ class AppTextFieldSecondary extends StatelessWidget {
             hintText: initialValue,
             labelText: hintText,
             floatingLabelBehavior: FloatingLabelBehavior.never,
+            alignLabelWithHint: true,
             labelStyle: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 12.sp,
-                color: isDark ? kcTextSecondary : textColor.withOpacity(0.4)),
+                color: kcTextHint),
             counterText: "",
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 12, vertical: verticalPadding),
@@ -303,10 +306,10 @@ class AppTextFieldSecondary extends StatelessWidget {
                 fontWeight: FontWeight.w200,
                 fontSize: 11,
                 color: isDark ? kErrorRed : Colors.red),
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 15,
-                color: isDark ? kcTextSecondary : Colors.black),
+                color: kcTextHint),
             filled: false,
           ),
         )

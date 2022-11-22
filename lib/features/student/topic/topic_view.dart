@@ -49,7 +49,7 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
     return ListView.separated(
         shrinkWrap: true,
         itemCount: model.levels.length,
-        separatorBuilder: (_, __) => vSpaceSmall,
+        separatorBuilder: (_, __) => vSpaceMedium,
         itemBuilder: (_, index) => [
               Text(
                 'Level ${model.levels[index].name ?? ''}',

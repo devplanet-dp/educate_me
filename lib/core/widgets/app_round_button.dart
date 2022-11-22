@@ -25,7 +25,7 @@ class AppRoundButton extends StatelessWidget {
           minimumSize: Size.zero,
           padding: EdgeInsets.zero,
           shape: const CircleBorder(),
-          side: const BorderSide(color: kcStroke)),
+          side: const BorderSide(color: Colors.transparent)),
       child: Icon(
         icon,
         color: kcTextSecondary,

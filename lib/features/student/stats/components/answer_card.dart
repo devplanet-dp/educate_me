@@ -85,19 +85,19 @@ class _AnswerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return [
       vSpaceSmall,
-      SvgPicture.asset(image),
-      vSpaceSmall,
+      SvgPicture.asset(image,width: 25.w,height: 39.h,),
+      vSpaceMedium,
       AutoSizeText(
         title.tr,
         textAlign: TextAlign.center,
         maxLines: 1,
-        style: kBody1Style.copyWith(color: kcTextDarkGrey),
+        style: kBody1Style.copyWith(color: kcTextDarkGrey,fontWeight: FontWeight.w500),
       ),
       vSpaceSmall,
       Text(
         '$amount',
         style: kHeading3Style.copyWith(
-            color: Colors.black, fontWeight: FontWeight.bold),
+            color: Colors.black, fontWeight: FontWeight.w700,fontSize: 20.sp),
       )
     ]
         .toColumn(

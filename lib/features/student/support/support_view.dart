@@ -6,6 +6,7 @@ import 'package:educate_me/features/student/navigation/navigation_view_model.dar
 import 'package:educate_me/features/student/navigation/navigation_view_model.dart';
 import 'package:educate_me/features/student/support/support_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
@@ -21,6 +22,11 @@ class SupportView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
+          bottomNavigationBar:  BoxButtonWidget(
+              buttonText: 'text072'.tr,
+              radius: 8,
+              isLoading: vm.isBusy,
+              onPressed: () => vm.onSendPressed()).paddingAll(16),
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
             child: SwitchUserAppBar(
@@ -35,7 +41,7 @@ class SupportView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Spacer(),
+                SizedBox(height: 22.h,),
                 AppTextFieldSecondary(
                     controller: vm.nameTEC,
                     hintText: 'text070'.tr,
@@ -62,7 +68,7 @@ class SupportView extends StatelessWidget {
                 vSpaceSmall,
                 AppTextFieldSecondary(
                     controller: vm.messageTEC,
-                    minLine: 3,
+                    minLine: 5,
                     hintText: 'text068'.tr,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -71,15 +77,6 @@ class SupportView extends StatelessWidget {
                       return null;
                     },
                     label: 'text067'.tr),
-                const Spacer(
-                  flex: 4,
-                ),
-                BoxButtonWidget(
-                    buttonText: 'text072'.tr,
-                    radius: 8,
-                    isLoading: vm.isBusy,
-                    onPressed: () => vm.onSendPressed()),
-                const Spacer(),
               ],
             ).paddingSymmetric(horizontal: 16),
           ),

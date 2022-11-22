@@ -30,6 +30,7 @@ class LessonView extends StatelessWidget {
       builder: (context, vm, child) => Scaffold(
         backgroundColor: kcBg,
         extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: false,
         body: NestedScrollView(
           controller: vm.scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

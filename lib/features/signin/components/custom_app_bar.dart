@@ -47,7 +47,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
       actions: [
         PopupMenuButton(
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              borderRadius: BorderRadius.all(Radius.circular(5.0))),
           itemBuilder: (context) =>
           [
             PopupMenuItem(child: Text('text026'.tr, style: kBodyStyle.copyWith(

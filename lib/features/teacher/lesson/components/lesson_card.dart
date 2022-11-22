@@ -24,8 +24,8 @@ class LessonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = 120.h;
-    final w = 165.w;
+    final h = 96.h;
+    final w = 136.w;
     return InkWell(
         onTap: onTap,
         child: Column(
@@ -66,10 +66,10 @@ class LessonCard extends StatelessWidget {
           ],
         )).decorated(
       color: Colors.white,
-      borderRadius: kBorderSmall,
+      borderRadius: const BorderRadius.all(Radius.circular(4)),
       boxShadow: [
         BoxShadow(
-          color: kcTextGrey.withOpacity(.13),
+          color: kcTextGrey.withOpacity(.09),
           blurRadius: 9,
           offset: const Offset(0, 1), // Shadow position
         ),

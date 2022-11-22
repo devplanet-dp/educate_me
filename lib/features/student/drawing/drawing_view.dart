@@ -97,8 +97,8 @@ class _DrawingController extends ViewModelWidget<DrawingViewModel> {
                     borderRadius: kBorderLarge,
                     onTap: () => model.onColorSelected(index),
                     child: Container(
-                      height: 34.h,
-                      width: 34.w,
+                      height: 28.h,
+                      width: 28.w,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: model.strokeColors[index]),

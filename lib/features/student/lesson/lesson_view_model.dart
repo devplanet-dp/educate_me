@@ -24,14 +24,18 @@ class LessonViewModel extends BaseViewModel {
       ? answers[answers.indexWhere((e) => e.index == index)].answer
       : null;
 
-  bool isQuizEnabled(){
-    return !answers.every((e) => e.state == AnswerState.correct || e.state==AnswerState.failed);
+  bool isQuizEnabled() {
+    var enable = answers.isNotEmpty &&
+        (answers[0].state == AnswerState.correct ||
+            answers[0].attemptCount == 2);
+    return enable;
   }
 
   onQuestionAnswered(
       {required String text,
       required int index,
       required String correctAnswer}) {
+    isQuizEnabled();
     if (!isAnswered(index)) {
       answers.add(PracticeAnswerModel(
           index: index,

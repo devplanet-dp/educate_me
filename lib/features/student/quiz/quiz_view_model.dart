@@ -285,14 +285,17 @@ class QuizViewModel extends BaseViewModel {
           onNegativeTap: () {
             Get.back();
             Get.back();
+            Get.back();
           },
           onPositiveTap: () async {
+            Get.back();
             Get.back();
             Get.back();
           },
         ));
       } else {
         //on question fail
+
         Get.dialog(AppDialog(
           title: 'text058'.tr,
           image: kImgFail,

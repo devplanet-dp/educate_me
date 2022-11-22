@@ -12,8 +12,8 @@ class CompletedOverlayWidget extends StatelessWidget {
       alignment: Alignment.center,
       child: Image.asset(
         kImgCompleted,
-        height: 30.h,
-        width: 120.w,
+        height: 42.h,
+        width: 180.w,
       ),
     );
   }

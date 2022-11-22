@@ -20,7 +20,7 @@ class ImageSliderAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: 255.h,
+      expandedHeight: 200.h,
       floating: false,
       pinned: true,
       leading: AppRoundButton(

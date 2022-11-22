@@ -1,5 +1,6 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/utils/device_utils.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/core/widgets/text_field_widget.dart';
 import 'package:educate_me/data/lesson.dart';
@@ -28,32 +29,33 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
 
   @override
   Widget build(BuildContext context, LessonViewModel model) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Text(
-            'text094'.tr,
-            style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600),
-          ),
-          vSpaceMedium,
-          ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (_, index) =>
-                  _QnsCard(lesson.questions![index], index),
-              separatorBuilder: (_, index) => vSpaceMedium,
-              itemCount: lesson.questions?.length ?? 0),
-          vSpaceMedium,
-          BoxButtonWidget(
-              buttonText: 'text030'.tr,
-              radius: 8,
-              isEnabled: model.answers.length == lesson.questions?.length,
-              onPressed: () => model.onStartQuizTapped(
-                  levelId: levelId,
-                  topicId: topicId,
-                  subTopicId: subTopicId,
-                  lesson: lesson))
-        ],
+    return GestureDetector(
+      onTap: () => DeviceUtils.hideKeyboard(context),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        bottomNavigationBar: BoxButtonWidget(
+            buttonText: 'text030'.tr,
+            radius: 8,
+            isEnabled: model.isQuizEnabled(),
+            onPressed: () => model.onStartQuizTapped(
+                levelId: levelId,
+                topicId: topicId,
+                subTopicId: subTopicId,
+                lesson: lesson)),
+        body: Column(
+          children: [
+            Text(
+              'text094'.tr,
+              style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600),
+            ),
+            ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (_, index) =>
+                    _QnsCard(lesson.questions![index], index),
+                separatorBuilder: (_, index) => vSpaceMedium,
+                itemCount: lesson.questions?.length ?? 0),
+          ],
+        ),
       ),
     );
   }
@@ -93,17 +95,21 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
             Expanded(child: Builder(builder: (context) {
               controller.text = model.getUserAnswer(index) ?? '';
 
-              return AppTextFieldSecondary(
-                controller: controller,
-                textColor: model.getButtonStyle(index)[index]['color'],
-                hintText: 'Answer',
-                label: '',
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter an answer';
-                  }
-                  return null;
-                },
+              return ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 100),
+                child: AppTextFieldSecondary(
+                  controller: controller,
+                  textColor: model.getButtonStyle(index)[index]['color'],
+                  hintText: 'Answer',
+                  align: TextAlign.center,
+                  label: '',
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Enter an answer';
+                    }
+                    return null;
+                  },
+                ),
               );
             })),
             hSpaceSmall,
@@ -135,7 +141,18 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                 },
               ));
             })
-          ].toRow()
+          ].toRow(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start),
+
+          ///prompt text visible only when attempt count exceeds
+          Visibility(
+              visible: model.isAttemptExceeded(index),
+              child: Text(
+                question.promptOne ?? '',
+                textAlign: TextAlign.center,
+                style: kBody1Style.copyWith(color: kcTextDarkGrey),
+              ))
         ],
       ),
     );

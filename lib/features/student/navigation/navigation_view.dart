@@ -44,6 +44,7 @@ class NavigationView extends StatelessWidget {
           elevation: 0,
             currentIndex: model.currentIndex,
             selectedItemColor: kcPrimaryColor,
+            backgroundColor: Colors.white,
             onTap: model.setIndex,
             items: [
               _buildNavIcon(
