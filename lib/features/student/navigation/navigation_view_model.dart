@@ -67,7 +67,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
         await initAppUsers(selectedChildId: controller.currentChild?.userId);
         showInfoMessage(message: 'text078'.tr);
       } else {
-        showErrorMessage(message: result.errorMessage ?? '');
+        showErrorMessage(message: result.errorMessage);
       }
       setBusy(false);
     }

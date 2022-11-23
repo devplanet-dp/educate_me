@@ -189,7 +189,7 @@ class TeacherLessonViewModel extends BaseViewModel {
   onLessonContentSubmitClicked() async {
     try {
       final text = await htmlController.getText();
-      appController.htmlContent.value = text ?? '';
+      appController.htmlContent.value = text;
       Get.back();
     } catch (e) {
       showErrorMessage(message: 'Error in barrier format. Please check again');

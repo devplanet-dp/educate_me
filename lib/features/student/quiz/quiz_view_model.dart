@@ -23,9 +23,18 @@ class QuizViewModel extends BaseViewModel {
   final QuizController quizController = Get.find<QuizController>();
   final PageController pageController = PageController(initialPage: 0);
 
+  bool _allowNextPage = false;
+
   bool _isFirstAttempt = false;
 
   bool get isFirstAttempt => _isFirstAttempt;
+
+  bool get allowNextPage => _allowNextPage;
+
+  checkAllowNextPage() {
+    _allowNextPage = isUserCorrect() || isSecondAttempt && isAnswered();
+    notifyListeners();
+  }
 
   set isFirstAttempt(value) {
     _isFirstAttempt = value;
@@ -81,21 +90,21 @@ class QuizViewModel extends BaseViewModel {
   }
 
   goToNextQn() {
-    if(!isLastPage()) {
+    if (!isLastPage()) {
       _resetAttempts();
       pageController.animateToPage((pageController.page! + 1).toInt(),
-          duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+          duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
       _incrementQno();
-    }else{
-      pageController.animateToPage((questions.length+1).toInt(),
-          duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+    } else {
+      pageController.animateToPage((questions.length + 1).toInt(),
+          duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
     }
   }
 
   goToPrvQn() {
     _resetAttempts();
     pageController.animateToPage((pageController.page! - 1).toInt(),
-        duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
+        duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
     _decrementQno();
   }
 
@@ -117,6 +126,7 @@ class QuizViewModel extends BaseViewModel {
         }
       }
     }
+    checkAllowNextPage();
   }
 
   void onInputTypeSubmit(String answer) {
@@ -129,12 +139,11 @@ class QuizViewModel extends BaseViewModel {
 
   void _addQuestionAsAnswered(OptionModel option) {
     final userAnswer = UserAnsModel(
-      optionIndex: option.index ?? -1,
-      id: selectedQn?.id ?? '',
-      isCorrect: option.isCorrect ?? false,
-      qIndex: qnNo,
-      inputAnswer: option.option
-    );
+        optionIndex: option.index ?? -1,
+        id: selectedQn?.id ?? '',
+        isCorrect: option.isCorrect ?? false,
+        qIndex: qnNo,
+        inputAnswer: option.option);
     _ans.removeWhere((e) => e.id == selectedQn?.id);
     _ans.add(userAnswer);
     notifyListeners();
@@ -180,6 +189,7 @@ class QuizViewModel extends BaseViewModel {
       }
     }
   }
+
   Map<String, dynamic> getButtonStyleQuiz() {
     if (isAnswered()) {
       if (isUserCorrect()) {
@@ -199,6 +209,10 @@ class QuizViewModel extends BaseViewModel {
   }
 
   bool isLastPage() => qnNo > questions.length;
+
+  bool isLastQn() => qnNo == questions.length;
+
+  bool isFirstPage() => qnNo == 1;
 
   int noCorrectAns() => ans.where((e) => e.isCorrect).length;
 
@@ -315,37 +329,42 @@ class QuizViewModel extends BaseViewModel {
   }
 
   void showFirstAttemptWrongPrompt() {
-    Get.dialog(AppDialogSingle(
-      title: 'text088'.tr,
-      content: selectedQn?.promptOne ?? '',
-      subtitle: selectedQn?.question ?? '',
-      positiveText: 'text090'.tr,
-      onPositiveTap: () {
-        isSecondAttempt = true;
-        _ans.removeWhere((e) => e.id == selectedQn?.id);
-        notifyListeners();
-        Get.back();
-      },
-    ),barrierDismissible: false);
+    Get.dialog(
+        AppDialogSingle(
+          title: 'text088'.tr,
+          content: selectedQn?.promptOne ?? '',
+          subtitle: selectedQn?.question ?? '',
+          positiveText: 'text090'.tr,
+          onPositiveTap: () {
+            isSecondAttempt = true;
+            _ans.removeWhere((e) => e.id == selectedQn?.id);
+            notifyListeners();
+            Get.back();
+          },
+        ),
+        barrierDismissible: false);
   }
 
   void showSecondAttemptWrongDialog(OptionModel option) {
-    Get.dialog(AppDialogSingle(
-      title: 'text089'.tr,
-      content: selectedQn?.promptTwo ?? '',
-      subtitle: selectedQn?.question ?? '',
-      positiveText: 'text091'.tr,
-      onPositiveTap: () {
-        _resetAttempts();
-        Get.back();
-        _addQuestionAsAnswered(option);
-        goToNextQn();
-      },
-    ),barrierDismissible: false);
+    Get.dialog(
+        AppDialogSingle(
+          title: 'text089'.tr,
+          content: selectedQn?.promptTwo ?? '',
+          subtitle: selectedQn?.question ?? '',
+          positiveText: 'text091'.tr,
+          onPositiveTap: () {
+            _resetAttempts();
+            Get.back();
+            _addQuestionAsAnswered(option);
+            goToNextQn();
+          },
+        ),
+        barrierDismissible: false);
   }
 
   _resetAttempts() {
     isFirstAttempt = false;
     isSecondAttempt = false;
+    _allowNextPage = false;
   }
 }

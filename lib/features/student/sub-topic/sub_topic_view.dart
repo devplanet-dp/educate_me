@@ -41,7 +41,7 @@ class SubTopicView extends StatelessWidget {
             slivers: [
               ImageSliderAppBar(
                 images: topic.cover ?? '',
-                title: 'Level ${vm.quizController.currentLevel?.name} - ${topic.name}'?? '',
+                title: 'Level ${vm.quizController.currentLevel?.name} - ${topic.name}',
               ),
               SliverList(
                   delegate: SliverChildListDelegate([

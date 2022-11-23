@@ -16,9 +16,16 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
     return model.questions.isEmpty
         ? emptyBox()
         : [
-            IconButton(
-                onPressed: () => model.goToPrvQn(),
-                icon: const Icon(Iconsax.arrow_circle_left)),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: IconButton(
+                  onPressed: () => model.goToPrvQn(),
+                  icon: Icon(
+                    Iconsax.arrow_circle_left,
+                    color:
+                        model.isFirstPage() ? Colors.transparent : Colors.black,
+                  )),
+            ),
             Text.rich(TextSpan(
                 text: 'Question:',
                 style: kBodyStyle.copyWith(
@@ -29,9 +36,20 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
                       style: kBodyStyle.copyWith(
                           color: kcPrimaryColor, fontWeight: FontWeight.w500))
                 ])),
-            IconButton(
-                onPressed: () => model.goToNextQn(),
-                icon: const Icon(Iconsax.arrow_circle_right)),
+            //show when answered
+            (model.isLastQn() || !model.allowNextPage) && !model.isAnswered()
+                ? IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Iconsax.arrow_circle_right,
+                      color: Colors.black.withOpacity(.2),
+                    ))
+                : IconButton(
+                    onPressed: () => model.goToNextQn(),
+                    icon: const Icon(
+                      Iconsax.arrow_circle_right,
+                      color: Colors.black,
+                    )),
           ].toRow(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center);

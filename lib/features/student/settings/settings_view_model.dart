@@ -35,7 +35,7 @@ class SettingViewModel extends BaseViewModel {
     if (!result.hasError) {
       Get.to(() => const AccountView());
     } else {
-      return showErrorMessage(message: result.errorMessage ?? '');
+      return showErrorMessage(message: result.errorMessage );
     }
   }
 

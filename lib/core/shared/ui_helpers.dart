@@ -116,7 +116,7 @@ class ShimmerQuiz extends StatelessWidget {
         ShimmerView(thumbHeight: 32.h, thumbWidth:Get.width),
         vSpaceSmall,
         ShimmerView(thumbHeight: 32.h, thumbWidth:Get.width),
-        Spacer(flex: 2,),
+        const Spacer(flex: 2,),
       ],
     ).paddingSymmetric(horizontal: 16);
   }
