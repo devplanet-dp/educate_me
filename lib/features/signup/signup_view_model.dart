@@ -19,6 +19,7 @@ class SignUpViewModel extends BaseViewModel {
   final AppController controller = Get.find<AppController>();
   final usernameTEC = TextEditingController();
   final emailTEC = TextEditingController();
+  final fullNameTEC = TextEditingController();
   final passwordTEC = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -55,7 +56,7 @@ class SignUpViewModel extends BaseViewModel {
     if (formKey.currentState!.validate()) {
       setBusy(true);
       var result = await _authService.signUpUserWithEmail(
-          email: emailTEC.text, password: passwordTEC.text);
+          email: emailTEC.text, password: passwordTEC.text,fName: fullNameTEC.text);
       if (!result.hasError) {
         Get.off(() => const CreateAccountView());
       } else {
@@ -97,6 +98,7 @@ class SignUpViewModel extends BaseViewModel {
     emailTEC.dispose();
     usernameTEC.dispose();
     passwordTEC.dispose();
+    fullNameTEC.dispose();
     for (var e in childCount) {
       e.nameTEC.dispose();
       e.ageTEC.dispose();

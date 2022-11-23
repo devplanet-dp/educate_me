@@ -40,72 +40,89 @@ class SignUpView extends StatelessWidget {
   Widget _buildBody(SignUpViewModel vm, BuildContext context) {
     return Form(
       key: vm.formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CustomAppBar(),
-          const Spacer(),
-          Text(
-            'text013'.tr,
-            style: kHeading3Style.copyWith(
-                fontWeight: FontWeight.w600, color: Colors.black),
-          ),
-          Text(
-            'text014'.tr,
-          ),
-          const Spacer(flex: 2,),
-          AppTextField(
-            controller: vm.emailTEC,
-            hintText: 'text003'.tr,
-            isEmail: true,
-            isDark: true,
-            textColor: kcPrimaryColor,
-            fillColor: kcPrimaryColor.withOpacity(.1),
-            label: '',
-            validator: (value) {
-              if (!GetUtils.isEmail(value!)) {
-                return 'text004.error'.tr;
-              }
-              return null;
-            },
-          ),
-          vSpaceMedium,
-          AppTextField(
-              controller: vm.passwordTEC,
-              hintText: 'text005'.tr,
-              isPassword: vm.isObscure,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const CustomAppBar(),
+            vSpaceMedium,
+            Text(
+              'text013'.tr,
+              style: kHeading3Style.copyWith(
+                  fontWeight: FontWeight.w600, color: Colors.black),
+            ),
+            Text(
+              'text014'.tr,
+            ),
+            vSpaceMedium,
+            AppTextField(
+              controller: vm.fullNameTEC,
+              hintText: 'text070'.tr,
               isDark: true,
+              textColor: kcPrimaryColor,
               fillColor: kcPrimaryColor.withOpacity(.1),
-              borderColor: kcStroke,
-              suffix: InkWell(
-                onTap: () => vm.toggleObscure(),
-                child: Icon(
-                  vm.isObscure
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: kcPrimaryColor,
-                  size: 18,
-                ),
-              ),
+              label: '',
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'text006.error'.tr;
+                  return 'text070'.tr;
                 }
                 return null;
               },
-              label: ''),
-          const Spacer(),
-          BoxButtonWidget(
-            buttonText: 'text015'.tr,
-            isLoading: vm.isBusy,
-            onPressed: () {
-              DeviceUtils.hideKeyboard(context);
-              vm.doSignSignUp();
-            },
-          ),
-          const Spacer(flex: 2,)
-        ],
-      ).paddingSymmetric(horizontal: 16),
+            ),
+            vSpaceMedium,
+            AppTextField(
+              controller: vm.emailTEC,
+              hintText: 'text003'.tr,
+              isEmail: true,
+              isDark: true,
+              textColor: kcPrimaryColor,
+              fillColor: kcPrimaryColor.withOpacity(.1),
+              label: '',
+              validator: (value) {
+                if (!GetUtils.isEmail(value!)) {
+                  return 'text004.error'.tr;
+                }
+                return null;
+              },
+            ),
+            vSpaceMedium,
+            AppTextField(
+                controller: vm.passwordTEC,
+                hintText: 'text005'.tr,
+                isPassword: vm.isObscure,
+                isDark: true,
+                fillColor: kcPrimaryColor.withOpacity(.1),
+                borderColor: kcStroke,
+                suffix: InkWell(
+                  onTap: () => vm.toggleObscure(),
+                  child: Icon(
+                    vm.isObscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: kcPrimaryColor,
+                    size: 18,
+                  ),
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'text006.error'.tr;
+                  }
+                  return null;
+                },
+                label: ''),
+            vSpaceMedium,
+            BoxButtonWidget(
+              buttonText: 'text015'.tr,
+              isLoading: vm.isBusy,
+              onPressed: () {
+                DeviceUtils.hideKeyboard(context);
+                vm.doSignSignUp();
+              },
+            ),
+            vSpaceMedium,
+          ],
+        ).paddingSymmetric(horizontal: 16),
+      ),
     );
   }
 

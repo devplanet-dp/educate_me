@@ -94,7 +94,7 @@ class SignInViewModel extends BaseViewModel {
   }
   void createAdmin()async{
     setBusy(true);
-    var result = await _service.signUpUserWithEmail(email: 'admin@educateme.com', password: 'Admin#001');
+    var result = await _service.signUpUserWithEmail(email: 'admin@educateme.com', password: 'Admin#001',fName: 'Admin Educate ME');
     setBusy(false);
   }
 
