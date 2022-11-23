@@ -1,10 +1,12 @@
 import 'package:animations/animations.dart';
+import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/features/student/settings/settings_view.dart';
 import 'package:educate_me/features/student/stats/stat_view.dart';
 import 'package:educate_me/features/student/topic/topic_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
@@ -38,10 +40,14 @@ class NavigationView extends StatelessWidget {
               child: child,
             );
           },
-          child: model.isBusy?const Center(child:CupertinoActivityIndicator(),): getViewForIndex(model.currentIndex),
+          child: model.isBusy
+              ? const Center(
+                  child: CupertinoActivityIndicator(),
+                )
+              : getViewForIndex(model.currentIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          elevation: 0,
+            elevation: 0,
             currentIndex: model.currentIndex,
             selectedItemColor: kcPrimaryColor,
             backgroundColor: Colors.white,
@@ -67,9 +73,12 @@ class NavigationView extends StatelessWidget {
 
   Widget getViewForIndex(int currentIndex) {
     switch (currentIndex) {
-      case 0:return const StatView();
-      case 1:return const TopicView();
-      case 2:return const SettingsView();
+      case 0:
+        return const StatView();
+      case 1:
+        return const TopicView();
+      case 2:
+        return const SettingsView();
       default:
         return Container();
     }
@@ -81,9 +90,22 @@ class NavigationView extends StatelessWidget {
           required String name,
           int? count}) =>
       BottomNavigationBarItem(
-        icon: SvgPicture.asset(
-          assetName,
-          color: isSelected ? kcPrimaryColor : kButtonColor,
+        icon: Column(
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: 2.h,
+              width: 20.w,
+              decoration: BoxDecoration(
+                  color: !isSelected ? Colors.transparent : kcPrimaryColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(6))),
+            ),
+            vSpaceSmall,
+            SvgPicture.asset(
+              assetName,
+              color: isSelected ? kcPrimaryColor : kButtonColor,
+            ),
+          ],
         ),
         label: name,
       );

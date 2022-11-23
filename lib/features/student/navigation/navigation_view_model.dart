@@ -16,6 +16,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
   final _service = locator<FirestoreService>();
   final AppController controller = Get.find<AppController>();
   final nameTEC = TextEditingController();
+  final ownerTECT = TextEditingController();
   final ageTEC = TextEditingController();
   final emailTEC = TextEditingController();
   final messageTEC = TextEditingController();
@@ -37,6 +38,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
     final child =
         await _service.getChildUsers(controller.appUser?.userId ?? '');
     controller.appChild = child;
+
     if (child.isNotEmpty) {
       controller.currentChild = selectedChildId == null
           ? child[0]
@@ -48,6 +50,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
   void initChildAccountDetails() {
     nameTEC.text = controller.currentChild?.name ?? '';
     ageTEC.text = controller.currentChild?.age ?? '';
+    ownerTECT.text = controller.appUser?.fName??'';
     notifyListeners();
   }
 
@@ -107,6 +110,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
   void dispose() {
     nameTEC.dispose();
     ageTEC.dispose();
+    ownerTECT.dispose();
     super.dispose();
   }
 }

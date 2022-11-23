@@ -109,6 +109,9 @@ class AppLocale extends Translations {
           'text099':'Submit',
           'text100':'Lesson',
           'text101':'Sorry! Wrong answer',
+          'text102':'Account owner\'s name',
+          'text103':'Add profile',
+
 
 
 

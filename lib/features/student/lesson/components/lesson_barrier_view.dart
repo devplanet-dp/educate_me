@@ -6,6 +6,7 @@ import 'package:educate_me/features/student/lesson/lesson_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../../core/widgets/busy_button.dart';
@@ -70,6 +71,7 @@ class LessonBarrierView extends StatelessWidget {
   Widget build(BuildContext context) {
     return HtmlWidget(
       content,
+      textStyle: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w400),
       webView: true,
       webViewJs: true,
     );

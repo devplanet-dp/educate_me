@@ -152,6 +152,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
     return Dialog(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,

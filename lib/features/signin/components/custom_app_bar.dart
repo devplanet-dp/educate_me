@@ -1,4 +1,3 @@
-import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/widgets/avatar_widget.dart';
 import 'package:educate_me/features/student/navigation/component/user_account_tile.dart';
 import 'package:educate_me/features/student/navigation/navigation_view_model.dart';
@@ -10,6 +9,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/shared/shared_styles.dart';
 import '../../../core/utils/constants/app_assets.dart';
+import '../../signup/create_account_view.dart';
 import 'back_button.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -30,7 +30,9 @@ class CustomAppBar extends StatelessWidget {
 }
 
 class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
-  const SwitchUserAppBar({Key? key, required this.title,required this.onUserUpdated}) : super(key: key);
+  const SwitchUserAppBar(
+      {Key? key, required this.title, required this.onUserUpdated})
+      : super(key: key);
   final String title;
   final VoidCallback onUserUpdated;
 
@@ -46,18 +48,29 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
       ),
       actions: [
         PopupMenuButton(
+          onSelected: (value) {
+            if (value == 0) {
+              Get.to(() => const CreateAccountView());
+            }
+          },
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
-          itemBuilder: (context) =>
-          [
-            PopupMenuItem(child: Text('text026'.tr, style: kBodyStyle.copyWith(
-                color: Colors.black, fontWeight: FontWeight.w700),)),
-            ..._buildPopTiles(model)
-          ]
-          ,
+          itemBuilder: (context) => [
+            PopupMenuItem(
+                child: Text(
+              'text026'.tr,
+              style: kBodyStyle.copyWith(
+                  color: Colors.black, fontWeight: FontWeight.w700),
+            )),
+            ..._buildPopTiles(model),
+            const PopupMenuItem(
+              value: 0,
+              child: AddAccount(),
+            ),
+          ],
           child: AvatarView(
-              path: model.controller.currentChild?.profileUrl ?? '',
-              userName: model.controller.currentChild?.name ?? 'E')
+                  path: model.controller.currentChild?.profileUrl ?? '',
+                  userName: model.controller.currentChild?.name ?? 'E')
               .paddingAll(8),
         ),
       ],
@@ -66,7 +79,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
       borderRadius: kBorderSmall,
       boxShadow: [
         const BoxShadow(
-          color: Color.fromRGBO(0,0, 0, 0.05),
+          color: Color.fromRGBO(0, 0, 0, 0.05),
           blurRadius: 9,
           offset: Offset(0, 1), // Shadow position
         ),
@@ -78,17 +91,15 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
     return List.generate(model.controller.appChild.length, (index) {
       var c = model.controller.appChild[index];
       return PopupMenuItem(
-        onTap: (){
-          model.onSwitchProfile(c);
-          onUserUpdated();
-          model.controller.update();
-        },
+          onTap: () {
+            model.onSwitchProfile(c);
+            onUserUpdated();
+            model.controller.update();
+          },
           child: UserAccountTile(
-            isSelected: c == model.controller.currentChild,
             user: c,
             isBusy: model.isBusy,
           ).paddingSymmetric(vertical: 8));
     });
   }
-
 }
