@@ -21,7 +21,9 @@ class DrawQnsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DrawingViewModel>.reactive(
-      builder: (context, vm, child) => Dialog(
+      builder: (context, vm, child) =>
+
+          Dialog(
         elevation: 0,
         backgroundColor: Colors.transparent,
         child: Column(
@@ -54,6 +56,7 @@ class DrawQnsView extends StatelessWidget {
                     icon: const Icon(Iconsax.close_circle),
                   ),
                 ),
+
                 SfSignaturePad(
                   key: vm.signatureGlobalKey,
                   strokeColor: vm.selectedStroke ?? vm.strokeColors[0],

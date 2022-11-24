@@ -55,6 +55,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
   }
 
   void onSwitchProfile(UserModel child) async {
+    controller.popupMenuEnabled.value = false;
     controller.currentChild = child;
     setBusy(true);
     await _service.populateCurrentChild();

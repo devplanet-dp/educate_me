@@ -100,7 +100,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                 child: AppTextFieldSecondary(
                   controller: controller,
                   textColor: model.getButtonStyle(index)[index]['color'],
-                  hintText: 'Answer',
+                  hintText: '           Answer',
                   align: TextAlign.center,
                   label: '',
                   validator: (value) {

@@ -72,6 +72,7 @@ dependencies:
   flutter_colorpicker:
   signature: ^5.2.1
   syncfusion_flutter_signaturepad: ^20.2.49
+  flutter_drawing_board: ^0.3.1
   #html
   html_editor_enhanced:
   flutter_widget_from_html: ^0.8.5

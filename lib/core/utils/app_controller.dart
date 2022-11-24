@@ -10,4 +10,6 @@ class AppController extends GetxController {
   UserModel? currentChild;
 
   RxString htmlContent = ''.obs;
+
+  RxBool popupMenuEnabled = false.obs;
 }

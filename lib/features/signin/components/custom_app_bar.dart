@@ -1,3 +1,5 @@
+import 'package:educate_me/core/shared/app_colors.dart';
+import 'package:educate_me/core/utils/app_controller.dart';
 import 'package:educate_me/core/widgets/avatar_widget.dart';
 import 'package:educate_me/features/student/navigation/component/user_account_tile.dart';
 import 'package:educate_me/features/student/navigation/navigation_view_model.dart';
@@ -38,6 +40,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
 
   @override
   Widget build(BuildContext context, NavigationViewModel model) {
+    final AppController controller = Get.find<AppController>();
     return AppBar(
       elevation: 0,
       centerTitle: true,
@@ -47,32 +50,53 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
         style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold),
       ),
       actions: [
-        PopupMenuButton(
-          onSelected: (value) {
-            if (value == 0) {
-              Get.to(() => const CreateAccountView());
-            }
-          },
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5.0))),
-          itemBuilder: (context) => [
-            PopupMenuItem(
-                child: Text(
-              'text026'.tr,
-              style: kBodyStyle.copyWith(
-                  color: Colors.black, fontWeight: FontWeight.w700),
+        Obx(() => PopupMenuButton(
+              offset: const Offset(0, 60),
+              onCanceled: (){
+                controller.popupMenuEnabled.value = false;
+              },
+              onSelected: (value) {
+                controller.popupMenuEnabled.value = false;
+                //on add account clicked
+                if (value == 0) {
+                  Get.to(() => const CreateAccountView());
+                }
+              },
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              itemBuilder: (context) {
+                controller.popupMenuEnabled.value = true;
+                return [
+                  PopupMenuItem(
+                      child: Text(
+                    'text026'.tr,
+                    style: kBodyStyle.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.w700),
+                  )),
+                  ..._buildPopTiles(model),
+                  const PopupMenuItem(
+                    value: 0,
+                    child: AddAccount(),
+                  ),
+                ];
+              },
+              child: AnimatedContainer(
+                duration: const Duration(microseconds: 300),
+                child: AvatarView(
+                        path: model.controller.currentChild?.profileUrl ?? '',
+                        height: 34.h,
+                        widget: 34.w,
+                        userName: model.controller.currentChild?.name ?? 'E')
+                    .paddingAll(4)
+                    .decorated(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: controller.popupMenuEnabled.value
+                                ? kcPrimaryColor
+                                : Colors.transparent))
+                    .paddingAll(8),
+              ),
             )),
-            ..._buildPopTiles(model),
-            const PopupMenuItem(
-              value: 0,
-              child: AddAccount(),
-            ),
-          ],
-          child: AvatarView(
-                  path: model.controller.currentChild?.profileUrl ?? '',
-                  userName: model.controller.currentChild?.name ?? 'E')
-              .paddingAll(8),
-        ),
       ],
     ).decorated(
       color: Colors.white,

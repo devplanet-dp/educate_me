@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,34 +21,32 @@ void main() async {
   ]).then((_) async {
     await setupLocator();
 
-    runApp(MyApp());
+    runApp(const MyApp());
   });
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DevicePreview(
-        enabled: false,
-        builder: (_) => ScreenUtilInit(
-            designSize: const Size(360, 800),
-            splitScreenMode: true,
-            builder: (context, _) {
-              return GetMaterialApp(
-                translations: AppLocale(),
-                locale: Get.deviceLocale,
-                fallbackLocale: const Locale(
-                  'en_US',
-                ),
-                darkTheme: themeDataDark,
-                themeMode: ThemeMode.light,
-                debugShowCheckedModeBanner: false,
-                title: 'Math Educate Me',
-                theme: themeData,
-                home: const StartUpView(),
-              );
-            }));
+    return ScreenUtilInit(
+        designSize: const Size(360, 800),
+        splitScreenMode: true,
+        builder: (context, _) {
+          return GetMaterialApp(
+            translations: AppLocale(),
+            locale: Get.deviceLocale,
+            fallbackLocale: const Locale(
+              'en_US',
+            ),
+            darkTheme: themeDataDark,
+            themeMode: ThemeMode.light,
+            debugShowCheckedModeBanner: false,
+            title: 'Math Educate Me',
+            theme: themeData,
+            home: const StartUpView(),
+          );
+        });
   }
 }
