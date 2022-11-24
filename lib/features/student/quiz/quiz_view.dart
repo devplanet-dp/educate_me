@@ -1,5 +1,6 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/data/lesson.dart';
@@ -60,9 +61,8 @@ class QuizView extends StatelessWidget {
                 ),
           appBar: AppBar(
             centerTitle: true,
-            title: Text(
-                'Level ${vm.quizController.currentLevel?.name} - '
-                    '${vm.quizController.currentTopicName}'),
+            title: Text('Level ${vm.quizController.currentLevel?.name} - '
+                '${vm.quizController.currentTopicName}'),
           ),
           body: vm.isBusy
               ? const ShimmerQuiz()
@@ -89,6 +89,7 @@ class QuizView extends StatelessWidget {
                           onPageChanged: (index) {
                             if (!vm.isLastPage()) {
                               vm.selectedQn = vm.questions[index];
+                              vm.setAllowNextPage(index<vm.ans.length);
                             }
                           },
                           children: List.generate(vm.questions.length,

@@ -37,7 +37,7 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
                           color: kcPrimaryColor, fontWeight: FontWeight.w500))
                 ])),
             //show when answered
-            (model.isLastQn() || !model.allowNextPage) && !model.isAnswered()
+            (model.isLastQn() || !model.allowNextPage)
                 ? IconButton(
                     onPressed: () {},
                     icon: Icon(
@@ -45,7 +45,11 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
                       color: Colors.black.withOpacity(.2),
                     ))
                 : IconButton(
-                    onPressed: () => model.goToNextQn(),
+                    onPressed: (){
+
+                      model.goToNextQn();
+
+                    },
                     icon: const Icon(
                       Iconsax.arrow_circle_right,
                       color: Colors.black,

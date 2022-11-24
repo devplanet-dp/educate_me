@@ -4,12 +4,15 @@ import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/features/student/lesson/components/practice_question_view.dart';
 import 'package:educate_me/features/student/lesson/lesson_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../../core/widgets/busy_button.dart';
+import 'package:html/parser.dart' as htmlparser;
+import 'package:html/dom.dart' as dom;
 
 
 class LessonContentPageView extends ViewModelWidget<LessonViewModel> {

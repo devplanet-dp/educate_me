@@ -76,6 +76,7 @@ dependencies:
   #html
   html_editor_enhanced:
   flutter_widget_from_html: ^0.8.5
+  flutter_html:
   #texttospeech
 #  flutter_tts: ^3.6.1
   #responsive

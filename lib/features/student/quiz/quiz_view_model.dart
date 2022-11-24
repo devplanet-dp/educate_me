@@ -27,13 +27,20 @@ class QuizViewModel extends BaseViewModel {
 
   bool _isFirstAttempt = false;
 
+
   bool get isFirstAttempt => _isFirstAttempt;
 
   bool get allowNextPage => _allowNextPage;
 
-  checkAllowNextPage() {
-    _allowNextPage = isUserCorrect() || isSecondAttempt && isAnswered();
+  setAllowNextPage(value) {
+    _allowNextPage =value;
     notifyListeners();
+  }
+
+
+  autoMoveToNextPage() async {
+    await Future.delayed(const Duration(seconds: 2));
+    goToNextQn();
   }
 
   set isFirstAttempt(value) {
@@ -108,13 +115,17 @@ class QuizViewModel extends BaseViewModel {
     _decrementQno();
   }
 
-  void onOptionSelected(OptionModel option) {
+  void onOptionSelected(OptionModel option) async{
     //disable selection on answered question
     if (!isAnswered()) {
       isFirstAttempt = true; //user tap once on option
 
       if (option.isCorrect ?? false) {
         _addQuestionAsAnswered(option);
+        //auto move to next question if answer is correct
+        await autoMoveToNextPage();
+
+
       } else {
         ///show only one prompt for single choice questions
         if (selectedQn?.type == QuestionType.singleChoice) {
@@ -124,9 +135,10 @@ class QuizViewModel extends BaseViewModel {
               ? showSecondAttemptWrongDialog(option)
               : showFirstAttemptWrongPrompt();
         }
+
       }
     }
-    checkAllowNextPage();
+
   }
 
   void onInputTypeSubmit(String answer) {
