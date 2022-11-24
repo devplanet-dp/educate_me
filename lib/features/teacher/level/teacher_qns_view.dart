@@ -149,6 +149,8 @@ class QuestionsGrid extends ViewModelWidget<TeacherLevelViewModel> {
   Widget build(BuildContext context, TeacherLevelViewModel model) {
     return ResponsiveBuilder(
       builder: (context,_) {
+        //sort question by index
+        model.questions.sort((a,b)=>a.index!.compareTo(b.index!));
         return GridView.count(
           crossAxisCount: _.isDesktop?8:5,
           crossAxisSpacing: 8,
