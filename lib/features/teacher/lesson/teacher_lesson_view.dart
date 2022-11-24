@@ -5,6 +5,7 @@ import 'package:educate_me/features/teacher/level/teacher_qns_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -87,29 +88,34 @@ class _LessonGridView extends ViewModelWidget<TeacherLessonViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherLessonViewModel model) {
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
-      children: List.generate(model.lessons.length, (index) {
-        var t = model.lessons[index];
-        return TopicCard(
-          onTap: () => Get.to(() => TeacherQnsView(
-                topicId: topicId,
-                levelId: levelId,
-                subTopicId: subTopicId,
-                lessonId: t.id ?? '',
-              )),
-          url: t.cover ?? '',
-          title: t.title ?? '',
-          onEditTap: () => Get.to(() => TeacherAddLessonView(
-                levelId: levelId,
-                topicId: topicId,
-                subTopicId: subTopicId,
-                lesson: t,
-              )),
-        );
-      }),
-    ).paddingSymmetric(horizontal: 12);
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return GridView.count(
+          crossAxisCount:_.isDesktop?4: 2,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+          childAspectRatio: _.isDesktop?3:1,
+          children: List.generate(model.lessons.length, (index) {
+            var t = model.lessons[index];
+            return TopicCard(
+              onTap: () => Get.to(() => TeacherQnsView(
+                    topicId: topicId,
+                    levelId: levelId,
+                    subTopicId: subTopicId,
+                    lessonId: t.id ?? '',
+                  )),
+              url: t.cover ?? '',
+              title: t.title ?? '',
+              onEditTap: () => Get.to(() => TeacherAddLessonView(
+                    levelId: levelId,
+                    topicId: topicId,
+                    subTopicId: subTopicId,
+                    lesson: t,
+                  )),
+            );
+          }),
+        ).paddingSymmetric(horizontal: 12);
+      }
+    );
   }
 }

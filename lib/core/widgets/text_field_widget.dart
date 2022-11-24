@@ -120,7 +120,7 @@ class AppTextField extends StatelessWidget {
             labelText: hintText,
             labelStyle: TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 18.sp,
+                fontSize: 18,
                 color: isDark ? kcTextSecondary : textColor.withOpacity(0.4)),
             counterText: "",
             contentPadding:
@@ -221,7 +221,7 @@ class AppTextFieldSecondary extends StatelessWidget {
             ? emptyBox()
             : Text(
                 label.tr,
-                style: kBodyStyle.copyWith(fontWeight: FontWeight.w400,fontSize: 14.sp),
+                style: kBodyStyle.copyWith(fontWeight: FontWeight.w400,fontSize: 14),
               ),
         label.isEmpty ? const SizedBox.shrink() : vSpaceSmall,
         TextFormField(
@@ -289,9 +289,9 @@ class AppTextFieldSecondary extends StatelessWidget {
             labelText: hintText,
             floatingLabelBehavior: FloatingLabelBehavior.never,
             alignLabelWithHint: true,
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 12.sp,
+                fontSize: 12,
                 color: kcTextHint),
             counterText: "",
             contentPadding:

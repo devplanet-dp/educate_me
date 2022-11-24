@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../core/shared/ui_helpers.dart';
@@ -30,6 +31,12 @@ class _WelcomeTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ResponsiveBuilder(builder: (context, _) {
+      return _.isDesktop ? _buildDesktop() : _buildForMobile();
+    });
+  }
+
+  Positioned _buildForMobile() {
     return Positioned(
         left: 18,
         bottom: 0,
@@ -48,6 +55,34 @@ class _WelcomeTitle extends StatelessWidget {
           ).width(Get.width * 1),
           vSpaceMedium
         ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
+  }
+
+  Row _buildDesktop() {
+    return Row(
+      children: [
+        Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Let’s Get \nStarted',
+              style: kHeading1Style.copyWith(
+                  fontWeight: FontWeight.bold, fontSize: 18.sp),
+            ),
+            const Text('We Math-welcome you :)'),
+          ],
+        )),
+        Expanded(
+            child: BoxButtonWidget(
+          onPressed: () => Get.to(() => const SignInView()),
+          buttonText: 'Join now',
+        )).width(Get.width / 3),
+        SizedBox(
+          width: 16.w,
+        )
+      ],
+    );
   }
 }
 

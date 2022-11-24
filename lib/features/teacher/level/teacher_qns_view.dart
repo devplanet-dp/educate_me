@@ -8,6 +8,7 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -146,28 +147,33 @@ class QuestionsGrid extends ViewModelWidget<TeacherLevelViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherLevelViewModel model) {
-    return GridView.count(
-      crossAxisCount: 5,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
-      children: List.generate(model.questions.length, (index) {
-        return InkWell(
-          borderRadius: kBorderLarge,
-          onTap: () => Get.to(() => AddQuestionView(
-                question: model.questions[index],
-                lessonId: lessonId,
-                topicId: topicId,
-                subTopicId: subTopicId,
-                levelId: levelId,
-                isStartUp: isStartUp,
-              )),
-          child: Text(
-            '${index + 1}',
-            style: kBodyStyle.copyWith(
-                color: kcCorrectAns, fontWeight: FontWeight.bold),
-          ).center(),
-        ).card(shape: const CircleBorder(), color: kAltWhite, elevation: 2);
-      }),
-    ).paddingSymmetric(horizontal: 12);
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return GridView.count(
+          crossAxisCount: _.isDesktop?8:5,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+          childAspectRatio: _.isDesktop?2:1,
+          children: List.generate(model.questions.length, (index) {
+            return InkWell(
+              borderRadius: kBorderLarge,
+              onTap: () => Get.to(() => AddQuestionView(
+                    question: model.questions[index],
+                    lessonId: lessonId,
+                    topicId: topicId,
+                    subTopicId: subTopicId,
+                    levelId: levelId,
+                    isStartUp: isStartUp,
+                  )),
+              child: Text(
+                '${index + 1}',
+                style: kBodyStyle.copyWith(
+                    color: kcCorrectAns, fontWeight: FontWeight.bold),
+              ).center(),
+            ).card(shape: const CircleBorder(), color: kAltWhite, elevation: 2);
+          }),
+        ).paddingSymmetric(horizontal: 12);
+      }
+    );
   }
 }

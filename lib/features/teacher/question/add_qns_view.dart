@@ -7,8 +7,10 @@ import 'package:educate_me/features/teacher/question/components/add_qn_dialog.da
 import 'package:educate_me/features/teacher/question/components/add_qn_widget.dart';
 import 'package:educate_me/features/teacher/question/qns_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../core/utils/device_utils.dart';
@@ -43,27 +45,31 @@ class AddQuestionView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
-          bottomNavigationBar: BoxButtonWidget(
-            buttonText: question == null ? 'Add' : 'Update',
-            isLoading: vm.isBusy,
-            isEnabled: vm.isMultipleChoice
-                ? vm.addedQns.where((e) => e.option?.isEmpty ?? false).isEmpty
-                : true,
-            onPressed: () => isPractice
-                ? vm.updatePracticeQuestions(
-                    levelId: levelId,
-                    topicId: topicId,
-                    subtopicId: subTopicId,
-                    question: question!,
-                    lessonId: lessonId)
-                : vm.addQuestion(
-                    levelId: levelId,
-                    question: question,
-                    topicId: topicId,
-                    subtopicId: subTopicId,
-                    lessonId: lessonId,
-                    isStartup: isStartUp),
-          ).paddingAll(8),
+          bottomNavigationBar: ResponsiveBuilder(
+            builder: (context,_) {
+              return BoxButtonWidget(
+                buttonText: question == null ? 'Add' : 'Update',
+                isLoading: vm.isBusy,
+                isEnabled: vm.isMultipleChoice
+                    ? vm.addedQns.where((e) => e.option?.isEmpty ?? false).isEmpty
+                    : true,
+                onPressed: () => isPractice
+                    ? vm.updatePracticeQuestions(
+                        levelId: levelId,
+                        topicId: topicId,
+                        subtopicId: subTopicId,
+                        question: question!,
+                        lessonId: lessonId)
+                    : vm.addQuestion(
+                        levelId: levelId,
+                        question: question,
+                        topicId: topicId,
+                        subtopicId: subTopicId,
+                        lessonId: lessonId,
+                        isStartup: isStartUp),
+              ).paddingSymmetric(horizontal:_.isDesktop?64.w: 8,vertical: 8);
+            }
+          ),
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
@@ -93,35 +99,39 @@ class AddQuestionView extends StatelessWidget {
                   : emptyBox()
             ],
           ),
-          body: Form(
-            key: vm.formKey,
-            child: SingleChildScrollView(
-              padding: fieldPadding,
-              child: Column(
-                children: [
-                  // vSpaceSmall,
-                  // const QnsTypeSelector(),
-                  vSpaceSmall,
-                  AppTextField(
-                    controller: vm.qnsTEC,
-                    borderRadius: kRadiusSmall,
-                    hintText: 'Enter question',
-                    label: 'Question',
-                    minLine: 3,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Question is mandatory';
-                      }
-                      return null;
-                    },
+          body: ResponsiveBuilder(
+            builder: (context,_) {
+              return Form(
+                key: vm.formKey,
+                child: SingleChildScrollView(
+                  padding:_.isDesktop? fieldPaddingDesktop:fieldPadding,
+                  child: Column(
+                    children: [
+                      // vSpaceSmall,
+                      // const QnsTypeSelector(),
+                      vSpaceSmall,
+                      AppTextField(
+                        controller: vm.qnsTEC,
+                        borderRadius: kRadiusSmall,
+                        hintText: 'Enter question',
+                        label: 'Question',
+                        minLine: 3,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Question is mandatory';
+                          }
+                          return null;
+                        },
+                      ),
+                      vSpaceMedium,
+                      const _MultipleQns(),
+                      vSpaceMedium,
+                      vSpaceMedium,
+                    ],
                   ),
-                  vSpaceMedium,
-                  const _MultipleQns(),
-                  vSpaceMedium,
-                  vSpaceMedium,
-                ],
-              ),
-            ),
+                ),
+              );
+            }
           ),
         ),
       ),

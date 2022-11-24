@@ -6,6 +6,7 @@ import 'package:educate_me/features/teacher/topic/teacher_topic_view_model.dart'
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -65,27 +66,32 @@ class _TopicGridView extends ViewModelWidget<TeacherTopicViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherTopicViewModel model) {
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
-      children: List.generate(model.topics.length, (index) {
-        var t = model.topics[index];
-        return TopicCard(
-          url: t.cover ?? '',
-          title: t.name ?? '',
-          onTap: () => Get.to(() => TeacherSubTopicView(
-                levelId: levelId,
-                topic: t,
-              )),
-          onEditTap: () => Get.bottomSheet(
-              TeacherAddTopicView(
-                levelId: levelId,
-                topic: t,
-              ),
-              isScrollControlled: true),
-        );
-      }),
-    ).paddingSymmetric(horizontal: 12);
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return GridView.count(
+          crossAxisCount: _.isDesktop?4:2,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+          childAspectRatio: _.isDesktop?3:1,
+          children: List.generate(model.topics.length, (index) {
+            var t = model.topics[index];
+            return TopicCard(
+              url: t.cover ?? '',
+              title: t.name ?? '',
+              onTap: () => Get.to(() => TeacherSubTopicView(
+                    levelId: levelId,
+                    topic: t,
+                  )),
+              onEditTap: () => Get.bottomSheet(
+                  TeacherAddTopicView(
+                    levelId: levelId,
+                    topic: t,
+                  ),
+                  isScrollControlled: true),
+            );
+          }),
+        ).paddingSymmetric(horizontal: 12);
+      }
+    );
   }
 }

@@ -1,14 +1,12 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
-import 'package:educate_me/core/widgets/background_overlay.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../../core/shared/ui_helpers.dart';
 import '../../core/shared/shared_styles.dart';
-import '../../core/widgets/brand_bg_widget.dart';
 import 'startup_view_model.dart';
 
 class StartUpView extends StatefulWidget {
@@ -48,42 +46,42 @@ class _StartUpViewState extends State<StartUpView>
           }
         });
       },
-      builder: (context, vm, child) => Scaffold(
-        backgroundColor: kcPrimaryColor,
-        body: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  FadeTransition(
-                    opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
-                        CurvedAnimation(
-                            parent: _controller,
-                            curve: const Interval(.3, 1.0,
-                                curve: Curves.easeOut))),
-                    child:  Column(
-                      children: [
-                        Image.asset(kAppLogo),
-                        Text(
-                          'MATH EDU ME',
-                          style: kHeading1Style.copyWith(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        )
-
-                      ],
+      builder: (context, vm, child) => ResponsiveBuilder(
+          builder: (ctx, _) => Scaffold(
+                backgroundColor: kcPrimaryColor,
+                body: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          FadeTransition(
+                            opacity: Tween<double>(begin: 0.0, end: 1.0)
+                                .animate(CurvedAnimation(
+                                    parent: _controller,
+                                    curve: const Interval(.3, 1.0,
+                                        curve: Curves.easeOut))),
+                            child: Column(
+                              children: [
+                                Image.asset(kAppLogo,height: 48.h,width: 48.w,),
+                                Text(
+                                  'MATH EDU ME',
+                                  style: kHeading1Style.copyWith(
+                                      color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ).paddingAll(16.h),
                     ),
-                  ),
-                ],
-              ).paddingAll(16),
-            ),
-
-          ],
-        ),
-      ),
+                  ],
+                ),
+              )),
       viewModelBuilder: () => StartUpViewModel(),
     );
   }

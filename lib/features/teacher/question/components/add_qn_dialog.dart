@@ -8,6 +8,7 @@ import 'package:educate_me/core/widgets/text_field_widget.dart';
 import 'package:educate_me/data/option.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 class AddQnDialog extends StatefulWidget {
@@ -42,75 +43,79 @@ class _AddQnDialogState extends State<AddQnDialog> {
       onTap: ()=>DeviceUtils.hideKeyboard(context),
       child: Form(
         key: formKey,
-        child: SingleChildScrollView(
-          child: [
-            vSpaceSmall,
-            Text(
-              'Add answer for ${getIndexName(widget.question.index??0)}',
-              style: kBodyStyle.copyWith(
-                  color: kcPrimaryColor, fontWeight: FontWeight.bold),
-            ),
-            vSpaceSmall,
-            Divider(
-              color: kcPrimaryColor.withOpacity(.2),
-            ),
-            vSpaceSmall,
-            AppTextField(
-              controller: controller,
-              hintText: 'Type here...',
-              label: '',
-              minLine: 3,
-              borderRadius: kRadiusSmall,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Answer is mandatory';
-                }
-                return null;
-              },
-            ),
-            vSpaceMedium,
-            SwitchListTile(
-                title: const Text('Correct answer'),
-                value: _isCorrect,
-                onChanged: (value) {
-                  setState(() {
-                    _isCorrect = value;
-                  });
-                }),
-            vSpaceMedium,
-            [
-              Expanded(
-                child: BoxButtonWidget(
-                  buttonText: 'Cancel',
-                  onPressed: () => Get.back(),
-                  buttonColor: kcTextSecondary.withOpacity(.3),
+        child: ResponsiveBuilder(
+          builder: (context,_) {
+            return SingleChildScrollView(
+              child: [
+                vSpaceSmall,
+                Text(
+                  'Add answer for ${getIndexName(widget.question.index??0)}',
+                  style: kBodyStyle.copyWith(
+                      color: kcPrimaryColor, fontWeight: FontWeight.bold),
                 ),
-              ),
-              hSpaceSmall,
-              Expanded(
-                child: BoxButtonWidget(
-                    buttonText: 'Done',
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        widget.onQuestionAdded(OptionModel(
-                            index: widget.question.index,
-                            option: controller.text,
-                            isCorrect: _isCorrect));
-                        Get.back();
-                      }
+                vSpaceSmall,
+                Divider(
+                  color: kcPrimaryColor.withOpacity(.2),
+                ),
+                vSpaceSmall,
+                AppTextField(
+                  controller: controller,
+                  hintText: 'Type here...',
+                  label: '',
+                  minLine: 3,
+                  borderRadius: kRadiusSmall,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Answer is mandatory';
+                    }
+                    return null;
+                  },
+                ),
+                vSpaceMedium,
+                SwitchListTile(
+                    title: const Text('Correct answer'),
+                    value: _isCorrect,
+                    onChanged: (value) {
+                      setState(() {
+                        _isCorrect = value;
+                      });
                     }),
-              ),
-            ].toRow(),
-            vSpaceMedium,
-          ]
-              .toColumn(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min)
-              .paddingAll(16)
-              .card(
-                  shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
-                  color: kAltWhite,
-                  elevation: 2),
+                vSpaceMedium,
+                [
+                  Expanded(
+                    child: BoxButtonWidget(
+                      buttonText: 'Cancel',
+                      onPressed: () => Get.back(),
+                      buttonColor: kcTextSecondary.withOpacity(.3),
+                    ),
+                  ),
+                  hSpaceSmall,
+                  Expanded(
+                    child: BoxButtonWidget(
+                        buttonText: 'Done',
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            widget.onQuestionAdded(OptionModel(
+                                index: widget.question.index,
+                                option: controller.text,
+                                isCorrect: _isCorrect));
+                            Get.back();
+                          }
+                        }),
+                  ),
+                ].toRow(),
+                vSpaceMedium,
+              ]
+                  .toColumn(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min)
+                  .paddingAll( 16)
+                  .card(
+                      shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
+                      color: kAltWhite,
+                      elevation: 2),
+            );
+          }
         ),
       ),
     );

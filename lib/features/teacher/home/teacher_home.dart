@@ -10,6 +10,7 @@ import 'package:educate_me/features/teacher/topic/teacher_topic_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -70,38 +71,43 @@ class _LevelGrid extends ViewModelWidget<TeacherViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherViewModel model) {
-    return GridView.count(
-      crossAxisCount: 3,
-      crossAxisSpacing: 8,
-      mainAxisSpacing: 8,
-      children: List.generate(model.levels.length, (index) {
-        var l = model.levels[index];
-        return TileWidget(
-            header: Text(
-              '${l.order}',
-              style: kHeading3Style.copyWith(
-                  fontWeight: FontWeight.bold, color: kAltWhite),
-            ),
-            subHeader: l.name ?? '',
-            icon: IconButton(
-              icon: const Icon(Iconsax.edit),
-              onPressed: () => Get.bottomSheet(
-                  AddLevelSheet(
-                    level: l,
-                  ),
-                  isScrollControlled: true),
-            ),
-            primaryColor: kcPrimaryColor.withOpacity(.5),
-            onTap: () => model.levels[index].order != 0
-                ? Get.to(() => TeacherTopicView(
-                      level: model.levels[index],
-                    ))
-                : Get.to(() => TeacherQnsView(
-                      levelId: model.levels[index].id ?? '',
-                      isStartUp: true,
-                    )),
-            isDark: false);
-      }),
-    ).paddingSymmetric(horizontal: 12);
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return GridView.count(
+          crossAxisCount:_.isDesktop?4 :3,
+          crossAxisSpacing: 8,
+          childAspectRatio: _.isDesktop?3:1,
+          mainAxisSpacing: 8,
+          children: List.generate(model.levels.length, (index) {
+            var l = model.levels[index];
+            return TileWidget(
+                header: Text(
+                  '${l.order}',
+                  style: kHeading3Style.copyWith(
+                      fontWeight: FontWeight.bold, color: kAltWhite),
+                ),
+                subHeader: l.name ?? '',
+                icon: IconButton(
+                  icon: const Icon(Iconsax.edit),
+                  onPressed: () => Get.bottomSheet(
+                      AddLevelSheet(
+                        level: l,
+                      ),
+                      isScrollControlled: true),
+                ),
+                primaryColor: kcPrimaryColor.withOpacity(.5),
+                onTap: () => model.levels[index].order != 0
+                    ? Get.to(() => TeacherTopicView(
+                          level: model.levels[index],
+                        ))
+                    : Get.to(() => TeacherQnsView(
+                          levelId: model.levels[index].id ?? '',
+                          isStartUp: true,
+                        )),
+                isDark: false);
+          }),
+        ).paddingSymmetric(horizontal: 12);
+      }
+    );
   }
 }

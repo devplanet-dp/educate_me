@@ -3,7 +3,9 @@ import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/text_field_widget.dart';
 import 'package:educate_me/features/teacher/question/qns_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../core/utils/device_utils.dart';
@@ -40,44 +42,48 @@ class ImportQnsView extends StatelessWidget {
               'Import question',
             ),
           ),
-          body: Form(
-            key: vm.formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  vSpaceMedium,
-                  AppTextFieldSecondary(
-                    controller: vm.importTEC,
-                    borderRadius: kRadiusSmall,
-                    hintText: 'text086'.tr,
-                    label: 'text087'.tr,
-                    minLine: 10,
-                    onChanged: (value) {
-                      vm.notifyListeners();
-                    },
-                    maxLength: 500000,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'This field is mandatory';
-                      }
-                      return null;
-                    },
-                  ),
-                  vSpaceMedium,
-                  BoxButtonWidget(
-                    buttonText: 'Import',
-                    isLoading: vm.isBusy,
-                    isEnabled: vm.importTEC.text.isNotEmpty,
-                    onPressed: () => vm.importQnsFromText(
-                        levelId: levelId,
-                        topicId: topicId,
-                        subtopicId: subTopicId,
-                        lessonId: lessonId, isPractice: isPractice),
-                  ),
-                  vSpaceMedium,
-                ],
-              ).paddingSymmetric(horizontal: 16),
-            ),
+          body: ResponsiveBuilder(
+            builder: (context,_) {
+              return Form(
+                key: vm.formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      vSpaceMedium,
+                      AppTextFieldSecondary(
+                        controller: vm.importTEC,
+                        borderRadius: kRadiusSmall,
+                        hintText: 'text086'.tr,
+                        label: 'text087'.tr,
+                        minLine:_.isDesktop?20: 10,
+                        onChanged: (value) {
+                          vm.notifyListeners();
+                        },
+                        maxLength: 500000,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'This field is mandatory';
+                          }
+                          return null;
+                        },
+                      ),
+                      vSpaceMedium,
+                      BoxButtonWidget(
+                        buttonText: 'Import',
+                        isLoading: vm.isBusy,
+                        isEnabled: vm.importTEC.text.isNotEmpty,
+                        onPressed: () => vm.importQnsFromText(
+                            levelId: levelId,
+                            topicId: topicId,
+                            subtopicId: subTopicId,
+                            lessonId: lessonId, isPractice: isPractice),
+                      ).paddingSymmetric(horizontal: _.isDesktop?64.w:0),
+                      vSpaceMedium,
+                    ],
+                  ).paddingSymmetric(horizontal:_.isDesktop?32.w: 16),
+                ),
+              );
+            }
           ),
         ),
       ),

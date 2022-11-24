@@ -2,7 +2,9 @@ import 'package:educate_me/features/signin/components/create_account_text.dart';
 import 'package:educate_me/features/signin/components/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -30,9 +32,13 @@ class SignInView extends StatelessWidget {
               image: DecorationImage(
                   image: AssetImage(kImgUnionPng), fit: BoxFit.cover),
             ),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: _buildBody(vm, context),
+            child: ResponsiveBuilder(
+              builder: (context,_) {
+                return Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: _.isDesktop?_buildDesktop(vm, context): _buildBody(vm, context),
+                );
+              }
             ),
           ),
         ),
@@ -40,6 +46,88 @@ class SignInView extends StatelessWidget {
       viewModelBuilder: () => SignInViewModel(),
     );
   }
+
+  Widget _buildDesktop(SignInViewModel vm, BuildContext context) => Form(
+    key: vm.formKey,
+    child: Row(
+          children: [
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Spacer(),
+                Text(
+                  'text002'.tr,
+                  style: kHeading3Style.copyWith(
+                      fontWeight: FontWeight.w600, color: Colors.black),
+                ),
+                Text(
+                  'text012'.tr,
+                ),
+                const Spacer(
+                  flex: 2,
+                ),
+              ],
+            )),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Spacer(),
+                AppTextField(
+                  controller: vm.usernameTEC,
+                  hintText: 'text003'.tr,
+                  isEmail: true,
+                  isDark: true,
+                  textColor: kcPrimaryColor,
+                  fillColor: kcPrimaryColor.withOpacity(.1),
+                  borderColor: kcStroke,
+                  label: '',
+                  validator: (value) {
+                    if (!GetUtils.isEmail(value!)) {
+                      return 'text004.error'.tr;
+                    }
+                    return null;
+                  },
+                ),
+                AppTextField(
+                    controller: vm.passwordTEC,
+                    hintText: 'text005'.tr,
+                    isPassword: vm.isObscure,
+                    isDark: true,
+                    fillColor: kcPrimaryColor.withOpacity(.1),
+                    borderColor: kcStroke,
+                    suffix: InkWell(
+                      onTap: () => vm.toggleObscure(),
+                      child: Icon(
+                        vm.isObscure
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: kcPrimaryColor,
+                        size: 18,
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'text006.error'.tr;
+                      }
+                      return null;
+                    },
+                    label: ''),
+                const Spacer(),
+                BoxButtonWidget(
+                  buttonText: 'text009'.tr,
+                  isLoading: vm.isBusy,
+                  onPressed: () {
+                    vm.doSignIn();
+                  },
+                ),
+                const Spacer(),
+              ],
+            ).paddingSymmetric(horizontal: 8.w))
+          ],
+        ),
+  );
 
   Widget _buildBody(SignInViewModel vm, BuildContext context) {
     return KeyboardVisibilityBuilder(builder: (context, isVisible) {

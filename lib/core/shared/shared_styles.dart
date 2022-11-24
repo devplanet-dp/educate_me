@@ -36,6 +36,7 @@ const double smallFieldHeight = 40;
 const double inputFieldBottomMargin = 30;
 const double inputFieldSmallBottomMargin = 0;
 const EdgeInsets fieldPadding = EdgeInsets.symmetric(horizontal: 15);
+ EdgeInsets fieldPaddingDesktop = EdgeInsets.symmetric(horizontal: 64.w);
 const EdgeInsets fieldPaddingAll = EdgeInsets.all(10.0);
  EdgeInsets kLargeFieldPadding =
     EdgeInsets.symmetric(horizontal: 48.w, vertical: 24);
