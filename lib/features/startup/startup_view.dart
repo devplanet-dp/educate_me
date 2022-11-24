@@ -66,7 +66,7 @@ class _StartUpViewState extends State<StartUpView>
                                         curve: Curves.easeOut))),
                             child: Column(
                               children: [
-                                Image.asset(kAppLogo,height: 48.h,width: 48.w,),
+                                Image.asset(kAppLogo,height: 72.h,width: 72.w,),
                                 Text(
                                   'MATH EDU ME',
                                   style: kHeading1Style.copyWith(

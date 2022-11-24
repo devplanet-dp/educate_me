@@ -80,3 +80,4 @@ class LessonBarrierView extends StatelessWidget {
     );
   }
 }
+
