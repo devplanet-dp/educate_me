@@ -2,6 +2,7 @@ import 'package:educate_me/data/user.dart';
 import 'package:educate_me/features/student/navigation/navigation_view.dart';
 import 'package:educate_me/features/signin/signin_view.dart';
 import 'package:educate_me/features/teacher/home/teacher_home.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
@@ -15,7 +16,11 @@ class StartUpViewModel extends BaseViewModel {
   Future handleStartUpLogic() async {
     var currentUser = await _authenticationService.isUserLoggedIn();
     if (currentUser.hasError) {
-      Get.off(() => const WelcomeView());
+      if(!kIsWeb) {
+        Get.off(() => const SignInView());
+      }else{
+        Get.off(() => const SignInView());
+      }
     } else {
       _handleUserFlow(currentUser.data as UserModel);
     }
