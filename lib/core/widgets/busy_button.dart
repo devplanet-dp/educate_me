@@ -13,6 +13,7 @@ class BoxButtonWidget extends StatelessWidget {
   final bool isLoading;
   final double? radius;
   final bool isEnabled;
+  final double? fontSize;
 
   const BoxButtonWidget({
     Key? key,
@@ -22,6 +23,7 @@ class BoxButtonWidget extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.radius,
+    this.fontSize,
     this.isEnabled = true,
   }) : super(key: key);
 
@@ -31,10 +33,10 @@ class BoxButtonWidget extends StatelessWidget {
       padding: EdgeInsets.zero,
       clipBehavior: Clip.antiAlias,
       highlightElevation: 0,
-      disabledColor: buttonColor??kcPrimaryColor,
+      disabledColor: kcButtonDisabled,
       height: 45.h,
       elevation: 0,
-      color: isEnabled ? buttonColor ?? kcPrimaryColor : Colors.black12,
+      color: isEnabled ? buttonColor ?? kcPrimaryColor : kButtonDisabledColor,
       shape:  RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(radius??30))),
       onPressed: isEnabled
@@ -57,8 +59,8 @@ class BoxButtonWidget extends StatelessWidget {
                       buttonText,
                       style: kBodyStyle.copyWith(
                         fontWeight: FontWeight.w700,
-                        color:  isEnabled? textColor?? Colors.white:kAltBg,
-                        fontSize: 14
+                        color:  isEnabled? textColor?? Colors.white:Colors.white,
+                        fontSize: fontSize??14
                       ),
                     ))),
     );

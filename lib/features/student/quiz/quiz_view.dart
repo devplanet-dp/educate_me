@@ -77,7 +77,7 @@ class QuizView extends StatelessWidget {
                             ? emptyBox()
                             : const PageProgressWidget()
                                 .paddingSymmetric(horizontal: 16),
-                        vSpaceMedium,
+                        const SizedBox(height: 5,),
                         vm.isLastPage()
                             ? const QuizResultsWidget()
                             : const PageNavigationWidget(),

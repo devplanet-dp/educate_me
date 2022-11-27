@@ -61,6 +61,7 @@ class AppDialog extends StatelessWidget {
         child: BoxButtonWidget(
             buttonText: 'text043'.tr,
             radius: 8,
+            fontSize: 16,
             buttonColor: kButtonDisabledColor,
             textColor: kcTextDarkGrey,
             onPressed: onNegativeTap ?? () => Get.back()),
@@ -70,6 +71,7 @@ class AppDialog extends StatelessWidget {
         child: BoxButtonWidget(
             buttonText: positiveText ?? 'text044'.tr,
             radius: 8,
+            fontSize: 16,
             onPressed: onPositiveTap ?? () => Get.back()),
       ),
     ].toRow();
@@ -77,11 +79,12 @@ class AppDialog extends StatelessWidget {
 
   Widget _buildHeader() {
     return image.split('.')[1].contains('svg')
-        ? SvgPicture.asset(image,)
+        ? SvgPicture.asset(image)
         : Image.asset(
             image,
-            height: 124.h,
-            width: 124.w,
+            fit: BoxFit.fill,
+            height: 148.h,
+            width: 148.w,
           );
   }
 
@@ -152,7 +155,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
     return Dialog(
       elevation: 0,
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(12),
+      insetPadding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -183,6 +186,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
         child: BoxButtonWidget(
             buttonText: 'text043'.tr,
             radius: 8,
+            fontSize: 16,
             buttonColor: kButtonDisabledColor,
             textColor: kcTextDarkGrey,
             onPressed: widget.onNegativeTap ?? () => Get.back()),
@@ -192,6 +196,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
         child: BoxButtonWidget(
             buttonText: 'text079'.tr,
             radius: 8,
+            fontSize: 16,
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 if (widget.onPositiveTap != null) {
@@ -324,7 +329,7 @@ class AppDialogSingle extends StatelessWidget {
     borderRadius: kBorderSmall,
     boxShadow: [
       const BoxShadow(
-        color: Color.fromRGBO(0, 0, 0, 0.05),
+        color: Color.fromRGBO(0, 0, 0, 0.08),
         blurRadius: 9,
         offset: Offset(0, 1), // Shadow position
       ),

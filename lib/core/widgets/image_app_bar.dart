@@ -21,13 +21,14 @@ class ImageSliderAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       expandedHeight: 200.h,
-      floating: false,
+      floating: true,
       pinned: true,
       leading: AppRoundButton(
         icon: Icons.arrow_back_sharp,
         onTap: () => Get.back(),
       ).paddingOnly(left: 8, top: 8),
       flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.pin,
           background: Stack(
         children: [
           Positioned.fill(
@@ -49,6 +50,48 @@ class ImageSliderAppBar extends StatelessWidget {
           )
         ],
       )),
+    );
+  }
+}
+class ImageSliderAppBarNonFloating extends StatelessWidget {
+  final String images;
+  final String title;
+
+  const ImageSliderAppBarNonFloating({
+    Key? key,
+    required this.images, required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading: AppRoundButton(
+        icon: Icons.arrow_back_sharp,
+        onTap: () => Get.back(),
+      ).paddingOnly(left: 8, top: 8),
+      flexibleSpace: FlexibleSpaceBar(
+          collapseMode: CollapseMode.pin,
+          background: Stack(
+            children: [
+              Positioned.fill(
+                child: AppNetworkImage(
+                  path: images,
+                  thumbHeight: Get.height * 0.25,
+                  thumbWidth: Get.width * .4,
+                ),
+              ),
+              const Align(
+                alignment: Alignment.bottomCenter,
+                child: BackgroundOverlayWidget(
+                  isDark: true,
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Text(title,style: kBodyStyle.copyWith(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 18.sp),),
+              )
+            ],
+          )),
     );
   }
 }

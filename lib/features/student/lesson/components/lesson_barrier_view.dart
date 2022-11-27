@@ -4,16 +4,13 @@ import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/features/student/lesson/components/practice_question_view.dart';
 import 'package:educate_me/features/student/lesson/lesson_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../../core/widgets/busy_button.dart';
-import 'package:html/parser.dart' as htmlparser;
-import 'package:html/dom.dart' as dom;
-
 
 class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
   const LessonContentPageView({
@@ -30,32 +27,37 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
 
   @override
   Widget build(BuildContext context, LessonViewModel model) {
-
     return PageView(
       controller: model.barrierController,
       physics: const NeverScrollableScrollPhysics(),
-      onPageChanged: (index){
+      onPageChanged: (index) {
         model.resetScroll();
       },
       children: List.generate(
           lesson.content?.length ?? 0,
-          (index) => SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                        child: Text('text100'.tr,style: kBodyStyle.copyWith(fontSize: 18,fontWeight: FontWeight.w600),)),
-                    vSpaceSmall,
-                    LessonBarrierView(content: lesson.content?[index] ?? ''),
-                    vSpaceMedium,
-                    BoxButtonWidget(
-                      radius: 8,
-                      buttonText:
-                          '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
-                      onPressed: () => model.goToNextBarrier(),
-                    ),
-                    vSpaceMedium,
-                  ],
+          (index) => Scaffold(
+                bottomNavigationBar: BoxButtonWidget(
+                  radius: 8,
+                  buttonText:
+                      '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
+                  onPressed: () => model.goToNextBarrier(),
+                ).paddingOnly(top: 16),
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 250.h,),
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'text100'.tr,
+                            style: kBodyStyle.copyWith(
+                                fontSize: 18, fontWeight: FontWeight.w600),
+                          )),
+                      vSpaceSmall,
+                      LessonBarrierView(content: lesson.content?[index] ?? ''),
+                      vSpaceMedium,
+                    ],
+                  ),
                 ),
               ))
         ..add(PracticeQuestionView(
@@ -66,6 +68,7 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
     );
   }
 }
+
 class LessonBarrierView extends StatelessWidget {
   const LessonBarrierView({Key? key, required this.content}) : super(key: key);
   final String content;
@@ -74,10 +77,9 @@ class LessonBarrierView extends StatelessWidget {
   Widget build(BuildContext context) {
     return HtmlWidget(
       content,
-      textStyle: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w400),
+      textStyle: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400),
       webView: true,
       webViewJs: true,
     );
   }
 }
-

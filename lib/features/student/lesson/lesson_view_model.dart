@@ -13,7 +13,7 @@ import 'package:stacked/stacked.dart';
 class LessonViewModel extends BaseViewModel {
   final QuizController quizController = Get.find<QuizController>();
   final PageController barrierController = PageController(initialPage: 0);
-  final ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController(keepScrollOffset: false);
   final service = locator<FirestoreService>();
 
   List<PracticeAnswerModel> answers = [];

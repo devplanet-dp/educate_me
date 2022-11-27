@@ -91,7 +91,7 @@ class _AnswerCard extends StatelessWidget {
         title.tr,
         textAlign: TextAlign.center,
         maxLines: 1,
-        style: kBody1Style.copyWith(color: kcTextDarkGrey,fontWeight: FontWeight.w500),
+        style: kBody1Style.copyWith(color: kcTextDarkGrey,fontWeight: FontWeight.w600),
       ),
       vSpaceSmall,
       Text(

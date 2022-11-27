@@ -8,6 +8,7 @@ import 'package:educate_me/data/question.dart';
 import 'package:educate_me/features/student/lesson/lesson_view_model.dart';
 import 'package:educate_me/features/student/quiz/components/draw_brush_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -90,17 +91,18 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
           ).width(Get.width),
           vSpaceMedium,
           [
-            DrawBrushWidget(qns: question.question ?? '', enableDraw: true),
+            DrawBrushWidget(
+                qns: question.question ?? '', enableDraw: true).paddingOnly(top: 8),
             hSpaceSmall,
             Expanded(child: Builder(builder: (context) {
               controller.text = model.getUserAnswer(index) ?? '';
 
               return ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 100),
+                constraints: BoxConstraints(maxHeight: 100.h),
                 child: AppTextFieldSecondary(
                   controller: controller,
                   textColor: model.getButtonStyle(index)[index]['color'],
-                  hintText: '           Answer',
+                  hintText: '         Answer',
                   align: TextAlign.center,
                   label: '',
                   validator: (value) {

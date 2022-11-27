@@ -18,31 +18,39 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
         : [
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: IconButton(
-                  onPressed: () => model.goToPrvQn(),
-                  icon: Icon(
+              child: model.isFirstPage()?IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
                     Iconsax.arrow_circle_left,
-                    color:
-                        model.isFirstPage() ? Colors.transparent : Colors.black,
+                    size: 26,
+                    color:Colors.transparent,
+                  ))
+:              IconButton(
+                  onPressed: () => model.goToPrvQn(),
+                  icon: const Icon(
+                    Iconsax.arrow_circle_left,
+                    size: 26,
+                    color: Colors.black,
                   )),
             ),
             Text.rich(TextSpan(
                 text: 'Question:',
                 style: kBodyStyle.copyWith(
-                    color: Colors.black, fontWeight: FontWeight.w500),
+                    color: Colors.black, fontWeight: FontWeight.w600),
                 children: [
                   TextSpan(
                       text: ' ${model.qnNo}/${model.questions.length}',
                       style: kBodyStyle.copyWith(
-                          color: kcPrimaryColor, fontWeight: FontWeight.w500))
+                          color: kcPrimaryColor, fontWeight: FontWeight.w600))
                 ])),
             //show when answered
             (model.isLastQn() || !model.allowNextPage)
                 ? IconButton(
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Iconsax.arrow_circle_right,
-                      color: Colors.black.withOpacity(.2),
+                      size: 26,
+                      color: Colors.transparent,
                     ))
                 : IconButton(
                     onPressed: (){
@@ -52,6 +60,7 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
                     },
                     icon: const Icon(
                       Iconsax.arrow_circle_right,
+                      size: 26,
                       color: Colors.black,
                     )),
           ].toRow(

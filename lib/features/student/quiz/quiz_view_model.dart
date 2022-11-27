@@ -39,7 +39,7 @@ class QuizViewModel extends BaseViewModel {
 
 
   autoMoveToNextPage() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 1750));
     goToNextQn();
   }
 
@@ -364,11 +364,11 @@ class QuizViewModel extends BaseViewModel {
           content: selectedQn?.promptTwo ?? '',
           subtitle: selectedQn?.question ?? '',
           positiveText: 'text091'.tr,
-          onPositiveTap: () {
+          onPositiveTap: () async{
             _resetAttempts();
             Get.back();
             _addQuestionAsAnswered(option);
-            goToNextQn();
+            await autoMoveToNextPage();
           },
         ),
         barrierDismissible: false);

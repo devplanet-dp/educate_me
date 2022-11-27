@@ -267,6 +267,15 @@ class AppTextFieldSecondary extends StatelessWidget {
                 blurRadius: 8,
               ),
             ),
+            disabledBorder:DecoratedInputBorder(
+              child: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              shadow: BoxShadow(
+                color: kcTextGrey.withOpacity(.2),
+                blurRadius: 8,
+              ),
+            ) ,
             enabledBorder: DecoratedInputBorder(
               child: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
@@ -291,7 +300,7 @@ class AppTextFieldSecondary extends StatelessWidget {
             alignLabelWithHint: true,
             labelStyle: const TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 12,
+                fontSize: 15,
                 color: kcTextHint),
             counterText: "",
             contentPadding:
@@ -308,7 +317,7 @@ class AppTextFieldSecondary extends StatelessWidget {
                 color: isDark ? kErrorRed : Colors.red),
             hintStyle: const TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 15,
+                fontSize: 16,
                 color: kcTextHint),
             filled: false,
           ),

@@ -45,7 +45,6 @@ class SignUpView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const CustomAppBar(),
-            vSpaceMedium,
             Text(
               'text013'.tr,
               style: kHeading3Style.copyWith(
@@ -54,7 +53,7 @@ class SignUpView extends StatelessWidget {
             Text(
               'text014'.tr,
             ),
-            vSpaceMedium,
+            vSpaceMassive,
             AppTextField(
               controller: vm.fullNameTEC,
               hintText: 'text070'.tr,

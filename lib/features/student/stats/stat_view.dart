@@ -65,6 +65,7 @@ class StatView extends StatelessWidget {
                     onPressed: () => vm.retest(),
                     radius: 8,
                   ),
+                  const SizedBox(height: 5,),
                   Text(
                     'text041'.tr,
                     style: kLabelStyle.copyWith(

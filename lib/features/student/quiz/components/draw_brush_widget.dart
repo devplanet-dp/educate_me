@@ -37,8 +37,7 @@ class DrawBrushWidget extends StatelessWidget {
                 height: 20.h,
                 width: 20.h,
                 color: enableDraw ? Colors.black : kErrorRed,
-              ).paddingAll(8))
-          .paddingSymmetric(vertical: 12),
+              ).paddingAll(8)),
     );
   }
 }

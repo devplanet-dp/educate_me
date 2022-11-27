@@ -55,7 +55,7 @@ class AccountView extends StatelessWidget {
                       return null;
                     },
                     label: 'text102'.tr),
-                const Spacer(),
+                vSpaceMedium,
                 AppTextFieldSecondary(
                     controller: vm.nameTEC,
                     hintText: 'text070'.tr,
@@ -67,11 +67,11 @@ class AccountView extends StatelessWidget {
                       return null;
                     },
                     label: 'text071'.tr),
-                const Spacer(),
+                vSpaceMedium,
                 AppTextFieldSecondary(
                     controller: vm.ageTEC,
                     isEmail: true,
-                    isEnabled: false,
+                    isEnabled: true,
                     hintText: 'text077'.tr,
                     label: 'text077'.tr),
                 vSpaceSmall,

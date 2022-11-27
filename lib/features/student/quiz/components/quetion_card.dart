@@ -59,8 +59,8 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
           Text(
             qns,
             textAlign: TextAlign.center,
-            style: kBodyStyle.copyWith(fontWeight: FontWeight.w500),
-          ).paddingAll(14).decorated(
+            style: kBodyStyle.copyWith(fontWeight: FontWeight.w400,fontSize: 17),
+          ).paddingAll(16).decorated(
             color: Colors.white,
             borderRadius: kBorderSmall,
             boxShadow: [
