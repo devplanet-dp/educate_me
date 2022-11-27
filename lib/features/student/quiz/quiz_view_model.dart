@@ -311,12 +311,10 @@ class QuizViewModel extends BaseViewModel {
           onNegativeTap: () {
             Get.back();
             Get.back();
-            Get.back();
           },
           onPositiveTap: () async {
             Get.back();
-            Get.back();
-            Get.back();
+            retryQns();
           },
         ));
       } else {

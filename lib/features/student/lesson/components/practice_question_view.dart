@@ -49,12 +49,14 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
               'text094'.tr,
               style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600),
             ),
-            ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (_, index) =>
-                    _QnsCard(lesson.questions![index], index),
-                separatorBuilder: (_, index) => vSpaceMedium,
-                itemCount: lesson.questions?.length ?? 0),
+            Expanded(
+              child: ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (_, index) =>
+                      _QnsCard(lesson.questions![index], index),
+                  separatorBuilder: (_, index) => vSpaceMedium,
+                  itemCount: lesson.questions?.length ?? 0),
+            ),
           ],
         ),
       ),
@@ -95,14 +97,18 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                 qns: question.question ?? '', enableDraw: true).paddingOnly(top: 8),
             hSpaceSmall,
             Expanded(child: Builder(builder: (context) {
-              controller.text = model.getUserAnswer(index) ?? '';
+              //reset answer field
+              if(model.isQuizEnabled()) {
+                controller.text = model.getUserAnswer(index) ?? '';
+              }
 
               return ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: 100.h),
                 child: AppTextFieldSecondary(
                   controller: controller,
+                  isEnabled: !model.isQuizEnabled(),
                   textColor: model.getButtonStyle(index)[index]['color'],
-                  hintText: '         Answer',
+                  hintText: '       Answer',
                   align: TextAlign.center,
                   label: '',
                   validator: (value) {
@@ -138,6 +144,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                                       .option ??
                                   'NO ANSWER'
                               : 'NO ANSWER');
+
                     }
                   }
                 },
@@ -159,4 +166,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
       ),
     );
   }
+
+
+
 }

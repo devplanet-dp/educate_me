@@ -42,6 +42,7 @@ class LessonViewModel extends BaseViewModel {
           answer: text,
           attemptCount: 0,
           state: AnswerState.init));
+
     }
 
     PracticeAnswerModel answerModel =
@@ -57,6 +58,7 @@ class LessonViewModel extends BaseViewModel {
         answerModel.state = AnswerState.tryAgain;
       }
     }
+
     notifyListeners();
   }
 
@@ -79,7 +81,7 @@ class LessonViewModel extends BaseViewModel {
           };
         case AnswerState.tryAgain:
           return {
-            index: {'text': 'text097', 'color': kcTryAgainAns}
+            index: {'text': 'text095', 'color': kcTryAgainAns}
           };
         case AnswerState.failed:
           return {

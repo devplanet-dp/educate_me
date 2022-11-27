@@ -161,7 +161,7 @@ class QnsViewModel extends BaseViewModel {
 
           if (a[0].isNotEmpty) {
             final importMap = a.asMap();
-            final qType = _getQuestionTypeByLength(a.length, a[1].trim());
+            final qType = _getQuestionTypeByLength(a.length, a[1].trim().replaceAll('*', ''));
             switch (qType) {
               case QuestionType.multipleChoice:
                 final question = QuestionModel(
@@ -270,6 +270,8 @@ class QnsViewModel extends BaseViewModel {
         }
 
         if (!isPractice) {
+
+
           await addImportedQuestions(
               questions: q,
               levelId: levelId,
@@ -288,6 +290,7 @@ class QnsViewModel extends BaseViewModel {
               lessonId: lessonId);
         }
       } catch (e) {
+        lg(e);
         showErrorMessage(
             message:
                 'Error in format, Please check for the format again please');
@@ -365,6 +368,7 @@ class QnsViewModel extends BaseViewModel {
     if (length >= 9) {
       return QuestionType.multipleChoice;
     } else if (length == 6) {
+
       if (firstAnswer.toLowerCase() == 'true' ||
           firstAnswer.toLowerCase() == 'false') {
         return QuestionType.singleChoice;

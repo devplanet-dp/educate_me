@@ -40,7 +40,7 @@ class _WelcomeTitle extends StatelessWidget {
           Text(
             'Let’s Get \nStarted',
             style: kHeading1Style.copyWith(
-                fontWeight: FontWeight.bold, fontSize: 64.sp),
+                fontWeight: FontWeight.bold, fontSize: 64),
           ),
           Text('We Math-welcome you :)',
               style: kBodyStyle.copyWith(
@@ -49,7 +49,7 @@ class _WelcomeTitle extends StatelessWidget {
           BoxButtonWidget(
             onPressed: () => Get.to(() => const SignInView()),
             buttonText: 'Join now',
-            fontSize: 32,
+            fontSize: 24,
           ).width(Get.width * 1),
           vSpaceMedium
         ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
