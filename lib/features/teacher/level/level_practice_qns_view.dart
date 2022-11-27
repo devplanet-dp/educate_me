@@ -10,7 +10,7 @@ import '../../../core/shared/shared_styles.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../../core/widgets/app_info.dart';
 import '../../../core/widgets/busy_overlay.dart';
-import '../question/add_qns_view.dart';
+import '../question/import_qns_view.dart';
 import 'teacher_level_view_model.dart';
 
 class LevelPracticeQnsView extends StatelessWidget {
@@ -82,41 +82,37 @@ class QuestionsGridPractice extends ViewModelWidget<TeacherLevelViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherLevelViewModel model) {
-    return ResponsiveBuilder(
-      builder: (context,_) {
-        return GridView.count(
-          crossAxisCount: _.isDesktop?8:5,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: _.isDesktop?2:1,
-          children: List.generate(model.practiceQns.length, (index) {
-            return InkWell(
-              borderRadius: kBorderLarge,
-              onTap: () async {
-                var result = await Get.to(() => AddQuestionView(
-                      question: model.practiceQns[index],
-                      lessonId: lessonId,
-                      topicId: topicId,
-                      subTopicId: subTopicId,
-                      levelId: levelId,
-                      isStartUp: isStartUp,
-                      isPractice: true,
-                    ));
-                model.getPracticeQuestion(
+    return ResponsiveBuilder(builder: (context, _) {
+      return GridView.count(
+        crossAxisCount: _.isDesktop ? 8 : 5,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        childAspectRatio: _.isDesktop ? 2 : 1,
+        children: List.generate(model.practiceQns.length, (index) {
+          return InkWell(
+            borderRadius: kBorderLarge,
+            onTap: () async {
+              var result = await Get.to(() => ImportQnsView(
                     levelId: levelId,
                     topicId: topicId,
                     subTopicId: subTopicId,
-                    lessonId: lessonId);
-              },
-              child: Text(
-                '${index + 1}',
-                style: kBodyStyle.copyWith(
-                    color: kcCorrectAns, fontWeight: FontWeight.bold),
-              ).center(),
-            ).card(shape: const CircleBorder(), color: kAltWhite, elevation: 2);
-          }),
-        ).paddingSymmetric(horizontal: 12);
-      }
-    );
+                    lessonId: lessonId,
+                    isPractice: true,
+                  ));
+              model.getPracticeQuestion(
+                  levelId: levelId,
+                  topicId: topicId,
+                  subTopicId: subTopicId,
+                  lessonId: lessonId);
+            },
+            child: Text(
+              '${index + 1}',
+              style: kBodyStyle.copyWith(
+                  color: kcCorrectAns, fontWeight: FontWeight.bold),
+            ).center(),
+          ).card(shape: const CircleBorder(), color: kAltWhite, elevation: 2);
+        }),
+      ).paddingSymmetric(horizontal: 12);
+    });
   }
 }

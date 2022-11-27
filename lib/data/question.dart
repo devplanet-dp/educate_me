@@ -13,6 +13,7 @@ class QuestionModel {
   bool? enableDraw;
   String? photoUrl;
   QuestionType? type;
+  String? raw;
 
   QuestionModel(
       {this.id,
@@ -22,6 +23,7 @@ class QuestionModel {
       this.promptOne,
       this.enableDraw,
       this.photoUrl,
+        this.raw,
       this.type,
       this.promptTwo});
 

@@ -23,7 +23,6 @@ class AddQuestionView extends StatelessWidget {
   final String? lessonId;
   final QuestionModel? question;
   final bool isStartUp;
-  final bool isPractice;
 
   const AddQuestionView(
       {Key? key,
@@ -32,7 +31,6 @@ class AddQuestionView extends StatelessWidget {
       required this.topicId,
       required this.subTopicId,
       required this.lessonId,
-      this.isPractice = false,
       this.isStartUp = false})
       : super(key: key);
 
@@ -53,14 +51,7 @@ class AddQuestionView extends StatelessWidget {
                 isEnabled: vm.isMultipleChoice
                     ? vm.addedQns.where((e) => e.option?.isEmpty ?? false).isEmpty
                     : true,
-                onPressed: () => isPractice
-                    ? vm.updatePracticeQuestions(
-                        levelId: levelId,
-                        topicId: topicId,
-                        subtopicId: subTopicId,
-                        question: question!,
-                        lessonId: lessonId)
-                    : vm.addQuestion(
+                onPressed: () => vm.addQuestion(
                         levelId: levelId,
                         question: question,
                         topicId: topicId,
@@ -79,13 +70,7 @@ class AddQuestionView extends StatelessWidget {
             actions: [
               question != null
                   ? IconButton(
-                      onPressed: () => isPractice
-                          ? vm.removePracticeQuestion(
-                              levelId: levelId,
-                              topicId: topicId,
-                              subTopicId: subTopicId,
-                              lessonId: lessonId)
-                          : vm.removeQuestion(
+                      onPressed: () => vm.removeQuestion(
                               levelId: levelId,
                               qId: question!.id,
                               lessonId: lessonId,

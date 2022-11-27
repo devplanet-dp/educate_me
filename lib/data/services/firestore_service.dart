@@ -536,7 +536,7 @@ class FirestoreService {
       required levelId,
       required topicId,
       required subTopicId,
-      required lessonId}) async {
+      required lessonId,required raw}) async {
     try {
       await _levelReference
           .doc(levelId)
@@ -546,7 +546,7 @@ class FirestoreService {
           .doc(subTopicId)
           .collection(tbLesson)
           .doc(lessonId)
-          .update({'questions': question.map((e) => e.toJson()).toList()});
+          .update({'questions': question.map((e) => e.toJson()).toList(),'raw':raw});
       return FirebaseResult(data: true);
     } catch (e) {
       if (e is PlatformException) {

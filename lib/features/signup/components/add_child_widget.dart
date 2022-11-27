@@ -9,7 +9,8 @@ import '../../../core/widgets/busy_button.dart';
 import '../../../core/widgets/busy_button.dart';
 
 class AddChildWidget extends ViewModelWidget<SignUpViewModel> {
-  const AddChildWidget({Key? key}) : super(key: key);
+  const AddChildWidget({Key? key,this.isAddAccount=false}) : super(key: key);
+  final bool isAddAccount;
 
   @override
   Widget build(BuildContext context, SignUpViewModel model) {
@@ -18,7 +19,7 @@ class AddChildWidget extends ViewModelWidget<SignUpViewModel> {
       child: Column(
         children: List.generate(
             model.childCount.length, (index) => _inputFields(model, index))..add(BoxButtonWidget(
-          buttonText: 'text016'.tr,
+          buttonText: isAddAccount?'text016.2'.tr :'text016'.tr,
           isLoading: model.isBusy,
           onPressed: () =>model.addUsers(),
         ).paddingSymmetric(vertical: 12)),
@@ -32,22 +33,22 @@ class AddChildWidget extends ViewModelWidget<SignUpViewModel> {
         return [
           AppTextField(
             controller: controller.nameTEC,
-            hintText: 'User #${index + 1}\'s name',
+            hintText: '${isAddAccount?'Profile':'User'} #${index + 1}\'s name',
             label: '',
             validator: (value) {
               if (value!.isEmpty) {
-                return 'User #${index + 1}\'s name';
+                return '${isAddAccount?'Profile':'User'} #${index + 1}\'s name';
               }
               return null;
             },
           ),
           AppTextField(
               controller: controller.ageTEC,
-              hintText: 'User #${index + 1}\'s age',
+              hintText: '${isAddAccount?'Profile':'User'} #${index + 1}\'s age',
               isNumber: true,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'User #${index + 1}\'s age';
+                  return '${isAddAccount?'Profile':'User'} #${index + 1}\'s age';
                 }
                 return null;
               },

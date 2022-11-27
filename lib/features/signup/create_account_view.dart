@@ -9,12 +9,12 @@ import 'package:stacked/stacked.dart';
 import '../../core/shared/shared_styles.dart';
 import '../../core/utils/constants/app_assets.dart';
 import '../../core/utils/device_utils.dart';
-import '../../core/widgets/busy_button.dart';
-import '../signin/components/app_bg.dart';
 import '../signin/components/custom_app_bar.dart';
 
 class CreateAccountView extends StatelessWidget {
-  const CreateAccountView({Key? key}) : super(key: key);
+  const CreateAccountView({Key? key, this.isAddAccount = false})
+      : super(key: key);
+  final bool isAddAccount;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CreateAccountView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Container(
-          decoration:   const BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(kImgUnionPng2), fit: BoxFit.cover),
           ),
@@ -46,16 +46,16 @@ class CreateAccountView extends StatelessWidget {
           const CustomAppBar(),
           vSpaceMedium,
           Text(
-            'text010'.tr,
+            isAddAccount ? 'text010.2'.tr : 'text010'.tr,
             style: kHeading3Style.copyWith(
                 fontWeight: FontWeight.w600, color: Colors.black),
           ),
           Text(
-            'text011'.tr,
+            isAddAccount? 'text011.2'.tr: 'text011'.tr,
           ),
           vSpaceMedium,
           const ChildControllerWidget(),
-          const AddChildWidget(),
+           AddChildWidget(isAddAccount: isAddAccount,),
         ],
       ).paddingSymmetric(horizontal: 16),
     );

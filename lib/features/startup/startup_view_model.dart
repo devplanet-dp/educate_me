@@ -17,7 +17,7 @@ class StartUpViewModel extends BaseViewModel {
     var currentUser = await _authenticationService.isUserLoggedIn();
     if (currentUser.hasError) {
       if(!kIsWeb) {
-        Get.off(() => const SignInView());
+        Get.off(() => const WelcomeView());
       }else{
         Get.off(() => const SignInView());
       }

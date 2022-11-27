@@ -85,11 +85,11 @@ class TeacherQnsView extends StatelessWidget {
                 ),
                 ActionChip(
                   label: const Text('Edit practice'),
-                  onPressed: () => Get.to(() => LevelPracticeQnsView(
+                  onPressed: () => Get.to(() => ImportQnsView(
                     levelId: levelId,
                     topicId: topicId,
                     subTopicId: subTopicId,
-                    lessonId: lessonId,)),
+                    lessonId: lessonId,isPractice: true,)),
                 ),
                 ActionChip(
                   label: const Text('Import practice'),

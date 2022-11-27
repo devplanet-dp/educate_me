@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../core/shared/ui_helpers.dart';
@@ -16,9 +15,11 @@ class WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: const [_BackgroundUnion(), _WelcomeTitle()],
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: const [_BackgroundUnion(), _WelcomeTitle()],
+        ),
       ),
     );
   }
@@ -31,58 +32,27 @@ class _WelcomeTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveBuilder(builder: (context, _) {
-      return _.isDesktop ? _buildDesktop() : _buildForMobile();
-    });
-  }
-
-  Positioned _buildForMobile() {
     return Positioned(
         left: 18,
-        bottom: 0,
+        bottom: Get.width * .18,
         right: 18,
         child: [
           Text(
             'Let’s Get \nStarted',
             style: kHeading1Style.copyWith(
-                fontWeight: FontWeight.bold, fontSize: 48.sp),
+                fontWeight: FontWeight.bold, fontSize: 64.sp),
           ),
-          const Text('We Math-welcome you :)'),
+          Text('We Math-welcome you :)',
+              style: kBodyStyle.copyWith(
+                  fontSize: 20, fontWeight: FontWeight.w300)),
           vSpaceMedium,
           BoxButtonWidget(
             onPressed: () => Get.to(() => const SignInView()),
             buttonText: 'Join now',
+            fontSize: 32,
           ).width(Get.width * 1),
           vSpaceMedium
         ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
-  }
-
-  Row _buildDesktop() {
-    return Row(
-      children: [
-        Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Let’s Get \nStarted',
-              style: kHeading1Style.copyWith(
-                  fontWeight: FontWeight.bold, fontSize: 18.sp),
-            ),
-            const Text('We Math-welcome you :)'),
-          ],
-        )),
-        Expanded(
-            child: BoxButtonWidget(
-          onPressed: () => Get.to(() => const SignInView()),
-          buttonText: 'Join now',
-        )).width(Get.width / 3),
-        SizedBox(
-          width: 16.w,
-        )
-      ],
-    );
   }
 }
 
@@ -100,7 +70,7 @@ class _BackgroundUnion extends StatelessWidget {
           child: SvgPicture.asset(
             kImgUnion,
             width: Get.width * .2,
-            height: Get.height * .48,
+            height: Get.height * .68,
           ),
         ),
         Positioned(

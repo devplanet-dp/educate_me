@@ -14,6 +14,7 @@ class LessonModel {
   String? video;
   int? noCorrectToPass;
   List<String>? content;
+  String? raw;
 
   LessonModel(
       {this.id,
@@ -23,6 +24,7 @@ class LessonModel {
       this.cover,
       this.maxQuestions,
       this.order,
+        this.raw,
       this.createdAt,
       this.content,
       this.questions,
@@ -38,6 +40,7 @@ class LessonModel {
     noCorrectToPass = json['no_correct_pass'] ?? 0;
     maxQuestions = json['maxQuestions'];
     order = json['order'];
+    raw = json['raw'];
     createdAt = json['createdAt'];
     if (json['questions'] != null) {
       questions = [];

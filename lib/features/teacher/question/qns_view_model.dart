@@ -1,4 +1,5 @@
 import 'package:educate_me/core/utils/app_utils.dart';
+import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/question.dart';
 import 'package:educate_me/data/services/firestore_service.dart';
 import 'package:educate_me/locator.dart';
@@ -49,6 +50,24 @@ class QnsViewModel extends BaseViewModel {
         index: qns.index, option: qns.option, isCorrect: qns.isCorrect));
     addedQns.sort((a, b) => a.index!.compareTo(b.index!));
     notifyListeners();
+  }
+
+  void setRawInput(
+      {required levelId,
+      required topicId,
+      required subTopicId,
+      required lessonId}) async {
+    setBusy(true);
+    final result = await _service.getPracticeQuestions(
+        levelId: levelId,
+        topicId: topicId,
+        subTopicId: subTopicId,
+        lessonId: lessonId);
+    if (!result.hasError) {
+      var q = result.data as LessonModel;
+      importTEC.text = q.raw??'';
+    }
+    setBusy(false);
   }
 
   Future<void> addQuestion(
@@ -259,15 +278,16 @@ class QnsViewModel extends BaseViewModel {
               lessonId: lessonId);
         } else {
           //add practice questions to lesson
+
           await addImportedPracticeQuestions(
               questions: q,
               levelId: levelId,
               topicId: topicId,
               subtopicId: subtopicId,
+              raw: importTEC.text,
               lessonId: lessonId);
         }
       } catch (e) {
-        lg(e);
         showErrorMessage(
             message:
                 'Error in format, Please check for the format again please');
@@ -303,6 +323,7 @@ class QnsViewModel extends BaseViewModel {
     required topicId,
     required subtopicId,
     required lessonId,
+    required raw,
   }) async {
     setBusy(true);
     final data = await _service.addPracticeQuestion(
@@ -310,26 +331,28 @@ class QnsViewModel extends BaseViewModel {
         levelId: levelId,
         topicId: topicId,
         subTopicId: subtopicId,
-        lessonId: lessonId);
+        lessonId: lessonId,
+        raw: raw);
     Get.back();
     showInfoMessage(message: 'Practice question imported successfully.');
 
     setBusy(false);
   }
-  Future updatePracticeQuestions({
-    required levelId,
-    required topicId,
-    required subtopicId,
-    required lessonId,
-    required QuestionModel question
-  }) async {
+
+  Future updatePracticeQuestions(
+      {required levelId,
+      required topicId,
+      required subtopicId,
+      required lessonId,
+      required QuestionModel question}) async {
     setBusy(true);
-    question.question=qnsTEC.text;
+    question.question = qnsTEC.text;
     question.options = addedQns;
     final data = await _service.addPracticeQuestion(
         question: [question],
         levelId: levelId,
         topicId: topicId,
+        raw: '',
         subTopicId: subtopicId,
         lessonId: lessonId);
     Get.back();
