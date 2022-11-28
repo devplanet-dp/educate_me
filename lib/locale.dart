@@ -116,6 +116,7 @@ class AppLocale extends Translations {
           'text101':'Sorry! Wrong answer',
           'text102':'Account owner\'s name',
           'text103':'Add profile',
+          'text104':'My Profiles',
 
 
 

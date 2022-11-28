@@ -1,0 +1,88 @@
+import 'package:educate_me/core/shared/app_colors.dart';
+import 'package:educate_me/core/shared/shared_styles.dart';
+import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/utils/app_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:stacked/stacked.dart';
+import 'package:styled_widget/styled_widget.dart';
+
+import '../../../core/utils/device_utils.dart';
+import '../../../core/widgets/text_field_widget.dart';
+import '../../../core/widgets/two_row_button.dart';
+import '../navigation/navigation_view_model.dart';
+
+class MyProfileView extends StatelessWidget {
+  const MyProfileView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<NavigationViewModel>.reactive(
+      onModelReady: (model){
+        model.setProfiles();
+      },
+      builder: (context, vm, child) => GestureDetector(
+        onTap: () => DeviceUtils.hideKeyboard(context),
+        child: Scaffold(
+          bottomNavigationBar: TwoRowButton(
+            onPositiveTap: () =>vm.updateMyProfiles(),
+            onNegativeTap: () => Get.back(),
+            negativeText: 'text043'.tr,
+            positiveText: 'text065'.tr,
+            isBusy: vm.isBusy,
+          ),
+          appBar: AppBar(
+            title: Text('text104'.tr),
+          ),
+          body: const ChildProfilesWidget(),
+        ),
+      ),
+      viewModelBuilder: () => NavigationViewModel(),
+    );
+  }
+}
+class ChildProfilesWidget extends ViewModelWidget<NavigationViewModel> {
+   const ChildProfilesWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, NavigationViewModel model) {
+    return Form(
+      key: model.formKey,
+      child: ListView.separated(
+        itemCount: model.childCount.length,
+        shrinkWrap: true,
+        separatorBuilder: (_,__)=>vSpaceMedium,
+        itemBuilder: (_,index)=>_inputFields(model, index).paddingSymmetric(horizontal: 16),
+      ),
+    );
+  }
+
+  Widget _inputFields(NavigationViewModel model, int index) =>
+      Builder(builder: (context) {
+        var controller =model.childCount[index];
+        return [
+          AppTextField(
+            controller: controller.nameTEC,
+            hintText: 'Profile name - ${index+1}',
+            label: '',
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Enter profile name';
+              }
+              return null;
+            },
+          ),
+          AppTextField(
+              controller: controller.ageTEC,
+              hintText: 'Profile age - ${index+1}',
+              isNumber: true,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Enter age';
+                }
+                return null;
+              },
+              label: ''),
+        ].toColumn();
+      });
+}

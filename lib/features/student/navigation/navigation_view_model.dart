@@ -11,6 +11,7 @@ import '../../../core/utils/app_controller.dart';
 import '../../../core/utils/app_utils.dart';
 import '../../../data/complain_model.dart';
 import '../../../data/services/local_storage_service.dart';
+import 'navigation_view.dart';
 
 class NavigationViewModel extends IndexTrackingViewModel {
   final _service = locator<FirestoreService>();
@@ -24,6 +25,20 @@ class NavigationViewModel extends IndexTrackingViewModel {
 
   final localStorage = locator<LocalStorageService>();
 
+  final List<ProfileController> _childCount = [];
+
+  List<ProfileController> get childCount => _childCount;
+
+  void setProfiles() {
+    for (var child in controller.appChild) {
+      _childCount.add(ProfileController(
+          childId: child.userId ?? '',
+          nameTEC: TextEditingController(text: child.name),
+          ageTEC: TextEditingController(text: child.age)));
+    }
+    notifyListeners();
+  }
+
   final _list = [
     {'code': 'en', 'name': 'English'},
     {'code': 'fr', 'name': 'French'},
@@ -31,7 +46,6 @@ class NavigationViewModel extends IndexTrackingViewModel {
   ];
 
   List<Map> get languages => _list;
-
 
   Future initAppUsers({String? selectedChildId}) async {
     setBusy(true);
@@ -50,7 +64,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
   void initChildAccountDetails() {
     nameTEC.text = controller.currentChild?.name ?? '';
     ageTEC.text = controller.currentChild?.age ?? '';
-    ownerTECT.text = controller.appUser?.fName??'';
+    ownerTECT.text = controller.appUser?.fName ?? '';
     notifyListeners();
   }
 
@@ -76,7 +90,6 @@ class NavigationViewModel extends IndexTrackingViewModel {
       setBusy(false);
     }
   }
-
 
   void onLanguageSelected(String code) {
     localStorage.appLocale = code;
@@ -106,6 +119,26 @@ class NavigationViewModel extends IndexTrackingViewModel {
       setBusy(false);
     }
   }
+  Future<void> updateMyProfiles() async {
+    if (formKey.currentState!.validate()) {
+      setBusy(true);
+      for (var child in childCount) {
+        var user = UserModel(
+            name: child.nameTEC.text,
+            email: '',
+            role: UserRole.student,
+            userId: child.childId,
+            createdDate: Timestamp.now(),
+            age: child.ageTEC.text);
+        var result = await _service.createChild(
+            parentId: controller.appUser?.userId ?? '', child: user);
+
+      }
+      await initAppUsers(selectedChildId: controller.currentChild?.userId);
+      setBusy(false);
+      showInfoMessage(message: 'Your profile details updated');
+    }
+  }
 
   @override
   void dispose() {
@@ -114,4 +147,13 @@ class NavigationViewModel extends IndexTrackingViewModel {
     ownerTECT.dispose();
     super.dispose();
   }
+}
+
+class ProfileController {
+  final String childId;
+  final TextEditingController nameTEC;
+  final TextEditingController ageTEC;
+
+  ProfileController(
+      {required this.childId, required this.nameTEC, required this.ageTEC});
 }

@@ -48,12 +48,6 @@ class AccountView extends StatelessWidget {
                     hintText: 'text102'.tr,
                     fillColor: Colors.white,
                     isEnabled: false,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'text102'.tr;
-                      }
-                      return null;
-                    },
                     label: 'text102'.tr),
                 vSpaceMedium,
                 AppTextFieldSecondary(
