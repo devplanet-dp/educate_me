@@ -14,8 +14,35 @@ class QnsIndexWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       getIndexName(index),
-      style: kBody1Style.copyWith(
+      style: kHeading3Style.copyWith(
           color: kcPrimaryColor, fontWeight: FontWeight.w800),
-    ).paddingAll(10).card(shape: const CircleBorder(), elevation: 2);
+    ).paddingAll(12).decorated(shape: BoxShape.circle, color: Colors.white, boxShadow: [
+      BoxShadow(
+        color: kcTextGrey.withOpacity(.3),
+        blurRadius: 15,
+        offset: const Offset(0, 1), // Shadow position
+      ),
+    ],);
+  }
+}
+
+class QnsIndexWidgetMultiple extends StatelessWidget {
+  final bool isCorrect;
+
+  const QnsIndexWidgetMultiple({Key? key, required this.isCorrect})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.check,
+      color: isCorrect ? kcPrimaryColor : Colors.transparent,
+    ).paddingAll(10).decorated(shape: BoxShape.circle, color: Colors.white, boxShadow: [
+      BoxShadow(
+        color: kcTextGrey.withOpacity(.3),
+        blurRadius: 15,
+        offset: const Offset(0, 1), // Shadow position
+      ),
+    ],);
   }
 }

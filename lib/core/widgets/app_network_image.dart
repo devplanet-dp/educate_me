@@ -10,9 +10,10 @@ class AppNetworkImage extends StatelessWidget {
   final String path;
   final double? thumbHeight;
   final double? thumbWidth;
+  final BoxFit? fit;
 
   const AppNetworkImage(
-      {Key? key, required this.path, this.thumbHeight, this.thumbWidth})
+      {Key? key, required this.path, this.thumbHeight, this.thumbWidth, this.fit})
       : super(key: key);
 
   @override
@@ -21,7 +22,7 @@ class AppNetworkImage extends StatelessWidget {
       imageUrl: path,
       height: thumbHeight,
       width: thumbWidth,
-      fit: BoxFit.cover,
+      fit: fit?? BoxFit.cover,
       errorWidget: (_, __, ___) => const AppLogoWidget()
           .decorated(color: kcPrimaryColor.withOpacity(.3)),
       placeholder: (_, __) => Shimmer.fromColors(

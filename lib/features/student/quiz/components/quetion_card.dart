@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
+import '../../../../core/utils/app_utils.dart';
 import '../../../../core/widgets/text_field_widget.dart';
 import '../quiz_view_model.dart';
 
@@ -24,20 +25,25 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
       padding: fieldPadding,
       child: Column(
         children: [
-          SizedBox(height: 90.h,),
           _buildQuestion(
               model.selectedQn?.question ?? '', model.selectedQn?.photoUrl),
-          SizedBox(height: 60.h,),
+          SizedBox(
+            height: 60.h,
+          ),
           [
             DrawBrushWidget(
                 qns: model.selectedQn?.question ?? '',
                 enableDraw: model.selectedQn?.enableDraw ?? true),
             hSpaceSmall,
-             SpeechButton(question: model.selectedQn,),
-          ].toRow(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end).alignment(Alignment.topRight),
+            SpeechButton(
+              question: model.selectedQn,
+            ),
+          ]
+              .toRow(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end)
+              .alignment(Alignment.topRight),
           vSpaceSmall,
           _buildAnswer(model.selectedQn?.type ?? QuestionType.multipleChoice),
           vSpaceSmall,
@@ -50,33 +56,45 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           photoUrl == null || photoUrl.trim().toLowerCase() == 'noimage'
+              ? SizedBox(
+                  height: 90.h,
+                )
+              : emptyBox(),
+          photoUrl == null || photoUrl.trim().toLowerCase() == 'noimage'
               ? emptyBox()
               : AppNetworkImage(
                   path: photoUrl,
                   thumbWidth: 212.w,
                   thumbHeight: 198.h,
+                  fit: BoxFit.contain,
                 ).paddingSymmetric(horizontal: 16, vertical: 8),
           Text(
             qns,
             textAlign: TextAlign.center,
-            style: kBodyStyle.copyWith(fontWeight: FontWeight.w400,fontSize: 17),
-          ).paddingAll(16).decorated(
-            color: Colors.white,
-            borderRadius: kBorderSmall,
-            boxShadow: [
-              const BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.05),
-                blurRadius: 9,
-                offset: Offset(0, 1), // Shadow position
-              ),
-            ],
-          ).width(Get.width).paddingSymmetric(horizontal: 16),
+            style:
+                kBodyStyle.copyWith(fontWeight: FontWeight.w400, fontSize: 17),
+          )
+              .paddingAll(16)
+              .decorated(
+                color: Colors.white,
+                borderRadius: kBorderSmall,
+                boxShadow: [
+                  const BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.05),
+                    blurRadius: 9,
+                    offset: Offset(0, 1), // Shadow position
+                  ),
+                ],
+              )
+              .width(Get.width)
+              .paddingSymmetric(horizontal: 16),
         ],
       );
 
   Widget _buildAnswer(QuestionType type) {
     switch (type) {
       case QuestionType.multipleChoice:
+        return const MultipleChoiceQns();
       case QuestionType.singleChoice:
         return const MultipleChoiceQns();
       case QuestionType.inputSingle:
@@ -89,11 +107,12 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
 }
 
 class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
-  const MultipleChoiceQns({Key? key}) : super(key: key);
+  const MultipleChoiceQns( {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
     final options = model.selectedQn?.options ?? [];
+    final isMultipleCorrect = options.where((e) => e.isCorrect??false).toList().length>=2;
     // ///get only first 3 elements to shuffle
     // final shuffleOptions=options.getRange(0, options.length-1).toList();
     // //shuffle list order
@@ -111,6 +130,7 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
             onTap: () => model.onOptionSelected(p),
             borderRadius: kBorderSmall,
             child: OptionTileWidget(
+              isMultipleCorrect: isMultipleCorrect,
               index: p.index ?? 0,
               isOptionSelected: model.isAnswered(),
               isCorrectOption: p.isCorrect ?? false,
@@ -147,7 +167,7 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                 }
                 return null;
               },
-            ).paddingSymmetric(horizontal: Get.width*.2),
+            ).paddingSymmetric(horizontal: Get.width * .2),
             vSpaceMedium,
             BoxButtonWidget(
               buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,

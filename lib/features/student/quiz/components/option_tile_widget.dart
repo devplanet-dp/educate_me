@@ -17,6 +17,7 @@ class OptionTileWidget extends StatelessWidget {
     required this.option,
     required this.isUserOptionCorrect,
     required this.userSelectedIndex,
+    required this.isMultipleCorrect,
   }) : super(key: key);
   final int index;
   final bool isOptionSelected;
@@ -24,6 +25,7 @@ class OptionTileWidget extends StatelessWidget {
   final String option;
   final bool isUserOptionCorrect;
   final int userSelectedIndex;
+  final bool isMultipleCorrect;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +33,15 @@ class OptionTileWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        QnsIndexWidget(index: index),
+        (isMultipleCorrect && isOptionSelected)
+            ? QnsIndexWidgetMultiple(isCorrect: isCorrectOption)
+            : QnsIndexWidget(index: index),
         hSpaceSmall,
         Text(
           option.trim(),
           textAlign: TextAlign.center,
           style: kBody1Style.copyWith(
-            fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w800,
               color: !isOptionSelected
                   ? kcPrimaryColor
                   : (index == userSelectedIndex)
@@ -54,10 +58,14 @@ class OptionTileWidget extends StatelessWidget {
             ? kcOptionColor
             : (index == userSelectedIndex)
                 ? isUserOptionCorrect
-                    ? kcCorrectAns
+                    ? isMultipleCorrect
+                        ? kcPrimaryColor
+                        : kcCorrectAns
                     : kcIncorrectAns
                 : isCorrectOption
-                    ? kcCorrectAns
+                    ? isMultipleCorrect
+                        ? kcPrimaryColor
+                        : kcCorrectAns
                     : kcOptionColor,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: kBorderSmall));

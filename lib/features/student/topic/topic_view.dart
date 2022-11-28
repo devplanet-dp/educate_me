@@ -61,7 +61,7 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
                 isLocked: model.isLevelLocked(model.levels[index].id??''),
                 isCompleted: false,
               )
-            ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
+            ].toColumn(crossAxisAlignment: CrossAxisAlignment.start)).paddingOnly(top: 16);
   }
 }
 

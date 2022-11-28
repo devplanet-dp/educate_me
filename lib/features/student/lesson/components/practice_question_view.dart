@@ -37,7 +37,7 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
         bottomNavigationBar: BoxButtonWidget(
             buttonText: 'text030'.tr,
             radius: 8,
-            isEnabled: model.isQuizEnabled(),
+            isEnabled: model.isQuizEnabled()||lesson.questions!.isEmpty,
             onPressed: () => model.onStartQuizTapped(
                 levelId: levelId,
                 topicId: topicId,
