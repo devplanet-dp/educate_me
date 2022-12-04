@@ -4,6 +4,7 @@ import 'package:educate_me/features/signup/components/child_controller_widget.da
 import 'package:educate_me/features/signup/signup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../core/shared/shared_styles.dart';
@@ -21,43 +22,117 @@ class CreateAccountView extends StatelessWidget {
     return ViewModelBuilder<SignUpViewModel>.reactive(
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(kImgUnionPng2), fit: BoxFit.cover),
-          ),
-          child: SafeArea(
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: _buildBody(vm, context),
-            ),
-          ),
-        ),
+        child: _buildResponsive(vm, context),
       ),
       viewModelBuilder: () => SignUpViewModel(),
     );
   }
 
+  Widget _buildResponsive(SignUpViewModel vm, BuildContext context) {
+    return ResponsiveBuilder(builder: (context, _) {
+      if (_.isDesktop) {
+        return _buildBody(vm, context);
+      } else if (_.isTablet) {
+        return _buildTab(vm, context);
+      } else {
+        return _buildBody(vm, context);
+      }
+    });
+  }
+
+  Widget _buildTab(SignUpViewModel vm, BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Image.asset(
+                kImgUnionTabLeft,
+                height: Get.height * .45,
+                width: Get.width / 2,
+              ),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Image.asset(
+                kImgUnionTabRight,
+                height: Get.height * .45,
+                width: Get.width / 2,
+              ),
+            ),
+            Column(
+              children: [
+                const CustomAppBar().paddingSymmetric(horizontal: 16),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        vSpaceMedium,
+                        Text(
+                          isAddAccount ? 'text010.2'.tr : 'text010'.tr,
+                          textAlign: TextAlign.center,
+                          style: kHeading3Style.copyWith(
+                              fontWeight: FontWeight.w900, color: Colors.black,fontSize: 60),
+                        ),
+                        Text(
+                          isAddAccount ? 'text011.2'.tr : 'text011'.tr,
+                          textAlign: TextAlign.center,
+                          style: kBodyStyle.copyWith(
+                              fontSize: 22, fontWeight: FontWeight.w600),
+                        ),
+                        vSpaceMassive,
+                        const ChildControllerWidget(),
+                        vSpaceMedium,
+                        AddChildWidget(
+                          isAddAccount: isAddAccount,
+                        ),
+                      ],
+                    ).paddingSymmetric(horizontal: kTabPaddingHorizontal),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildBody(SignUpViewModel vm, BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CustomAppBar(),
-          vSpaceMedium,
-          Text(
-            isAddAccount ? 'text010.2'.tr : 'text010'.tr,
-            style: kHeading3Style.copyWith(
-                fontWeight: FontWeight.w600, color: Colors.black),
+    return SafeArea(
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(kImgUnionPng2), fit: BoxFit.cover),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CustomAppBar(),
+                vSpaceMedium,
+                Text(
+                  isAddAccount ? 'text010.2'.tr : 'text010'.tr,
+                  style: kHeading3Style.copyWith(
+                      fontWeight: FontWeight.w600, color: Colors.black),
+                ),
+                Text(
+                  isAddAccount ? 'text011.2'.tr : 'text011'.tr,
+                ),
+                vSpaceMedium,
+                const ChildControllerWidget(),
+                AddChildWidget(
+                  isAddAccount: isAddAccount,
+                ),
+              ],
+            ).paddingSymmetric(horizontal: 16),
           ),
-          Text(
-            isAddAccount? 'text011.2'.tr: 'text011'.tr,
-          ),
-          vSpaceMedium,
-          const ChildControllerWidget(),
-           AddChildWidget(isAddAccount: isAddAccount,),
-        ],
-      ).paddingSymmetric(horizontal: 16),
+        ),
+      ),
     );
   }
 }

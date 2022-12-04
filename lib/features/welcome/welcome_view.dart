@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../core/shared/ui_helpers.dart';
@@ -36,23 +37,26 @@ class _WelcomeTitle extends StatelessWidget {
         left: 18,
         bottom: Get.width * .18,
         right: 18,
-        child: [
-          Text(
-            'Let’s Get \nStarted',
-            style: kHeading1Style.copyWith(
-                fontWeight: FontWeight.bold, fontSize: 64),
-          ),
-          Text('We Math-welcome you :)',
-              style: kBodyStyle.copyWith(
-                  fontSize: 20, fontWeight: FontWeight.w300)),
-          vSpaceMedium,
-          BoxButtonWidget(
-            onPressed: () => Get.to(() => const SignInView()),
-            buttonText: 'Join now',
-            fontSize: 24,
-          ).width(Get.width * 1),
-          vSpaceMedium
-        ].toColumn(crossAxisAlignment: CrossAxisAlignment.start));
+        child: ResponsiveBuilder(builder: (context, _) {
+          return [
+            Text(
+              'Let’s Get \nStarted',
+              style: kHeading1Style.copyWith(
+                  fontWeight: FontWeight.w600, fontSize: 64),
+            ).paddingOnly(left: _.isTablet?48:0),
+            Text('We Math-welcome you :)',
+                style: kBodyStyle.copyWith(
+                    fontSize: 20, fontWeight: FontWeight.w300)).paddingOnly(left: _.isTablet?48:0),
+           _.isTablet? vSpaceMassive:vSpaceMedium,
+            BoxButtonWidget(
+              onPressed: () => Get.to(() => const SignInView()),
+              buttonText: 'Join now',
+              fontSize: _.isTablet ? 32 : 24,
+              radius: _.isTablet ? 18 : 30,
+            ).width(_.isTablet ? Get.width * .4 : Get.width * 1).center(),
+            vSpaceMedium
+          ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
+        }));
   }
 }
 

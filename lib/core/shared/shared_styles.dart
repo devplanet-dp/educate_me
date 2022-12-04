@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import 'app_colors.dart';
 
@@ -35,7 +36,9 @@ const double fieldHeight = 55;
 const double smallFieldHeight = 40;
 const double inputFieldBottomMargin = 30;
 const double inputFieldSmallBottomMargin = 0;
+ double kTabPaddingHorizontal =  Get.width * .2;
 const EdgeInsets fieldPadding = EdgeInsets.symmetric(horizontal: 15);
+ EdgeInsets fieldPaddingTablet = EdgeInsets.symmetric(horizontal: kTabPaddingHorizontal);
  EdgeInsets fieldPaddingDesktop = EdgeInsets.symmetric(horizontal: 64.w);
 const EdgeInsets fieldPaddingAll = EdgeInsets.all(10.0);
  EdgeInsets kLargeFieldPadding =

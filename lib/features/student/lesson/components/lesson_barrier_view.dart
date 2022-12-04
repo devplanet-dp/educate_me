@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../../core/widgets/busy_button.dart';
@@ -36,12 +37,17 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
       children: List.generate(
           lesson.content?.length ?? 0,
           (index) => Scaffold(
-                bottomNavigationBar: BoxButtonWidget(
-                  radius: 8,
-                  buttonText:
-                      '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
-                  onPressed: () => model.goToNextBarrier(),
-                ).paddingOnly(top: 16),
+                bottomNavigationBar: ResponsiveBuilder(
+                  builder: (context,_) {
+                    return BoxButtonWidget(
+                      radius: 8,
+                      fontSize: _.isTablet?24:14,
+                      buttonText:
+                          '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
+                      onPressed: () => model.goToNextBarrier(),
+                    ).paddingOnly(top: 16,left: !_.isTablet?0:kTabPaddingHorizontal,right:_.isTablet?kTabPaddingHorizontal:0 );
+                  }
+                ),
                 body: SingleChildScrollView(
                   child: Column(
                     children: [

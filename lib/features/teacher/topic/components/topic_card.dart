@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/widgets/app_network_image.dart';
@@ -31,50 +32,55 @@ class TopicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = 120.h;
-    final w = 165.w;
-    return InkWell(
-      onTap: isLocked?(){}: onTap,
-      borderRadius: kBorderSmall,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: AppNetworkImage(
-              path: url,
-              thumbHeight: h,
-              thumbWidth: w,
-            ),
+
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        final h = 120.h;
+        final w =_.isTablet?110.w: 165.w;
+        return InkWell(
+          onTap: isLocked?(){}: onTap,
+          borderRadius: kBorderSmall,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: AppNetworkImage(
+                  path: url,
+                  thumbHeight: h,
+                  thumbWidth: w,
+                ),
+              ),
+              Positioned(
+                  bottom: 8,
+                  left: 8,
+                  child: Text(
+                    title,
+                    style: kCaptionStyle.copyWith(color: kAltWhite),
+                  ).paddingAll(8).decorated(
+                      color: kAltBg.withOpacity(.4), borderRadius: kBorderSmall)),
+              onEditTap == null
+                  ? emptyBox()
+                  : Positioned(
+                      right: 0,
+                      top: 0,
+                      child: AppIconWidget(
+                        iconData: Iconsax.edit,
+                        bgColor: kAltWhite,
+                        iconColor: kAltBg,
+                        onTap: onEditTap!,
+                      )),
+              isLocked ? const LockedOverlayWidget() : emptyBox(),
+              isCompleted ? const CompletedOverlayWidget() : emptyBox()
+            ],
           ),
-          Positioned(
-              bottom: 8,
-              left: 8,
-              child: Text(
-                title,
-                style: kCaptionStyle.copyWith(color: kAltWhite),
-              ).paddingAll(8).decorated(
-                  color: kAltBg.withOpacity(.4), borderRadius: kBorderSmall)),
-          onEditTap == null
-              ? emptyBox()
-              : Positioned(
-                  right: 0,
-                  top: 0,
-                  child: AppIconWidget(
-                    iconData: Iconsax.edit,
-                    bgColor: kAltWhite,
-                    iconColor: kAltBg,
-                    onTap: onEditTap!,
-                  )),
-          isLocked ? const LockedOverlayWidget() : emptyBox(),
-          isCompleted ? const CompletedOverlayWidget() : emptyBox()
-        ],
-      ),
-    )
-        .card(
-            shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
-            elevation: 0,
-            color: Colors.transparent,
-            clipBehavior: Clip.antiAlias)
-        .height(h)
-        .width(w);
+        )
+            .card(
+                shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
+                elevation: 0,
+                color: Colors.transparent,
+                clipBehavior: Clip.antiAlias)
+            .height(h)
+            .width(w);
+      }
+    );
   }
 }

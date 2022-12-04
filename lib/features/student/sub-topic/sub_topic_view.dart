@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -108,10 +109,14 @@ class _SubTopicSection extends StatelessWidget {
         itemBuilder: (_, index) {
           var s = subtopics[index];
           return [
-            Text(
-              s.title ?? '',
-              style: kBodyStyle.copyWith(fontWeight: FontWeight.bold,fontSize: 16.sp,),
-            ).paddingOnly(left: 12),
+            ResponsiveBuilder(
+              builder: (context,_) {
+                return Text(
+                  s.title ?? '',
+                  style: kBodyStyle.copyWith(fontWeight: FontWeight.bold,fontSize:_.isTablet?24: 16.sp,),
+                ).paddingOnly(left: 12);
+              }
+            ),
             AutoSizeText(
               s.description ?? '',
               maxLines: 1,

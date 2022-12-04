@@ -6,6 +6,7 @@ import 'package:educate_me/features/signup/signup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -16,31 +17,35 @@ class ChildControllerWidget extends ViewModelWidget<SignUpViewModel> {
 
   @override
   Widget build(BuildContext context, SignUpViewModel model) {
-    return [
-      RoundButton(
-        bgColor: kcPrimaryColor,
-        icon: const Icon(
-          Iconsax.minus,
-          color: Colors.white,
-        ),
-        onTap: () => model.decrementChildCount(),
-      ),
-      AutoSizeText(
-        '${model.childCount.length}',
-        style: kHeading1Style,
-        maxLines: 1,
-      ).center().width(64.w),
-      RoundButton(
-        bgColor: kcPrimaryColor,
-        icon: const Icon(
-          Iconsax.add,
-          color: Colors.white,
-        ),
-        onTap: () => model.incrementChild(),
-      )
-    ].toRow(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center);
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return [
+          RoundButton(
+            bgColor: kcPrimaryColor,
+            icon: const Icon(
+              Iconsax.minus,
+              color: Colors.white,
+            ),
+            onTap: () => model.decrementChildCount(),
+          ),
+          AutoSizeText(
+            '${model.childCount.length}',
+            style: kHeading1Style.copyWith(fontSize: _.isTablet?48:34),
+            maxLines: 1,
+          ).center().width(_.isTablet?24.w:64.w),
+          RoundButton(
+            bgColor: kcPrimaryColor,
+            icon: const Icon(
+              Iconsax.add,
+              color: Colors.white,
+            ),
+            onTap: () => model.incrementChild(),
+          )
+        ].toRow(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center);
+      }
+    );
   }
 }
