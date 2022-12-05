@@ -3,6 +3,7 @@ import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/features/student/navigation/navigation_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -16,34 +17,38 @@ class LanChangeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<NavigationViewModel>.reactive(
-      builder: (context, vm, child) => Scaffold(
-        bottomNavigationBar: TwoRowButton(
-          onPositiveTap: () =>vm.updateChildAccountDetails(),
-          onNegativeTap: () => Get.back(),
-          negativeText: 'text043'.tr,
-          positiveText: 'text065'.tr,
-          isBusy: vm.isBusy,
-        ),
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight),
-          child: SwitchUserAppBar(
-            title: 'text063'.tr,
-            onUserUpdated: (){
-              vm.initChildAccountDetails();
-            },
-          ),
-        ),
-        body: [
-          vSpaceSmall,
-          Text(
-            'text063'.tr,
-            style: kBodyStyle,
-          ),
-          vSpaceSmall,
-          _buildLangCard(vm),
-        ]
-            .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
-            .paddingSymmetric(horizontal: 16),
+      builder: (context, vm, child) => ResponsiveBuilder(
+        builder: (context,_) {
+          return Scaffold(
+            bottomNavigationBar: TwoRowButton(
+              onPositiveTap: () =>vm.updateChildAccountDetails(),
+              onNegativeTap: () => Get.back(),
+              negativeText: 'text043'.tr,
+              positiveText: 'text065'.tr,
+              isBusy: vm.isBusy,
+            ).paddingSymmetric(horizontal: _.isTablet?kTabPaddingHorizontal:0),
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(kToolbarHeight),
+              child: SwitchUserAppBar(
+                title: 'text063'.tr,
+                onUserUpdated: (){
+                  vm.initChildAccountDetails();
+                },
+              ),
+            ),
+            body: [
+              vSpaceSmall,
+              Text(
+                'text063'.tr,
+                style: kBodyStyle,
+              ),
+              vSpaceSmall,
+              _buildLangCard(vm),
+            ]
+                .toColumn(crossAxisAlignment: CrossAxisAlignment.start)
+                .paddingSymmetric(horizontal: _.isTablet?kTabPaddingHorizontal: 16),
+          );
+        }
       ),
       viewModelBuilder: () => NavigationViewModel(),
     );

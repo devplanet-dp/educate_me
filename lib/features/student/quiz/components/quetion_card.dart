@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/app_network_image.dart';
@@ -9,10 +10,10 @@ import 'package:educate_me/features/student/quiz/components/speech_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../../../../core/utils/app_utils.dart';
 import '../../../../core/widgets/text_field_widget.dart';
 import '../quiz_view_model.dart';
 
@@ -21,75 +22,85 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
-    return SingleChildScrollView(
-      padding: fieldPadding,
-      child: Column(
-        children: [
-          _buildQuestion(
-              model.selectedQn?.question ?? '', model.selectedQn?.photoUrl),
-          SizedBox(
-            height: 60.h,
-          ),
-          [
-            DrawBrushWidget(
-                qns: model.selectedQn?.question ?? '',
-                enableDraw: model.selectedQn?.enableDraw ?? true),
-            hSpaceSmall,
-            SpeechButton(
-              question: model.selectedQn,
+    return ResponsiveBuilder(builder: (context, _) {
+      return SingleChildScrollView(
+        padding: _.isTablet ? fieldPaddingTablet : fieldPadding,
+        child: Column(
+          children: [
+            _buildQuestion(
+                model.selectedQn?.question ?? '', model.selectedQn?.photoUrl),
+            SizedBox(
+              height: 60.h,
             ),
-          ]
-              .toRow(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end)
-              .alignment(Alignment.topRight),
-          vSpaceSmall,
-          _buildAnswer(model.selectedQn?.type ?? QuestionType.multipleChoice),
-          vSpaceSmall,
-        ],
-      ),
-    );
+            [
+              DrawBrushWidget(
+                  qns: model.selectedQn?.question ?? '',
+                  enableDraw: model.selectedQn?.enableDraw ?? true),
+              hSpaceSmall,
+              SpeechButton(
+                question: model.selectedQn,
+              ),
+            ]
+                .toRow(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end)
+                .alignment(Alignment.topRight),
+            vSpaceSmall,
+            _buildAnswer(model.selectedQn?.type ?? QuestionType.multipleChoice),
+            vSpaceSmall,
+          ],
+        ),
+      );
+    });
   }
 
-  Widget _buildQuestion(String qns, String? photoUrl) => Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          photoUrl == null || photoUrl.trim().toLowerCase() == 'noimage'
-              ? SizedBox(
-                  height: 90.h,
+  Widget _buildQuestion(String qns, String? photoUrl) =>
+      ResponsiveBuilder(builder: (context, _) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            photoUrl == null || photoUrl.trim().toLowerCase() == 'noimage'
+                ? SizedBox(
+                    height: 90.h,
+                  )
+                : emptyBox(),
+            photoUrl == null || photoUrl.trim().toLowerCase() == 'noimage'
+                ? emptyBox()
+                : OpenContainer(
+                    closedElevation: 0,
+                    closedColor: Colors.transparent,
+                    closedBuilder: (_, __) => AppNetworkImage(
+                          path: photoUrl,
+                          thumbWidth: 212.w,
+                          thumbHeight: 198.h,
+                          fit: BoxFit.contain,
+                        ).paddingSymmetric(horizontal: 16, vertical: 8),
+                    openBuilder: (_, __) => InteractiveImage(image: photoUrl)),
+            Text(
+              qns,
+              textAlign: TextAlign.center,
+              style: kBodyStyle.copyWith(
+                  fontWeight: _.isTablet ? FontWeight.w800 : FontWeight.w400,
+                  fontSize: _.isTablet ? 24 : 17),
+            )
+                .paddingAll(16)
+                .decorated(
+                  color: Colors.white,
+                  borderRadius: kBorderSmall,
+                  boxShadow: [
+                    const BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.05),
+                      blurRadius: 9,
+                      offset: Offset(0, 1), // Shadow position
+                    ),
+                  ],
                 )
-              : emptyBox(),
-          photoUrl == null || photoUrl.trim().toLowerCase() == 'noimage'
-              ? emptyBox()
-              : AppNetworkImage(
-                  path: photoUrl,
-                  thumbWidth: 212.w,
-                  thumbHeight: 198.h,
-                  fit: BoxFit.contain,
-                ).paddingSymmetric(horizontal: 16, vertical: 8),
-          Text(
-            qns,
-            textAlign: TextAlign.center,
-            style:
-                kBodyStyle.copyWith(fontWeight: FontWeight.w400, fontSize: 17),
-          )
-              .paddingAll(16)
-              .decorated(
-                color: Colors.white,
-                borderRadius: kBorderSmall,
-                boxShadow: [
-                  const BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.05),
-                    blurRadius: 9,
-                    offset: Offset(0, 1), // Shadow position
-                  ),
-                ],
-              )
-              .width(Get.width)
-              .paddingSymmetric(horizontal: 16),
-        ],
-      );
+                .width(Get.width)
+                .paddingSymmetric(horizontal: 16),
+          ],
+        );
+      });
 
   Widget _buildAnswer(QuestionType type) {
     switch (type) {
@@ -107,12 +118,13 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
 }
 
 class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
-  const MultipleChoiceQns( {Key? key}) : super(key: key);
+  const MultipleChoiceQns({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
     final options = model.selectedQn?.options ?? [];
-    final isMultipleCorrect = options.where((e) => e.isCorrect??false).toList().length>=2;
+    final isMultipleCorrect =
+        options.where((e) => e.isCorrect ?? false).toList().length >= 2;
     // ///get only first 3 elements to shuffle
     // final shuffleOptions=options.getRange(0, options.length-1).toList();
     // //shuffle list order
@@ -120,26 +132,52 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
     // //keep last option remains in order
     // shuffleOptions.add(options.last);
 
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: options.length,
-        itemBuilder: (_, index) {
-          final p = options[index];
-          return InkWell(
-            onTap: () => model.onOptionSelected(p),
-            borderRadius: kBorderSmall,
-            child: OptionTileWidget(
-              isMultipleCorrect: isMultipleCorrect,
-              index: p.index ?? 0,
-              isOptionSelected: model.isAnswered(),
-              isCorrectOption: p.isCorrect ?? false,
-              option: p.option ?? '',
-              isUserOptionCorrect: model.isUserCorrect(),
-              userSelectedIndex: model.userAnsIndex(),
-            ),
-          );
-        });
+    return ResponsiveBuilder(builder: (context, _) {
+      return _.isTablet
+          ? GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              childAspectRatio: 2,
+              crossAxisSpacing: 24,
+              mainAxisSpacing: 24,
+              children: List.generate(options.length, (index) {
+                final p = options[index];
+                return InkWell(
+                  onTap: () => model.onOptionSelected(p),
+                  borderRadius: kBorderSmall,
+                  child: OptionTileWidget(
+                    isMultipleCorrect: isMultipleCorrect,
+                    index: p.index ?? 0,
+                    isOptionSelected: model.isAnswered(),
+                    isCorrectOption: p.isCorrect ?? false,
+                    option: p.option ?? '',
+                    isUserOptionCorrect: model.isUserCorrect(),
+                    userSelectedIndex: model.userAnsIndex(),
+                  ),
+                );
+              }),
+            )
+          : ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: options.length,
+              itemBuilder: (_, index) {
+                final p = options[index];
+                return InkWell(
+                  onTap: () => model.onOptionSelected(p),
+                  borderRadius: kBorderSmall,
+                  child: OptionTileWidget(
+                    isMultipleCorrect: isMultipleCorrect,
+                    index: p.index ?? 0,
+                    isOptionSelected: model.isAnswered(),
+                    isCorrectOption: p.isCorrect ?? false,
+                    option: p.option ?? '',
+                    isUserOptionCorrect: model.isUserCorrect(),
+                    userSelectedIndex: model.userAnsIndex(),
+                  ),
+                );
+              });
+    });
   }
 }
 
@@ -258,6 +296,35 @@ class _DrawingPadWidgetState extends State<DrawingPadWidget> {
           const SizedBox(height: 60),
         ],
       ),
+    );
+  }
+}
+
+class InteractiveImage extends StatelessWidget {
+  const InteractiveImage({Key? key, required this.image}) : super(key: key);
+  final String image;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: true,
+        iconTheme: const IconThemeData(
+          color: Colors.white
+        ),
+      ),
+      body: InteractiveViewer(
+        maxScale: 10,
+          child: AppNetworkImage(
+            path: image,
+
+            thumbWidth: Get.width,
+            thumbHeight: Get.height / 2,
+            fit: BoxFit.cover,
+          ).center()),
     );
   }
 }

@@ -21,23 +21,23 @@ class DrawBrushWidget extends StatelessWidget {
           enableDraw ? DrawQnsView(question: qns) : const DisableDraw(),
           barrierDismissible: false),
       child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: enableDraw ? Colors.white : kErrorRed.withOpacity(.3),
-                boxShadow: [
-                  BoxShadow(
-                    color: kcTextGrey.withOpacity(.2),
-                    blurRadius: 10,
-                    offset: const Offset(0, 1), // Shadow position
-                  ),
-                ],
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: enableDraw ? Colors.white : kErrorRed.withOpacity(.3),
+            boxShadow: [
+              BoxShadow(
+                color: kcTextGrey.withOpacity(.2),
+                blurRadius: 10,
+                offset: const Offset(0, 1), // Shadow position
               ),
-              child: Image.asset(
-                kIcBrush,
-                height: 20.h,
-                width: 20.h,
-                color: enableDraw ? Colors.black : kErrorRed,
-              ).paddingAll(8)),
+            ],
+          ),
+          child: Image.asset(
+            kIcBrush,
+            height: 20.h,
+            width: 20.h,
+            color: enableDraw ? Colors.black : kErrorRed,
+          ).paddingAll(8)),
     );
   }
 }

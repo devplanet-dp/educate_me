@@ -4,6 +4,7 @@ import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/app_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -23,18 +24,25 @@ class MyProfileView extends StatelessWidget {
       },
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
-        child: Scaffold(
-          bottomNavigationBar: TwoRowButton(
-            onPositiveTap: () =>vm.updateMyProfiles(),
-            onNegativeTap: () => Get.back(),
-            negativeText: 'text043'.tr,
-            positiveText: 'text065'.tr,
-            isBusy: vm.isBusy,
-          ),
-          appBar: AppBar(
-            title: Text('text104'.tr),
-          ),
-          body: const ChildProfilesWidget(),
+        child: ResponsiveBuilder(
+          builder: (context,_) {
+            return Scaffold(
+              bottomNavigationBar: TwoRowButton(
+                onPositiveTap: () =>vm.updateMyProfiles(),
+                onNegativeTap: () => Get.back(),
+                negativeText: 'text043'.tr,
+                positiveText: 'text065'.tr,
+                isBusy: vm.isBusy,
+              ).paddingSymmetric(horizontal: _.isTablet?kTabPaddingHorizontal:0),
+              appBar: AppBar(
+                iconTheme: IconThemeData(
+                    size: _.isTablet?32:24
+                ),
+                title: Text('text104'.tr,style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold,fontSize: _.isTablet?32:20)),
+              ),
+              body: const ChildProfilesWidget(),
+            );
+          }
         ),
       ),
       viewModelBuilder: () => NavigationViewModel(),
@@ -46,14 +54,18 @@ class ChildProfilesWidget extends ViewModelWidget<NavigationViewModel> {
 
   @override
   Widget build(BuildContext context, NavigationViewModel model) {
-    return Form(
-      key: model.formKey,
-      child: ListView.separated(
-        itemCount: model.childCount.length,
-        shrinkWrap: true,
-        separatorBuilder: (_,__)=>vSpaceMedium,
-        itemBuilder: (_,index)=>_inputFields(model, index).paddingSymmetric(horizontal: 16),
-      ),
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return Form(
+          key: model.formKey,
+          child: ListView.separated(
+            itemCount: model.childCount.length,
+            shrinkWrap: true,
+            separatorBuilder: (_,__)=>vSpaceMedium,
+            itemBuilder: (_,index)=>_inputFields(model, index).paddingSymmetric(horizontal:_.isTablet?kTabPaddingHorizontal: 16),
+          ),
+        );
+      }
     );
   }
 

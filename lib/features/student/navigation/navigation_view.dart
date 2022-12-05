@@ -105,6 +105,7 @@ class NavigationView extends StatelessWidget {
                   duration: const Duration(milliseconds: 300),
                   height: 2.h,
                   width: 20.w,
+                  margin: EdgeInsets.symmetric(horizontal: 120),
                   decoration: BoxDecoration(
                       color: !isSelected ? Colors.transparent : kcPrimaryColor,
                       borderRadius: const BorderRadius.all(Radius.circular(6))),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/shared/app_colors.dart';
@@ -29,45 +30,49 @@ class OptionTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        (isMultipleCorrect && isOptionSelected)
-            ? QnsIndexWidgetMultiple(isCorrect: isCorrectOption)
-            : QnsIndexWidget(index: index),
-        hSpaceSmall,
-        Text(
-          option.trim(),
-          textAlign: TextAlign.center,
-          style: kBody1Style.copyWith(
-              fontWeight: FontWeight.w800,
-              color: !isOptionSelected
-                  ? kcPrimaryColor
-                  : (index == userSelectedIndex)
-                      ? isUserOptionCorrect
-                          ? Colors.white
-                          : Colors.white
-                      : isCorrectOption
-                          ? Colors.white
-                          : kcPrimaryColor),
-        ),
-      ],
-    ).height(60.h).paddingAll(8).card(
-        color: !isOptionSelected
-            ? kcOptionColor
-            : (index == userSelectedIndex)
-                ? isUserOptionCorrect
-                    ? isMultipleCorrect
-                        ? kcPrimaryColor
-                        : kcCorrectAns
-                    : kcIncorrectAns
-                : isCorrectOption
-                    ? isMultipleCorrect
-                        ? kcPrimaryColor
-                        : kcCorrectAns
-                    : kcOptionColor,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: kBorderSmall));
+    return ResponsiveBuilder(builder: (context, _) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          (isMultipleCorrect && isOptionSelected)
+              ? QnsIndexWidgetMultiple(isCorrect: isCorrectOption)
+              : QnsIndexWidget(index: index),
+          hSpaceSmall,
+          Text(
+            option.trim(),
+            textAlign: TextAlign.center,
+            style: kBody1Style.copyWith(
+                fontWeight: FontWeight.w800,
+                fontSize: _.isTablet?24:15,
+                color: !isOptionSelected
+                    ? kcPrimaryColor
+                    : (index == userSelectedIndex)
+                        ? isUserOptionCorrect
+                            ? Colors.white
+                            : Colors.white
+                        : isCorrectOption
+                            ? Colors.white
+                            : kcPrimaryColor),
+          ),
+        ],
+      ).height(60.h).paddingAll(_.isTablet?16:8).card(
+          color: !isOptionSelected
+              ? kcOptionColor
+              : (index == userSelectedIndex)
+                  ? isUserOptionCorrect
+                      ? isMultipleCorrect
+                          ? kcPrimaryColor
+                          : kcCorrectAns
+                      : kcIncorrectAns
+                  : isCorrectOption
+                      ? isMultipleCorrect
+                          ? kcPrimaryColor
+                          : kcCorrectAns
+                      : kcOptionColor,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+              borderRadius: _.isTablet ? kBorderLarge : kBorderSmall));
+    });
   }
 }

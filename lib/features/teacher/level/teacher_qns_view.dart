@@ -1,7 +1,7 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
+import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/core/widgets/busy_overlay.dart';
-import 'package:educate_me/features/teacher/level/level_practice_qns_view.dart';
 import 'package:educate_me/features/teacher/level/teacher_level_view_model.dart';
 import 'package:educate_me/features/teacher/question/import_qns_view.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
@@ -55,6 +55,12 @@ class TeacherQnsView extends StatelessWidget {
               title: const Text('Add Questions here'),
               actions: [
                 IconButton(
+                    onPressed: () => vm.toggleMultiSelect(),
+                    icon: Icon(
+                      vm.multiSelect ? Iconsax.edit5 : Iconsax.edit,
+                      color: kErrorRed,
+                    )),
+                IconButton(
                     onPressed: () => isStartUp
                         ? vm.removeLevel(levelId)
                         : vm.removeLesson(
@@ -65,9 +71,19 @@ class TeacherQnsView extends StatelessWidget {
                     icon: const Icon(
                       Iconsax.trash,
                       color: kErrorRed,
-                    ))
+                    )),
               ],
             ),
+            bottomNavigationBar:
+                (vm.multiSelect && vm.selectedQnsIds.isNotEmpty)
+                    ? BoxButtonWidget(
+                        buttonText: 'Delete Questions',
+                        onPressed: () => vm.removeQuestions(
+                            levelId: levelId,
+                            topicId: topicId,
+                            subTopicId: subTopicId,
+                            lessonId: lessonId)).paddingAll(16)
+                    : const SizedBox(),
             floatingActionButton: FabCircularMenu(
               ringColor: kcPrimaryColor,
               fabOpenIcon: const Icon(Iconsax.add),
@@ -76,28 +92,32 @@ class TeacherQnsView extends StatelessWidget {
                 ActionChip(
                   label: const Text('Create'),
                   onPressed: () => Get.to(() => AddQuestionView(
-                    topicId: topicId,
-                    lessonId: lessonId,
-                    levelId: levelId,
-                    subTopicId: subTopicId,
-                    isStartUp: isStartUp,
-                  )),
+                        topicId: topicId,
+                        lessonId: lessonId,
+                        levelId: levelId,
+                        subTopicId: subTopicId,
+                        isStartUp: isStartUp,
+                      )),
                 ),
                 ActionChip(
                   label: const Text('Edit practice'),
                   onPressed: () => Get.to(() => ImportQnsView(
-                    levelId: levelId,
-                    topicId: topicId,
-                    subTopicId: subTopicId,
-                    lessonId: lessonId,isPractice: true,)),
+                        levelId: levelId,
+                        topicId: topicId,
+                        subTopicId: subTopicId,
+                        lessonId: lessonId,
+                        isPractice: true,
+                      )),
                 ),
                 ActionChip(
                   label: const Text('Import practice'),
                   onPressed: () => Get.to(() => ImportQnsView(
-                      levelId: levelId,
-                      topicId: topicId,
-                      subTopicId: subTopicId,
-                      lessonId: lessonId,isPractice: true,)),
+                        levelId: levelId,
+                        topicId: topicId,
+                        subTopicId: subTopicId,
+                        lessonId: lessonId,
+                        isPractice: true,
+                      )),
                 ),
                 ActionChip(
                   label: const Text('Import'),
@@ -147,35 +167,46 @@ class QuestionsGrid extends ViewModelWidget<TeacherLevelViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherLevelViewModel model) {
-    return ResponsiveBuilder(
-      builder: (context,_) {
-        //sort question by index
-        model.questions.sort((a,b)=>a.index??0.compareTo(b.index??0));
-        return GridView.count(
-          crossAxisCount: _.isDesktop?8:5,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: _.isDesktop?2:1,
-          children: List.generate(model.questions.length, (index) {
-            return InkWell(
-              borderRadius: kBorderLarge,
-              onTap: () => Get.to(() => AddQuestionView(
-                    question: model.questions[index],
-                    lessonId: lessonId,
-                    topicId: topicId,
-                    subTopicId: subTopicId,
-                    levelId: levelId,
-                    isStartUp: isStartUp,
-                  )),
-              child: Text(
-                '${index + 1}',
-                style: kBodyStyle.copyWith(
-                    color: kcCorrectAns, fontWeight: FontWeight.bold),
-              ).center(),
-            ).card(shape: const CircleBorder(), color: kAltWhite, elevation: 2);
-          }),
-        ).paddingSymmetric(horizontal: 12);
-      }
-    );
+    return ResponsiveBuilder(builder: (context, _) {
+      //sort question by index
+
+      return GridView.count(
+        crossAxisCount: _.isDesktop ? 8 : 5,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        childAspectRatio: _.isDesktop ? 2 : 1,
+        children: List.generate(model.questions.length, (index) {
+          var q = model.questions[index];
+          return InkWell(
+            borderRadius: kBorderLarge,
+            onTap: () => model.multiSelect
+                ? model.onQnsSelectedForDelete(q.id ?? '')
+                : Get.to(() => AddQuestionView(
+                      question: model.questions[index],
+                      lessonId: lessonId,
+                      topicId: topicId,
+                      subTopicId: subTopicId,
+                      levelId: levelId,
+                      isStartUp: isStartUp,
+                    )),
+            child: model.isQnSelected(q.id ?? '')
+                ? const Icon(
+                    Icons.check,
+                    color: kAltWhite,
+                    size: 32,
+                  )
+                : Text(
+                    '${index + 1}',
+                    style: kBodyStyle.copyWith(
+                        color: kcCorrectAns, fontWeight: FontWeight.bold),
+                  ).center(),
+          ).card(
+              shape: const CircleBorder(),
+              color:
+                  model.isQnSelected(q.id ?? '') ? kcPrimaryColor : kAltWhite,
+              elevation: 2);
+        }),
+      ).paddingSymmetric(horizontal: 12);
+    });
   }
 }

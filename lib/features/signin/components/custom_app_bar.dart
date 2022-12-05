@@ -47,10 +47,13 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
         return AppBar(
           elevation: 0,
           centerTitle: true,
+          iconTheme: IconThemeData(
+            size: _.isTablet?32:24
+          ),
           backgroundColor: Colors.white,
           title: Text(
             title.tr,
-            style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold,fontSize: _.isTablet?38:20),
+            style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold,fontSize: _.isTablet?32:20),
           ),
           actions: [
             Obx(() => PopupMenuButton(

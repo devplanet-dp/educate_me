@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
@@ -23,54 +24,59 @@ class DrawQnsView extends StatelessWidget {
     return ViewModelBuilder<DrawingViewModel>.reactive(
       builder: (context, vm, child) =>
 
-          Dialog(
+          ResponsiveBuilder(
+            builder: (context,_) {
+              return Dialog(
         elevation: 0,
+        insetPadding: EdgeInsets.symmetric(horizontal: _.isTablet?kTabPaddingHorizontal: 16),
         backgroundColor: Colors.transparent,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              question,
-              textAlign: TextAlign.center,
-              style: kBodyStyle.copyWith(fontWeight: FontWeight.bold),
-            )
-                .center()
-                .paddingAll(16)
-                .card(
-                    elevation: 6,
-                    shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
-                    clipBehavior: Clip.antiAlias)
-                .width(Get.width),
-            vSpaceMedium,
-            Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    onPressed: () => Get.back(),
-                    icon: const Icon(Iconsax.close_circle),
-                  ),
-                ),
+                Text(
+                  question,
+                  textAlign: TextAlign.center,
+                  style: kBodyStyle.copyWith(fontWeight: FontWeight.bold),
+                )
+                    .center()
+                    .paddingAll(16)
+                    .card(
+                        elevation: 6,
+                        shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
+                        clipBehavior: Clip.antiAlias)
+                    .width(Get.width),
+                vSpaceMedium,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        onPressed: () => Get.back(),
+                        icon: const Icon(Iconsax.close_circle),
+                      ),
+                    ),
 
-                SfSignaturePad(
-                  key: vm.signatureGlobalKey,
-                  strokeColor: vm.selectedStroke ?? vm.strokeColors[0],
-                  backgroundColor: Colors.white,
-                ),
-                const _DrawingController(),
+                    SfSignaturePad(
+                      key: vm.signatureGlobalKey,
+                      strokeColor: vm.selectedStroke ?? vm.strokeColors[0],
+                      backgroundColor: Colors.white,
+                    ),
+                    const _DrawingController(),
+                  ],
+                ).card(
+                    elevation: 6,
+                    shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
+                    clipBehavior: Clip.antiAlias),
               ],
-            ).card(
-                elevation: 6,
-                shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
-                clipBehavior: Clip.antiAlias),
-          ],
         ),
-      ),
+      );
+            }
+          ),
       viewModelBuilder: () => DrawingViewModel(),
     );
   }
@@ -116,36 +122,41 @@ class DisableDraw extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      elevation: 0,
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: kBorderMedium),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(
-            kIcBrush,
-            height: 88.h,
-            width: 88.h,
-          ),
-          vSpaceSmall,
-          Text(
-            'Sorry!',
-            style: kHeading3Style.copyWith(fontWeight: FontWeight.w700),
-          ),
-          vSpaceSmall,
-          Text(
-            'text092'.tr,
-            textAlign: TextAlign.center,
-            style: kCaptionStyle.copyWith(color: kcTextGrey),
-          ),
-          vSpaceSmall,
-          BoxButtonWidget(
-              buttonText: 'text079'.tr, radius: 8, onPressed: () => Get.back()).paddingSymmetric(horizontal: 48),
-          vSpaceSmall
-        ],
-      ).paddingAll(16),
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return Dialog(
+          elevation: 0,
+          insetPadding: EdgeInsets.symmetric(horizontal: _.isTablet?kTabPaddingHorizontal:16),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: kBorderMedium),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                kIcBrush,
+                height: 88.h,
+                width: 88.h,
+              ),
+              vSpaceSmall,
+              Text(
+                'Sorry!',
+                style: kHeading3Style.copyWith(fontWeight: FontWeight.w700),
+              ),
+              vSpaceSmall,
+              Text(
+                'text092'.tr,
+                textAlign: TextAlign.center,
+                style: kCaptionStyle.copyWith(color: kcTextGrey),
+              ),
+              vSpaceSmall,
+              BoxButtonWidget(
+                  buttonText: 'text079'.tr, radius: 8, onPressed: () => Get.back()).paddingSymmetric(horizontal: 48),
+              vSpaceSmall
+            ],
+          ).paddingAll(16),
+        );
+      }
     );
   }
 }

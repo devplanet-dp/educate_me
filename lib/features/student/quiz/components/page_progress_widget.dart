@@ -1,4 +1,7 @@
+import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../../core/shared/app_colors.dart';
@@ -12,17 +15,21 @@ class PageProgressWidget extends ViewModelWidget<QuizViewModel> {
   Widget build(BuildContext context, QuizViewModel model) {
     return model.questions.isEmpty
         ? emptyBox()
-        : ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: SizedBox(
-        height: 10,
-        child: LinearProgressIndicator(
-          value: model.qnNo / model.questions.length,
-          // percent filled
-          valueColor: const AlwaysStoppedAnimation<Color>(kcPrimaryColor),
-          backgroundColor: kcPrimaryColor.withOpacity(.4),
-        ),
-      ),
-    );
+        : ResponsiveBuilder(builder: (context, _) {
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                height: _.isTablet ? 20 : 10,
+                child: LinearProgressIndicator(
+                  value: model.qnNo / model.questions.length,
+                  // percent filled
+                  valueColor:
+                      const AlwaysStoppedAnimation<Color>(kcPrimaryColor),
+                  backgroundColor: kcPrimaryColor.withOpacity(.4),
+                ),
+              ),
+            ).paddingSymmetric(
+                horizontal: _.isTablet ? kTabPaddingHorizontal + 16 : 0);
+          });
   }
 }

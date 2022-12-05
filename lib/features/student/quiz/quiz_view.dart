@@ -1,6 +1,6 @@
 import 'package:educate_me/core/shared/app_colors.dart';
+import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
-import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/data/lesson.dart';
@@ -12,6 +12,7 @@ import 'package:educate_me/features/student/quiz/quiz_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -43,62 +44,81 @@ class QuizView extends StatelessWidget {
       },
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
-        child: Scaffold(
-          backgroundColor: kcBgQuiz,
-          bottomNavigationBar: !vm.isLastPage() || vm.questions.isEmpty
-              ? emptyBox()
-              : Container(
-                  child: BoxButtonWidget(
-                    radius: 8,
-                    isLoading: vm.isBusy,
-                    buttonText: 'text055'.tr,
-                    onPressed: () => vm.finishExam(
-                        lesson: lesson,
-                        levelId: levelId,
-                        topicId: topicId,
-                        subTopicId: subTopicId),
-                  ).paddingSymmetric(horizontal: 16, vertical: 8),
-                ),
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text('Level ${vm.quizController.currentLevel?.name} - '
-                '${vm.quizController.currentTopicName}'),
-          ),
-          body: vm.isBusy
-              ? const ShimmerQuiz()
-              : vm.questions.isEmpty
-                  ? AppInfoWidget(
-                          translateKey: 'text053'.tr, iconData: Iconsax.book_1)
-                      .center()
-                  : Column(
-                      children: [
-                        vSpaceMedium,
-                        vm.isLastPage()
-                            ? emptyBox()
-                            : const PageProgressWidget()
-                                .paddingSymmetric(horizontal: 16),
-                        const SizedBox(height: 5,),
-                        vm.isLastPage()
-                            ? const QuizResultsWidget()
-                            : const PageNavigationWidget(),
-                        vSpaceMedium,
-                        Expanded(
-                            child: PageView(
-                          controller: vm.pageController,
-                          physics: const NeverScrollableScrollPhysics(),
-                          onPageChanged: (index) {
-                            if (!vm.isLastPage()) {
-                              vm.selectedQn = vm.questions[index];
-                              vm.setAllowNextPage(index<vm.ans.length);
-                            }
-                          },
-                          children: List.generate(vm.questions.length,
-                              (index) => const QuestionCard())
-                            ..add(const QuizCompletePage()),
-                        ))
-                      ],
-                    ),
-        ),
+        child: ResponsiveBuilder(builder: (context, _) {
+          return Scaffold(
+            backgroundColor: kcBgQuiz,
+            bottomNavigationBar: !vm.isLastPage() || vm.questions.isEmpty
+                ? emptyBox()
+                : Container(
+                    child: BoxButtonWidget(
+                      radius: 8,
+                      isLoading: vm.isBusy,
+                      buttonText: 'text055'.tr,
+                      onPressed: () => vm.finishExam(
+                          lesson: lesson,
+                          levelId: levelId,
+                          topicId: topicId,
+                          subTopicId: subTopicId),
+                    ).paddingSymmetric(
+                        horizontal: _.isTablet ? kTabPaddingHorizontal : 16,
+                        vertical: 8),
+                  ),
+            appBar: AppBar(
+              centerTitle: true,
+              iconTheme: IconThemeData(
+                size: _.isTablet?32:24
+              ),
+              title: Text(
+                'Level ${vm.quizController.currentLevel?.name} - '
+                '${vm.quizController.currentTopicName}',
+                style: kSubheadingStyle.copyWith(
+                  fontSize: _.isTablet?28:20,
+                    fontWeight: _.isTablet ? FontWeight.w600 : FontWeight.w500),
+              ),
+            ),
+            body: vm.isBusy
+                ? const ShimmerQuiz()
+                : vm.questions.isEmpty
+                    ? AppInfoWidget(
+                            translateKey: 'text053'.tr,
+                            iconData: Iconsax.book_1)
+                        .center()
+                    : Column(
+                        children: [
+                          vSpaceMedium,
+                          vm.isLastPage()
+                              ? emptyBox()
+                              : const PageProgressWidget()
+                                  .paddingSymmetric(horizontal: 16),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          vm.isLastPage()
+                              ? const QuizResultsWidget()
+                              : const PageNavigationWidget(),
+                          vSpaceMedium,
+                          Expanded(
+                              child: vm.isLastPage()
+                                  ? const QuizCompletePage()
+                                  : PageView(
+                                      controller: vm.pageController,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      onPageChanged: (index) {
+                                        if (!vm.isLastPage()) {
+                                          vm.selectedQn = vm.questions[index];
+                                          vm.setAllowNextPage(
+                                              index < vm.ans.length);
+                                        }
+                                      },
+                                      children: List.generate(
+                                          vm.questions.length,
+                                          (index) => const QuestionCard()),
+                                    ))
+                        ],
+                      ),
+          );
+        }),
       ),
       viewModelBuilder: () => QuizViewModel(),
     );

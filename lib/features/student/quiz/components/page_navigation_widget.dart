@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -15,56 +16,60 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
   Widget build(BuildContext context, QuizViewModel model) {
     return model.questions.isEmpty
         ? emptyBox()
-        : [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: model.isFirstPage()?IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Iconsax.arrow_circle_left,
-                    size: 26,
-                    color:Colors.transparent,
-                  ))
+        : ResponsiveBuilder(
+          builder: (context,_) {
+            return [
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: model.isFirstPage()?IconButton(
+                      onPressed: () {},
+                      icon:  Icon(
+                        Iconsax.arrow_circle_left,
+                        size:_.isTablet?32: 26,
+                        color:Colors.transparent,
+                      ))
 :              IconButton(
-                  onPressed: () => model.goToPrvQn(),
-                  icon: const Icon(
-                    Iconsax.arrow_circle_left,
-                    size: 26,
-                    color: Colors.black,
-                  )),
-            ),
-            Text.rich(TextSpan(
-                text: 'Question:',
-                style: kBodyStyle.copyWith(
-                    color: Colors.black, fontWeight: FontWeight.w600),
-                children: [
-                  TextSpan(
-                      text: ' ${model.qnNo}/${model.questions.length}',
-                      style: kBodyStyle.copyWith(
-                          color: kcPrimaryColor, fontWeight: FontWeight.w600))
-                ])),
-            //show when answered
-            (model.isLastQn() || !model.allowNextPage)
-                ? IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Iconsax.arrow_circle_right,
-                      size: 26,
-                      color: Colors.transparent,
-                    ))
-                : IconButton(
-                    onPressed: (){
+                      onPressed: () => model.goToPrvQn(),
+                      icon:  Icon(
+                        Iconsax.arrow_circle_left,
+                        size:_.isTablet?32: 26,
+                        color: Colors.black,
+                      )),
+                ),
+                Text.rich(TextSpan(
+                    text: 'Question:',
+                    style: kBodyStyle.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.w600,fontSize: _.isTablet?18:16),
+                    children: [
+                      TextSpan(
+                          text: ' ${model.qnNo}/${model.questions.length}',
+                          style: kBodyStyle.copyWith(
+                              color: kcPrimaryColor, fontWeight: FontWeight.w600,fontSize: _.isTablet?18:16))
+                    ])),
+                //show when answered
+                (model.isLastQn() || !model.allowNextPage)
+                    ? IconButton(
+                        onPressed: () {},
+                        icon:  Icon(
+                          Iconsax.arrow_circle_right,
+                          size:_.isTablet?32: 26,
+                          color: Colors.transparent,
+                        ))
+                    : IconButton(
+                        onPressed: (){
 
-                      model.goToNextQn();
+                          model.goToNextQn();
 
-                    },
-                    icon: const Icon(
-                      Iconsax.arrow_circle_right,
-                      size: 26,
-                      color: Colors.black,
-                    )),
-          ].toRow(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center);
+                        },
+                        icon:  Icon(
+                          Iconsax.arrow_circle_right,
+                          size:_.isTablet?32: 26,
+                          color: Colors.black,
+                        )),
+              ].toRow(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center);
+          }
+        );
   }
 }

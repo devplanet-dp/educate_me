@@ -20,6 +20,29 @@ class TeacherLevelViewModel extends BaseViewModel {
   final orderTEC = TextEditingController();
   final nameTEC = TextEditingController();
 
+  bool _isMultiselect = false;
+
+  bool get multiSelect => _isMultiselect;
+
+  toggleMultiSelect() {
+    _isMultiselect = !_isMultiselect;
+    selectedQnsIds.clear();
+    notifyListeners();
+  }
+
+  List<String> selectedQnsIds = [];
+
+  void onQnsSelectedForDelete(String qns) {
+    if (selectedQnsIds.contains(qns)) {
+      selectedQnsIds.remove(qns);
+    } else {
+      selectedQnsIds.add(qns);
+    }
+    notifyListeners();
+  }
+
+  bool isQnSelected(String qns) => selectedQnsIds.contains(qns) && multiSelect;
+
   List<QuestionModel> _questions = [];
   List<QuestionModel> _practiceQns = [];
 
@@ -107,6 +130,7 @@ class TeacherLevelViewModel extends BaseViewModel {
             topicId: topiId)
         .listen((d) {
       _questions = d;
+      _questions.sort((a, b) => a.index ?? 0.compareTo(b.index ?? 0));
       notifyListeners();
     });
   }
@@ -122,11 +146,33 @@ class TeacherLevelViewModel extends BaseViewModel {
         topicId: topicId,
         subTopicId: subTopicId,
         lessonId: lessonId);
-    if(!result.hasError){
+    if (!result.hasError) {
       var data = result.data as LessonModel;
-      _practiceQns = data.questions??[];
+      _practiceQns = data.questions ?? [];
     }
     setBusy(false);
+  }
+
+  Future removeQuestions(
+      {required levelId,
+      required topicId,
+      required subTopicId,
+      required lessonId}) async {
+    var response = await _dialogService.showConfirmationDialog(
+        title: 'Are you sure?', description: 'Delete this question?');
+    if (response?.confirmed ?? false) {
+      setBusy(true);
+      for (var e in selectedQnsIds) {
+        await _service.removeQuestion(
+            levelId: levelId,
+            topicId: topicId,
+            subTopic: subTopicId,
+            lessonId: lessonId,
+            questionId: e);
+      }
+
+      setBusy(false);
+    }
   }
 
   @override

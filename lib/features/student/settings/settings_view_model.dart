@@ -51,7 +51,7 @@ class SettingViewModel extends BaseViewModel {
           'text083'.tr,
           style: kCaptionStyle.copyWith(
             color: kcPrimaryColor,
-              fontSize: 12.sp, fontWeight: FontWeight.w500),
+              fontSize: 18, fontWeight: FontWeight.w500),
         ).alignment(Alignment.topLeft),
       ),
       onPositiveTap: (input) {
