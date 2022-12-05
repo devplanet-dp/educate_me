@@ -1,3 +1,4 @@
+import 'package:educate_me/data/controllers/drawing_controller.dart';
 import 'package:educate_me/data/controllers/quiz_controller.dart';
 import 'package:educate_me/data/services/firestore_service.dart';
 import 'package:get/get.dart';
@@ -31,4 +32,5 @@ Future setupLocator() async {
   //controllers
   AppController controller = Get.put(AppController());
   QuizController quizController = Get.put(QuizController());
+  DrawingController drawingController = Get.put(DrawingController());
 }

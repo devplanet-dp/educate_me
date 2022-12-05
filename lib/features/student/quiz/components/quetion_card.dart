@@ -35,7 +35,8 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
             [
               DrawBrushWidget(
                   qns: model.selectedQn?.question ?? '',
-                  enableDraw: model.selectedQn?.enableDraw ?? true),
+                  enableDraw: model.selectedQn?.enableDraw ?? true, qid: model.selectedQn?.id
+                ??'',),
               hSpaceSmall,
               SpeechButton(
                 question: model.selectedQn,

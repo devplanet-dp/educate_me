@@ -8,9 +8,14 @@ import '../../../../core/utils/constants/app_assets.dart';
 import '../../drawing/drawing_view.dart';
 
 class DrawBrushWidget extends StatelessWidget {
-  const DrawBrushWidget({Key? key, required this.qns, required this.enableDraw})
+  const DrawBrushWidget(
+      {Key? key,
+      required this.qns,
+      required this.enableDraw,
+      required this.qid})
       : super(key: key);
   final String qns;
+  final String qid;
   final bool enableDraw;
 
   @override
@@ -18,7 +23,15 @@ class DrawBrushWidget extends StatelessWidget {
     return InkWell(
       borderRadius: kBorderLarge,
       onTap: () => Get.dialog(
-          enableDraw ? DrawQnsView(question: qns) : const DisableDraw(),
+          enableDraw
+              ? DrawQnsView(
+                  question: qns,
+                  qid: qid,
+                )
+              :  DrawQnsView(
+            question: qns,
+            qid: qid,
+          ),
           barrierDismissible: false),
       child: Container(
           decoration: BoxDecoration(

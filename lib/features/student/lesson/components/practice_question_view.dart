@@ -101,7 +101,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
               vSpaceMedium,
               [
                 DrawBrushWidget(
-                    qns: question.question ?? '', enableDraw: true).paddingOnly(top: 8),
+                    qns: question.question ?? '', enableDraw: true, qid: question.id??'',).paddingOnly(top: 8),
                 hSpaceSmall,
                 Expanded(child: Builder(builder: (context) {
                   //reset answer field
