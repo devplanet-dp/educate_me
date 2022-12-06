@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_network_image.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/data/question.dart';
@@ -18,7 +19,17 @@ import '../../../../core/widgets/text_field_widget.dart';
 import '../quiz_view_model.dart';
 
 class QuestionCard extends ViewModelWidget<QuizViewModel> {
-  const QuestionCard({Key? key}) : super(key: key);
+  const QuestionCard({
+    Key? key,
+    required this.levelId,
+    required this.topicId,
+    required this.subTopicId,
+    required this.lessonId,
+  }) : super(key: key);
+  final String levelId;
+  final String topicId;
+  final String subTopicId;
+  final String lessonId;
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
@@ -34,9 +45,18 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
             ),
             [
               DrawBrushWidget(
-                  qns: model.selectedQn?.question ?? '',
-                  enableDraw: model.selectedQn?.enableDraw ?? true, qid: model.selectedQn?.id
-                ??'',),
+                qns: model.selectedQn?.question ?? '',
+                enableDraw: model.selectedQn?.enableDraw ?? true,
+                qid: model.selectedQn?.id ?? '',
+                onDrawOpen: () {
+                  //update stats on drawing tool used
+                  model.updateDrawingToolCount(
+                      lesson: lessonId,
+                      levelId: levelId,
+                      topicId: topicId,
+                      subTopicId: subTopicId);
+                },
+              ),
               hSpaceSmall,
               SpeechButton(
                 question: model.selectedQn,
@@ -123,15 +143,9 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
-    final options = model.selectedQn?.options ?? [];
+    var options = model.selectedQn?.options ?? [];
     final isMultipleCorrect =
         options.where((e) => e.isCorrect ?? false).toList().length >= 2;
-    // ///get only first 3 elements to shuffle
-    // final shuffleOptions=options.getRange(0, options.length-1).toList();
-    // //shuffle list order
-    // shuffleOptions.shuffle();
-    // //keep last option remains in order
-    // shuffleOptions.add(options.last);
 
     return ResponsiveBuilder(builder: (context, _) {
       return _.isTablet
@@ -313,15 +327,12 @@ class InteractiveImage extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: true,
-        iconTheme: const IconThemeData(
-          color: Colors.white
-        ),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: InteractiveViewer(
-        maxScale: 10,
+          maxScale: 10,
           child: AppNetworkImage(
             path: image,
-
             thumbWidth: Get.width,
             thumbHeight: Get.height / 2,
             fit: BoxFit.cover,

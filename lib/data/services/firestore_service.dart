@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/data/complain_model.dart';
 import 'package:educate_me/data/completed_lesson_model.dart';
 import 'package:educate_me/data/lesson.dart';
@@ -335,7 +334,6 @@ class FirestoreService {
     }
   }
 
-
   //topics
   Future<FirebaseResult> addTopic(TopicModel topic, String levelId) async {
     try {
@@ -502,6 +500,84 @@ class FirestoreService {
     }
   }
 
+  Future<FirebaseResult> incrementPassRate(
+      {required levelId,
+      required topicId,
+      required subTopic,
+      required lessonId}) async {
+    try {
+      await _levelReference
+          .doc(levelId)
+          .collection(tbTopic)
+          .doc(topicId)
+          .collection(tbSubTopic)
+          .doc(subTopic)
+          .collection(tbLesson)
+          .doc(lessonId)
+          .set(
+              {'pass_count': FieldValue.increment(1)}, SetOptions(merge: true));
+      return FirebaseResult(data: true);
+    } catch (e) {
+      if (e is PlatformException) {
+        return FirebaseResult.error(errorMessage: e.message.toString());
+      }
+
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+  Future<FirebaseResult> incrementFailRate(
+      {required levelId,
+        required topicId,
+        required subTopic,
+        required lessonId}) async {
+    try {
+      await _levelReference
+          .doc(levelId)
+          .collection(tbTopic)
+          .doc(topicId)
+          .collection(tbSubTopic)
+          .doc(subTopic)
+          .collection(tbLesson)
+          .doc(lessonId)
+          .set(
+          {'fail_count': FieldValue.increment(1)}, SetOptions(merge: true));
+      return FirebaseResult(data: true);
+    } catch (e) {
+      if (e is PlatformException) {
+        return FirebaseResult.error(errorMessage: e.message.toString());
+      }
+
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
+
+  Future<FirebaseResult> incrementDrawingToolUsed(
+      {required levelId,
+        required topicId,
+        required subTopic,
+        required lessonId}) async {
+    try {
+      await _levelReference
+          .doc(levelId)
+          .collection(tbTopic)
+          .doc(topicId)
+          .collection(tbSubTopic)
+          .doc(subTopic)
+          .collection(tbLesson)
+          .doc(lessonId)
+          .set(
+          {'drawing_count': FieldValue.arrayUnion([controller.currentChild?.userId])}, SetOptions(merge: true));
+      return FirebaseResult(data: true);
+    } catch (e) {
+      if (e is PlatformException) {
+        return FirebaseResult.error(errorMessage: e.message.toString());
+      }
+
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
   //questions
   Future<FirebaseResult> addQuestions(
       {required QuestionModel question,
@@ -536,7 +612,8 @@ class FirestoreService {
       required levelId,
       required topicId,
       required subTopicId,
-      required lessonId,required raw}) async {
+      required lessonId,
+      required raw}) async {
     try {
       await _levelReference
           .doc(levelId)
@@ -546,7 +623,10 @@ class FirestoreService {
           .doc(subTopicId)
           .collection(tbLesson)
           .doc(lessonId)
-          .update({'questions': question.map((e) => e.toJson()).toList(),'raw':raw});
+          .update({
+        'questions': question.map((e) => e.toJson()).toList(),
+        'raw': raw
+      });
       return FirebaseResult(data: true);
     } catch (e) {
       if (e is PlatformException) {
@@ -556,11 +636,12 @@ class FirestoreService {
       return FirebaseResult.error(errorMessage: e.toString());
     }
   }
+
   Future<FirebaseResult> removePracticeQuestion(
       {required levelId,
-        required topicId,
-        required subTopic,
-        required lessonId}) async {
+      required topicId,
+      required subTopic,
+      required lessonId}) async {
     try {
       await _levelReference
           .doc(levelId)
@@ -624,11 +705,12 @@ class FirestoreService {
       return ApiResult.error(errorMessage: e.toString());
     }
   }
+
   Future<ApiResult> getPracticeQuestions(
       {required levelId,
-        required topicId,
-        required subTopicId,
-        required lessonId}) async {
+      required topicId,
+      required subTopicId,
+      required lessonId}) async {
     try {
       var snap = await _levelReference
           .doc(levelId)

@@ -18,6 +18,7 @@ class AppDialog extends StatelessWidget {
   final VoidCallback? onNegativeTap;
   final VoidCallback? onPositiveTap;
   final String? positiveText;
+  final bool singleSelection;
 
   const AppDialog({
     Key? key,
@@ -25,6 +26,7 @@ class AppDialog extends StatelessWidget {
     required this.image,
     this.onNegativeTap,
     this.onPositiveTap,
+    this.singleSelection=false,
     this.subtitle,
     this.positiveText,
   }) : super(key: key);
@@ -57,7 +59,11 @@ class AppDialog extends StatelessWidget {
   }
 
   Widget _buildDialogController() {
-    return [
+    return singleSelection? BoxButtonWidget(
+        buttonText: positiveText ?? '',
+        radius: 8,
+        onPressed: onPositiveTap ?? () => Get.back())
+        .paddingSymmetric(horizontal: Get.width * .2):[
       Expanded(
         child: BoxButtonWidget(
             buttonText: 'text043'.tr,
@@ -81,35 +87,31 @@ class AppDialog extends StatelessWidget {
   Widget _buildHeader() {
     return image.split('.')[1].contains('svg')
         ? SvgPicture.asset(image)
-        : ResponsiveBuilder(
-          builder: (context,_) {
+        : ResponsiveBuilder(builder: (context, _) {
             return Image.asset(
-                image,
-                fit: BoxFit.fill,
-                height:_.isTablet?120.h: 148.h,
-                width:_.isTablet?120.w: 148.w,
-              );
-          }
-        );
+              image,
+              fit: BoxFit.fill,
+              height: _.isTablet ? 120.h : 148.h,
+              width: _.isTablet ? 120.w : 148.w,
+            );
+          });
   }
 
   _buildDialogContent() => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ResponsiveBuilder(
-            builder: (context,_) {
-              return Text(
-                title,
-                textAlign: TextAlign.center,
-                style: subtitle == null
-                    ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
-                    : kSubheadingStyle.copyWith(
-                        fontSize:_.isTablet?12.sp: 25.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-              ).paddingAll(12);
-            }
-          ),
+          ResponsiveBuilder(builder: (context, _) {
+            return Text(
+              title,
+              textAlign: TextAlign.center,
+              style: subtitle == null
+                  ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
+                  : kSubheadingStyle.copyWith(
+                      fontSize: _.isTablet ? 12.sp : 25.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
+            ).paddingAll(12);
+          }),
           subtitle != null
               ? Text(
                   subtitle!,
@@ -232,35 +234,33 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
           );
   }
 
-  _buildDialogContent() => ResponsiveBuilder(
-    builder: (context,_) {
-      return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                widget.title,
-                textAlign: TextAlign.center,
-                style: widget.subtitle == null
-                    ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
-                    : kSubheadingStyle.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                        fontSize:_.isTablet?15.sp: 25.sp),
-              ),
-              widget.subtitle != null
-                  ? Text(
-                      widget.subtitle!,
-                      textAlign: TextAlign.center,
-                      style: kBody1Style.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: kcTextGrey,
-                          fontSize:_.isTablet?8.sp: 12.sp),
-                    )
-                  : emptyBox()
-            ],
-          ).paddingSymmetric(horizontal: 16);
-    }
-  );
+  _buildDialogContent() => ResponsiveBuilder(builder: (context, _) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              widget.title,
+              textAlign: TextAlign.center,
+              style: widget.subtitle == null
+                  ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
+                  : kSubheadingStyle.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      fontSize: _.isTablet ? 15.sp : 25.sp),
+            ),
+            widget.subtitle != null
+                ? Text(
+                    widget.subtitle!,
+                    textAlign: TextAlign.center,
+                    style: kBody1Style.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: kcTextGrey,
+                        fontSize: _.isTablet ? 8.sp : 12.sp),
+                  )
+                : emptyBox()
+          ],
+        ).paddingSymmetric(horizontal: 16);
+      });
 
   _buildDialogInput() => Form(
         key: formKey,
@@ -283,6 +283,7 @@ class AppDialogSingle extends StatelessWidget {
   final String title;
   final String subtitle;
   final String? content;
+  final String? image;
   final VoidCallback? onPositiveTap;
   final String? positiveText;
 
@@ -293,6 +294,7 @@ class AppDialogSingle extends StatelessWidget {
     this.onPositiveTap,
     required this.subtitle,
     this.positiveText,
+    this.image,
   }) : super(key: key);
 
   @override
@@ -333,11 +335,24 @@ class AppDialogSingle extends StatelessWidget {
   }
 
   Widget _buildHeader() => ResponsiveBuilder(builder: (context, _) {
-        return Text(
-          title,
-          style: kBodyStyle.copyWith(
-              fontSize: _.isTablet ? 12.sp : 25.sp,
-              fontWeight: FontWeight.w600),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: kBodyStyle.copyWith(
+                  fontSize: _.isTablet ? 12.sp : 25.sp,
+                  fontWeight: FontWeight.w600),
+            ),
+            image == null
+                ? const SizedBox.shrink()
+                : Image.asset(
+                    image!,
+                    fit: BoxFit.fill,
+                    height: _.isTablet ? 120.h : 148.h,
+                    width: _.isTablet ? 120.w : 148.w,
+                  )
+          ],
         );
       });
 

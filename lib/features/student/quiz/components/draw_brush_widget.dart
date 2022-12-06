@@ -12,27 +12,30 @@ class DrawBrushWidget extends StatelessWidget {
       {Key? key,
       required this.qns,
       required this.enableDraw,
-      required this.qid})
+      required this.qid, required this.onDrawOpen})
       : super(key: key);
   final String qns;
   final String qid;
   final bool enableDraw;
+  final VoidCallback onDrawOpen;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: kBorderLarge,
-      onTap: () => Get.dialog(
-          enableDraw
-              ? DrawQnsView(
-                  question: qns,
-                  qid: qid,
-                )
-              :  DrawQnsView(
-            question: qns,
-            qid: qid,
-          ),
-          barrierDismissible: false),
+      onTap: (){
+        if(enableDraw){
+          onDrawOpen();
+        }
+        Get.dialog(
+            enableDraw
+                ? DrawQnsView(
+              question: qns,
+              qid: qid,
+            )
+                :  const DisableDraw(),
+            barrierDismissible: false);
+      },
       child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,

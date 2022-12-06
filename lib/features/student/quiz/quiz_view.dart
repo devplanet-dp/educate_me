@@ -65,14 +65,12 @@ class QuizView extends StatelessWidget {
                   ),
             appBar: AppBar(
               centerTitle: true,
-              iconTheme: IconThemeData(
-                size: _.isTablet?32:24
-              ),
+              iconTheme: IconThemeData(size: _.isTablet ? 32 : 24),
               title: Text(
                 'Level ${vm.quizController.currentLevel?.name} - '
                 '${vm.quizController.currentTopicName}',
                 style: kSubheadingStyle.copyWith(
-                  fontSize: _.isTablet?28:20,
+                    fontSize: _.isTablet ? 28 : 20,
                     fontWeight: _.isTablet ? FontWeight.w600 : FontWeight.w500),
               ),
             ),
@@ -113,7 +111,12 @@ class QuizView extends StatelessWidget {
                                       },
                                       children: List.generate(
                                           vm.questions.length,
-                                          (index) => const QuestionCard()),
+                                          (index) => QuestionCard(
+                                                levelId: levelId,
+                                                topicId: topicId,
+                                                subTopicId: subTopicId,
+                                                lessonId: lesson.id ?? '',
+                                              )),
                                     ))
                         ],
                       ),

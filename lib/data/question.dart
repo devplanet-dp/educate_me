@@ -61,7 +61,10 @@ class QuestionModel {
     data['photoUrl'] = photoUrl;
     data['type'] = type == null ? null : type!.index;
     data['options'] =
-        options != null ? options!.map((e) => e.toJson()).toList() : null;
+        options != null ? options!.map((e) => e.toJson()).toList() : [];
+
+
+
     return data;
   }
 

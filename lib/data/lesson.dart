@@ -15,6 +15,9 @@ class LessonModel {
   int? noCorrectToPass;
   List<String>? content;
   String? raw;
+  int passCount;
+  int failCount;
+  List<String> drawingToolUsed;
 
   LessonModel(
       {this.id,
@@ -28,6 +31,9 @@ class LessonModel {
       this.createdAt,
       this.content,
       this.questions,
+        this.passCount,
+        this.failCount,
+        this.drawingToolUsed,
       this.noCorrectToPass,
       this.video});
 
@@ -41,7 +47,17 @@ class LessonModel {
     maxQuestions = json['maxQuestions'];
     order = json['order'];
     raw = json['raw'];
+    passCount = json['pass_count'];
+    failCount = json['fail_count'];
     createdAt = json['createdAt'];
+    if (json['drawing_count'] != null) {
+      drawingToolUsed = [];
+      json['drawing_count'].forEach((v) {
+        drawingToolUsed.add(v);
+      });
+    } else {
+      drawingToolUsed = [];
+    }
     if (json['questions'] != null) {
       questions = [];
       json['questions'].forEach((v) {

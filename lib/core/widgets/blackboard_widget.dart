@@ -77,7 +77,7 @@ class _BlackboardState extends State<Blackboard> {
         IconButton(
             onPressed: () => _onClear(), icon: SvgPicture.asset(kIcTrash)),
         _buildColorPallets(),
-        IconButton(onPressed: () {}, icon: SvgPicture.asset(kIcEraser)),
+        IconButton(onPressed: () =>_onClear(), icon: SvgPicture.asset(kIcEraser)),
       ].toRow();
 
   Widget _buildColorPallets() => Expanded(

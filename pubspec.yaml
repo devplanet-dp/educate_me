@@ -79,7 +79,9 @@ dependencies:
   flutter_html:
   #texttospeech
 #  flutter_tts: ^3.6.1
-  #responsive
+  #audio
+  assets_audio_player:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -92,4 +94,5 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/audio/
 

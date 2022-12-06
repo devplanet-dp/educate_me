@@ -95,6 +95,7 @@ class QuizViewModel extends BaseViewModel {
   }
 
   goToNextQn() {
+    lg('INCREMENT CALLED');
     if (!isLastPage()) {
       _resetAttempts();
       pageController.animateToPage((pageController.page! + 1).toInt(),
@@ -120,6 +121,9 @@ class QuizViewModel extends BaseViewModel {
 
       if (option.isCorrect ?? false) {
         _addQuestionAsAnswered(option);
+        //play success sound
+        quizController.playSuccessSound();
+        await showSuccessDialog();
         //auto move to next question if answer is correct
         await autoMoveToNextPage();
       } else {
@@ -282,6 +286,49 @@ class QuizViewModel extends BaseViewModel {
     return !result.hasError;
   }
 
+  Future<bool> updateLessonPassCount(
+      {required lesson,
+      required levelId,
+      required topicId,
+      required subTopicId}) async {
+    setBusy(true);
+    var result = await _service.incrementPassRate(
+        levelId: levelId,
+        topicId: topicId,
+        subTopic: subTopicId,
+        lessonId: lesson);
+    setBusy(false);
+    return !result.hasError;
+  }
+
+  Future<void> updateDrawingToolCount(
+      {required lesson,
+      required levelId,
+      required topicId,
+      required subTopicId}) async {
+    //used to update drawing tool used
+    var result = await _service.incrementDrawingToolUsed(
+        levelId: levelId,
+        topicId: topicId,
+        subTopic: subTopicId,
+        lessonId: lesson);
+  }
+
+  Future<bool> updateLessonFailCount(
+      {required lesson,
+      required levelId,
+      required topicId,
+      required subTopicId}) async {
+    setBusy(true);
+    var result = await _service.incrementFailRate(
+        levelId: levelId,
+        topicId: topicId,
+        subTopic: subTopicId,
+        lessonId: lesson);
+    setBusy(false);
+    return !result.hasError;
+  }
+
   Future finishExam(
       {required LessonModel lesson,
       required levelId,
@@ -294,6 +341,12 @@ class QuizViewModel extends BaseViewModel {
           noCorrectAns() >= lesson.noCorrectToPass!) {
         //update the quiz as completed
         await updateCompletedLesson(
+            lesson: lesson.id,
+            levelId: levelId,
+            topicId: topicId,
+            subTopicId: subTopicId);
+        //update lesson pass rate
+        await updateLessonPassCount(
             lesson: lesson.id,
             levelId: levelId,
             topicId: topicId,
@@ -314,6 +367,13 @@ class QuizViewModel extends BaseViewModel {
       } else {
         //on question fail
 
+        //update lesson pass rate
+        await updateLessonFailCount(
+            lesson: lesson.id,
+            levelId: levelId,
+            topicId: topicId,
+            subTopicId: subTopicId);
+
         Get.dialog(AppDialog(
           title: 'text058'.tr,
           image: kImgFail,
@@ -330,6 +390,20 @@ class QuizViewModel extends BaseViewModel {
         ));
       }
     }
+  }
+
+  Future showSuccessDialog() async {
+    return await Get.dialog(AppDialog(
+      title: 'text105'.tr,
+      image: kIcSuccess,
+      subtitle: 'text106'.tr,
+      positiveText: 'text091'.tr,
+      singleSelection: true,
+      onNegativeTap: () {},
+      onPositiveTap: () async {
+        Get.back();
+      },
+    ));
   }
 
   void showFirstAttemptWrongPrompt() {
