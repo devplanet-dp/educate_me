@@ -23,7 +23,7 @@ class QuestionModel {
       this.promptOne,
       this.enableDraw,
       this.photoUrl,
-        this.raw,
+      this.raw,
       this.type,
       this.promptTwo});
 
@@ -44,6 +44,7 @@ class QuestionModel {
         json['options'].forEach((v) {
           options!.add(OptionModel.fromJson(v));
         });
+        options = shuffleAnswers(options??[]);
       } else {
         options = [];
       }
@@ -63,13 +64,30 @@ class QuestionModel {
     data['options'] =
         options != null ? options!.map((e) => e.toJson()).toList() : [];
 
-
-
     return data;
   }
 
   QuestionModel.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromJson(snapshot.data() as Map<String, dynamic>);
+
+  List<OptionModel> shuffleAnswers(List<OptionModel> original) {
+    //disable shuffle for not multiple type questions
+    if (original.length < 4) {
+      return original;
+    }
+    var shouldShuffleList = original.getRange(0, 2).toList();
+    var disableShuffleList = original.getRange(2, 4).toList();
+
+    shouldShuffleList.shuffle();
+
+    var finalList = shouldShuffleList..addAll(disableShuffleList);
+
+    for (int i = 0; i < 4; i++) {
+      finalList[i].index = i;
+    }
+
+    return finalList;
+  }
 }
 
 class PracticeAnswerModel {

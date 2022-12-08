@@ -16,6 +16,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/widgets/text_field_widget.dart';
+import '../../../../data/option.dart';
 import '../quiz_view_model.dart';
 
 class QuestionCard extends ViewModelWidget<QuizViewModel> {
@@ -147,6 +148,9 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
     final isMultipleCorrect =
         options.where((e) => e.isCorrect ?? false).toList().length >= 2;
 
+    //mix answers
+
+
     return ResponsiveBuilder(builder: (context, _) {
       return _.isTablet
           ? GridView.count(
@@ -194,6 +198,7 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
               });
     });
   }
+
 }
 
 class InputTypeQns extends ViewModelWidget<QuizViewModel> {
