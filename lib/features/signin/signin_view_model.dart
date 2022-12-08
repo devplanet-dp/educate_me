@@ -1,6 +1,7 @@
 import 'package:educate_me/data/user.dart';
 import 'package:educate_me/features/student/navigation/navigation_view.dart';
 import 'package:educate_me/features/teacher/home/teacher_home.dart';
+import 'package:educate_me/features/teacher/navigation/teacher_navigation_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
@@ -102,7 +103,7 @@ class SignInViewModel extends BaseViewModel {
     var user = controller.appUser;
     if (user != null) {
       if(user.role == UserRole.teacher){
-        Get.offAll(()=>const TeacherHomeView());
+        Get.offAll(()=>const TeacherNavigationView());
       }else{
         Get.offAll(()=>const NavigationView());
       }

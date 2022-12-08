@@ -340,6 +340,7 @@ class AppDialogSingle extends StatelessWidget {
           children: [
             Text(
               title,
+              textAlign: TextAlign.center,
               style: kBodyStyle.copyWith(
                   fontSize: _.isTablet ? 12.sp : 25.sp,
                   fontWeight: FontWeight.w600),

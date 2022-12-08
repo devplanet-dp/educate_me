@@ -159,6 +159,15 @@ class QnsViewModel extends BaseViewModel {
         for (var i = 0; i < qns.length; i++) {
           List<String> a = qns[i].split(',,,');
 
+          //check contains double commas
+          for (var element in a) {
+            if(element.contains(',,')){
+              showErrorMessage(message: 'Please check the texts again. It may contains double commas.');
+              return;
+            }
+          }
+
+
           if (a[0].isNotEmpty) {
             final importMap = a.asMap();
             final qType = _getQuestionTypeByLength(a.length, a[1].trim().replaceAll('*', ''));
@@ -290,7 +299,6 @@ class QnsViewModel extends BaseViewModel {
               lessonId: lessonId);
         }
       } catch (e) {
-        lg(e);
         showErrorMessage(
             message:
                 'Error in format, Please check for the format again please');

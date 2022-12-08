@@ -39,6 +39,9 @@ class SpeechButton extends StatelessWidget {
                       ? CupertinoIcons.speaker_3
                       : CupertinoIcons.speaker_3,
                   size: 20.h,
+                  color: vm.speechStat == SpeechStat.playing
+                      ? kcPrimaryColor
+                      : Colors.black,
                 ).paddingAll(8))
             .paddingSymmetric(vertical: 12),
       ),

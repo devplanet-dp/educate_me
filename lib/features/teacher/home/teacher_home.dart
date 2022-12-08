@@ -15,6 +15,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/utils/device_utils.dart';
+import '../../signin/components/custom_app_bar.dart';
 
 class TeacherHomeView extends StatelessWidget {
   const TeacherHomeView({Key? key}) : super(key: key);
@@ -28,28 +29,15 @@ class TeacherHomeView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
+          appBar:  const PreferredSize(
+            preferredSize: Size.fromHeight(kToolbarHeight),
+            child: AdminAppBar(title: 'Topics'),
+          ),
           floatingActionButton: FloatingActionButton(
             backgroundColor: kcPrimaryColor,
             child: const Icon(Iconsax.add),
             onPressed: () => Get.bottomSheet(const AddLevelSheet(),
                 isScrollControlled: true),
-          ),
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            title: Text(
-              'Hi Admin 👋',
-              style: kHeading3Style.copyWith(fontWeight: FontWeight.bold),
-            ),
-            actions: [
-              PopupMenuButton(
-                  itemBuilder: (_) => [
-                        PopupMenuItem(
-                          child: const Text('Sign out'),
-                          onTap: () => vm.signOut(),
-                        )
-                      ])
-            ],
           ),
           body: vm.levels.isEmpty
               ? const AppInfoWidget(
@@ -106,7 +94,7 @@ class _LevelGrid extends ViewModelWidget<TeacherViewModel> {
                         )),
                 isDark: false);
           }),
-        ).paddingSymmetric(horizontal: 12);
+        ).paddingSymmetric(horizontal: 12,vertical: 16);
       }
     );
   }

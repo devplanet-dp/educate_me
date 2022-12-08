@@ -2,6 +2,7 @@ import 'package:educate_me/data/user.dart';
 import 'package:educate_me/features/student/navigation/navigation_view.dart';
 import 'package:educate_me/features/signin/signin_view.dart';
 import 'package:educate_me/features/teacher/home/teacher_home.dart';
+import 'package:educate_me/features/teacher/navigation/teacher_navigation_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
@@ -28,7 +29,7 @@ class StartUpViewModel extends BaseViewModel {
 
   void _handleUserFlow(UserModel u) {
     if (u.role == UserRole.teacher) {
-      Get.offAll(() => const TeacherHomeView());
+      Get.offAll(() => const TeacherNavigationView());
     }else{
       Get.offAll(()=>const NavigationView());
     }

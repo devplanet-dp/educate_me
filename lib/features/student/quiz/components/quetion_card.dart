@@ -322,12 +322,12 @@ class InteractiveImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: true,
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: InteractiveViewer(
           maxScale: 10,
@@ -335,8 +335,8 @@ class InteractiveImage extends StatelessWidget {
             path: image,
             thumbWidth: Get.width,
             thumbHeight: Get.height / 2,
-            fit: BoxFit.cover,
-          ).center()),
+            fit: BoxFit.contain,
+          ).center()).paddingSymmetric(horizontal: 8),
     );
   }
 }

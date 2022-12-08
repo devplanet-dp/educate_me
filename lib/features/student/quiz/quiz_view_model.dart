@@ -95,7 +95,6 @@ class QuizViewModel extends BaseViewModel {
   }
 
   goToNextQn() {
-    lg('INCREMENT CALLED');
     if (!isLastPage()) {
       _resetAttempts();
       pageController.animateToPage((pageController.page! + 1).toInt(),
@@ -312,6 +311,7 @@ class QuizViewModel extends BaseViewModel {
         topicId: topicId,
         subTopic: subTopicId,
         lessonId: lesson);
+    quizController.sendDrawToolAnalytics();
   }
 
   Future<bool> updateLessonFailCount(

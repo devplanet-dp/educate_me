@@ -15,9 +15,9 @@ class LessonModel {
   int? noCorrectToPass;
   List<String>? content;
   String? raw;
-  int passCount;
-  int failCount;
-  List<String> drawingToolUsed;
+  int? passCount;
+  int? failCount;
+  List<String>? drawingToolUsed;
 
   LessonModel(
       {this.id,
@@ -53,7 +53,7 @@ class LessonModel {
     if (json['drawing_count'] != null) {
       drawingToolUsed = [];
       json['drawing_count'].forEach((v) {
-        drawingToolUsed.add(v);
+        drawingToolUsed?.add(v);
       });
     } else {
       drawingToolUsed = [];
