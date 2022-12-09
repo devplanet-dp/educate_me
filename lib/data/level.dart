@@ -5,8 +5,9 @@ class LevelModel {
   String? id;
   String? name;
   int? order;
+  bool? expanded;
 
-  LevelModel({this.id, this.name, this.order});
+  LevelModel({this.id, this.name, this.order,this.expanded});
 
   LevelModel.fromMap(Map<String, dynamic> json) {
     id = json['id'];

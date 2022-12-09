@@ -18,6 +18,7 @@ class LessonModel {
   int? passCount;
   int? failCount;
   List<String>? drawingToolUsed;
+  bool? expanded;
 
   LessonModel(
       {this.id,
@@ -25,6 +26,7 @@ class LessonModel {
       this.description,
       this.introduction,
       this.cover,
+        this.expanded,
       this.maxQuestions,
       this.order,
         this.raw,
@@ -47,8 +49,8 @@ class LessonModel {
     maxQuestions = json['maxQuestions'];
     order = json['order'];
     raw = json['raw'];
-    passCount = json['pass_count'];
-    failCount = json['fail_count'];
+    passCount = json['pass_count']??0;
+    failCount = json['fail_count']??0;
     createdAt = json['createdAt'];
     if (json['drawing_count'] != null) {
       drawingToolUsed = [];

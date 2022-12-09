@@ -7,6 +7,7 @@ import 'package:stacked/stacked.dart';
 
 import '../../../core/utils/app_controller.dart';
 import '../../../data/level.dart';
+import '../../../data/question.dart';
 import '../../../data/services/firestore_service.dart';
 import '../../../locator.dart';
 import '../lesson/lesson_view.dart';
@@ -18,12 +19,45 @@ class TopicViewModel extends BaseViewModel {
   final QuizController quizController = Get.find<QuizController>();
 
   List<LevelModel> _levels = [];
+  List<TopicModel> _topics = [];
+  List<SubTopicModel> _subTopics = [];
+  List<LessonModel> _lessons = [];
 
   List<LevelModel> get levels => _levels;
+
+  List<TopicModel> get topics => _topics;
+
+  List<SubTopicModel> get subTopics => _subTopics;
+
+  List<LessonModel> get lessons => _lessons;
 
   listenToLevels() {
     _service.streamLevels().listen((d) {
       _levels = d;
+      notifyListeners();
+    });
+  }
+
+  listenToTopics(levelId) {
+    _service.streamLevelTopics(levelId).listen((d) {
+      _topics = d;
+      notifyListeners();
+    });
+  }
+
+  listenToSubTopics({required levelId, required topicId}) {
+    _service.streamSubTopic(levelId: levelId, topicId: topicId).listen((d) {
+      _subTopics = d;
+      notifyListeners();
+    });
+  }
+
+  listenToLessons({required levelId, required topicId, required subTopicId}) {
+    _service
+        .streamLessons(
+            levelId: levelId, topicId: topicId, subTopicId: subTopicId)
+        .listen((d) {
+      _lessons = d;
       notifyListeners();
     });
   }
@@ -68,11 +102,29 @@ class TopicViewModel extends BaseViewModel {
         controller.currentChild?.stats?.completedLesson ?? [];
     return completedLessons.where((e) => e.lessonId == lessonId).isNotEmpty;
   }
+
   bool isLevelLocked(String levelId) {
     return false;
     //todo implementation
     final completedLevels =
         controller.currentChild?.stats?.unlockedLevels ?? [];
     return !completedLevels.contains(levelId);
+  }
+
+  Future<int> getQuestions(
+      {required levelId,
+      required topicId,
+      required subTopicId,
+      required lessonId}) async {
+    var result = await _service.getQuestions(
+        levelId: levelId,
+        topicId: topicId,
+        subTopicId: subTopicId,
+        lessonId: lessonId);
+    if (!result.hasError) {
+      var list = result.data as List<QuestionModel>;
+      return list.length;
+    }
+    return 0;
   }
 }

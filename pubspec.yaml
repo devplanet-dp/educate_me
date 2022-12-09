@@ -82,6 +82,8 @@ dependencies:
   flutter_tts: ^3.6.2
   #audio
   assets_audio_player:
+  #expandable
+  expandable: ^5.0.1
 
 dev_dependencies:
   flutter_test:

@@ -7,11 +7,10 @@ import 'app_colors.dart';
 // Box Decorations
 
 BoxDecoration fieldDecoration = BoxDecoration(
-  color: Colors.white,
-  borderRadius: kBorderLarge,
-  border: Border.all(color: kcStroke),
-  boxShadow: shadow
-);
+    color: Colors.white,
+    borderRadius: kBorderLarge,
+    border: Border.all(color: kcStroke),
+    boxShadow: shadow);
 BoxDecoration fieldDecorationSelected = BoxDecoration(
   color: Colors.white,
   borderRadius: kBorderLarge,
@@ -36,12 +35,13 @@ const double fieldHeight = 55;
 const double smallFieldHeight = 40;
 const double inputFieldBottomMargin = 30;
 const double inputFieldSmallBottomMargin = 0;
- double kTabPaddingHorizontal =  Get.width * .2;
+double kTabPaddingHorizontal = Get.width * .2;
 const EdgeInsets fieldPadding = EdgeInsets.symmetric(horizontal: 15);
- EdgeInsets fieldPaddingTablet = EdgeInsets.symmetric(horizontal: kTabPaddingHorizontal);
- EdgeInsets fieldPaddingDesktop = EdgeInsets.symmetric(horizontal: 64.w);
+EdgeInsets fieldPaddingTablet =
+    EdgeInsets.symmetric(horizontal: kTabPaddingHorizontal);
+EdgeInsets fieldPaddingDesktop = EdgeInsets.symmetric(horizontal: 64.w);
 const EdgeInsets fieldPaddingAll = EdgeInsets.all(10.0);
- EdgeInsets kLargeFieldPadding =
+EdgeInsets kLargeFieldPadding =
     EdgeInsets.symmetric(horizontal: 48.w, vertical: 24);
 
 //Radius
@@ -83,13 +83,16 @@ const TextStyle kBody2Style =
     TextStyle(fontSize: 11, fontWeight: FontWeight.w400, color: kcTextPrimary);
 
 const TextStyle kLabelStyle =
-TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: kcTextPrimary);
+    TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: kcTextPrimary);
 
 const TextStyle kSubheadingStyle =
     TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: kcTextPrimary);
 
 const TextStyle kCaptionStyle =
     TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: kcTextPrimary);
+
+const TextStyle kExpansionTitle = TextStyle(
+    fontSize: 16, fontWeight: FontWeight.w500, color: kcTextStatColor);
 
 //shaders
 final Shader goldGradient = const LinearGradient(

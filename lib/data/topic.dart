@@ -8,12 +8,14 @@ class TopicModel {
   int? order;
   Timestamp? createdAt;
   List<SubTopicModel>? subtopics;
+  bool? expanded;
 
   TopicModel(
       {this.id,
       this.name,
       this.cover,
       this.order,
+        this.expanded,
       this.createdAt,
       this.subtopics});
 

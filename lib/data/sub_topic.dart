@@ -9,6 +9,7 @@ class SubTopicModel {
   int? order;
   Timestamp? createdAt;
   List<LessonModel>? lessons;
+  bool? expanded;
 
   SubTopicModel(
       {this.id,
@@ -16,6 +17,7 @@ class SubTopicModel {
         this.description,
         this.cover,
         this.order,
+        this.expanded,
         this.createdAt,
         this.lessons});
 

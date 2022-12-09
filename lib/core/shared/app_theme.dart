@@ -12,6 +12,11 @@ final ThemeData themeData = ThemeData(
   dialogTheme: const DialogTheme(
 
   ),
+  expansionTileTheme: ExpansionTileThemeData(
+    tilePadding: EdgeInsets.zero,
+    childrenPadding: EdgeInsets.zero,
+    iconColor: kcPrimaryColor
+  ),
   chipTheme: const ChipThemeData(
     selectedColor: kcPrimaryColor,
     backgroundColor: kAltWhite,
