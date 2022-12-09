@@ -83,7 +83,7 @@ class _TopicList extends StatelessWidget {
                   isExpanded: vm.topics[index].expanded ?? false,
                   headerBuilder: (context, isOpen) => Text(
                         vm.topics[index].name ?? '',
-                        style: kExpansionTitle.copyWith(fontSize: 14),
+                        style: kExpansionTitle.copyWith(fontSize: 14.5,fontWeight: FontWeight.w400),
                       ).paddingOnly(left: 16),
                   body: _SubTopicList(
                       levelId: levelId, topicId: vm.topics[index].id ?? ''))),
@@ -120,13 +120,10 @@ class _SubTopicList extends StatelessWidget {
               (index) => ExpansionPanel(
                   canTapOnHeader: true,
                   isExpanded: vm.subTopics[index].expanded ?? false,
-                  headerBuilder: (context, isOpen) => Container(
-                        margin: EdgeInsets.all(4),
-                        child: Text(
-                          vm.subTopics[index].title ?? '',
-                          style: kExpansionTitle.copyWith(fontSize: 13),
-                        ).paddingOnly(left: 24),
-                      ),
+                  headerBuilder: (context, isOpen) => Text(
+                    vm.subTopics[index].title ?? '',
+                    style: kExpansionTitle.copyWith(fontSize: 13,fontWeight: FontWeight.w300),
+                  ).paddingOnly(left: 24),
                   body: _LessonList(
                     levelId: levelId,
                     topicId: topicId,
@@ -168,7 +165,7 @@ class _LessonList extends StatelessWidget {
         padding: fieldPadding,
         child: DataTable(
             dataRowHeight: 32,
-            headingTextStyle: kBody1Style.copyWith(color: kcTextStatColor),
+            headingTextStyle: kBody1Style.copyWith(color: kcTextStatColor.withOpacity(0.6)),
             border: TableBorder(
                 horizontalInside:
                     BorderSide(color: Colors.black.withOpacity(.1))),
