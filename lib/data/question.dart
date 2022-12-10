@@ -107,5 +107,6 @@ enum AnswerState {
   init,
   correct,
   tryAgain,
+  checkAgain,
   failed;
 }

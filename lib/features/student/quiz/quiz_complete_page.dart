@@ -1,5 +1,6 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/features/student/quiz/quiz_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

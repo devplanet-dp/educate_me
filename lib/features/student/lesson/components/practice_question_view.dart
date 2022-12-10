@@ -71,7 +71,7 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
 }
 
 class _QnsCard extends ViewModelWidget<LessonViewModel> {
-  const _QnsCard(this.question, this.index, {Key? key}) : super(key: key);
+  _QnsCard(this.question, this.index, {Key? key}) : super(key: key);
   final QuestionModel question;
   final int index;
 
@@ -105,16 +105,15 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                 qns: question.question ?? '',
                 enableDraw: true,
                 qid: question.id ?? '',
-                onDrawOpen: () {
-
-                },
+                onDrawOpen: () {},
               ).paddingOnly(top: 8),
               hSpaceSmall,
               Expanded(child: Builder(builder: (context) {
                 //reset answer field
-                if (model.isQuizEnabled()) {
-                  controller.text = model.getUserAnswer(index) ?? '';
-                }
+                controller.text =
+                    model.getUserAnswerState(index) == AnswerState.checkAgain
+                        ? ''
+                        : model.getUserAnswer(index) ?? '';
 
                 return ConstrainedBox(
                   constraints: BoxConstraints(maxHeight: 100.h),
@@ -143,6 +142,14 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   radius: 8,
                   buttonColor: model.getButtonStyle(index)[index]['color'],
                   onPressed: () {
+                    //when try again clear the input
+                    if (model.getUserAnswerState(index) ==
+                        AnswerState.tryAgain) {
+                      controller.text = '';
+                      model.onRetryQuestion(index);
+                      return;
+                    }
+
                     ///check attempt count
                     if (!model.isAttemptExceeded(index)) {
                       if (formKey.currentState!.validate()) {
@@ -169,7 +176,8 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
 
             ///prompt text visible only when attempt count exceeds
             Visibility(
-                visible: model.isAttemptExceeded(index),
+                visible: model.isAttemptExceeded(index) &&
+                    model.getUserAnswerState(index) != AnswerState.correct,
                 child: Text(
                   question.promptOne ?? '',
                   textAlign: TextAlign.center,

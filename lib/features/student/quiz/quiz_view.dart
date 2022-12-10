@@ -1,6 +1,7 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/data/lesson.dart';

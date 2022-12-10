@@ -13,7 +13,8 @@ import 'package:stacked/stacked.dart';
 class LessonViewModel extends BaseViewModel {
   final QuizController quizController = Get.find<QuizController>();
   final PageController barrierController = PageController(initialPage: 0);
-  final ScrollController scrollController = ScrollController(keepScrollOffset: false);
+  final ScrollController scrollController =
+      ScrollController(keepScrollOffset: false);
   final service = locator<FirestoreService>();
 
   List<PracticeAnswerModel> answers = [];
@@ -24,6 +25,10 @@ class LessonViewModel extends BaseViewModel {
       ? answers[answers.indexWhere((e) => e.index == index)].answer
       : null;
 
+  AnswerState? getUserAnswerState(index) => isAnswered(index)
+      ? answers[answers.indexWhere((e) => e.index == index)].state
+      : null;
+
   bool isQuizEnabled() {
     var enable = answers.isNotEmpty &&
         (answers[0].state == AnswerState.correct ||
@@ -31,6 +36,12 @@ class LessonViewModel extends BaseViewModel {
     return enable;
   }
 
+  onRetryQuestion(int index){
+    PracticeAnswerModel answerModel =
+    answers[answers.indexWhere((e) => e.index == index)];
+    answerModel.state = AnswerState.checkAgain;
+    notifyListeners();
+  }
   onQuestionAnswered(
       {required String text,
       required int index,
@@ -42,7 +53,6 @@ class LessonViewModel extends BaseViewModel {
           answer: text,
           attemptCount: 0,
           state: AnswerState.init));
-
     }
 
     PracticeAnswerModel answerModel =
@@ -80,6 +90,10 @@ class LessonViewModel extends BaseViewModel {
             index: {'text': 'text096', 'color': kcCorrectAns}
           };
         case AnswerState.tryAgain:
+          return {
+            index: {'text': 'text097', 'color': kcTryAgainAns}
+          };
+        case AnswerState.checkAgain:
           return {
             index: {'text': 'text095', 'color': kcTryAgainAns}
           };

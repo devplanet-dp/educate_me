@@ -268,8 +268,8 @@ class QnsViewModel extends BaseViewModel {
                     index: 1,
                     isCorrect: false,
                     option: options[0].option!.trim().toLowerCase() == 'true'
-                        ? 'false'
-                        : 'true'));
+                        ? 'False'
+                        : 'True'));
                 question.options = options;
 
                 q.add(question);

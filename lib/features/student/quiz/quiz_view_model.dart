@@ -97,12 +97,12 @@ class QuizViewModel extends BaseViewModel {
   goToNextQn() {
     if (!isLastPage()) {
       _resetAttempts();
-      pageController.animateToPage((pageController.page! + 1).toInt(),
+      pageController.animateToPage((pageController.page!+1).toInt(),
           duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
       _incrementQno();
     } else {
-      pageController.animateToPage((questions.length + 1).toInt(),
-          duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
+      // pageController.animateToPage((ans.length).toInt(),
+      //     duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
     }
   }
 
