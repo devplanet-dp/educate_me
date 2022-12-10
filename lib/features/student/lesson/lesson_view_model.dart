@@ -49,7 +49,7 @@ class LessonViewModel extends BaseViewModel {
         answers[answers.indexWhere((e) => e.index == index)];
     answerModel.attemptCount++;
     answerModel.answer = text;
-    if (correctAnswer.trim() == text.trim()) {
+    if (correctAnswer.trim().toLowerCase() == text.trim().toLowerCase()) {
       answerModel.state = AnswerState.correct;
     } else {
       if (isAttemptExceeded(index)) {

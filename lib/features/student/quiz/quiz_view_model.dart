@@ -140,7 +140,7 @@ class QuizViewModel extends BaseViewModel {
 
   void onInputTypeSubmit(String answer) {
     bool? isCorrect = selectedQn?.options!
-        .any((e) => e.option?.trim().toLowerCase() == answer);
+        .any((e) => e.option?.trim().toLowerCase() == answer.trim().toLowerCase());
     OptionModel p =
         OptionModel(index: 0, isCorrect: isCorrect ?? false, option: answer);
     onOptionSelected(p);

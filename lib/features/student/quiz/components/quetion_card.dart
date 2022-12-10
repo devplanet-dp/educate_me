@@ -236,7 +236,7 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                 if (!model.isAnswered()) {
                   if (formKey.currentState!.validate()) {
                     model.onInputTypeSubmit(
-                        controller.text.trim().toLowerCase());
+                        controller.text);
                   }
                 }
               },
