@@ -43,9 +43,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
           children: [
             _buildQuestion(
                 model.selectedQn?.question ?? '', model.selectedQn?.photoUrl),
-            SizedBox(
-              height: 60.h,
-            ),
+            vSpaceSmall,
             [
               DrawBrushWidget(
                 qns: model.selectedQn?.question ?? '',
@@ -71,7 +69,6 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end)
                 .alignment(Alignment.topRight),
-            vSpaceSmall,
             _buildAnswer(model.selectedQn?.type ?? QuestionType.multipleChoice),
             vSpaceSmall,
           ],

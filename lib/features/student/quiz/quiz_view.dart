@@ -94,7 +94,6 @@ class QuizView extends StatelessWidget {
                           vm.isLastPage()
                               ? const QuizResultsWidget()
                               : const PageNavigationWidget(),
-                          vSpaceMedium,
                           Expanded(
                               child: vm.isLastPage()
                                   ? const QuizCompletePage()
