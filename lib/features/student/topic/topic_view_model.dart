@@ -18,6 +18,8 @@ class TopicViewModel extends BaseViewModel {
   final AppController controller = Get.find<AppController>();
   final QuizController quizController = Get.find<QuizController>();
 
+  String updatingLessonId = '';
+
   List<LevelModel> _levels = [];
   List<TopicModel> _topics = [];
   List<SubTopicModel> _subTopics = [];
@@ -126,5 +128,24 @@ class TopicViewModel extends BaseViewModel {
       return list.length;
     }
     return 0;
+  }
+
+  Future<void> updateDrawingToolCount(
+      {required lesson,
+      required levelId,
+      required topicId,
+      required subTopicId,
+      required enable}) async {
+    //used to update drawing tool used
+    updatingLessonId = lesson;
+
+    setBusyForObject(updatingLessonId, true);
+    var result = await _service.updateEnableDisableDraw(
+        levelId: levelId,
+        topicId: topicId,
+        subTopic: subTopicId,
+        lessonId: lesson,
+        enable: enable);
+    setBusyForObject(updatingLessonId, false);
   }
 }

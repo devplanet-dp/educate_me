@@ -578,6 +578,32 @@ class FirestoreService {
       return FirebaseResult.error(errorMessage: e.toString());
     }
   }
+  Future<FirebaseResult> updateEnableDisableDraw(
+      {required levelId,
+        required topicId,
+        required subTopic,
+        required lessonId,required enable}) async {
+    try {
+      await _levelReference
+          .doc(levelId)
+          .collection(tbTopic)
+          .doc(topicId)
+          .collection(tbSubTopic)
+          .doc(subTopic)
+          .collection(tbLesson)
+          .doc(lessonId)
+          .update(
+          {'draw_tool_enabled': enable});
+      return FirebaseResult(data: true);
+    } catch (e) {
+      if (e is PlatformException) {
+        return FirebaseResult.error(errorMessage: e.message.toString());
+      }
+
+      return FirebaseResult.error(errorMessage: e.toString());
+    }
+  }
+
 
   //questions
   Future<FirebaseResult> addQuestions(

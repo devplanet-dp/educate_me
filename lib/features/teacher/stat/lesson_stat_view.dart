@@ -1,12 +1,12 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
-import 'package:educate_me/data/lesson.dart';
-import 'package:expandable/expandable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../core/utils/device_utils.dart';
+import '../../../data/lesson.dart';
 import '../../student/topic/topic_view_model.dart';
 
 class LessonStatView extends StatelessWidget {
@@ -32,7 +32,6 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
 
   @override
   Widget build(BuildContext context, TopicViewModel model) {
-
     return SingleChildScrollView(
       padding: fieldPadding,
       child: ExpansionPanelList(
@@ -83,7 +82,8 @@ class _TopicList extends StatelessWidget {
                   isExpanded: vm.topics[index].expanded ?? false,
                   headerBuilder: (context, isOpen) => Text(
                         vm.topics[index].name ?? '',
-                        style: kExpansionTitle.copyWith(fontSize: 14.5,fontWeight: FontWeight.w400),
+                        style: kExpansionTitle.copyWith(
+                            fontSize: 14.5, fontWeight: FontWeight.w400),
                       ).paddingOnly(left: 16),
                   body: _SubTopicList(
                       levelId: levelId, topicId: vm.topics[index].id ?? ''))),
@@ -121,9 +121,10 @@ class _SubTopicList extends StatelessWidget {
                   canTapOnHeader: true,
                   isExpanded: vm.subTopics[index].expanded ?? false,
                   headerBuilder: (context, isOpen) => Text(
-                    vm.subTopics[index].title ?? '',
-                    style: kExpansionTitle.copyWith(fontSize: 13,fontWeight: FontWeight.w300),
-                  ).paddingOnly(left: 24),
+                        vm.subTopics[index].title ?? '',
+                        style: kExpansionTitle.copyWith(
+                            fontSize: 13, fontWeight: FontWeight.w300),
+                      ).paddingOnly(left: 24),
                   body: _LessonList(
                     levelId: levelId,
                     topicId: topicId,
@@ -165,7 +166,8 @@ class _LessonList extends StatelessWidget {
         padding: fieldPadding,
         child: DataTable(
             dataRowHeight: 32,
-            headingTextStyle: kBody1Style.copyWith(color: kcTextStatColor.withOpacity(0.6)),
+            headingTextStyle:
+                kBody1Style.copyWith(color: kcTextStatColor.withOpacity(0.6)),
             border: TableBorder(
                 horizontalInside:
                     BorderSide(color: Colors.black.withOpacity(.1))),
@@ -175,6 +177,7 @@ class _LessonList extends StatelessWidget {
               DataColumn(label: Text('Attempts')),
               DataColumn(label: Text('Pass %')),
               DataColumn(label: Text('Draw %')),
+              DataColumn(label: Text('Draw tool status')),
             ],
             rows: List.generate(lessons.length, (index) {
               var l = lessons[index];
@@ -183,6 +186,8 @@ class _LessonList extends StatelessWidget {
                   (attempts == 0 ? 0 : (l.passCount! / attempts) * 100)
                       .toStringAsFixed(1);
               var draw = l.drawingToolUsed?.length ?? 0;
+
+              var drawEnabled = l.drawToolEnabled ?? false;
 
               return DataRow(cells: [
                 DataCell(Text(
@@ -209,6 +214,21 @@ class _LessonList extends StatelessWidget {
                   '$draw',
                   style: kBody1Style.copyWith(color: const Color(0xFFB055E9)),
                 )),
+                DataCell(model.busy(l.id)
+                    ? const Center(
+                        child: CupertinoActivityIndicator(),
+                      )
+                    : MaterialButton(
+                        onPressed: () => model.updateDrawingToolCount(
+                            lesson: l.id,
+                            levelId: levelId,
+                            topicId: topicId,
+                            subTopicId: subTopicId,
+                            enable: !drawEnabled),
+                        elevation: 0,
+                        color: drawEnabled ? Colors.red : Colors.greenAccent,
+                        child: Text(drawEnabled ? 'De-activate' : 'Activate'),
+                      ).paddingAll(4)),
               ]);
             })),
       );

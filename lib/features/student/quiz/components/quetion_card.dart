@@ -26,11 +26,13 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
     required this.topicId,
     required this.subTopicId,
     required this.lessonId,
+    required this.drawEnabled,
   }) : super(key: key);
   final String levelId;
   final String topicId;
   final String subTopicId;
   final String lessonId;
+  final bool drawEnabled;
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
@@ -47,7 +49,8 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
             [
               DrawBrushWidget(
                 qns: model.selectedQn?.question ?? '',
-                enableDraw: model.selectedQn?.enableDraw ?? true,
+                // enableDraw:  model.selectedQn?.enableDraw ?? true,
+                enableDraw: drawEnabled,
                 qid: model.selectedQn?.id ?? '',
                 onDrawOpen: () {
                   //update stats on drawing tool used

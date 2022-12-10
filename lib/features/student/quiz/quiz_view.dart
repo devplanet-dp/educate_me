@@ -115,7 +115,7 @@ class QuizView extends StatelessWidget {
                                                 levelId: levelId,
                                                 topicId: topicId,
                                                 subTopicId: subTopicId,
-                                                lessonId: lesson.id ?? '',
+                                                lessonId: lesson.id ?? '', drawEnabled: lesson.drawToolEnabled??false,
                                               )),
                                     ))
                         ],

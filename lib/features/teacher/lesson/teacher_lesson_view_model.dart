@@ -71,7 +71,6 @@ class TeacherLessonViewModel extends BaseViewModel {
   initHtmlEditor() {
     htmlController.setText(appController.htmlContent.value);
     htmlController.setFocus();
-    lg(appController.htmlContent.value);
   }
 
   calculatePassQuizLimit() {

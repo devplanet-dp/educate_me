@@ -19,6 +19,7 @@ class LessonModel {
   int? failCount;
   List<String>? drawingToolUsed;
   bool? expanded;
+  bool? drawToolEnabled;
 
   LessonModel(
       {this.id,
@@ -37,6 +38,7 @@ class LessonModel {
         this.failCount,
         this.drawingToolUsed,
       this.noCorrectToPass,
+      this.drawToolEnabled,
       this.video});
 
   LessonModel.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,7 @@ class LessonModel {
     maxQuestions = json['maxQuestions'];
     order = json['order'];
     raw = json['raw'];
+    drawToolEnabled = json['draw_tool_enabled']??false;
     passCount = json['pass_count']??0;
     failCount = json['fail_count']??0;
     createdAt = json['createdAt'];
