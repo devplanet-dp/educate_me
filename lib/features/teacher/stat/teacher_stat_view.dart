@@ -23,6 +23,7 @@ class TeacherStatView extends StatelessWidget {
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: ResponsiveBuilder(builder: (context, _) {
           return Scaffold(
+            backgroundColor: kcBg,
               appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(kToolbarHeight),
                 child: AdminAppBar(title: 'Admin Statistics'),

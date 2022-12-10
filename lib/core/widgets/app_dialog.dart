@@ -90,7 +90,7 @@ class AppDialog extends StatelessWidget {
         : ResponsiveBuilder(builder: (context, _) {
             return Image.asset(
               image,
-              fit: BoxFit.fill,
+              fit: BoxFit.contain,
               height: _.isTablet ? 120.h : 148.h,
               width: _.isTablet ? 120.w : 148.w,
             );

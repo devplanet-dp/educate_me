@@ -27,6 +27,7 @@ class TeacherTopicView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
+            backgroundColor: kcBg,
             appBar: AppBar(
               elevation: 0,
               title: Text('Add topics for ${level.name}'),

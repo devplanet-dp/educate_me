@@ -96,13 +96,13 @@ class QuizView extends StatelessWidget {
                               ? const QuizResultsWidget()
                               : const PageNavigationWidget(),
                           Expanded(
-                              child: vm.isLastPage()
-                                  ? const QuizCompletePage()
-                                  : PageView(
+                              child: PageView(
                                       controller: vm.pageController,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
+
                                       onPageChanged: (index) {
+
+                                        vm.onPageChanged(index+1);
+
                                         if (!vm.isLastPage()) {
                                           vm.selectedQn = vm.questions[index];
                                           vm.setAllowNextPage(
@@ -116,7 +116,7 @@ class QuizView extends StatelessWidget {
                                                 topicId: topicId,
                                                 subTopicId: subTopicId,
                                                 lessonId: lesson.id ?? '', drawEnabled: lesson.drawToolEnabled??false,
-                                              )),
+                                              ))..add(const QuizCompletePage()),
                                     ))
                         ],
                       ),

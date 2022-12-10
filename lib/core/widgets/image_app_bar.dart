@@ -4,7 +4,7 @@ import 'package:educate_me/core/widgets/background_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:styled_widget/styled_widget.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import 'app_round_button.dart';
 
@@ -14,7 +14,8 @@ class ImageSliderAppBar extends StatelessWidget {
 
   const ImageSliderAppBar({
     Key? key,
-    required this.images, required this.title,
+    required this.images,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -28,38 +29,48 @@ class ImageSliderAppBar extends StatelessWidget {
         onTap: () => Get.back(),
       ).paddingOnly(left: 8, top: 8),
       flexibleSpace: FlexibleSpaceBar(
-        collapseMode: CollapseMode.pin,
+          collapseMode: CollapseMode.pin,
           background: Stack(
-        children: [
-          Positioned.fill(
-            child: AppNetworkImage(
-              path: images,
-              thumbHeight: Get.height * 0.25,
-              thumbWidth: Get.width * .4,
-            ),
-          ),
-          const Align(
-            alignment: Alignment.bottomCenter,
-            child: BackgroundOverlayWidget(
-              isDark: true,
-            ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(title,style: kBodyStyle.copyWith(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 18.sp),),
-          )
-        ],
-      )),
+            children: [
+              Positioned.fill(
+                child: AppNetworkImage(
+                  path: images,
+                  thumbHeight: Get.height * 0.25,
+                  thumbWidth: Get.width * .4,
+                ),
+              ),
+              const Align(
+                alignment: Alignment.bottomCenter,
+                child: BackgroundOverlayWidget(
+                  isDark: true,
+                ),
+              ),
+              ResponsiveBuilder(builder: (context, _) {
+                return Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    title,
+                    style: kBodyStyle.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: _.isTablet ? 32 : 18),
+                  ),
+                );
+              })
+            ],
+          )),
     );
   }
 }
+
 class ImageSliderAppBarNonFloating extends StatelessWidget {
   final String images;
   final String title;
 
   const ImageSliderAppBarNonFloating({
     Key? key,
-    required this.images, required this.title,
+    required this.images,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -86,9 +97,19 @@ class ImageSliderAppBarNonFloating extends StatelessWidget {
                   isDark: true,
                 ),
               ),
-              Align(
-                alignment: Alignment.center,
-                child: Text(title,style: kBodyStyle.copyWith(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 18.sp),),
+              ResponsiveBuilder(
+                builder: (context,_) {
+                  return Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      title,
+                      style: kBodyStyle.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize:_.isTablet?32: 18),
+                    ),
+                  );
+                }
               )
             ],
           )),

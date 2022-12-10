@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../core/shared/app_colors.dart';
 import '../../../core/shared/shared_styles.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../signin/components/custom_app_bar.dart';
@@ -19,6 +20,7 @@ class TeacherSettingsView extends StatelessWidget {
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: ResponsiveBuilder(builder: (context, _) {
           return Scaffold(
+              backgroundColor: kcBg,
               appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(kToolbarHeight),
                 child: AdminAppBar(title: 'Settings'),

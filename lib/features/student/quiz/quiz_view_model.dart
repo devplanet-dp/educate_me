@@ -80,37 +80,24 @@ class QuizViewModel extends BaseViewModel {
 
   int get qnNo => _qnNo;
 
-  _incrementQno() {
-    if (qnNo < questions.length + 1) {
-      _qnNo++;
-      notifyListeners();
-    }
+
+
+  onPageChanged(index) {
+    _qnNo = index;
+    notifyListeners();
   }
 
-  _decrementQno() {
-    if (qnNo > 1) {
-      _qnNo--;
-      notifyListeners();
-    }
-  }
 
   goToNextQn() {
-    if (!isLastPage()) {
-      _resetAttempts();
-      pageController.animateToPage((pageController.page!+1).toInt(),
-          duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
-      _incrementQno();
-    } else {
-      // pageController.animateToPage((ans.length).toInt(),
-      //     duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
-    }
+    _resetAttempts();
+    pageController.animateToPage((pageController.page! + 1).toInt(),
+        duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
   }
 
   goToPrvQn() {
     _resetAttempts();
     pageController.animateToPage((pageController.page! - 1).toInt(),
         duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
-    _decrementQno();
   }
 
   void onOptionSelected(OptionModel option) async {
@@ -139,8 +126,8 @@ class QuizViewModel extends BaseViewModel {
   }
 
   void onInputTypeSubmit(String answer) {
-    bool? isCorrect = selectedQn?.options!
-        .any((e) => e.option?.trim().toLowerCase() == answer.trim().toLowerCase());
+    bool? isCorrect = selectedQn?.options!.any(
+        (e) => e.option?.trim().toLowerCase() == answer.trim().toLowerCase());
     OptionModel p =
         OptionModel(index: 0, isCorrect: isCorrect ?? false, option: answer);
     onOptionSelected(p);

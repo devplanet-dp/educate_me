@@ -2,6 +2,7 @@ import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/core/widgets/busy_overlay.dart';
+import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/features/teacher/level/teacher_level_view_model.dart';
 import 'package:educate_me/features/teacher/question/import_qns_view.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
@@ -28,7 +29,7 @@ class TeacherQnsView extends StatelessWidget {
   final String levelId;
   final String? topicId;
   final String? subTopicId;
-  final String? lessonId;
+  final LessonModel? lessonId;
   final bool isStartUp;
 
   @override
@@ -41,7 +42,7 @@ class TeacherQnsView extends StatelessWidget {
           model.listenToQns(
               levelId: levelId,
               subTopicId: subTopicId,
-              lessonId: lessonId,
+              lessonId: lessonId?.id??'',
               topiId: topicId);
         }
       },
@@ -50,6 +51,7 @@ class TeacherQnsView extends StatelessWidget {
         child: BusyOverlay(
           show: vm.isBusy,
           child: Scaffold(
+            backgroundColor: kcBg,
             appBar: AppBar(
               elevation: 0,
               title: const Text('Add Questions here'),
@@ -93,29 +95,19 @@ class TeacherQnsView extends StatelessWidget {
                   label: const Text('Create'),
                   onPressed: () => Get.to(() => AddQuestionView(
                         topicId: topicId,
-                        lessonId: lessonId,
+                        lessonId: lessonId?.id??'',
                         levelId: levelId,
                         subTopicId: subTopicId,
                         isStartUp: isStartUp,
                       )),
                 ),
                 ActionChip(
-                  label: const Text('Edit practice'),
+                  label:  Text(lessonId?.raw==null? 'Import practice':'Edit practice'),
                   onPressed: () => Get.to(() => ImportQnsView(
                         levelId: levelId,
                         topicId: topicId,
                         subTopicId: subTopicId,
-                        lessonId: lessonId,
-                        isPractice: true,
-                      )),
-                ),
-                ActionChip(
-                  label: const Text('Import practice'),
-                  onPressed: () => Get.to(() => ImportQnsView(
-                        levelId: levelId,
-                        topicId: topicId,
-                        subTopicId: subTopicId,
-                        lessonId: lessonId,
+                        lessonId: lessonId?.id??'',
                         isPractice: true,
                       )),
                 ),
@@ -125,7 +117,7 @@ class TeacherQnsView extends StatelessWidget {
                       levelId: levelId,
                       topicId: topicId,
                       subTopicId: subTopicId,
-                      lessonId: lessonId)),
+                      lessonId: lessonId?.id??'')),
                 ),
                 const SizedBox(),
               ],
@@ -139,7 +131,7 @@ class TeacherQnsView extends StatelessWidget {
                     levelId: levelId,
                     topicId: topicId,
                     subTopicId: subTopicId,
-                    lessonId: lessonId,
+                    lessonId: lessonId?.id??'',
                     isStartUp: isStartUp,
                   ),
           ),

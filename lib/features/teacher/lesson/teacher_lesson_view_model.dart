@@ -114,7 +114,7 @@ class TeacherLessonViewModel extends BaseViewModel {
                 levelId: levelId,
                 topicId: topicId,
                 subTopicId: subTopicId,
-                lessonId: id,
+                lessonId: lesson,
               ));
         } else {
           Get.back();

@@ -38,6 +38,7 @@ class TeacherLessonView extends StatelessWidget {
         child: BusyOverlay(
           show: vm.isBusy,
           child: Scaffold(
+              backgroundColor: kcBg,
               appBar: AppBar(
                 elevation: 0,
                 title: Text('Add Lessons for ${subTopic.title}'),
@@ -102,7 +103,7 @@ class _LessonGridView extends ViewModelWidget<TeacherLessonViewModel> {
                     topicId: topicId,
                     levelId: levelId,
                     subTopicId: subTopicId,
-                    lessonId: t.id ?? '',
+                    lessonId: t,
                   )),
               url: t.cover ?? '',
               title: t.title ?? '',
