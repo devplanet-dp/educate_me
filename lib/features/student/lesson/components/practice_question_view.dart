@@ -46,24 +46,14 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
                   subTopicId: subTopicId,
                   lesson: lesson)).paddingSymmetric(
               horizontal: _.isTablet ? kTabPaddingHorizontal : 0),
-          body: Column(
-            children: [
-              Text(
-                'text094'.tr,
-                style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600),
-              ),
-              Expanded(
-                child: ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (_, index) =>
-                            _QnsCard(lesson.questions![index], index),
-                        separatorBuilder: (_, index) => vSpaceMedium,
-                        itemCount: lesson.questions?.length ?? 0)
-                    .paddingSymmetric(
-                        horizontal: !_.isTablet ? 0 : kTabPaddingHorizontal),
-              ),
-            ],
-          ),
+          body: ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (_, index) =>
+                      _QnsCard(lesson.questions![index], index),
+                  separatorBuilder: (_, index) => vSpaceMedium,
+                  itemCount: lesson.questions?.length ?? 0)
+              .paddingSymmetric(
+                  horizontal: !_.isTablet ? 0 : kTabPaddingHorizontal),
         );
       }),
     );
@@ -74,16 +64,25 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
   _QnsCard(this.question, this.index, {Key? key}) : super(key: key);
   final QuestionModel question;
   final int index;
-
+  final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context, LessonViewModel model) {
-    final TextEditingController controller = TextEditingController();
+
     final formKey = GlobalKey<FormState>();
+    controller.text =
+    model.getUserAnswerState(index) == AnswerState.checkAgain
+        ? ''
+        : model.getUserAnswer(index) ?? '';
     return Form(
       key: formKey,
       child: ResponsiveBuilder(builder: (context, _) {
         return Column(
           children: [
+            Text(
+              'text094'.tr,
+              style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600,color: Colors.black,fontSize: 14),
+            ),
+            vSpaceSmall,
             Text(
               question.question ?? '',
               textAlign: TextAlign.center,
@@ -110,10 +109,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
               hSpaceSmall,
               Expanded(child: Builder(builder: (context) {
                 //reset answer field
-                controller.text =
-                    model.getUserAnswerState(index) == AnswerState.checkAgain
-                        ? ''
-                        : model.getUserAnswer(index) ?? '';
+
 
                 return ConstrainedBox(
                   constraints: BoxConstraints(maxHeight: 100.h),

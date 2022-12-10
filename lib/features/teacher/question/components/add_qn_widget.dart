@@ -22,7 +22,7 @@ class AddQnWidget extends ViewModelWidget<QnsViewModel> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        QnsIndexWidget(index: qns.index ?? 0),
+        QnsIndexWidget(index: qns.index ?? 0,color: kcPrimaryColor,),
         hSpaceSmall,
         Text(
           !isOptionAdded ? 'Add answer here' : qns.option ?? '',

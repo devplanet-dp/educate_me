@@ -7,15 +7,16 @@ import 'package:styled_widget/styled_widget.dart';
 
 class QnsIndexWidget extends StatelessWidget {
   final int index;
+  final Color color;
 
-  const QnsIndexWidget({Key? key, required this.index}) : super(key: key);
+  const QnsIndexWidget({Key? key, required this.index, required this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       getIndexName(index),
       style: kHeading3Style.copyWith(
-          color: kcPrimaryColor, fontWeight: FontWeight.w800),
+          color: color, fontWeight: FontWeight.w800),
     ).paddingAll(12).decorated(shape: BoxShape.circle, color: Colors.white, boxShadow: [
       BoxShadow(
         color: kcTextGrey.withOpacity(.3),
@@ -28,21 +29,23 @@ class QnsIndexWidget extends StatelessWidget {
 
 class QnsIndexWidgetMultiple extends StatelessWidget {
   final bool isCorrect;
+  final int index;
+  final Color color;
 
-  const QnsIndexWidgetMultiple({Key? key, required this.isCorrect})
+  const QnsIndexWidgetMultiple({Key? key, required this.isCorrect, required this.index, required this.color})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
+    return isCorrect? Icon(
       Icons.check,
-      color: isCorrect ? kcPrimaryColor : Colors.transparent,
+      color: color,
     ).paddingAll(10).decorated(shape: BoxShape.circle, color: Colors.white, boxShadow: [
       BoxShadow(
         color: kcTextGrey.withOpacity(.3),
         blurRadius: 15,
         offset: const Offset(0, 1), // Shadow position
       ),
-    ],);
+    ],):QnsIndexWidget(index: index, color: color,);
   }
 }

@@ -38,7 +38,7 @@ class AppLocale extends Translations {
           'text025':'Settings',
           'text025.error':'*Enter email id is wrong',
           'text026':'Switch Profiles',
-          'text027':'Sorry.No subtopic found',
+          'text027':'Sorry, no sub-topics found.',
           'text028':'No lessons for the subject',
           'text029':'Description',
           'text030':'Begin Quiz',

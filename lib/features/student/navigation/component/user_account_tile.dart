@@ -37,10 +37,10 @@ class UserAccountTile extends GetView<AppController> {
             maxLines: 1,
             style: kCaptionStyle.copyWith(fontWeight: FontWeight.w500),
           ),
-          Text(
+      !selected?emptyBox():    Text(
             'text039'.tr,
             style: kLabelStyle.copyWith(
-                color: selected ? kcTextGrey : Colors.transparent,fontWeight: FontWeight.w300,fontStyle: FontStyle.italic),
+                color:  kcTextGrey,fontWeight: FontWeight.w300,fontStyle: FontStyle.italic),
           )
         ].toColumn(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -31,45 +31,70 @@ class OptionTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(builder: (context, _) {
+      var tileColor = !isOptionSelected
+          ? kcOptionColor
+          : (index == userSelectedIndex)
+              ? isUserOptionCorrect
+                  ? isMultipleCorrect
+                      ? kcPrimaryColor
+                      : kcCorrectAns
+                  : kcIncorrectAns
+              : isCorrectOption
+                  ? isMultipleCorrect
+                      ? kcPrimaryColor
+                      : kcCorrectAns
+                  : kcOptionColor;
+
+      var indexColor = !isOptionSelected
+          ? kcPrimaryColor
+          : (index == userSelectedIndex)
+              ? isUserOptionCorrect
+                  ? isMultipleCorrect
+                      ? kcPrimaryColor
+                      : kcCorrectAns
+                  : kcIncorrectAns
+              : isCorrectOption
+                  ? isMultipleCorrect
+                      ? kcPrimaryColor
+                      : kcCorrectAns
+                  : kcPrimaryColor;
+
+      var optionTileColor = !isOptionSelected
+          ? kcPrimaryColor
+          : (index == userSelectedIndex)
+              ? isUserOptionCorrect
+                  ? Colors.white
+                  : Colors.white
+              : isCorrectOption
+                  ? Colors.white
+                  : kcPrimaryColor;
+
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           (isMultipleCorrect && isOptionSelected)
-              ? QnsIndexWidgetMultiple(isCorrect: isCorrectOption)
-              : QnsIndexWidget(index: index),
+              ? QnsIndexWidgetMultiple(
+                  isCorrect: isCorrectOption,
+                  index: index,
+                  color: indexColor,
+                )
+              : QnsIndexWidget(
+                  index: index,
+                  color: indexColor,
+                ),
           hSpaceSmall,
           Text(
             option.trim(),
             textAlign: TextAlign.center,
             style: kBody1Style.copyWith(
                 fontWeight: FontWeight.w800,
-                fontSize: _.isTablet?24:15,
-                color: !isOptionSelected
-                    ? kcPrimaryColor
-                    : (index == userSelectedIndex)
-                        ? isUserOptionCorrect
-                            ? Colors.white
-                            : Colors.white
-                        : isCorrectOption
-                            ? Colors.white
-                            : kcPrimaryColor),
+                fontSize: _.isTablet ? 24 : 15,
+                color: optionTileColor),
           ),
         ],
-      ).height(60.h).paddingAll(_.isTablet?16:8).card(
-          color: !isOptionSelected
-              ? kcOptionColor
-              : (index == userSelectedIndex)
-                  ? isUserOptionCorrect
-                      ? isMultipleCorrect
-                          ? kcPrimaryColor
-                          : kcCorrectAns
-                      : kcIncorrectAns
-                  : isCorrectOption
-                      ? isMultipleCorrect
-                          ? kcPrimaryColor
-                          : kcCorrectAns
-                      : kcOptionColor,
+      ).height(60.h).paddingAll(_.isTablet ? 16 : 8).card(
+          color: tileColor,
           elevation: 0,
           shape: RoundedRectangleBorder(
               borderRadius: _.isTablet ? kBorderLarge : kBorderSmall));
