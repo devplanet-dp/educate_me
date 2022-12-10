@@ -136,7 +136,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
       }
       await initAppUsers(selectedChildId: controller.currentChild?.userId);
       setBusy(false);
-      showInfoMessage(message: 'Your profile details updated');
+      showInfoMessage(message: 'Your profile details have updated');
     }
   }
 

@@ -50,8 +50,8 @@ class SettingsView extends StatelessWidget {
                     icon: kIcAccount,
                     backgroundColor: Colors.blue,
                     title: 'text104',
-                    isBusy: vm.busy(vm.accountAuthBusy),
-                    onTap: ()=>Get.to(()=>const MyProfileView())),
+                    isBusy: vm.busy(vm.profileAuthBusy),
+                    onTap: ()=>vm.goToProfilesView()),
                 const Divider(
                   color: kcTextGrey,
                 ),

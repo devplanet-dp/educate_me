@@ -4,6 +4,7 @@ import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/core/widgets/app_dialog.dart';
 import 'package:educate_me/features/student/account/account_view.dart';
+import 'package:educate_me/features/student/account/my_profile_view.dart';
 import 'package:educate_me/features/student/forgot/forgot_pwd_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,7 @@ class SettingViewModel extends BaseViewModel {
   final _authService = locator<AuthenticationService>();
   final _dialogService = locator<DialogService>();
   final accountAuthBusy = false;
+  final profileAuthBusy = false;
 
   void signOut() async {
     var result = await _dialogService.showConfirmationDialog(
@@ -34,6 +36,16 @@ class SettingViewModel extends BaseViewModel {
     setBusyForObject(accountAuthBusy, false);
     if (!result.hasError) {
       Get.to(() => const AccountView());
+    } else {
+      return showErrorMessage(message: result.errorMessage );
+    }
+  }
+  Future<void> authToProfileAccount(String pwd) async {
+    setBusyForObject(profileAuthBusy, true);
+    var result = await _authService.getAuthWithPassword(password: pwd);
+    setBusyForObject(profileAuthBusy, false);
+    if (!result.hasError) {
+      Get.to(() => const MyProfileView());
     } else {
       return showErrorMessage(message: result.errorMessage );
     }
@@ -56,6 +68,26 @@ class SettingViewModel extends BaseViewModel {
       ),
       onPositiveTap: (input) {
         authToAccount(input);
+      },
+    ));
+  }
+  void goToProfilesView() async {
+    Get.dialog(AppDialogWithInput(
+      title: 'text005'.tr,
+      image: kIcSafe,
+      subtitle: 'text081'.tr,
+      onNegativeTap: () => Get.back(),
+      secondaryActionWidget: TextButton(
+        onPressed: () =>Get.off(()=>const ForgotPwdView()),
+        child: Text(
+          'text083'.tr,
+          style: kCaptionStyle.copyWith(
+              color: kcPrimaryColor,
+              fontSize: 18, fontWeight: FontWeight.w500),
+        ).alignment(Alignment.topLeft),
+      ),
+      onPositiveTap: (input) {
+        authToProfileAccount(input);
       },
     ));
   }

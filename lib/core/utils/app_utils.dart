@@ -66,6 +66,8 @@ showInfoMessage({required message, title = 'Info!'}) {
   Get.snackbar(title, message,
       backgroundColor: kcPrimaryColor,
       colorText: kAltWhite,
+      margin: const EdgeInsets.symmetric(vertical: kBottomNavigationBarHeight+16,horizontal: 16),
+      padding:const EdgeInsets.all(8),
       snackPosition: SnackPosition.BOTTOM,
       icon: const Icon(
         Iconsax.password_check,
