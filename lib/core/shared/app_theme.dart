@@ -12,7 +12,7 @@ final ThemeData themeData = ThemeData(
   dialogTheme: const DialogTheme(
 
   ),
-  expansionTileTheme: ExpansionTileThemeData(
+  expansionTileTheme: const ExpansionTileThemeData(
     tilePadding: EdgeInsets.zero,
     childrenPadding: EdgeInsets.zero,
     iconColor: kcPrimaryColor

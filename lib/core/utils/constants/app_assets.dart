@@ -54,7 +54,7 @@ const String kIcEraser = 'assets/icons/ic_eraser.svg';
 const String kIcTrash = 'assets/icons/ic_trash.svg';
 const String kIcSuccess = 'assets/icons/ic_success.png';
 const String kIcExpanded = 'assets/icons/ic_expanded.svg';
-const String kIcCollapsed = 'assets/icons/ic_success.png';
+const String kIcCollapsed = 'assets/icons/ic_collapsed.svg';
 
 
 //icons

@@ -48,6 +48,49 @@ class TeacherLessonViewModel extends BaseViewModel {
 
   List<LessonModel> get lessons => _lessons;
 
+  bool _isMultiselect = false;
+
+  bool get multiSelect => _isMultiselect;
+
+  toggleMultiSelect() {
+    _isMultiselect = !_isMultiselect;
+    selectedQnsIds.clear();
+    notifyListeners();
+  }
+  List<String> selectedQnsIds = [];
+
+  bool isLessonSelected(String qns) => selectedQnsIds.contains(qns) && multiSelect;
+
+  void onQnsSelectedForDelete(String qns) {
+    if (selectedQnsIds.contains(qns)) {
+      selectedQnsIds.remove(qns);
+    } else {
+      selectedQnsIds.add(qns);
+    }
+    notifyListeners();
+  }
+
+  Future removeLesson(
+      {required levelId,
+        required topic,
+        required subTopic}) async {
+    var response = await _dialogService.showConfirmationDialog(
+        title: 'Are you sure?',
+        description: 'Delete ${selectedQnsIds.length} lessons?');
+    if (response?.confirmed ?? false) {
+      setBusy(true);
+      for (var e in selectedQnsIds) {
+        await _service.removeLesson(
+            levelId: levelId,
+            topicId: topic,
+            subTopic: subTopic,
+            lessonId: e);
+      }
+      setBusy(false);
+    }
+  }
+
+
   setInitDate(LessonModel? lesson) {
     if(lesson!=null) {
       orderTEC.text = '${lesson.order}';

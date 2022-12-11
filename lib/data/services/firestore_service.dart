@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/data/complain_model.dart';
 import 'package:educate_me/data/completed_lesson_model.dart';
 import 'package:educate_me/data/lesson.dart';

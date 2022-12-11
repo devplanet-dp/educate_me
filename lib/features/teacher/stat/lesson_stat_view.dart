@@ -1,9 +1,12 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
+import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/utils/device_utils.dart';
 import '../../../data/lesson.dart';
@@ -19,9 +22,8 @@ class LessonStatView extends StatelessWidget {
         model.listenToLevels();
       },
       builder: (context, vm, child) => GestureDetector(
-        onTap: () => DeviceUtils.hideKeyboard(context),
-        child: const _LevelSection(),
-      ),
+          onTap: () => DeviceUtils.hideKeyboard(context),
+          child: const _LevelSection()),
       viewModelBuilder: () => TopicViewModel(),
     );
   }
@@ -45,14 +47,56 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
             model.levels.length,
             (index) => ExpansionPanel(
                 canTapOnHeader: true,
+                backgroundColor: Colors.white,
                 isExpanded: model.levels[index].expanded ?? false,
-                headerBuilder: (context, isOpen) => Text(
-                      'Level ${model.levels[index].name ?? ''}',
-                      style: kExpansionTitle,
-                    ),
+                headerBuilder: (context, isOpen) => _ExpandHeader(
+                    expanded: isOpen,
+                    paddingLeft: 0,
+                    title: 'Level ${model.levels[index].name ?? ''}',
+                    style: kExpansionTitle),
                 body: _TopicList(model.levels[index].id ?? ''))),
       ),
     );
+  }
+}
+
+class _ExpandHeader extends StatelessWidget {
+  const _ExpandHeader(
+      {Key? key,
+      required this.expanded,
+      required this.title,
+      required this.paddingLeft,
+      required this.style})
+      : super(key: key);
+  final bool expanded;
+  final String title;
+  final TextStyle style;
+  final double paddingLeft;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: paddingLeft),
+              child: Text(
+                title,
+                style: style,
+              ),
+            ),
+            const Expanded(child: SizedBox()),
+            RotatedBox(
+                quarterTurns: expanded ? 3 : 0,
+                child: SvgPicture.asset(kIcCollapsed))
+          ],
+        ),
+        Divider(
+          color: Colors.black.withOpacity(.09),
+        ),
+      ],
+    ).paddingAll(8);
   }
 }
 
@@ -79,12 +123,16 @@ class _TopicList extends StatelessWidget {
               vm.topics.length,
               (index) => ExpansionPanel(
                   canTapOnHeader: true,
+                  backgroundColor: Colors.transparent,
                   isExpanded: vm.topics[index].expanded ?? false,
-                  headerBuilder: (context, isOpen) => Text(
-                        vm.topics[index].name ?? '',
-                        style: kExpansionTitle.copyWith(
-                            fontSize: 14.5, fontWeight: FontWeight.w400),
-                      ).paddingOnly(left: 16),
+                  headerBuilder: (context, isOpen) => Align(
+                      alignment: Alignment.centerLeft,
+                      child: _ExpandHeader(
+                          expanded: isOpen,
+                          paddingLeft: 12,
+                          title: vm.topics[index].name ?? '',
+                          style: kExpansionTitle.copyWith(
+                              fontSize: 14.5, fontWeight: FontWeight.w400))),
                   body: _SubTopicList(
                       levelId: levelId, topicId: vm.topics[index].id ?? ''))),
         ),
@@ -119,12 +167,14 @@ class _SubTopicList extends StatelessWidget {
               vm.subTopics.length,
               (index) => ExpansionPanel(
                   canTapOnHeader: true,
+                  backgroundColor: Colors.transparent,
                   isExpanded: vm.subTopics[index].expanded ?? false,
-                  headerBuilder: (context, isOpen) => Text(
-                        vm.subTopics[index].title ?? '',
-                        style: kExpansionTitle.copyWith(
-                            fontSize: 13, fontWeight: FontWeight.w300),
-                      ).paddingOnly(left: 24),
+                  headerBuilder: (context, isOpen) => _ExpandHeader(
+                      expanded: isOpen,
+                      paddingLeft: 24,
+                      title: vm.subTopics[index].title ?? '',
+                      style: kExpansionTitle.copyWith(
+                          fontSize: 13, fontWeight: FontWeight.w300)),
                   body: _LessonList(
                     levelId: levelId,
                     topicId: topicId,

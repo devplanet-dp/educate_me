@@ -12,6 +12,7 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../core/shared/app_colors.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../../core/widgets/app_info.dart';
+import '../../../core/widgets/busy_button.dart';
 import '../../../core/widgets/busy_overlay.dart';
 import '../topic/components/topic_card.dart';
 
@@ -39,10 +40,25 @@ class TeacherLessonView extends StatelessWidget {
           show: vm.isBusy,
           child: Scaffold(
               backgroundColor: kcBg,
+              bottomNavigationBar:
+              (vm.multiSelect && vm.selectedQnsIds.isNotEmpty)
+                  ? BoxButtonWidget(
+                  buttonText: 'Delete Lessons',
+                  onPressed: () => vm.removeLesson(
+                      levelId: levelId,
+                      topic: topicId,
+                      subTopic: subTopic.id)).paddingAll(16)
+                  : const SizedBox(),
               appBar: AppBar(
                 elevation: 0,
                 title: Text('Add Lessons for ${subTopic.title}'),
                 actions: [
+                  IconButton(
+                      onPressed: () => vm.toggleMultiSelect(),
+                      icon: Icon(
+                        vm.multiSelect ? Iconsax.edit5 : Iconsax.edit,
+                        color: kErrorRed,
+                      )),
                   IconButton(
                       onPressed: () => vm.removeSubTopic(
                           levelId: levelId,
@@ -89,34 +105,48 @@ class _LessonGridView extends ViewModelWidget<TeacherLessonViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherLessonViewModel model) {
-    return ResponsiveBuilder(
-      builder: (context,_) {
-        return GridView.count(
-          crossAxisCount:_.isDesktop?4: 2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: _.isDesktop?3:1,
-          children: List.generate(model.lessons.length, (index) {
-            var t = model.lessons[index];
-            return TopicCard(
-              onTap: () => Get.to(() => TeacherQnsView(
-                    topicId: topicId,
-                    levelId: levelId,
-                    subTopicId: subTopicId,
-                    lessonId: t,
-                  )),
-              url: t.cover ?? '',
-              title: t.title ?? '',
-              onEditTap: () => Get.to(() => TeacherAddLessonView(
-                    levelId: levelId,
-                    topicId: topicId,
-                    subTopicId: subTopicId,
-                    lesson: t,
-                  )),
-            );
-          }),
-        ).paddingSymmetric(horizontal: 12);
-      }
-    );
+    return ResponsiveBuilder(builder: (context, _) {
+      return GridView.count(
+        crossAxisCount: _.isDesktop ? 4 : 2,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        childAspectRatio: _.isDesktop ? 3 : 1,
+        children: List.generate(model.lessons.length, (index) {
+          var t = model.lessons[index];
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned.fill(
+                child: TopicCard(
+                  onTap: () => model.multiSelect
+                      ? model.onQnsSelectedForDelete(t.id ?? '')
+                      : Get.to(() => TeacherQnsView(
+                            topicId: topicId,
+                            levelId: levelId,
+                            subTopicId: subTopicId,
+                            lessonId: t,
+                          )),
+                  url: t.cover ?? '',
+                  title: t.title ?? '',
+                  onEditTap: () => Get.to(() => TeacherAddLessonView(
+                        levelId: levelId,
+                        topicId: topicId,
+                        subTopicId: subTopicId,
+                        lesson: t,
+                      )),
+                ),
+              ),
+              Visibility(
+                visible: model.isLessonSelected(t.id??''),
+                child: const Icon(
+                  Icons.check,
+                  size: 32,
+                ).paddingAll(8).decorated(shape: BoxShape.circle, color: kcBg),
+              )
+            ],
+          );
+        }),
+      ).paddingSymmetric(horizontal: 12);
+    });
   }
 }
