@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -83,37 +84,41 @@ class _AnswerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return [
-      vSpaceSmall,
-      SvgPicture.asset(image,width: 25.w,height: 39.h,),
-      vSpaceMedium,
-      AutoSizeText(
-        title.tr,
-        textAlign: TextAlign.center,
-        maxLines: 1,
-        style: kBody1Style.copyWith(color: kcTextDarkGrey,fontWeight: FontWeight.w600),
-      ),
-      vSpaceSmall,
-      Text(
-        '$amount',
-        style: kHeading3Style.copyWith(
-            color: Colors.black, fontWeight: FontWeight.w700,fontSize: 20.sp),
-      )
-    ]
-        .toColumn(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min).paddingSymmetric(horizontal: 26.w,vertical: 10)
-        .decorated(
-      color: Colors.white,
-      borderRadius: kBorderSmall,
-      boxShadow: [
-        BoxShadow(
-          color: kcTextGrey.withOpacity(.2),
-          blurRadius: 9,
-          offset: const Offset(0, 1), // Shadow position
-        ),
-      ],
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return [
+          vSpaceSmall,
+          SvgPicture.asset(image,width: 25.w,height: 39.h,),
+          vSpaceMedium,
+          AutoSizeText(
+            title.tr,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            style: kBody1Style.copyWith(color: kcTextDarkGrey,fontWeight: FontWeight.w600,fontSize: _.isTablet?20:15),
+          ),
+          vSpaceSmall,
+          Text(
+            '$amount',
+            style: kHeading3Style.copyWith(
+                color: Colors.black, fontWeight: FontWeight.w900,fontSize:_.isTablet?25: 20.sp),
+          )
+        ]
+            .toColumn(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min).paddingSymmetric(horizontal: 26.w,vertical: 10)
+            .decorated(
+          color: Colors.white,
+          borderRadius: kBorderSmall,
+          boxShadow: [
+            BoxShadow(
+              color: kcTextGrey.withOpacity(.2),
+              blurRadius: 9,
+              offset: const Offset(0, 1), // Shadow position
+            ),
+          ],
+        );
+      }
     );
   }
 }

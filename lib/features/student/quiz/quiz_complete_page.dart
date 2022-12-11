@@ -37,7 +37,7 @@ class QuizCompletePage extends ViewModelWidget<QuizViewModel> {
                     offset: const Offset(2, 3), // changes position of shadow
                   ),
                 ], color: Colors.white, shape: BoxShape.circle)),
-      ).paddingAll(_.isTablet ? kTabPaddingHorizontal : 16);
+      ).paddingAll(16).paddingSymmetric(horizontal: _.isTablet?kTabPaddingHorizontal:0).center();
     });
   }
 }

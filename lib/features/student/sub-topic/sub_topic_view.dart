@@ -121,7 +121,7 @@ class _SubTopicSection extends StatelessWidget {
               s.description ?? '',
               maxLines: 1,
               style: kCaptionStyle.copyWith(
-                  color: kcTextDarkGrey, fontWeight: FontWeight.w400),
+                  color: kcTextDarkGrey, fontWeight: FontWeight.w400,fontSize: _.isTablet?16:13),
             ).paddingOnly(left: 12),
             vSpaceSmall,
             _LessonList(

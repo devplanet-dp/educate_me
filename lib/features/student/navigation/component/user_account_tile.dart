@@ -26,8 +26,8 @@ class UserAccountTile extends GetView<AppController> {
       AvatarView(
         path: user.profileUrl ?? '',
         userName: user.name ?? 'E',
-        height: 32.h,
-        widget: 32.w,
+        height: 32,
+        widget: 32,
       ),
       hSpaceSmall,
       Expanded(
@@ -58,7 +58,7 @@ class UserAccountTile extends GetView<AppController> {
     ]
         .toRow(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center)
+            mainAxisAlignment: MainAxisAlignment.start)
         .paddingAll(8)
         .decorated(
             borderRadius: const BorderRadius.all(Radius.circular(56)),

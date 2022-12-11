@@ -31,7 +31,7 @@ class StatView extends StatelessWidget {
           builder: (context,_) {
             return Scaffold(
                 appBar: PreferredSize(
-                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  preferredSize: const Size.fromHeight(kAppToolbarHeight),
                   child: SwitchUserAppBar(
                     title: 'text020'.tr,
                     onUserUpdated: () => vm.notifyListeners(),

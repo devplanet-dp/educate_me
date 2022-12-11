@@ -33,7 +33,7 @@ class SupportView extends StatelessWidget {
                     isLoading: vm.isBusy,
                     onPressed: () => vm.onSendPressed()).paddingOnly(left:_.isTablet?kTabPaddingHorizontal: 16,right:_.isTablet?kTabPaddingHorizontal: 16,bottom: 24),
                 appBar: PreferredSize(
-                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  preferredSize: const Size.fromHeight(kAppToolbarHeight),
                   child: SwitchUserAppBar(
                     title: 'text048'.tr,
                     onUserUpdated: (){

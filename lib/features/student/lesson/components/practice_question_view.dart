@@ -80,7 +80,8 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
           children: [
             Text(
               'text094'.tr,
-              style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600,color: Colors.black,fontSize: 14),
+              textAlign: TextAlign.center,
+              style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600,color: Colors.black,fontSize:_.isTablet?28: 14),
             ),
             vSpaceSmall,
             Text(
@@ -117,7 +118,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                     controller: controller,
                     isEnabled: !model.isQuizEnabled(),
                     textColor: model.getButtonStyle(index)[index]['color'],
-                    hintText: '       Answer',
+                    hintText:_.isTablet?'                Answer': '       Answer',
                     align: TextAlign.center,
                     label: '',
                     validator: (value) {
@@ -178,7 +179,16 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   question.promptOne ?? '',
                   textAlign: TextAlign.center,
                   style: kBody1Style.copyWith(color: kcTextDarkGrey),
+                )),
+            Visibility(
+                visible:
+                    model.getUserAnswerState(index) == AnswerState.correct,
+                child: Text(
+                  'text107'.tr,
+                  textAlign: TextAlign.center,
+                  style: kBody1Style.copyWith(color: kcTextDarkGrey),
                 ))
+
           ],
         );
       }),

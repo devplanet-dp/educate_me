@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/features/student/settings/settings_view.dart';
@@ -70,7 +71,7 @@ class NavigationView extends StatelessWidget {
                       assetName: kIcSettings,
                       isSelected: model.currentIndex == 2,
                       name: 'text022'.tr),
-                ]);
+                ]).paddingSymmetric(horizontal:_.isTablet? kTabPaddingHorizontal/2:0);
           }
         ),
       ),
@@ -111,7 +112,7 @@ class NavigationView extends StatelessWidget {
                 ),
                 SvgPicture.asset(
                   assetName,
-                  height:_.isTablet?32: 24,
+                  height:_.isTablet?42: 24,
                   width: 24,
                   color: isSelected ? kcPrimaryColor : kButtonColor,
                 ).paddingAll(8),

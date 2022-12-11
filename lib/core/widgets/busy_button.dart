@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:educate_me/core/utils/device_utils.dart';
@@ -37,7 +38,7 @@ class BoxButtonWidget extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           highlightElevation: 0,
           disabledColor: kcButtonDisabled,
-          height:_.isTablet?32: 45.h,
+          height:_.isTablet?48: 45.h,
           elevation: 0,
           color: isEnabled ? buttonColor ?? kcPrimaryColor : kButtonDisabledColor,
           shape:  RoundedRectangleBorder(
@@ -51,15 +52,16 @@ class BoxButtonWidget extends StatelessWidget {
                     }
               : () {},
           child: AnimatedContainer(
-              height: 50,
+              height: _.isTablet?60:53,
               duration: const Duration(milliseconds: 200),
               child: Center(
                   child: isLoading
                       ? const CircularProgressIndicator(
                           strokeWidth: 2,
                           valueColor: AlwaysStoppedAnimation<Color>(kAltWhite))
-                      : Text(
+                      : AutoSizeText(
                           buttonText,
+                          maxLines: 1,
                           style: kBodyStyle.copyWith(
                             fontWeight: FontWeight.w700,
                             color:  isEnabled? textColor?? Colors.white:Colors.white,

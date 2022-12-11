@@ -37,21 +37,24 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
       children: List.generate(
           lesson.content?.length ?? 0,
           (index) => Scaffold(
-                bottomNavigationBar: ResponsiveBuilder(
-                  builder: (context,_) {
-                    return BoxButtonWidget(
-                      radius: 8,
-                      fontSize: _.isTablet?24:14,
-                      buttonText:
-                          '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
-                      onPressed: () => model.goToNextBarrier(),
-                    ).paddingOnly(top: 16,left: !_.isTablet?0:kTabPaddingHorizontal,right:_.isTablet?kTabPaddingHorizontal:0 );
-                  }
-                ),
+                bottomNavigationBar: ResponsiveBuilder(builder: (context, _) {
+                  return BoxButtonWidget(
+                    radius: _.isTablet?17:8,
+                    fontSize: _.isTablet ? 24 : 14,
+                    buttonText:
+                        '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
+                    onPressed: () => model.goToNextBarrier(),
+                  ).paddingOnly(
+                      top: 16,
+                      left: _.isTablet ? kTabPaddingHorizontal*1.2 :0 ,
+                      right: _.isTablet ? kTabPaddingHorizontal*1.2 : 0);
+                }),
                 body: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(height: 250.h,),
+                      SizedBox(
+                        height: 250.h,
+                      ),
                       Align(
                           alignment: Alignment.topLeft,
                           child: Text(

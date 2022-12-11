@@ -39,12 +39,12 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
                 Text.rich(TextSpan(
                     text: 'Question:',
                     style: kBodyStyle.copyWith(
-                        color: Colors.black, fontWeight: FontWeight.w600,fontSize: _.isTablet?18:16),
+                        color: Colors.black, fontWeight: FontWeight.w600,fontSize: _.isTablet?24:16),
                     children: [
                       TextSpan(
                           text: ' ${model.qnNo}/${model.questions.length}',
                           style: kBodyStyle.copyWith(
-                              color: kcPrimaryColor, fontWeight: FontWeight.w600,fontSize: _.isTablet?18:16))
+                              color: kcPrimaryColor, fontWeight: FontWeight.w600,fontSize: _.isTablet?24:16))
                     ])),
                 //show when answered
                 (model.isLastQn() || !model.allowNextPage)

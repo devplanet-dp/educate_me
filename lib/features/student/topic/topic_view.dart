@@ -27,7 +27,7 @@ class TopicView extends StatelessWidget {
         child: Scaffold(
           backgroundColor: kcBg,
           appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kToolbarHeight),
+            preferredSize: const Size.fromHeight(kAppToolbarHeight),
             child: SwitchUserAppBar(
               title: 'text024'.tr,
               onUserUpdated: () => vm.notifyListeners(),

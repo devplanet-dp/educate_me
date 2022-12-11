@@ -48,7 +48,8 @@ class SignUpView extends StatelessWidget {
               child: Image.asset(
                 kImgUnionTabLeft,
                 height: Get.height * .45,
-                width: Get.width / 2,
+                width: Get.width / 3.5,
+                fit: BoxFit.fill,
               ),
             ),
             Align(
@@ -56,7 +57,8 @@ class SignUpView extends StatelessWidget {
               child: Image.asset(
                 kImgUnionTabRight,
                 height: Get.height * .45,
-                width: Get.width / 2,
+                width: Get.width / 3.5,
+                fit: BoxFit.fill,
               ),
             ),
             Form(

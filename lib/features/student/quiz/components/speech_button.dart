@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../../core/shared/app_colors.dart';
@@ -34,15 +35,19 @@ class SpeechButton extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Icon(
-                  vm.speechStat == SpeechStat.playing
-                      ? CupertinoIcons.speaker_3
-                      : CupertinoIcons.speaker_3,
-                  size: 20.h,
-                  color: vm.speechStat == SpeechStat.playing
-                      ? kcPrimaryColor
-                      : Colors.black,
-                ).paddingAll(8))
+                child: ResponsiveBuilder(
+                  builder: (context,_) {
+                    return Icon(
+                      vm.speechStat == SpeechStat.playing
+                          ? CupertinoIcons.speaker_3
+                          : CupertinoIcons.speaker_3,
+                      size:_.isTablet?24 :20.h,
+                      color: vm.speechStat == SpeechStat.playing
+                          ? kcPrimaryColor
+                          : Colors.black,
+                    ).paddingAll(_.isTablet?16:8);
+                  }
+                ))
             .paddingSymmetric(vertical: 12),
       ),
       viewModelBuilder: () => SpeechViewModel(),

@@ -29,7 +29,7 @@ class TwoRowButton extends StatelessWidget {
             buttonText: negativeText,
             radius: 8,
             buttonColor: kButtonDisabledColor,
-            textColor: kcTextDarkGrey,
+            textColor: kcTextDisabledButton,
             onPressed: onNegativeTap),
       ),
       hSpaceSmall,

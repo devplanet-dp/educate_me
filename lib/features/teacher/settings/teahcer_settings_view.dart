@@ -22,7 +22,7 @@ class TeacherSettingsView extends StatelessWidget {
           return Scaffold(
               backgroundColor: kcBg,
               appBar: const PreferredSize(
-                preferredSize: Size.fromHeight(kToolbarHeight),
+                preferredSize: Size.fromHeight(kAppToolbarHeight),
                 child: AdminAppBar(title: 'Settings'),
               ),
               body: SingleChildScrollView(

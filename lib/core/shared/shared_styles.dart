@@ -35,7 +35,7 @@ const double fieldHeight = 55;
 const double smallFieldHeight = 40;
 const double inputFieldBottomMargin = 30;
 const double inputFieldSmallBottomMargin = 0;
-double kTabPaddingHorizontal = Get.width * .2;
+double kTabPaddingHorizontal = Get.width * .3;
 const EdgeInsets fieldPadding = EdgeInsets.symmetric(horizontal: 15);
 EdgeInsets fieldPaddingTablet =
     EdgeInsets.symmetric(horizontal: kTabPaddingHorizontal);
@@ -93,6 +93,8 @@ const TextStyle kCaptionStyle =
 
 const TextStyle kExpansionTitle = TextStyle(
     fontSize: 16, fontWeight: FontWeight.w500, color: kcTextStatColor);
+
+const double kAppToolbarHeight= 65;
 
 //shaders
 final Shader goldGradient = const LinearGradient(

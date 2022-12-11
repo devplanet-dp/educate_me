@@ -30,7 +30,7 @@ class TeacherHomeView extends StatelessWidget {
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
           appBar:  const PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
+            preferredSize: Size.fromHeight(kAppToolbarHeight),
             child: AdminAppBar(title: 'Topics'),
           ),
           floatingActionButton: FloatingActionButton(

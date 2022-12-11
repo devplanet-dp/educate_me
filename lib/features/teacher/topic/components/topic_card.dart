@@ -35,8 +35,8 @@ class TopicCard extends StatelessWidget {
 
     return ResponsiveBuilder(
       builder: (context,_) {
-        final h = 120.h;
-        final w =_.isTablet?110.w: 165.w;
+        final h =_.isTablet?120.h: 120.h;
+        final w =_.isTablet?55.w: 165.w;
         return InkWell(
           onTap: isLocked?(){}: onTap,
           borderRadius: kBorderSmall,

@@ -26,7 +26,7 @@ class SettingsView extends StatelessWidget {
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kToolbarHeight),
+            preferredSize: const Size.fromHeight(kAppToolbarHeight),
             child: SwitchUserAppBar(
               title: 'text025'.tr,
               onUserUpdated:()=>vm.notifyListeners(),

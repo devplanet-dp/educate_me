@@ -52,11 +52,11 @@ class SignInView extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.bottomLeft,
-                  child: Image.asset(kImgUnionTabLeft,height:Get.height*.45,width: Get.width/2,),
+                  child: Image.asset(kImgUnionTabLeft,height:Get.height*.45,width: Get.width/3.5,fit: BoxFit.fill,),
                 ),
                 Align(
                   alignment: Alignment.topRight,
-                  child: Image.asset(kImgUnionTabRight,height:Get.height*.45,width: Get.width/2,),
+                  child: Image.asset(kImgUnionTabRight,height:Get.height*.45,width: Get.width/3.5,fit: BoxFit.fill,),
                 ),
                 Form(
                   key: vm.formKey,

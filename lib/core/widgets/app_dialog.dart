@@ -37,7 +37,7 @@ class AppDialog extends StatelessWidget {
       return Dialog(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        insetPadding: EdgeInsets.all(_.isTablet ? kTabPaddingHorizontal : 16),
+        insetPadding: EdgeInsets.symmetric(horizontal: _.isTablet ? 400 : 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -91,8 +91,8 @@ class AppDialog extends StatelessWidget {
             return Image.asset(
               image,
               fit: BoxFit.contain,
-              height: _.isTablet ? 120.h : 148.h,
-              width: _.isTablet ? 120.w : 148.w,
+              height: _.isTablet ? 200 : 148.h,
+              width: _.isTablet ? 200 : 148.w,
             );
           });
   }
@@ -107,7 +107,7 @@ class AppDialog extends StatelessWidget {
               style: subtitle == null
                   ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
                   : kSubheadingStyle.copyWith(
-                      fontSize: _.isTablet ? 12.sp : 25.sp,
+                      fontSize: _.isTablet ? 10.sp : 25.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.black),
             ).paddingAll(12);
@@ -168,7 +168,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
       return Dialog(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        insetPadding: EdgeInsets.all(_.isTablet ? kTabPaddingHorizontal : 16),
+        insetPadding: EdgeInsets.symmetric(horizontal: _.isTablet ? 400 : 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -246,7 +246,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
                   : kSubheadingStyle.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
-                      fontSize: _.isTablet ? 15.sp : 25.sp),
+                      fontSize: _.isTablet ? 15 : 25.sp),
             ),
             widget.subtitle != null
                 ? Text(
@@ -255,7 +255,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
                     style: kBody1Style.copyWith(
                         fontWeight: FontWeight.w500,
                         color: kcTextGrey,
-                        fontSize: _.isTablet ? 8.sp : 12.sp),
+                        fontSize: _.isTablet ? 8 : 12.sp),
                   )
                 : emptyBox()
           ],
@@ -302,19 +302,21 @@ class AppDialogSingle extends StatelessWidget {
     return ResponsiveBuilder(builder: (context, _) {
       return Dialog(
         elevation: 0,
-        insetPadding: EdgeInsets.all(_.isTablet ? kTabPaddingHorizontal : 16),
+        insetPadding: EdgeInsets.symmetric(horizontal: _.isTablet ? 400 : 16),
         backgroundColor: Colors.transparent,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
+            vSpaceSmall,
             _buildHeader(),
             vSpaceSmall,
             _buildSubtitle(),
             vSpaceSmall,
             _buildDialogContent(),
             vSpaceMedium,
-            _buildDialogController(),
+            _buildDialogController(_.isTablet),
+            vSpaceSmall,
           ],
         ).paddingSymmetric(horizontal: 12, vertical: 18).card(
             clipBehavior: Clip.antiAlias,
@@ -326,12 +328,12 @@ class AppDialogSingle extends StatelessWidget {
     });
   }
 
-  Widget _buildDialogController() {
+  Widget _buildDialogController(bool isTab) {
     return BoxButtonWidget(
             buttonText: positiveText ?? '',
             radius: 8,
             onPressed: onPositiveTap ?? () => Get.back())
-        .paddingSymmetric(horizontal: Get.width * .2);
+        .paddingSymmetric(horizontal:isTab?72: 24);
   }
 
   Widget _buildHeader() => ResponsiveBuilder(builder: (context, _) {
@@ -342,7 +344,7 @@ class AppDialogSingle extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: kBodyStyle.copyWith(
-                  fontSize: _.isTablet ? 12.sp : 25.sp,
+                  fontSize: _.isTablet ? 38 : 25.sp,
                   fontWeight: FontWeight.w600),
             ),
             image == null
@@ -350,8 +352,8 @@ class AppDialogSingle extends StatelessWidget {
                 : Image.asset(
                     image!,
                     fit: BoxFit.fill,
-                    height: _.isTablet ? 120.h : 148.h,
-                    width: _.isTablet ? 120.w : 148.w,
+                    height: _.isTablet ? 120 : 148.h,
+                    width: _.isTablet ? 120 : 148.w,
                   )
           ],
         );
@@ -362,7 +364,7 @@ class AppDialogSingle extends StatelessWidget {
           subtitle,
           textAlign: TextAlign.center,
           style: kBodyStyle.copyWith(
-              fontSize: _.isTablet ? 12.sp : 16.sp,
+              fontSize: _.isTablet ? 24 : 16.sp,
               fontWeight: FontWeight.w400),
         ).paddingAll(8).decorated(
           color: Colors.white,
@@ -382,7 +384,7 @@ class AppDialogSingle extends StatelessWidget {
           content ?? '',
           textAlign: TextAlign.center,
           style: kCaptionStyle.copyWith(
-              color: kcTextGrey, fontSize: _.isTablet ? 8.sp : 13.5.sp),
+              color: kcTextGrey, fontSize: _.isTablet ? 6.sp : 13.5.sp),
         );
       });
 }

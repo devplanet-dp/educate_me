@@ -28,8 +28,8 @@ class LessonCard extends StatelessWidget {
 
     return ResponsiveBuilder(
       builder: (context,_) {
-        final h = 96.h;
-        final w = _.isTablet?90.w: 136.w;
+        final h = _.isTablet?100.h:96.h;
+        final w = _.isTablet?45.w: 136.w;
         return InkWell(
             onTap: onTap,
             child: Column(
@@ -58,7 +58,7 @@ class LessonCard extends StatelessWidget {
                   maxLines: 1,
                   style: kBody2Style.copyWith(
                       color: Colors.black,
-                      fontSize: 10.sp,
+                      fontSize:_.isTablet?12: 10.sp,
                       fontWeight: FontWeight.w600),
                 ).paddingSymmetric(horizontal: 12),
                 AutoSizeText(

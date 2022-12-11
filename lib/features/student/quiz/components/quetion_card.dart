@@ -211,37 +211,86 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
     controller.text = model.getUserInputAns();
     return Form(
         key: formKey,
-        child: Column(
-          children: [
-            AppTextFieldSecondary(
-              controller: controller,
-              hintText: 'Enter answer',
-              label: '',
-              align: TextAlign.center,
-              minLine: 1,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Enter an answer';
-                }
-                return null;
-              },
-            ).paddingSymmetric(horizontal: Get.width * .2),
-            vSpaceMedium,
-            BoxButtonWidget(
-              buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
-              radius: 8,
-              buttonColor: model.getButtonStyleQuiz()['color'],
-              onPressed: () {
-                //check user has already answered
-                if (!model.isAnswered()) {
-                  if (formKey.currentState!.validate()) {
-                    model.onInputTypeSubmit(
-                        controller.text);
-                  }
-                }
-              },
-            ).width(Get.width / 2)
-          ],
+        child: ResponsiveBuilder(
+          builder: (context,_) {
+            return _.isTablet?Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex:1,
+                  child: BoxButtonWidget(
+                    buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
+                    radius: 8,
+                    buttonColor: model.getButtonStyleQuiz()['color'],
+                    onPressed: () {
+                      //check user has already answered
+                      if (!model.isAnswered()) {
+                        if (formKey.currentState!.validate()) {
+                          model.onInputTypeSubmit(
+                              controller.text);
+                        }
+                      }
+                    },
+                  ),
+                ),
+                hSpaceMedium,
+                Expanded(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 100.h),
+                    child: AppTextFieldSecondary(
+                      controller: controller,
+                      hintText: 'Enter answer',
+                      label: '',
+                      align: TextAlign.center,
+                      minLine: 1,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter an answer';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+                hSpaceMedium,
+                const Expanded(
+                  flex: 1,
+                    child: SizedBox()),
+              ],
+            ) :Column(
+              children: [
+                AppTextFieldSecondary(
+                  controller: controller,
+                  hintText: 'Enter answer',
+                  label: '',
+                  align: TextAlign.center,
+                  minLine: 1,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Enter an answer';
+                    }
+                    return null;
+                  },
+                ).paddingSymmetric(horizontal: Get.width * .2),
+                vSpaceMedium,
+                BoxButtonWidget(
+                  buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
+                  radius: 8,
+                  buttonColor: model.getButtonStyleQuiz()['color'],
+                  onPressed: () {
+                    //check user has already answered
+                    if (!model.isAnswered()) {
+                      if (formKey.currentState!.validate()) {
+                        model.onInputTypeSubmit(
+                            controller.text);
+                      }
+                    }
+                  },
+                ).width(Get.width / 2)
+              ],
+            );
+          }
         ));
   }
 }

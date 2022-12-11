@@ -113,7 +113,7 @@ class TeacherNavigationView extends StatelessWidget {
                   ),
                   SvgPicture.asset(
                     assetName,
-                    height:_.isTablet?32: 24,
+                    height:_.isTablet?42: 24,
                     width: 24,
                     color: isSelected ? kcPrimaryColor : kButtonColor,
                   ).paddingAll(8),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../../core/shared/app_colors.dart';
 import '../../../../core/shared/shared_styles.dart';
@@ -48,12 +49,16 @@ class DrawBrushWidget extends StatelessWidget {
               ),
             ],
           ),
-          child: Image.asset(
-            kIcBrush,
-            height: 20.h,
-            width: 20.h,
-            color: enableDraw ? Colors.black : kErrorRed,
-          ).paddingAll(8)),
+          child: ResponsiveBuilder(
+            builder: (context,_) {
+              return Image.asset(
+                kIcBrush,
+                height:_.isTablet?24 :20.h,
+                width:_.isTablet?24 :20.h,
+                color: enableDraw ? Colors.black : kErrorRed,
+              ).paddingAll(_.isTablet?16:8);
+            }
+          )),
     );
   }
 }

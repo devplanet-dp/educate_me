@@ -28,7 +28,7 @@ class LanChangeView extends StatelessWidget {
               isBusy: vm.isBusy,
             ).paddingSymmetric(horizontal: _.isTablet?kTabPaddingHorizontal:0),
             appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(kToolbarHeight),
+              preferredSize:  const Size.fromHeight(kAppToolbarHeight),
               child: SwitchUserAppBar(
                 title: 'text063'.tr,
                 onUserUpdated: (){
@@ -70,7 +70,7 @@ class LanChangeView extends StatelessWidget {
             Icons.chevron_right,
             color: kcTextGrey,
           )
-        ].toRow().paddingSymmetric(horizontal: 16, vertical: 8).decorated(
+        ].toRow().paddingSymmetric(horizontal: 16, vertical: 14).decorated(
           boxShadow: [
             BoxShadow(
               color: kcTextGrey.withOpacity(0.1),

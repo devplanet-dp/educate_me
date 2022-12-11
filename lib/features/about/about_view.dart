@@ -21,7 +21,7 @@ class AboutView extends StatelessWidget {
       builder: (context, vm, child) => Scaffold(
         backgroundColor: kcBg,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight),
+          preferredSize: const Size.fromHeight(kAppToolbarHeight),
           child: SwitchUserAppBar(
             title: 'text051'.tr,
             onUserUpdated: () {

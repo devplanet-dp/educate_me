@@ -41,61 +41,61 @@ class CreateAccountView extends StatelessWidget {
   }
 
   Widget _buildTab(SignUpViewModel vm, BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Image.asset(
-                kImgUnionTabLeft,
-                height: Get.height * .45,
-                width: Get.width / 2,
-              ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Image.asset(
+              kImgUnionTabLeft,
+              height: Get.height * .45,
+              width: Get.width / 3.5,
+                fit: BoxFit.fill
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Image.asset(
-                kImgUnionTabRight,
-                height: Get.height * .45,
-                width: Get.width / 2,
-              ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Image.asset(
+              kImgUnionTabRight,
+              height: Get.height * .45,
+              width: Get.width / 3.5,
+                fit: BoxFit.fill
             ),
-            Column(
-              children: [
-                const CustomAppBar().paddingSymmetric(horizontal: 16),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        vSpaceMedium,
-                        Text(
-                          isAddAccount ? 'text010.2'.tr : 'text010'.tr,
-                          textAlign: TextAlign.center,
-                          style: kHeading3Style.copyWith(
-                              fontWeight: FontWeight.w900, color: Colors.black,fontSize: 60),
-                        ),
-                        Text(
-                          isAddAccount ? 'text011.2'.tr : 'text011'.tr,
-                          textAlign: TextAlign.center,
-                          style: kBodyStyle.copyWith(
-                              fontSize: 22, fontWeight: FontWeight.w600),
-                        ),
-                        vSpaceMassive,
-                        const ChildControllerWidget(),
-                        vSpaceMedium,
-                        AddChildWidget(
-                          isAddAccount: isAddAccount,
-                        ),
-                      ],
-                    ).paddingSymmetric(horizontal: kTabPaddingHorizontal),
-                  ),
+          ),
+          Column(
+            children: [
+              const CustomAppBar().paddingSymmetric(horizontal: 16),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      vSpaceMedium,
+                      Text(
+                        isAddAccount ? 'text010.2'.tr : 'text010'.tr,
+                        textAlign: TextAlign.center,
+                        style: kHeading3Style.copyWith(
+                            fontWeight: FontWeight.w900, color: Colors.black,fontSize: 60),
+                      ),
+                      Text(
+                        isAddAccount ? 'text011.2'.tr : 'text011'.tr,
+                        textAlign: TextAlign.center,
+                        style: kBodyStyle.copyWith(
+                            fontSize: 22, fontWeight: FontWeight.w600),
+                      ),
+                      vSpaceMassive,
+                      const ChildControllerWidget(),
+                      vSpaceMedium,
+                      AddChildWidget(
+                        isAddAccount: isAddAccount,
+                      ),
+                    ],
+                  ).paddingSymmetric(horizontal: kTabPaddingHorizontal),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
