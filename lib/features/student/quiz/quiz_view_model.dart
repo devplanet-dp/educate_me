@@ -84,6 +84,13 @@ class QuizViewModel extends BaseViewModel {
   List<OptionModel> checkedMultipleOptions = [];
 
   onMultipleOptionChecked(OptionModel option) {
+    var state = selectedQn?.state;
+    if (state == AnswerState.tryAgain ||
+        state == AnswerState.correct ||
+        state == AnswerState.failed) {
+      return;
+    }
+
     var exist = checkedMultipleOptions.contains(option);
     if (exist) {
       checkedMultipleOptions.remove(option);
@@ -91,6 +98,14 @@ class QuizViewModel extends BaseViewModel {
       checkedMultipleOptions.add(option);
     }
     notifyListeners();
+  }
+
+  void setPreviousCheckedValues() {
+    if (isAnswered()) {
+      var answer = ans.firstWhere((e) => e.id == selectedQn?.id);
+      checkedMultipleOptions = answer.multipleOptions ?? [];
+      notifyListeners();
+    }
   }
 
   bool isOptionChecked(OptionModel index) =>
@@ -144,6 +159,7 @@ class QuizViewModel extends BaseViewModel {
       //if try again clicked
       if (selectedQn?.state == AnswerState.tryAgain) {
         selectedQn?.state = AnswerState.checkAgain;
+        checkedMultipleOptions.removeWhere((e) => e.isCorrect == false);
         notifyListeners();
         return;
       }
@@ -235,43 +251,6 @@ class QuizViewModel extends BaseViewModel {
     return '';
   }
 
-  Map<int, dynamic> getButtonStyle(index) {
-    if (isAnswered()) {
-      AnswerState state = selectedQn?.state ?? AnswerState.init;
-
-      switch (state) {
-        case AnswerState.init:
-          return {
-            index: {'text': 'text095', 'color': kcPrimaryColor}
-          };
-        case AnswerState.correct:
-          return {
-            index: {'text': 'text096', 'color': kcCorrectAns}
-          };
-        case AnswerState.tryAgain:
-          return {
-            index: {'text': 'text097', 'color': kcTryAgainAns}
-          };
-        case AnswerState.checkAgain:
-          return {
-            index: {'text': 'text095', 'color': kcTryAgainAns}
-          };
-        case AnswerState.failed:
-          return {
-            index: {'text': 'text098', 'color': kcFailedAns}
-          };
-        default:
-          return {
-            index: {'text': 'text095', 'color': kcPrimaryColor}
-          };
-      }
-    } else {
-      return {
-        index: {'text': 'text095', 'color': kcPrimaryColor}
-      };
-    }
-  }
-
   Map<String, dynamic> getButtonStyleQuiz() {
     AnswerState state = selectedQn?.state ?? AnswerState.init;
 
@@ -285,7 +264,7 @@ class QuizViewModel extends BaseViewModel {
       case AnswerState.checkAgain:
         return {'text': 'text095', 'color': kcPrimaryColor};
       case AnswerState.failed:
-        return {'text': 'text098', 'color': kcFailedAns};
+        return {'text': 'text108', 'color': kcFailedAns};
       default:
         return {'text': 'text095', 'color': kcPrimaryColor};
     }
@@ -535,7 +514,6 @@ class QuizViewModel extends BaseViewModel {
   }
 
   _resetAttempts() {
-    checkedMultipleOptions.clear();
     isFirstAttempt = false;
     isSecondAttempt = false;
     _allowNextPage = false;

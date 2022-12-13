@@ -107,6 +107,7 @@ class QuizView extends StatelessWidget {
                                 vm.selectedQn = vm.questions[index];
                                 vm.setAllowNextPage(index < vm.ans.length);
                               }
+                              vm.setPreviousCheckedValues();
                             },
                             children: List.generate(
                                 vm.questions.length,

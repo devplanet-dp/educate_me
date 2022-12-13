@@ -1,7 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
-import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_network_image.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/data/question.dart';
@@ -16,6 +15,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/widgets/text_field_widget.dart';
+import '../../../../data/option.dart';
 import '../quiz_view_model.dart';
 
 class QuestionCard extends ViewModelWidget<QuizViewModel> {
@@ -131,7 +131,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
       case QuestionType.singleChoice:
         return const SingleChoiceQns();
       case QuestionType.inputSingle:
-        return  InputTypeQns();
+        return InputTypeQns();
       case QuestionType.inputMultiple:
         return const MultipleChoiceQns();
       default:
@@ -144,9 +144,8 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
         ? BoxButtonWidget(
             onPressed: () => model.onMultipleOptionSelected(),
             radius: 8,
-            // buttonText: (model.getButtonStyle(0)[0]['text'] as String).tr,
-            buttonText: model.selectedQn?.state?.toString()??'',
-            buttonColor: model.getButtonStyle(0)[0]['color'],
+            buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
+            buttonColor: model.getButtonStyleQuiz()['color'],
           ).height(40)
         : const SizedBox();
   }
@@ -157,7 +156,7 @@ class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
-    final options = model.selectedQn?.options??[];
+    final options = model.selectedQn?.options ?? [];
     //mix answers
 
     return model.isMultipleCorrect()
@@ -172,19 +171,7 @@ class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
                     mainAxisSpacing: 24,
                     children: List.generate(options.length, (index) {
                       final p = options[index];
-                      return InkWell(
-                        onTap: () => model.onOptionSelected(p),
-                        borderRadius: kBorderSmall,
-                        child: OptionTileWidget(
-                          isMultipleCorrect: model.isMultipleCorrect(),
-                          index: p.index ?? 0,
-                          isOptionSelected: model.isAnswered(),
-                          isCorrectOption: p.isCorrect ?? false,
-                          option: p.option ?? '',
-                          isUserOptionCorrect: model.isUserCorrect(),
-                          userSelectedIndex: model.userAnsIndex(),
-                        ),
-                      );
+                      return _buildOption(p, model);
                     }),
                   )
                 : ListView.builder(
@@ -193,22 +180,24 @@ class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
                     itemCount: options.length,
                     itemBuilder: (_, index) {
                       final p = options[index];
-                      return InkWell(
-                        onTap: () => model.onOptionSelected(p),
-                        borderRadius: kBorderSmall,
-                        child: OptionTileWidget(
-                          isMultipleCorrect: model.isMultipleCorrect(),
-                          index: p.index ?? 0,
-                          isOptionSelected: model.isAnswered(),
-                          isCorrectOption: p.isCorrect ?? false,
-                          option: p.option ?? '',
-                          isUserOptionCorrect: model.isUserCorrect(),
-                          userSelectedIndex: model.userAnsIndex(),
-                        ),
-                      );
+                      return _buildOption(p, model);
                     });
           });
   }
+
+  Widget _buildOption(OptionModel p, QuizViewModel model) => InkWell(
+        onTap: () => model.onOptionSelected(p),
+        borderRadius: kBorderSmall,
+        child: OptionTileWidget(
+          isMultipleCorrect: model.isMultipleCorrect(),
+          index: p.index ?? 0,
+          isOptionSelected: model.isAnswered(),
+          isCorrectOption: p.isCorrect ?? false,
+          option: p.option ?? '',
+          isUserOptionCorrect: model.isUserCorrect(),
+          userSelectedIndex: model.userAnsIndex(),
+        ),
+      );
 }
 
 class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
@@ -232,19 +221,7 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
               mainAxisSpacing: 24,
               children: List.generate(options.length, (index) {
                 final p = options[index];
-                return InkWell(
-                  onTap: () => model.onOptionSelected(p),
-                  borderRadius: kBorderSmall,
-                  child: OptionTileWidget(
-                    isMultipleCorrect: isMultipleCorrect,
-                    index: p.index ?? 0,
-                    isOptionSelected: model.isAnswered(),
-                    isCorrectOption: p.isCorrect ?? false,
-                    option: p.option ?? '',
-                    isUserOptionCorrect: model.isUserCorrect(),
-                    userSelectedIndex: model.userAnsIndex(),
-                  ),
-                );
+                return _buildOption(p, model);
               }),
             )
           : ListView.builder(
@@ -253,28 +230,29 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
               itemCount: options.length,
               itemBuilder: (_, index) {
                 final p = options[index];
-                return InkWell(
-                  onTap: () => model.onMultipleOptionChecked(p),
-                  borderRadius: kBorderSmall,
-                  child: MultipleCheckOptionTile(
-                    index: p.index ?? -1,
-                    isOptionSelected: model.isOptionChecked(p),
-                    option: p,
-                    state: model.selectedQn?.state ?? AnswerState.init,
-                  ),
-                );
+                return _buildOption(p, model);
               });
     });
   }
+  Widget _buildOption(OptionModel p,QuizViewModel model)=>InkWell(
+    onTap: () {
+      model.onMultipleOptionChecked(p);
+    },
+    borderRadius: kBorderSmall,
+    child: MultipleCheckOptionTile(
+      index: p.index ?? -1,
+      isOptionSelected: model.isOptionChecked(p),
+      option: p,
+      state: model.selectedQn?.state ?? AnswerState.init,
+    ),
+  );
 }
 
 class InputTypeQns extends ViewModelWidget<QuizViewModel> {
-   InputTypeQns({Key? key}) : super(key: key);
-
+  InputTypeQns({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
-
     final formKey = GlobalKey<FormState>();
     // controller.text = model.getUserInputAns();
 
@@ -297,7 +275,8 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                           //check user has already answered
                           if (!model.isAnswered()) {
                             if (formKey.currentState!.validate()) {
-                              model.onInputTypeSubmit(model.inputController.text);
+                              model.onInputTypeSubmit(
+                                  model.inputController.text);
                             }
                           }
                         },
@@ -311,9 +290,7 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                           controller: model.inputController,
                           hintText: 'Enter answer',
                           label: '',
-                          onChanged: (value){
-
-                          },
+                          onChanged: (value) {},
                           align: TextAlign.center,
                           minLine: 1,
                           validator: (value) {
@@ -337,10 +314,10 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                       label: '',
                       align: TextAlign.center,
                       minLine: 1,
-                      onChanged: (value){
-                          model.onInputTypeChanged();
+                      onChanged: (value) {
+                        model.onInputTypeChanged();
                       },
-                      textColor:model.getButtonStyleQuiz()['color'] ,
+                      textColor: model.getButtonStyleQuiz()['color'],
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Enter an answer';

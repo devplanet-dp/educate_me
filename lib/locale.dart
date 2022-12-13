@@ -119,7 +119,8 @@ class AppLocale extends Translations {
           'text104':'My Profiles',
           'text105':'Fantastic!',
           'text106':'You selected the correct answer!',
-          'text107':'Good job! Complete the quiz :)'
+          'text107':'Good job! Complete the quiz :)',
+          'text108':'Nice try!'
 
 
 

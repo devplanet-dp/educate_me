@@ -132,11 +132,17 @@ class MultipleCheckOptionTile extends StatelessWidget {
       var isCorrectOption = option.isCorrect ?? false;
       var optionTileColor = !isOptionSelected
           ? kcOptionColor
-          : (state != AnswerState.init)
-              ? isCorrectOption
-                  ? kcCorrectAns
-                  : kcIncorrectAns
-              : kcPrimaryColor;
+          : (state == AnswerState.init)
+              ? kcPrimaryColor
+              : state == AnswerState.checkAgain
+                  ? isOptionSelected
+                      ? kcPrimaryColor
+                      : kcOptionColor
+                  : isCorrectOption
+                      ? kcCorrectAns
+                      : kcIncorrectAns;
+
+      var optionTextColor = !isOptionSelected ? kcPrimaryColor : Colors.white;
 
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -147,16 +153,25 @@ class MultipleCheckOptionTile extends StatelessWidget {
             isChecked: isOptionSelected,
             color: optionTileColor,
           ),
-          Expanded(
-            child: Text(
-              '${option.isCorrect.toString()}',
-              textAlign: TextAlign.center,
-              style: kBody1Style.copyWith(
-                  fontWeight: FontWeight.w800,
-                  fontSize: _.isTablet ? 28 : 15,
-                  color: Colors.black),
-            ).paddingAll(4),
-          ),
+          _.isTablet
+              ? Expanded(
+                  child: Text(
+                    option.option?.trim() ?? '',
+                    textAlign: TextAlign.center,
+                    style: kBody1Style.copyWith(
+                        fontWeight: FontWeight.w800,
+                        fontSize: _.isTablet ? 28 : 15,
+                        color: optionTextColor),
+                  ).paddingAll(4),
+                )
+              : Text(
+                  option.option?.trim() ?? '',
+                  textAlign: TextAlign.center,
+                  style: kBody1Style.copyWith(
+                      fontWeight: FontWeight.w800,
+                      fontSize: _.isTablet ? 28 : 15,
+                      color: optionTextColor),
+                ).paddingAll(12),
         ],
       ).height(60.h).paddingAll(_.isTablet ? 16 : 8).card(
           color: optionTileColor,
