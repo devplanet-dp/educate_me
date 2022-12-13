@@ -16,7 +16,6 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/widgets/text_field_widget.dart';
-import '../../../../data/option.dart';
 import '../quiz_view_model.dart';
 
 class QuestionCard extends ViewModelWidget<QuizViewModel> {
@@ -45,6 +44,8 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
                 model.selectedQn?.question ?? '', model.selectedQn?.photoUrl),
             vSpaceSmall,
             [
+              _buildCheckAnswerButton(model),
+              const Expanded(child: SizedBox()),
               DrawBrushWidget(
                 qns: model.selectedQn?.question ?? '',
                 // enableDraw:  model.selectedQn?.enableDraw ?? true,
@@ -127,15 +128,86 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
   Widget _buildAnswer(QuestionType type) {
     switch (type) {
       case QuestionType.multipleChoice:
-        return const MultipleChoiceQns();
       case QuestionType.singleChoice:
-        return const MultipleChoiceQns();
+        return const SingleChoiceQns();
       case QuestionType.inputSingle:
-      case QuestionType.inputMultiple:
         return const InputTypeQns();
-      default:
+      case QuestionType.inputMultiple:
         return const MultipleChoiceQns();
+      default:
+        return const SingleChoiceQns();
     }
+  }
+
+  Widget _buildCheckAnswerButton(QuizViewModel model) {
+    return model.isMultipleCorrect()
+        ? BoxButtonWidget(
+            onPressed: () => model.onMultipleOptionSelected(),
+            radius: 8,
+            // buttonText: (model.getButtonStyle(0)[0]['text'] as String).tr,
+            buttonText: model.selectedQn?.state?.toString()??'',
+            buttonColor: model.getButtonStyle(0)[0]['color'],
+          ).height(40)
+        : const SizedBox();
+  }
+}
+
+class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
+  const SingleChoiceQns({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, QuizViewModel model) {
+    final options = model.selectedQn?.options??[];
+    //mix answers
+
+    return model.isMultipleCorrect()
+        ? const MultipleChoiceQns()
+        : ResponsiveBuilder(builder: (context, _) {
+            return _.isTablet
+                ? GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    childAspectRatio: 2,
+                    crossAxisSpacing: 24,
+                    mainAxisSpacing: 24,
+                    children: List.generate(options.length, (index) {
+                      final p = options[index];
+                      return InkWell(
+                        onTap: () => model.onOptionSelected(p),
+                        borderRadius: kBorderSmall,
+                        child: OptionTileWidget(
+                          isMultipleCorrect: model.isMultipleCorrect(),
+                          index: p.index ?? 0,
+                          isOptionSelected: model.isAnswered(),
+                          isCorrectOption: p.isCorrect ?? false,
+                          option: p.option ?? '',
+                          isUserOptionCorrect: model.isUserCorrect(),
+                          userSelectedIndex: model.userAnsIndex(),
+                        ),
+                      );
+                    }),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: options.length,
+                    itemBuilder: (_, index) {
+                      final p = options[index];
+                      return InkWell(
+                        onTap: () => model.onOptionSelected(p),
+                        borderRadius: kBorderSmall,
+                        child: OptionTileWidget(
+                          isMultipleCorrect: model.isMultipleCorrect(),
+                          index: p.index ?? 0,
+                          isOptionSelected: model.isAnswered(),
+                          isCorrectOption: p.isCorrect ?? false,
+                          option: p.option ?? '',
+                          isUserOptionCorrect: model.isUserCorrect(),
+                          userSelectedIndex: model.userAnsIndex(),
+                        ),
+                      );
+                    });
+          });
   }
 }
 
@@ -149,7 +221,6 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
         options.where((e) => e.isCorrect ?? false).toList().length >= 2;
 
     //mix answers
-
 
     return ResponsiveBuilder(builder: (context, _) {
       return _.isTablet
@@ -183,22 +254,18 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
               itemBuilder: (_, index) {
                 final p = options[index];
                 return InkWell(
-                  onTap: () => model.onOptionSelected(p),
+                  onTap: () => model.onMultipleOptionChecked(p),
                   borderRadius: kBorderSmall,
-                  child: OptionTileWidget(
-                    isMultipleCorrect: isMultipleCorrect,
-                    index: p.index ?? 0,
-                    isOptionSelected: model.isAnswered(),
-                    isCorrectOption: p.isCorrect ?? false,
-                    option: p.option ?? '',
-                    isUserOptionCorrect: model.isUserCorrect(),
-                    userSelectedIndex: model.userAnsIndex(),
+                  child: MultipleCheckOptionTile(
+                    index: p.index ?? -1,
+                    isOptionSelected: model.isOptionChecked(p),
+                    option: p,
+                    state: model.selectedQn?.state ?? AnswerState.init,
                   ),
                 );
               });
     });
   }
-
 }
 
 class InputTypeQns extends ViewModelWidget<QuizViewModel> {
@@ -211,34 +278,55 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
     controller.text = model.getUserInputAns();
     return Form(
         key: formKey,
-        child: ResponsiveBuilder(
-          builder: (context,_) {
-            return _.isTablet?Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex:1,
-                  child: BoxButtonWidget(
-                    buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
-                    radius: 8,
-                    buttonColor: model.getButtonStyleQuiz()['color'],
-                    onPressed: () {
-                      //check user has already answered
-                      if (!model.isAnswered()) {
-                        if (formKey.currentState!.validate()) {
-                          model.onInputTypeSubmit(
-                              controller.text);
-                        }
-                      }
-                    },
-                  ),
-                ),
-                hSpaceMedium,
-                Expanded(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: 100.h),
-                    child: AppTextFieldSecondary(
+        child: ResponsiveBuilder(builder: (context, _) {
+          return _.isTablet
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: BoxButtonWidget(
+                        buttonText:
+                            (model.getButtonStyleQuiz()['text'] as String).tr,
+                        radius: 8,
+                        buttonColor: model.getButtonStyleQuiz()['color'],
+                        onPressed: () {
+                          //check user has already answered
+                          if (!model.isAnswered()) {
+                            if (formKey.currentState!.validate()) {
+                              model.onInputTypeSubmit(controller.text);
+                            }
+                          }
+                        },
+                      ),
+                    ),
+                    hSpaceMedium,
+                    Expanded(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 100.h),
+                        child: AppTextFieldSecondary(
+                          controller: controller,
+                          hintText: 'Enter answer',
+                          label: '',
+                          align: TextAlign.center,
+                          minLine: 1,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Enter an answer';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                    hSpaceMedium,
+                    const Expanded(flex: 1, child: SizedBox()),
+                  ],
+                )
+              : Column(
+                  children: [
+                    AppTextFieldSecondary(
                       controller: controller,
                       hintText: 'Enter answer',
                       label: '',
@@ -250,48 +338,25 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                         }
                         return null;
                       },
-                    ),
-                  ),
-                ),
-                hSpaceMedium,
-                const Expanded(
-                  flex: 1,
-                    child: SizedBox()),
-              ],
-            ) :Column(
-              children: [
-                AppTextFieldSecondary(
-                  controller: controller,
-                  hintText: 'Enter answer',
-                  label: '',
-                  align: TextAlign.center,
-                  minLine: 1,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter an answer';
-                    }
-                    return null;
-                  },
-                ).paddingSymmetric(horizontal: Get.width * .2),
-                vSpaceMedium,
-                BoxButtonWidget(
-                  buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
-                  radius: 8,
-                  buttonColor: model.getButtonStyleQuiz()['color'],
-                  onPressed: () {
-                    //check user has already answered
-                    if (!model.isAnswered()) {
-                      if (formKey.currentState!.validate()) {
-                        model.onInputTypeSubmit(
-                            controller.text);
-                      }
-                    }
-                  },
-                ).width(Get.width / 2)
-              ],
-            );
-          }
-        ));
+                    ).paddingSymmetric(horizontal: Get.width * .2),
+                    vSpaceMedium,
+                    BoxButtonWidget(
+                      buttonText:
+                          (model.getButtonStyleQuiz()['text'] as String).tr,
+                      radius: 8,
+                      buttonColor: model.getButtonStyleQuiz()['color'],
+                      onPressed: () {
+                        //check user has already answered
+                        if (!model.isAnswered()) {
+                          if (formKey.currentState!.validate()) {
+                            model.onInputTypeSubmit(controller.text);
+                          }
+                        }
+                      },
+                    ).width(Get.width / 2)
+                  ],
+                );
+        }));
   }
 }
 
@@ -384,13 +449,14 @@ class InteractiveImage extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: InteractiveViewer(
-          maxScale: 10,
-          child: AppNetworkImage(
-            path: image,
-            thumbWidth: Get.width,
-            thumbHeight: Get.height / 2,
-            fit: BoxFit.contain,
-          ).center()).paddingSymmetric(horizontal: 8),
+              maxScale: 10,
+              child: AppNetworkImage(
+                path: image,
+                thumbWidth: Get.width,
+                thumbHeight: Get.height / 2,
+                fit: BoxFit.contain,
+              ).center())
+          .paddingSymmetric(horizontal: 8),
     );
   }
 }

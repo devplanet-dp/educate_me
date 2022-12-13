@@ -14,6 +14,7 @@ class QuestionModel {
   String? photoUrl;
   QuestionType? type;
   String? raw;
+  AnswerState? state;
 
   QuestionModel(
       {this.id,
@@ -25,6 +26,7 @@ class QuestionModel {
       this.photoUrl,
       this.raw,
       this.type,
+        this.state,
       this.promptTwo});
 
   QuestionModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class QuestionModel {
       promptTwo = json['promptTwo'];
       enableDraw = json['enableDraw'];
       photoUrl = json['photoUrl'];
+      state =AnswerState.init;
       type = json['type'] != null
           ? QuestionType.values.elementAt(json['type'] ?? 0)
           : null;

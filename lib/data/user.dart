@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'completed_lesson_model.dart';
+import 'option.dart';
 
 enum UserRole { student, teacher }
 
@@ -129,11 +130,13 @@ class UserAnsModel {
   final int optionIndex;
   final bool isCorrect;
   final String? inputAnswer;
+  final List<OptionModel>? multipleOptions;
 
   UserAnsModel(
       {required this.id,
       required this.qIndex,
       this.inputAnswer,
+        this.multipleOptions,
       required this.optionIndex,
       required this.isCorrect});
 }

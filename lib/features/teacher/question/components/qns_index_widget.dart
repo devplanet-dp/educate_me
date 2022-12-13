@@ -10,25 +10,30 @@ class QnsIndexWidget extends StatelessWidget {
   final int index;
   final Color color;
 
-  const QnsIndexWidget({Key? key, required this.index, required this.color}) : super(key: key);
+  const QnsIndexWidget({Key? key, required this.index, required this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveBuilder(
-      builder: (context,_) {
-        return Text(
-          getIndexName(index),
-          style: kHeading3Style.copyWith(
-              color: color, fontWeight: FontWeight.w800,fontSize:_.isTablet?28:25 ),
-        ).paddingAll(_.isTablet?14:12).decorated(shape: BoxShape.circle, color: Colors.white, boxShadow: [
+    return ResponsiveBuilder(builder: (context, _) {
+      return Text(
+        getIndexName(index),
+        style: kHeading3Style.copyWith(
+            color: color,
+            fontWeight: FontWeight.w800,
+            fontSize: _.isTablet ? 28 : 25),
+      ).paddingAll(_.isTablet ? 14 : 12).decorated(
+        shape: BoxShape.circle,
+        color: Colors.white,
+        boxShadow: [
           BoxShadow(
             color: kcTextGrey.withOpacity(.3),
             blurRadius: 15,
             offset: const Offset(0, 1), // Shadow position
           ),
-        ],);
-      }
-    );
+        ],
+      );
+    });
   }
 }
 
@@ -36,21 +41,65 @@ class QnsIndexWidgetMultiple extends StatelessWidget {
   final bool isCorrect;
   final int index;
   final Color color;
+  final bool isChecked;
 
-  const QnsIndexWidgetMultiple({Key? key, required this.isCorrect, required this.index, required this.color})
+  const QnsIndexWidgetMultiple(
+      {Key? key,
+      required this.isCorrect,
+      required this.index,
+      required this.color,
+      required this.isChecked})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return isCorrect? Icon(
+    return isChecked
+        ? Icon(
+            Icons.check,
+            color: color,
+          ).paddingAll(10).decorated(
+            shape: BoxShape.circle,
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: kcTextGrey.withOpacity(.3),
+                blurRadius: 15,
+                offset: const Offset(0, 1), // Shadow position
+              ),
+            ],
+          )
+        : QnsIndexWidget(
+            index: index,
+            color: color,
+          );
+  }
+}
+
+class QnsIndexMultiple extends StatelessWidget {
+  final int index;
+  final Color color;
+  final bool isChecked;
+
+  const QnsIndexMultiple(
+      {Key? key,
+      required this.index,
+      required this.color,
+      required this.isChecked})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
       Icons.check,
-      color: color,
-    ).paddingAll(10).decorated(shape: BoxShape.circle, color: Colors.white, boxShadow: [
+      color: isChecked ? color : Colors.transparent,
+    )
+        .paddingAll(10)
+        .decorated(shape: BoxShape.circle, color: Colors.white, boxShadow: [
       BoxShadow(
         color: kcTextGrey.withOpacity(.3),
         blurRadius: 15,
         offset: const Offset(0, 1), // Shadow position
       ),
-    ],):QnsIndexWidget(index: index, color: color,);
+    ]);
   }
 }

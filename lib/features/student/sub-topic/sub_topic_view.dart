@@ -158,6 +158,7 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
             }
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
               child: Row(
                 children: List.generate(lessons.length, (index) {
                   final t = lessons[index];

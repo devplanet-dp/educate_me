@@ -80,13 +80,25 @@ class QuizViewModel extends BaseViewModel {
 
   int get qnNo => _qnNo;
 
+  List<OptionModel> checkedMultipleOptions = [];
 
+  onMultipleOptionChecked(OptionModel option) {
+    var exist = checkedMultipleOptions.contains(option);
+    if (exist) {
+      checkedMultipleOptions.remove(option);
+    } else {
+      checkedMultipleOptions.add(option);
+    }
+    notifyListeners();
+  }
+
+  bool isOptionChecked(OptionModel index) =>
+      userCheckedAnswers().contains(index);
 
   onPageChanged(index) {
     _qnNo = index;
     notifyListeners();
   }
-
 
   goToNextQn() {
     _resetAttempts();
@@ -125,6 +137,39 @@ class QuizViewModel extends BaseViewModel {
     }
   }
 
+  void onMultipleOptionSelected() async {
+    if (checkedMultipleOptions.isNotEmpty) {
+      //if try again clicked
+      if (selectedQn?.state == AnswerState.tryAgain) {
+        selectedQn?.state = AnswerState.checkAgain;
+        notifyListeners();
+        return;
+      }
+      //disable selection on answered question
+      if (!isAnswered()) {
+        isFirstAttempt = true; //user tap once on option
+        var isCorrect =
+            checkedMultipleOptions.every((e) => e.isCorrect == true);
+
+        if (isCorrect) {
+          selectedQn?.state = AnswerState.correct;
+          _addQuestionAsAnswered(null);
+          //play success sound
+          quizController.playSuccessSound();
+          await showSuccessDialog();
+          //auto move to next question if answer is correct
+          await autoMoveToNextPage();
+        } else {
+
+
+          isSecondAttempt
+              ? showSecondAttemptWrongDialog(null)
+              : showFirstAttemptWrongPrompt();
+        }
+      }
+    }
+  }
+
   void onInputTypeSubmit(String answer) {
     bool? isCorrect = selectedQn?.options!.any(
         (e) => e.option?.trim().toLowerCase() == answer.trim().toLowerCase());
@@ -133,13 +178,14 @@ class QuizViewModel extends BaseViewModel {
     onOptionSelected(p);
   }
 
-  void _addQuestionAsAnswered(OptionModel option) {
+  void _addQuestionAsAnswered(OptionModel? option) {
     final userAnswer = UserAnsModel(
-        optionIndex: option.index ?? -1,
+        optionIndex: option?.index ?? -1,
         id: selectedQn?.id ?? '',
-        isCorrect: option.isCorrect ?? false,
+        isCorrect: option?.isCorrect ?? false,
         qIndex: qnNo,
-        inputAnswer: option.option);
+        multipleOptions: checkedMultipleOptions,
+        inputAnswer: option?.option);
     _ans.removeWhere((e) => e.id == selectedQn?.id);
     _ans.add(userAnswer);
     notifyListeners();
@@ -161,6 +207,14 @@ class QuizViewModel extends BaseViewModel {
     return -1;
   }
 
+  List<OptionModel> userCheckedAnswers() {
+    if (isAnswered()) {
+      return _ans.firstWhere((e) => e.id == selectedQn?.id).multipleOptions ??
+          [];
+    }
+    return checkedMultipleOptions;
+  }
+
   String getUserInputAns() {
     if (isAnswered()) {
       return _ans.firstWhere((e) => e.id == selectedQn?.id).inputAnswer ?? '';
@@ -168,21 +222,40 @@ class QuizViewModel extends BaseViewModel {
     return '';
   }
 
-  Map<String, dynamic> getButtonStyle() {
+  Map<int, dynamic> getButtonStyle(index) {
     if (isAnswered()) {
-      if (isUserCorrect()) {
-        return {'text': 'text096', 'color': kcCorrectAns};
-      } else {
-        return {'text': 'text098', 'color': kcFailedAns};
+      AnswerState state = selectedQn?.state ?? AnswerState.init;
+
+      switch (state) {
+        case AnswerState.init:
+          return {
+            index: {'text': 'text095', 'color': kcPrimaryColor}
+          };
+        case AnswerState.correct:
+          return {
+            index: {'text': 'text096', 'color': kcCorrectAns}
+          };
+        case AnswerState.tryAgain:
+          return {
+            index: {'text': 'text097', 'color': kcTryAgainAns}
+          };
+        case AnswerState.checkAgain:
+          return {
+            index: {'text': 'text095', 'color': kcTryAgainAns}
+          };
+        case AnswerState.failed:
+          return {
+            index: {'text': 'text098', 'color': kcFailedAns}
+          };
+        default:
+          return {
+            index: {'text': 'text095', 'color': kcPrimaryColor}
+          };
       }
     } else {
-      if (_isFirstAttempt) {
-        return {'text': 'text097', 'color': kcTryAgainAns};
-      } else if (_isSecondAttempt) {
-        return {'text': 'text098', 'color': kcFailedAns};
-      } else {
-        return {'text': 'text095', 'color': kcPrimaryColor};
-      }
+      return {
+        index: {'text': 'text095', 'color': kcPrimaryColor}
+      };
     }
   }
 
@@ -394,6 +467,7 @@ class QuizViewModel extends BaseViewModel {
   }
 
   void showFirstAttemptWrongPrompt() {
+    selectedQn?.state = AnswerState.tryAgain;
     Get.dialog(
             AppDialogSingle(
               title: 'text088'.tr,
@@ -415,7 +489,8 @@ class QuizViewModel extends BaseViewModel {
     });
   }
 
-  void showSecondAttemptWrongDialog(OptionModel option) async {
+  void showSecondAttemptWrongDialog(OptionModel? option) async {
+    selectedQn?.state = AnswerState.failed;
     await Get.dialog(
             AppDialogSingle(
               title: 'text089'.tr,
@@ -438,7 +513,15 @@ class QuizViewModel extends BaseViewModel {
     });
   }
 
+  bool isMultipleCorrect() {
+    var options = selectedQn?.options ?? [];
+    final isMultipleCorrect =
+        options.where((e) => e.isCorrect ?? false).toList().length >= 2;
+    return isMultipleCorrect;
+  }
+
   _resetAttempts() {
+    checkedMultipleOptions.clear();
     isFirstAttempt = false;
     isSecondAttempt = false;
     _allowNextPage = false;

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:educate_me/core/utils/device_utils.dart';
+import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../shared/app_colors.dart';
@@ -67,7 +68,7 @@ class BoxButtonWidget extends StatelessWidget {
                             color:  isEnabled? textColor?? Colors.white:Colors.white,
                             fontSize:_.isTablet?18: fontSize
                           ),
-                        ))),
+                        ).paddingAll(4))),
         );
       }
     );
