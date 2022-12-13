@@ -22,6 +22,7 @@ class QuizViewModel extends BaseViewModel {
   final AppController controller = Get.find<AppController>();
   final QuizController quizController = Get.find<QuizController>();
   final PageController pageController = PageController(initialPage: 0);
+  final TextEditingController inputController = TextEditingController();
 
   bool _allowNextPage = false;
 
@@ -118,6 +119,7 @@ class QuizViewModel extends BaseViewModel {
       isFirstAttempt = true; //user tap once on option
 
       if (option.isCorrect ?? false) {
+        selectedQn?.state = AnswerState.correct;
         _addQuestionAsAnswered(option);
         //play success sound
         quizController.playSuccessSound();
@@ -160,8 +162,6 @@ class QuizViewModel extends BaseViewModel {
           //auto move to next question if answer is correct
           await autoMoveToNextPage();
         } else {
-
-
           isSecondAttempt
               ? showSecondAttemptWrongDialog(null)
               : showFirstAttemptWrongPrompt();
@@ -171,11 +171,24 @@ class QuizViewModel extends BaseViewModel {
   }
 
   void onInputTypeSubmit(String answer) {
+    if (selectedQn?.state == AnswerState.tryAgain) {
+      inputController.text = '';
+      selectedQn?.state = AnswerState.checkAgain;
+      notifyListeners();
+      return;
+    }
     bool? isCorrect = selectedQn?.options!.any(
         (e) => e.option?.trim().toLowerCase() == answer.trim().toLowerCase());
     OptionModel p =
         OptionModel(index: 0, isCorrect: isCorrect ?? false, option: answer);
     onOptionSelected(p);
+  }
+
+  void onInputTypeChanged() {
+    if (selectedQn?.state == AnswerState.tryAgain) {
+      selectedQn?.state = AnswerState.checkAgain;
+      notifyListeners();
+    }
   }
 
   void _addQuestionAsAnswered(OptionModel? option) {
@@ -260,20 +273,21 @@ class QuizViewModel extends BaseViewModel {
   }
 
   Map<String, dynamic> getButtonStyleQuiz() {
-    if (isAnswered()) {
-      if (isUserCorrect()) {
-        return {'text': 'text096', 'color': kcCorrectAns};
-      } else {
-        return {'text': 'text101', 'color': kcFailedAns};
-      }
-    } else {
-      if (_isFirstAttempt) {
-        return {'text': 'text097', 'color': kcTryAgainAns};
-      } else if (_isSecondAttempt) {
-        return {'text': 'text101', 'color': kcFailedAns};
-      } else {
+    AnswerState state = selectedQn?.state ?? AnswerState.init;
+
+    switch (state) {
+      case AnswerState.init:
         return {'text': 'text095', 'color': kcPrimaryColor};
-      }
+      case AnswerState.correct:
+        return {'text': 'text096', 'color': kcCorrectAns};
+      case AnswerState.tryAgain:
+        return {'text': 'text097', 'color': kcTryAgainAns};
+      case AnswerState.checkAgain:
+        return {'text': 'text095', 'color': kcPrimaryColor};
+      case AnswerState.failed:
+        return {'text': 'text098', 'color': kcFailedAns};
+      default:
+        return {'text': 'text095', 'color': kcPrimaryColor};
     }
   }
 

@@ -7,30 +7,30 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/widgets/busy_button.dart';
-import '../../../core/widgets/busy_button.dart';
 
 class AddChildWidget extends ViewModelWidget<SignUpViewModel> {
-  const AddChildWidget({Key? key,this.isAddAccount=false}) : super(key: key);
+  const AddChildWidget({Key? key, this.isAddAccount = false}) : super(key: key);
   final bool isAddAccount;
 
   @override
   Widget build(BuildContext context, SignUpViewModel model) {
-    return ResponsiveBuilder(
-      builder: (context,_) {
-        return Form(
-          key: model.formKey,
-          child: Column(
-            children: List.generate(
-                model.childCount.length, (index) => _inputFields(model, index))..add(BoxButtonWidget(
-              buttonText: isAddAccount?'text016.2'.tr :'text016'.tr,
+    return ResponsiveBuilder(builder: (context, _) {
+      return Form(
+        key: model.formKey,
+        child: Column(
+          children: List.generate(
+              model.childCount.length, (index) => _inputFields(model, index))
+            ..add(BoxButtonWidget(
+              buttonText: isAddAccount ? 'text016.2'.tr : 'text016'.tr,
               isLoading: model.isBusy,
-              fontSize: _.isTablet?32:24,
-              onPressed: () =>model.addUsers(),
-            ).paddingSymmetric(vertical: _.isTablet?Get.width*.1: 12,horizontal: _.isTablet?Get.width*.1:0)),
-          ),
-        );
-      }
-    );
+              fontSize: _.isTablet ? 32 : 24,
+              onPressed: () => model.addUsers(),
+            ).paddingSymmetric(
+                vertical: _.isTablet ? Get.width * .1 : 12,
+                horizontal: _.isTablet ? Get.width * .1 : 0)),
+        ),
+      );
+    });
   }
 
   Widget _inputFields(SignUpViewModel model, int index) =>
@@ -39,22 +39,26 @@ class AddChildWidget extends ViewModelWidget<SignUpViewModel> {
         return [
           AppTextField(
             controller: controller.nameTEC,
-            hintText: '${isAddAccount?'Profile':'User'} #${index + 1}\'s name',
+            hintText:
+                '${isAddAccount ? 'Profile' : 'User'} #${index + 1}\'s name',
             label: '',
             validator: (value) {
               if (value!.isEmpty) {
-                return '${isAddAccount?'Profile':'User'} #${index + 1}\'s name';
+                return '${isAddAccount ? 'Profile' : 'User'} #${index + 1}\'s name';
+              } else if (!GetUtils.isAlphabetOnly(value)) {
+                return 'You cannot have a number in the name';
               }
               return null;
             },
           ),
           AppTextField(
               controller: controller.ageTEC,
-              hintText: '${isAddAccount?'Profile':'User'} #${index + 1}\'s age',
+              hintText:
+                  '${isAddAccount ? 'Profile' : 'User'} #${index + 1}\'s age',
               isNumber: true,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return '${isAddAccount?'Profile':'User'} #${index + 1}\'s age';
+                  return '${isAddAccount ? 'Profile' : 'User'} #${index + 1}\'s age';
                 }
                 return null;
               },

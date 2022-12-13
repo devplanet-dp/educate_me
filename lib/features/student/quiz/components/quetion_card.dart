@@ -131,7 +131,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
       case QuestionType.singleChoice:
         return const SingleChoiceQns();
       case QuestionType.inputSingle:
-        return const InputTypeQns();
+        return  InputTypeQns();
       case QuestionType.inputMultiple:
         return const MultipleChoiceQns();
       default:
@@ -269,13 +269,15 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
 }
 
 class InputTypeQns extends ViewModelWidget<QuizViewModel> {
-  const InputTypeQns({Key? key}) : super(key: key);
+   InputTypeQns({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
-    final TextEditingController controller = TextEditingController();
+
     final formKey = GlobalKey<FormState>();
-    controller.text = model.getUserInputAns();
+    // controller.text = model.getUserInputAns();
+
     return Form(
         key: formKey,
         child: ResponsiveBuilder(builder: (context, _) {
@@ -295,7 +297,7 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                           //check user has already answered
                           if (!model.isAnswered()) {
                             if (formKey.currentState!.validate()) {
-                              model.onInputTypeSubmit(controller.text);
+                              model.onInputTypeSubmit(model.inputController.text);
                             }
                           }
                         },
@@ -306,9 +308,12 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                       child: ConstrainedBox(
                         constraints: BoxConstraints(maxHeight: 100.h),
                         child: AppTextFieldSecondary(
-                          controller: controller,
+                          controller: model.inputController,
                           hintText: 'Enter answer',
                           label: '',
+                          onChanged: (value){
+
+                          },
                           align: TextAlign.center,
                           minLine: 1,
                           validator: (value) {
@@ -327,11 +332,15 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
               : Column(
                   children: [
                     AppTextFieldSecondary(
-                      controller: controller,
+                      controller: model.inputController,
                       hintText: 'Enter answer',
                       label: '',
                       align: TextAlign.center,
                       minLine: 1,
+                      onChanged: (value){
+                          model.onInputTypeChanged();
+                      },
+                      textColor:model.getButtonStyleQuiz()['color'] ,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Enter an answer';
@@ -349,7 +358,7 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                         //check user has already answered
                         if (!model.isAnswered()) {
                           if (formKey.currentState!.validate()) {
-                            model.onInputTypeSubmit(controller.text);
+                            model.onInputTypeSubmit(model.inputController.text);
                           }
                         }
                       },

@@ -11,6 +11,7 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../../data/lesson.dart';
 import '../../student/topic/topic_view_model.dart';
+import '../level/teacher_qns_view.dart';
 
 class LessonStatView extends StatelessWidget {
   const LessonStatView({Key? key}) : super(key: key);
@@ -240,11 +241,19 @@ class _LessonList extends StatelessWidget {
               var drawEnabled = l.drawToolEnabled ?? false;
 
               return DataRow(cells: [
-                DataCell(Text(
-                  lessons[index].title ?? '',
-                  style: kBodyStyle.copyWith(
-                      color: kcPrimaryColor,
-                      decoration: TextDecoration.underline),
+                DataCell(InkWell(
+                  onTap: ()=>Get.to(() => TeacherQnsView(
+                    topicId: topicId,
+                    levelId: levelId,
+                    subTopicId: subTopicId,
+                    lessonId: lessons[index],
+                  )),
+                  child: Text(
+                    lessons[index].title ?? '',
+                    style: kBodyStyle.copyWith(
+                        color: kcPrimaryColor,
+                        decoration: TextDecoration.underline),
+                  ),
                 )),
                 DataCell(_buildNoQuestion(
                     model: model,

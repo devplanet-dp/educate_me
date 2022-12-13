@@ -67,7 +67,7 @@ class QuizView extends StatelessWidget {
               centerTitle: true,
               iconTheme: IconThemeData(size: _.isTablet ? 32 : 24),
               title: Text(
-                'Level ${vm.quizController.currentLevel?.name} - '
+                '${lesson.title} - '
                 '${vm.quizController.currentTopicName}',
                 style: kSubheadingStyle.copyWith(
                     fontSize: _.isTablet ? 28 : 20,
@@ -96,7 +96,9 @@ class QuizView extends StatelessWidget {
                               : const PageNavigationWidget(),
                           Expanded(
                               child: PageView(
-                            physics: vm.allowNextPage?const BouncingScrollPhysics(): const NeverScrollableScrollPhysics(),
+                            physics: vm.allowNextPage
+                                ? const BouncingScrollPhysics()
+                                : const NeverScrollableScrollPhysics(),
                             controller: vm.pageController,
                             onPageChanged: (index) {
                               vm.onPageChanged(index + 1);

@@ -18,6 +18,7 @@ class ImportQnsView extends StatelessWidget {
   final String? lessonId;
   final bool isStartUp;
   final bool isPractice;
+  final bool hasRaw;
 
   const ImportQnsView(
       {Key? key,
@@ -26,7 +27,8 @@ class ImportQnsView extends StatelessWidget {
       required this.subTopicId,
       required this.lessonId,
       this.isPractice = false,
-      this.isStartUp = false})
+      this.isStartUp = false,
+      this.hasRaw = false})
       : super(key: key);
 
   @override
@@ -47,8 +49,8 @@ class ImportQnsView extends StatelessWidget {
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: const Text(
-              'Import question',
+            title: Text(
+              hasRaw ? 'Edit practice question' : 'Import question',
             ),
           ),
           body: ResponsiveBuilder(builder: (context, _) {
@@ -77,7 +79,7 @@ class ImportQnsView extends StatelessWidget {
                     ),
                     vSpaceMedium,
                     BoxButtonWidget(
-                      buttonText: 'Import',
+                      buttonText: hasRaw?'Save':'Import',
                       isLoading: vm.isBusy,
                       isEnabled: vm.importTEC.text.isNotEmpty,
                       onPressed: () => vm.importQnsFromText(

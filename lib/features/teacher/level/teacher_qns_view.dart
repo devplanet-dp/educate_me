@@ -54,7 +54,7 @@ class TeacherQnsView extends StatelessWidget {
             backgroundColor: kcBg,
             appBar: AppBar(
               elevation: 0,
-              title: const Text('Add Questions here'),
+              title: Text(lessonId?.title??''),
               actions: [
                 IconButton(
                     onPressed: () => vm.toggleMultiSelect(),
@@ -106,6 +106,7 @@ class TeacherQnsView extends StatelessWidget {
                   onPressed: () => Get.to(() => ImportQnsView(
                         levelId: levelId,
                         topicId: topicId,
+                        hasRaw: lessonId?.raw !=null,
                         subTopicId: subTopicId,
                         lessonId: lessonId?.id??'',
                         isPractice: true,

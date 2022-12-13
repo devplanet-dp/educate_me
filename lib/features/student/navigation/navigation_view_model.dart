@@ -33,7 +33,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
     for (var child in controller.appChild) {
       _childCount.add(ProfileController(
           childId: child.userId ?? '',
-          nameTEC: TextEditingController(text: child.name),
+          nameTEC: TextEditingController(text: child.name?.capitalizeFirst??''),
           ageTEC: TextEditingController(text: child.age)));
     }
     notifyListeners();
@@ -62,9 +62,9 @@ class NavigationViewModel extends IndexTrackingViewModel {
   }
 
   void initChildAccountDetails() {
-    nameTEC.text = controller.currentChild?.name ?? '';
+    nameTEC.text =( controller.currentChild?.name ?? '').capitalizeFirst??'';
     ageTEC.text = controller.currentChild?.age ?? '';
-    ownerTECT.text = controller.appUser?.fName ?? '';
+    ownerTECT.text = (controller.appUser?.fName ?? '').capitalizeFirst??'';
     notifyListeners();
   }
 

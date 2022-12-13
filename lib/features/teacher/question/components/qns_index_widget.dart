@@ -21,7 +21,7 @@ class QnsIndexWidget extends StatelessWidget {
         style: kHeading3Style.copyWith(
             color: color,
             fontWeight: FontWeight.w800,
-            fontSize: _.isTablet ? 28 : 25),
+            fontSize: _.isTablet ? 28 : 18),
       ).paddingAll(_.isTablet ? 14 : 12).decorated(
         shape: BoxShape.circle,
         color: Colors.white,
@@ -32,7 +32,7 @@ class QnsIndexWidget extends StatelessWidget {
             offset: const Offset(0, 1), // Shadow position
           ),
         ],
-      );
+      ).paddingOnly(left: 8);
     });
   }
 }

@@ -8,7 +8,6 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/shared/app_colors.dart';
 import '../../../../core/shared/shared_styles.dart';
-import '../../../../core/shared/ui_helpers.dart';
 import '../../../teacher/question/components/qns_index_widget.dart';
 
 class OptionTileWidget extends StatelessWidget {
@@ -85,16 +84,25 @@ class OptionTileWidget extends StatelessWidget {
                   index: index,
                   color: indexColor,
                 ),
-          Expanded(
-            child: Text(
-              option.trim(),
-              textAlign: TextAlign.center,
-              style: kBody1Style.copyWith(
-                  fontWeight: FontWeight.w800,
-                  fontSize: _.isTablet ? 28 : 15,
-                  color: optionTileColor),
-            ).paddingAll(4),
-          ),
+          _.isTablet
+              ? Expanded(
+                  child: Text(
+                    option.trim(),
+                    textAlign: TextAlign.center,
+                    style: kBody1Style.copyWith(
+                        fontWeight: FontWeight.w800,
+                        fontSize: _.isTablet ? 28 : 15,
+                        color: optionTileColor),
+                  ).paddingAll(4),
+                )
+              : Text(
+                  option.trim(),
+                  textAlign: TextAlign.center,
+                  style: kBody1Style.copyWith(
+                      fontWeight: FontWeight.w800,
+                      fontSize: _.isTablet ? 28 : 15,
+                      color: optionTileColor),
+                ).paddingAll(12),
         ],
       ).height(60.h).paddingAll(_.isTablet ? 16 : 8).card(
           color: tileColor,
@@ -110,7 +118,8 @@ class MultipleCheckOptionTile extends StatelessWidget {
     Key? key,
     required this.index,
     required this.isOptionSelected,
-    required this.option, required this.state,
+    required this.option,
+    required this.state,
   }) : super(key: key);
   final int index;
   final bool isOptionSelected;
@@ -120,15 +129,14 @@ class MultipleCheckOptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(builder: (context, _) {
-      var isCorrectOption = option.isCorrect??false;
+      var isCorrectOption = option.isCorrect ?? false;
       var optionTileColor = !isOptionSelected
           ? kcOptionColor
           : (state != AnswerState.init)
               ? isCorrectOption
-                  ?  kcCorrectAns
+                  ? kcCorrectAns
                   : kcIncorrectAns
               : kcPrimaryColor;
-
 
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,

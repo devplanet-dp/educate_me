@@ -37,7 +37,7 @@ class LanChangeView extends StatelessWidget {
               ),
             ),
             body: [
-              vSpaceSmall,
+              vSpaceMedium,
               Text(
                 'text063'.tr,
                 style: kBodyStyle,

@@ -53,15 +53,15 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 250.h,
+                        height: 240.h,
                       ),
-                      Align(
+                   index==0?   Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             'text100'.tr,
                             style: kBodyStyle.copyWith(
                                 fontSize: 18, fontWeight: FontWeight.w600),
-                          )),
+                          )):emptyBox(),
                       vSpaceSmall,
                       LessonBarrierView(content: lesson.content?[index] ?? ''),
                       vSpaceMedium,

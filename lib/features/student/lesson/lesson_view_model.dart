@@ -95,7 +95,7 @@ class LessonViewModel extends BaseViewModel {
           };
         case AnswerState.checkAgain:
           return {
-            index: {'text': 'text095', 'color': kcTryAgainAns}
+            index: {'text': 'text095', 'color': kcPrimaryColor}
           };
         case AnswerState.failed:
           return {

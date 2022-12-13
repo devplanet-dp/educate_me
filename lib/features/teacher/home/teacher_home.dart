@@ -29,6 +29,7 @@ class TeacherHomeView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
+          backgroundColor: kcBg,
           appBar:  const PreferredSize(
             preferredSize: Size.fromHeight(kAppToolbarHeight),
             child: AdminAppBar(title: 'Topics'),

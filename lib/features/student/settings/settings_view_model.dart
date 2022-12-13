@@ -36,6 +36,7 @@ class SettingViewModel extends BaseViewModel {
     var result = await _authService.getAuthWithPassword(password: pwd);
     setBusyForObject(accountAuthBusy, false);
     if (!result.hasError) {
+      Get.back();
       Get.to(() => const AccountView());
 
     } else {
@@ -47,6 +48,7 @@ class SettingViewModel extends BaseViewModel {
     var result = await _authService.getAuthWithPassword(password: pwd);
     setBusyForObject(profileAuthBusy, false);
     if (!result.hasError) {
+      Get.back();
      await Get.to(() => const MyProfileView());
      ///init app child in switch account popup
     } else {

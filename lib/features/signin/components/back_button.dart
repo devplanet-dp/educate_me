@@ -20,7 +20,7 @@ class CustomBackButton extends StatelessWidget {
         shape: const CircleBorder(),
         minimumSize: Size(40.h, 40.h)
       ),
-      child: SvgPicture.asset(kIcBack,height: 18,width: 18,),
+      child: const Icon(Icons.arrow_back,color: Color(0xff8E8E8E),),
     );
   }
 }

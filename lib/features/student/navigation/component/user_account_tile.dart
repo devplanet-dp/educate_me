@@ -33,7 +33,7 @@ class UserAccountTile extends GetView<AppController> {
       Expanded(
         child: [
           Text(
-            user.name ?? '',
+           ( user.name ?? '').capitalizeFirst??'',
             maxLines: 1,
             style: kCaptionStyle.copyWith(fontWeight: FontWeight.w500),
           ),

@@ -84,6 +84,8 @@ class ChildProfilesWidget extends ViewModelWidget<NavigationViewModel> {
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Enter profile name';
+              }else if (!GetUtils.isAlphabetOnly(value)) {
+                return 'You cannot have a number in the name';
               }
               return null;
             },
