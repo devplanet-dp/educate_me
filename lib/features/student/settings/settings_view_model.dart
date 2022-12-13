@@ -13,6 +13,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:styled_widget/styled_widget.dart';
 
+import '../../../core/utils/app_controller.dart';
 import '../../../data/services/auth_service.dart';
 import '../../../locator.dart';
 
@@ -36,6 +37,7 @@ class SettingViewModel extends BaseViewModel {
     setBusyForObject(accountAuthBusy, false);
     if (!result.hasError) {
       Get.to(() => const AccountView());
+
     } else {
       return showErrorMessage(message: result.errorMessage );
     }
@@ -45,7 +47,8 @@ class SettingViewModel extends BaseViewModel {
     var result = await _authService.getAuthWithPassword(password: pwd);
     setBusyForObject(profileAuthBusy, false);
     if (!result.hasError) {
-      Get.to(() => const MyProfileView());
+     await Get.to(() => const MyProfileView());
+     ///init app child in switch account popup
     } else {
       return showErrorMessage(message: result.errorMessage );
     }

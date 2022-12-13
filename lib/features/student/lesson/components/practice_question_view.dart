@@ -81,7 +81,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
             Text(
               'text094'.tr,
               textAlign: TextAlign.center,
-              style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600,color: Colors.black,fontSize:_.isTablet?28: 14),
+              style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600,color: Colors.black,fontSize:_.isTablet?28: 16),
             ),
             vSpaceSmall,
             Text(
@@ -106,7 +106,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                 enableDraw: true,
                 qid: question.id ?? '',
                 onDrawOpen: () {},
-              ).paddingOnly(top: 8),
+              ),
               hSpaceSmall,
               Expanded(child: Builder(builder: (context) {
                 //reset answer field

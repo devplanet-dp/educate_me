@@ -11,6 +11,7 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../../core/widgets/text_field_widget.dart';
 import '../../../core/widgets/two_row_button.dart';
+import '../../signin/components/custom_app_bar.dart';
 import '../navigation/navigation_view_model.dart';
 
 class MyProfileView extends StatelessWidget {
@@ -34,11 +35,14 @@ class MyProfileView extends StatelessWidget {
                 positiveText: 'text065'.tr,
                 isBusy: vm.isBusy,
               ).paddingSymmetric(horizontal: _.isTablet?kTabPaddingHorizontal:0),
-              appBar: AppBar(
-                iconTheme: IconThemeData(
-                    size: _.isTablet?32:24
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(kAppToolbarHeight),
+                child: SwitchUserAppBar(
+                  title: 'text104'.tr,
+                  onUserUpdated: (){
+                    vm.initChildAccountDetails();
+                  },
                 ),
-                title: Text('text104'.tr,style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold,fontSize: _.isTablet?32:20)),
               ),
               body: const ChildProfilesWidget(),
             );

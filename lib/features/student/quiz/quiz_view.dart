@@ -1,7 +1,6 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
-import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/data/lesson.dart';
@@ -97,28 +96,28 @@ class QuizView extends StatelessWidget {
                               : const PageNavigationWidget(),
                           Expanded(
                               child: PageView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                      controller: vm.pageController,
+                            physics: vm.allowNextPage?const BouncingScrollPhysics(): const NeverScrollableScrollPhysics(),
+                            controller: vm.pageController,
+                            onPageChanged: (index) {
+                              vm.onPageChanged(index + 1);
 
-                                      onPageChanged: (index) {
-
-                                        vm.onPageChanged(index+1);
-
-                                        if (!vm.isLastPage()) {
-                                          vm.selectedQn = vm.questions[index];
-                                          vm.setAllowNextPage(
-                                              index < vm.ans.length);
-                                        }
-                                      },
-                                      children: List.generate(
-                                          vm.questions.length,
-                                          (index) => QuestionCard(
-                                                levelId: levelId,
-                                                topicId: topicId,
-                                                subTopicId: subTopicId,
-                                                lessonId: lesson.id ?? '', drawEnabled: lesson.drawToolEnabled??false,
-                                              ))..add(const QuizCompletePage()),
+                              if (!vm.isLastPage()) {
+                                vm.selectedQn = vm.questions[index];
+                                vm.setAllowNextPage(index < vm.ans.length);
+                              }
+                            },
+                            children: List.generate(
+                                vm.questions.length,
+                                (index) => QuestionCard(
+                                      levelId: levelId,
+                                      topicId: topicId,
+                                      subTopicId: subTopicId,
+                                      lessonId: lesson.id ?? '',
+                                      drawEnabled:
+                                          lesson.drawToolEnabled ?? false,
                                     ))
+                              ..add(const QuizCompletePage()),
+                          ))
                         ],
                       ),
           );

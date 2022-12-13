@@ -35,7 +35,7 @@ class _WelcomeTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
         left: 18,
-        bottom: Get.width * .18,
+        bottom: Get.width * .02,
         right: 18,
         child: ResponsiveBuilder(builder: (context, _) {
           return [

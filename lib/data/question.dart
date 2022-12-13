@@ -26,7 +26,7 @@ class QuestionModel {
       this.photoUrl,
       this.raw,
       this.type,
-        this.state,
+      this.state,
       this.promptTwo});
 
   QuestionModel.fromJson(Map<String, dynamic> json) {
@@ -38,7 +38,7 @@ class QuestionModel {
       promptTwo = json['promptTwo'];
       enableDraw = json['enableDraw'];
       photoUrl = json['photoUrl'];
-      state =AnswerState.init;
+      state = AnswerState.init;
       type = json['type'] != null
           ? QuestionType.values.elementAt(json['type'] ?? 0)
           : null;
@@ -47,7 +47,7 @@ class QuestionModel {
         json['options'].forEach((v) {
           options!.add(OptionModel.fromJson(v));
         });
-        options = shuffleAnswers(options??[]);
+        options = shuffleAnswers(options ?? []);
       } else {
         options = [];
       }
@@ -75,21 +75,43 @@ class QuestionModel {
 
   List<OptionModel> shuffleAnswers(List<OptionModel> original) {
     //disable shuffle for not multiple type questions
+    final disableShuffleKeywords = [
+      'None of the above',
+      'Both',
+      'All of the above',
+      'All',
+      'None of them',
+      'None',
+      'All of them'
+    ];
+    ///disable shuffle if contains above keywords
+    for (var e in disableShuffleKeywords) {
+      for (var o in original) {
+        if (o.option == e) {
+          return original;
+        }
+      }
+    }
+
     if (original.length < 4) {
       return original;
     }
-    var shouldShuffleList = original.getRange(0, 2).toList();
-    var disableShuffleList = original.getRange(2, 4).toList();
 
-    shouldShuffleList.shuffle();
+    // var shouldShuffleList = original.getRange(0, 2).toList();
+    // var disableShuffleList = original.getRange(2, 4).toList();
+    //
+    // shouldShuffleList.shuffle();
+    //
+    // var finalList = shouldShuffleList..addAll(disableShuffleList);
+    //
+    // for (int i = 0; i < 4; i++) {
+    //   finalList[i].index = i;
+    // }
 
-    var finalList = shouldShuffleList..addAll(disableShuffleList);
+    original.shuffle();
 
-    for (int i = 0; i < 4; i++) {
-      finalList[i].index = i;
-    }
 
-    return finalList;
+    return original;
   }
 }
 
