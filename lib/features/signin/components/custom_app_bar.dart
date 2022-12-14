@@ -17,12 +17,12 @@ import '../../teacher/home/teacher_home_view_model.dart';
 import 'back_button.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({Key? key}) : super(key: key);
-
+  const CustomAppBar({Key? key, this.onBack}) : super(key: key);
+  final VoidCallback? onBack;
   @override
   Widget build(BuildContext context) {
     return [
-      const CustomBackButton(),
+       CustomBackButton(onBack: onBack,),
       const Expanded(child: SizedBox()),
       Image.asset(
         kAppLogoOutlined,

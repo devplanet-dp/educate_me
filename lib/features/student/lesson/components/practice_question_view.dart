@@ -65,12 +65,11 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
   final QuestionModel question;
   final int index;
   final TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context, LessonViewModel model) {
-
     final formKey = GlobalKey<FormState>();
-    controller.text =
-    model.getUserAnswerState(index) == AnswerState.checkAgain
+    controller.text = model.getUserAnswerState(index) == AnswerState.checkAgain
         ? ''
         : model.getUserAnswer(index) ?? '';
     return Form(
@@ -81,7 +80,10 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
             Text(
               'text094'.tr,
               textAlign: TextAlign.center,
-              style: kCaptionStyle.copyWith(fontWeight: FontWeight.w600,color: Colors.black,fontSize:_.isTablet?28: 16),
+              style: kCaptionStyle.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                  fontSize: _.isTablet ? 28 : 18),
             ),
             vSpaceSmall,
             Text(
@@ -111,14 +113,14 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
               Expanded(child: Builder(builder: (context) {
                 //reset answer field
 
-
                 return ConstrainedBox(
                   constraints: BoxConstraints(maxHeight: 100.h),
                   child: AppTextFieldSecondary(
                     controller: controller,
                     isEnabled: !model.isQuizEnabled(),
                     textColor: model.getButtonStyle(index)[index]['color'],
-                    hintText:_.isTablet?'                Answer': '       Answer',
+                    hintText: 'Answer',
+
                     align: TextAlign.center,
                     label: '',
                     validator: (value) {
@@ -181,14 +183,12 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   style: kBody1Style.copyWith(color: kcTextDarkGrey),
                 )),
             Visibility(
-                visible:
-                    model.getUserAnswerState(index) == AnswerState.correct,
+                visible: model.getUserAnswerState(index) == AnswerState.correct,
                 child: Text(
                   'text107'.tr,
                   textAlign: TextAlign.center,
                   style: kBody1Style.copyWith(color: kcTextDarkGrey),
                 ))
-
           ],
         );
       }),

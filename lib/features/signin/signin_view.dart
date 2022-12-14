@@ -1,5 +1,6 @@
 import 'package:educate_me/features/signin/components/create_account_text.dart';
 import 'package:educate_me/features/signin/components/custom_app_bar.dart';
+import 'package:educate_me/features/welcome/welcome_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,11 +53,21 @@ class SignInView extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.bottomLeft,
-                  child: Image.asset(kImgUnionTabLeft,height:Get.height*.45,width: Get.width/3.5,fit: BoxFit.fill,),
+                  child: Image.asset(
+                    kImgUnionTabLeft,
+                    height: Get.height * .45,
+                    width: Get.width / 3.5,
+                    fit: BoxFit.fill,
+                  ),
                 ),
                 Align(
                   alignment: Alignment.topRight,
-                  child: Image.asset(kImgUnionTabRight,height:Get.height*.45,width: Get.width/3.5,fit: BoxFit.fill,),
+                  child: Image.asset(
+                    kImgUnionTabRight,
+                    height: Get.height * .45,
+                    width: Get.width / 3.5,
+                    fit: BoxFit.fill,
+                  ),
                 ),
                 Form(
                   key: vm.formKey,
@@ -147,7 +158,7 @@ class SignInView extends StatelessWidget {
                                     flex: 2,
                                   )
                           ],
-                        ).paddingSymmetric(horizontal:kTabPaddingHorizontal),
+                        ).paddingSymmetric(horizontal: kTabPaddingHorizontal),
                       ),
                     ],
                   ),
@@ -266,16 +277,21 @@ class SignInView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomAppBar(),
+                  CustomAppBar(
+                    onBack: () => Get.offAll(() => const WelcomeView()),
+                  ),
                   const Spacer(),
                   Text(
                     'text002'.tr,
                     style: kHeading3Style.copyWith(
-                        fontWeight: FontWeight.w600, color: Colors.black),
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
+                        fontSize: 28),
                   ),
-                  Text(
-                    'text012'.tr,
-                  ),
+                  Text('text012'.tr,
+                      style: kBodyStyle.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF565656))),
                   const Spacer(
                     flex: 2,
                   ),
@@ -327,7 +343,7 @@ class SignInView extends StatelessWidget {
                       DeviceUtils.hideKeyboard(context);
                       vm.doSignIn();
                     },
-                  ),
+                  ).width(230).center(),
                   isVisible ? emptyBox() : const Spacer(),
                   isVisible ? emptyBox() : const ForgotPwdButton().center(),
                   isVisible ? emptyBox() : const CreateAccountText().center(),

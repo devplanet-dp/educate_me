@@ -35,14 +35,13 @@ class MyProfileView extends StatelessWidget {
                 positiveText: 'text065'.tr,
                 isBusy: vm.isBusy,
               ).paddingSymmetric(horizontal: _.isTablet?kTabPaddingHorizontal:0),
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(kAppToolbarHeight),
-                child: SwitchUserAppBar(
-                  title: 'text104'.tr,
-                  onUserUpdated: (){
-                    vm.initChildAccountDetails();
-                  },
-                ),
+              appBar: AppBar(
+                elevation: 0,
+                automaticallyImplyLeading: true,
+                backgroundColor: Colors.white,
+                title: Text('text104'.tr, style: kSubheadingStyle.copyWith(
+                    fontWeight: FontWeight.bold, fontSize: _.isTablet ? 32 : 20),),
+                centerTitle: true,
               ),
               body: const ChildProfilesWidget(),
             );

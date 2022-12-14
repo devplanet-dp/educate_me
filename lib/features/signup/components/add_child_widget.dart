@@ -27,7 +27,7 @@ class AddChildWidget extends ViewModelWidget<SignUpViewModel> {
               onPressed: () => model.addUsers(),
             ).paddingSymmetric(
                 vertical: _.isTablet ? Get.width * .1 : 12,
-                horizontal: _.isTablet ? Get.width * .1 : 0)),
+                horizontal: _.isTablet ? Get.width * .1 : 32)),
         ),
       );
     });

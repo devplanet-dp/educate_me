@@ -3,6 +3,7 @@ import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/core/widgets/app_dialog.dart';
+import 'package:educate_me/data/services/firestore_service.dart';
 import 'package:educate_me/features/student/account/account_view.dart';
 import 'package:educate_me/features/student/account/my_profile_view.dart';
 import 'package:educate_me/features/student/forgot/forgot_pwd_view.dart';
@@ -19,9 +20,11 @@ import '../../../locator.dart';
 
 class SettingViewModel extends BaseViewModel {
   final _authService = locator<AuthenticationService>();
+  final _service = locator<FirestoreService>();
   final _dialogService = locator<DialogService>();
   final accountAuthBusy = false;
   final profileAuthBusy = false;
+  final AppController controller = Get.find<AppController>();
 
   void signOut() async {
     var result = await _dialogService.showConfirmationDialog(
@@ -36,7 +39,7 @@ class SettingViewModel extends BaseViewModel {
     var result = await _authService.getAuthWithPassword(password: pwd);
     setBusyForObject(accountAuthBusy, false);
     if (!result.hasError) {
-      Get.back();
+
       Get.to(() => const AccountView());
 
     } else {
@@ -48,13 +51,26 @@ class SettingViewModel extends BaseViewModel {
     var result = await _authService.getAuthWithPassword(password: pwd);
     setBusyForObject(profileAuthBusy, false);
     if (!result.hasError) {
-      Get.back();
      await Get.to(() => const MyProfileView());
-     ///init app child in switch account popup
+
     } else {
       return showErrorMessage(message: result.errorMessage );
     }
   }
+  Future initAppUsers({String? selectedChildId}) async {
+    setBusy(true);
+    final child =
+    await _service.getChildUsers(controller.appUser?.userId ?? '');
+    controller.appChild = child;
+
+    if (child.isNotEmpty) {
+      controller.currentChild = selectedChildId == null
+          ? child[0]
+          : controller.appChild.firstWhere((e) => e.userId == selectedChildId);
+    }
+    setBusy(false);
+  }
+
 
   void goToAccountView() async {
     Get.dialog(AppDialogWithInput(
@@ -72,6 +88,7 @@ class SettingViewModel extends BaseViewModel {
         ).alignment(Alignment.topLeft),
       ),
       onPositiveTap: (input) {
+        Get.back();
         authToAccount(input);
       },
     ));
@@ -92,6 +109,7 @@ class SettingViewModel extends BaseViewModel {
         ).alignment(Alignment.topLeft),
       ),
       onPositiveTap: (input) {
+        Get.back();
         authToProfileAccount(input);
       },
     ));

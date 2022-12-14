@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../core/shared/app_colors.dart';
 import '../../core/shared/shared_styles.dart';
@@ -178,13 +179,17 @@ class SignUpView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const CustomAppBar(),
+                  vSpaceMedium,
                   Text(
                     'text013'.tr,
                     style: kHeading3Style.copyWith(
-                        fontWeight: FontWeight.w600, color: Colors.black),
+                        fontWeight: FontWeight.w900, color: Colors.black,fontSize: 28),
                   ),
                   Text(
                     'text014'.tr,
+                    style: kBodyStyle.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF565656))
                   ),
                   vSpaceMassive,
                   AppTextField(
@@ -250,7 +255,7 @@ class SignUpView extends StatelessWidget {
                       DeviceUtils.hideKeyboard(context);
                       vm.doSignSignUp();
                     },
-                  ),
+                  ).width(230).center(),
                   vSpaceMedium,
                 ],
               ).paddingSymmetric(horizontal: 16),

@@ -146,7 +146,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
             radius: 8,
             buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
             buttonColor: model.getButtonStyleQuiz()['color'],
-          ).height(40)
+          ).height(40).width(150)
         : const SizedBox();
   }
 }
@@ -234,18 +234,19 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
               });
     });
   }
-  Widget _buildOption(OptionModel p,QuizViewModel model)=>InkWell(
-    onTap: () {
-      model.onMultipleOptionChecked(p);
-    },
-    borderRadius: kBorderSmall,
-    child: MultipleCheckOptionTile(
-      index: p.index ?? -1,
-      isOptionSelected: model.isOptionChecked(p),
-      option: p,
-      state: model.selectedQn?.state ?? AnswerState.init,
-    ),
-  );
+
+  Widget _buildOption(OptionModel p, QuizViewModel model) => InkWell(
+        onTap: () {
+          model.onMultipleOptionChecked(p);
+        },
+        borderRadius: kBorderSmall,
+        child: MultipleCheckOptionTile(
+          index: p.index ?? -1,
+          isOptionSelected: model.isOptionChecked(p),
+          option: p,
+          state: model.selectedQn?.state ?? AnswerState.init,
+        ),
+      );
 }
 
 class InputTypeQns extends ViewModelWidget<QuizViewModel> {
@@ -266,40 +267,13 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: BoxButtonWidget(
-                        buttonText:
-                            (model.getButtonStyleQuiz()['text'] as String).tr,
-                        radius: 8,
-                        buttonColor: model.getButtonStyleQuiz()['color'],
-                        onPressed: () {
-                          //check user has already answered
-                          if (!model.isAnswered()) {
-                            if (formKey.currentState!.validate()) {
-                              model.onInputTypeSubmit(
-                                  model.inputController.text);
-                            }
-                          }
-                        },
-                      ),
+                      child: _buildButton(model, formKey),
                     ),
                     hSpaceMedium,
                     Expanded(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(maxHeight: 100.h),
-                        child: AppTextFieldSecondary(
-                          controller: model.inputController,
-                          hintText: 'Enter answer',
-                          label: '',
-                          onChanged: (value) {},
-                          align: TextAlign.center,
-                          minLine: 1,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Enter an answer';
-                            }
-                            return null;
-                          },
-                        ),
+                        child: _buildInput(model),
                       ),
                     ),
                     hSpaceMedium,
@@ -308,42 +282,46 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                 )
               : Column(
                   children: [
-                    AppTextFieldSecondary(
-                      controller: model.inputController,
-                      hintText: 'Enter answer',
-                      label: '',
-                      align: TextAlign.center,
-                      minLine: 1,
-                      onChanged: (value) {
-                        model.onInputTypeChanged();
-                      },
-                      textColor: model.getButtonStyleQuiz()['color'],
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Enter an answer';
-                        }
-                        return null;
-                      },
-                    ).paddingSymmetric(horizontal: Get.width * .2),
+                    _buildInput(model)
+                        .paddingSymmetric(horizontal: Get.width * .2),
                     vSpaceMedium,
-                    BoxButtonWidget(
-                      buttonText:
-                          (model.getButtonStyleQuiz()['text'] as String).tr,
-                      radius: 8,
-                      buttonColor: model.getButtonStyleQuiz()['color'],
-                      onPressed: () {
-                        //check user has already answered
-                        if (!model.isAnswered()) {
-                          if (formKey.currentState!.validate()) {
-                            model.onInputTypeSubmit(model.inputController.text);
-                          }
-                        }
-                      },
-                    ).width(Get.width / 2)
+                    _buildButton(model, formKey).width(Get.width / 2)
                   ],
                 );
         }));
   }
+
+  Widget _buildInput(QuizViewModel model) => AppTextFieldSecondary(
+    onTap: (){
+      model.onInputTypeChanged();
+    },
+    controller: model.inputController,
+    hintText: 'Enter answer',
+    label: '',
+    align: TextAlign.center,
+    minLine: 1,
+    textColor: model.getButtonStyleQuiz()['color'],
+    validator: (value) {
+      if (value!.isEmpty) {
+        return 'Enter an answer';
+      }
+      return null;
+    },
+  );
+
+  Widget _buildButton(QuizViewModel model, dynamic formKey) => BoxButtonWidget(
+        buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
+        radius: 8,
+        buttonColor: model.getButtonStyleQuiz()['color'],
+        onPressed: () {
+          //check user has already answered
+          if (!model.isAnswered()) {
+            if (formKey.currentState!.validate()) {
+              model.onInputTypeSubmit(model.inputController.text);
+            }
+          }
+        },
+      );
 }
 
 class DrawingPadWidget extends StatefulWidget {

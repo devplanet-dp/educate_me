@@ -202,6 +202,7 @@ class QuizViewModel extends BaseViewModel {
 
   void onInputTypeChanged() {
     if (selectedQn?.state == AnswerState.tryAgain) {
+      inputController.text = '';
       selectedQn?.state = AnswerState.checkAgain;
       notifyListeners();
     }

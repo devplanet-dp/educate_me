@@ -69,6 +69,7 @@ class AccountView extends StatelessWidget {
                         return null;
                       },
                       label: 'text071'.tr),
+                  vSpaceMedium,
                   BoxButtonWidget(
                     buttonText: 'text083'.tr,
                     onPressed: () => Get.to(() => const ForgotPwdView()),

@@ -127,7 +127,7 @@ class CreateAccountView extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                             color: const Color(0xFF565656)),
                       ).paddingOnly(right: 48),
-                      vSpaceMedium,
+                      vSpaceMassive,
                       const ChildControllerWidget(),
                       AddChildWidget(
                         isAddAccount: isAddAccount,

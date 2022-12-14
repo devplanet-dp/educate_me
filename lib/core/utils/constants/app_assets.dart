@@ -30,7 +30,6 @@ const String kIcGallery = 'assets/icons/ic_gallery.svg';
 const String kIcCamera = 'assets/icons/ic_camera.svg';
 const String kIcChatFilled = 'assets/icons/msg_filled.svg';
 const String kIcDivider = 'assets/icons/ic_divider.png';
-const String kIcBack = 'assets/icons/ic_back.svg';
 const String kIcPlay = 'assets/icons/ic_play.svg';
 const String kIcStop = 'assets/icons/ic_stop.svg';
 const String kIcStat = 'assets/icons/ic_stat.svg';

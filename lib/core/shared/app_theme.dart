@@ -24,6 +24,7 @@ final ThemeData themeData = ThemeData(
   appBarTheme: AppBarTheme(
       color: Colors.white,
       elevation: 0,
+      centerTitle: true,
       iconTheme: const IconThemeData(color: kcTextPrimary),
       titleTextStyle: kSubheadingStyle.copyWith(fontWeight: FontWeight.w500)),
   scaffoldBackgroundColor: Colors.white,
