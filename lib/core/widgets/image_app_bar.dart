@@ -66,11 +66,12 @@ class ImageSliderAppBar extends StatelessWidget {
 class ImageSliderAppBarNonFloating extends StatelessWidget {
   final String images;
   final String title;
+  final VoidCallback onTap;
 
   const ImageSliderAppBarNonFloating({
     Key? key,
     required this.images,
-    required this.title,
+    required this.title, required this.onTap,
   }) : super(key: key);
 
   @override
@@ -78,7 +79,7 @@ class ImageSliderAppBarNonFloating extends StatelessWidget {
     return AppBar(
       leading: AppRoundButton(
         icon: Icons.arrow_back_sharp,
-        onTap: () => Get.back(),
+        onTap: onTap,
       ).paddingOnly(left: 8, top: 8),
       flexibleSpace: FlexibleSpaceBar(
           collapseMode: CollapseMode.pin,

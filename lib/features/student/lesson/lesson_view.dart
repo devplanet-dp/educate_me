@@ -24,38 +24,16 @@ class LessonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+
     return ViewModelBuilder<LessonViewModel>.reactive(
       builder: (context, vm, child) =>
           Scaffold(
-              backgroundColor: kcBg,
-              extendBodyBehindAppBar: true,
-              resizeToAvoidBottomInset: false,
-              appBar: PreferredSize(preferredSize: Size.fromHeight(200.h),
-              child: ImageSliderAppBarNonFloating(images: lesson.cover??'',title: lesson.title??'',),),
               body: LessonContentPageView(
                 lesson: lesson,
                 levelId: levelId,
                 topicId: topicId,
                 subTopicId: subTopicId,
-              ).paddingSymmetric(horizontal: 16, vertical: 16)
-            // NestedScrollView(
-            //   controller: vm.scrollController,
-            //   physics: const NeverScrollableScrollPhysics(),
-            //   headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            //     return [
-            //       // ImageSliderAppBar(
-            //       //     images: lesson.cover ?? '', title: lesson.title ?? '')
-            //     ];
-            //   },
-            //   body: LessonContentPageView(
-            //     lesson: lesson,
-            //     levelId: levelId,
-            //     topicId: topicId,
-            //     subTopicId: subTopicId,
-            //   ).paddingSymmetric(horizontal: 16, vertical: 16),
-            // ),
+              )
           ),
       viewModelBuilder: () => LessonViewModel(),
     );

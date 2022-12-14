@@ -44,8 +44,7 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
                   levelId: levelId,
                   topicId: topicId,
                   subTopicId: subTopicId,
-                  lesson: lesson)).paddingSymmetric(
-              horizontal: _.isTablet ? kTabPaddingHorizontal : 0),
+                  lesson: lesson)).paddingAll(_.isTablet ? kTabPaddingHorizontal : 16),
           body: ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (_, index) =>
@@ -53,7 +52,7 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
                   separatorBuilder: (_, index) => vSpaceMedium,
                   itemCount: lesson.questions?.length ?? 0)
               .paddingSymmetric(
-                  horizontal: !_.isTablet ? 0 : kTabPaddingHorizontal),
+                  horizontal: !_.isTablet ? 16 : kTabPaddingHorizontal),
         );
       }),
     );

@@ -36,12 +36,13 @@ class LessonViewModel extends BaseViewModel {
     return enable;
   }
 
-  onRetryQuestion(int index){
+  onRetryQuestion(int index) {
     PracticeAnswerModel answerModel =
-    answers[answers.indexWhere((e) => e.index == index)];
+        answers[answers.indexWhere((e) => e.index == index)];
     answerModel.state = AnswerState.checkAgain;
     notifyListeners();
   }
+
   onQuestionAnswered(
       {required String text,
       required int index,
@@ -141,5 +142,14 @@ class LessonViewModel extends BaseViewModel {
             lesson: lesson));
       },
     ));
+  }
+
+  goToPrv() {
+    if (barrierController.page == 0) {
+      Get.back();
+    } else {
+      barrierController.animateToPage((barrierController.page! - 1).toInt(),
+          duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    }
   }
 }
