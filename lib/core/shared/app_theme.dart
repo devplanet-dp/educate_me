@@ -5,7 +5,7 @@ import 'package:educate_me/core/shared/shared_styles.dart';
 import 'app_colors.dart';
 
 final ThemeData themeData = ThemeData(
-  textTheme: GoogleFonts.poppinsTextTheme(),
+  fontFamily: 'Poppins',
   brightness: Brightness.light,
   backgroundColor: kcBg,
   dividerColor: Colors.transparent,
@@ -26,7 +26,7 @@ final ThemeData themeData = ThemeData(
       elevation: 0,
       centerTitle: true,
       iconTheme: const IconThemeData(color: kcTextPrimary),
-      titleTextStyle: kSubheadingStyle.copyWith(fontWeight: FontWeight.w500)),
+      titleTextStyle: kSubheadingStyle.copyWith(fontWeight: FontWeight.w600)),
   scaffoldBackgroundColor: Colors.white,
   primaryColor: kcPrimaryColor,
 );

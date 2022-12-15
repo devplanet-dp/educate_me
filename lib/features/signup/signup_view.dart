@@ -179,16 +179,16 @@ class SignUpView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const CustomAppBar(),
-                  vSpaceMedium,
+                  vSpaceLarge,
                   Text(
                     'text013'.tr,
                     style: kHeading3Style.copyWith(
-                        fontWeight: FontWeight.w900, color: Colors.black,fontSize: 28),
+                        fontWeight: FontWeight.w700, color: Colors.black,fontSize: 28),
                   ),
                   Text(
                     'text014'.tr,
                     style: kBodyStyle.copyWith(
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         color: const Color(0xFF565656))
                   ),
                   vSpaceMassive,
@@ -251,6 +251,7 @@ class SignUpView extends StatelessWidget {
                   BoxButtonWidget(
                     buttonText: 'text015'.tr,
                     isLoading: vm.isBusy,
+                    fontSize: 24,
                     onPressed: () {
                       DeviceUtils.hideKeyboard(context);
                       vm.doSignSignUp();

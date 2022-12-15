@@ -113,7 +113,7 @@ class _SubTopicSection extends StatelessWidget {
               builder: (context,_) {
                 return Text(
                   s.title ?? '',
-                  style: kBodyStyle.copyWith(fontWeight: FontWeight.bold,fontSize:_.isTablet?24: 16.sp,),
+                  style: kBodyStyle.copyWith(fontWeight: FontWeight.w600,fontSize:_.isTablet?24: 16.sp,),
                 ).paddingOnly(left: 12);
               }
             ),
@@ -158,7 +158,7 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
             }
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Row(
                 children: List.generate(lessons.length, (index) {
                   final t = lessons[index];

@@ -90,7 +90,7 @@ class OptionTileWidget extends StatelessWidget {
                     option.trim(),
                     textAlign: TextAlign.center,
                     style: kBody1Style.copyWith(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w500,
                         fontSize: _.isTablet ? 28 : 15,
                         color: optionTileColor),
                   ).paddingAll(4),
@@ -99,7 +99,7 @@ class OptionTileWidget extends StatelessWidget {
                   option.trim(),
                   textAlign: TextAlign.center,
                   style: kBody1Style.copyWith(
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w500,
                       fontSize: _.isTablet ? 28 : 15,
                       color: optionTileColor),
                 ).paddingAll(12),
@@ -159,7 +159,7 @@ class MultipleCheckOptionTile extends StatelessWidget {
                     option.option?.trim() ?? '',
                     textAlign: TextAlign.center,
                     style: kBody1Style.copyWith(
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w500,
                         fontSize: _.isTablet ? 28 : 15,
                         color: optionTextColor),
                   ).paddingAll(4),
@@ -168,7 +168,7 @@ class MultipleCheckOptionTile extends StatelessWidget {
                   option.option?.trim() ?? '',
                   textAlign: TextAlign.center,
                   style: kBody1Style.copyWith(
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w500,
                       fontSize: _.isTablet ? 28 : 15,
                       color: optionTextColor),
                 ).paddingAll(12),

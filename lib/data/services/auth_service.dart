@@ -120,13 +120,14 @@ class AuthenticationService {
           createdDate: Timestamp.now(),
           role: UserRole.student));
     } on FirebaseAuthException catch (e) {
+
       var msg = 'Sorry! Please try again later';
       if (e.code == 'weak-password') {
         msg = 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
         msg = 'The account already exists for that email.';
       }
-      return FirebaseResult.error(errorMessage: msg);
+      return FirebaseResult.error(errorMessage: e.message??msg);
     }
   }
 

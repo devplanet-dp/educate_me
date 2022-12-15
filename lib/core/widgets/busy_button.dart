@@ -64,7 +64,7 @@ class BoxButtonWidget extends StatelessWidget {
                           buttonText,
                           maxLines: 1,
                           style: kBodyStyle.copyWith(
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                             color:  isEnabled? textColor?? Colors.white:Colors.white,
                             fontSize:_.isTablet?18: fontSize
                           ),

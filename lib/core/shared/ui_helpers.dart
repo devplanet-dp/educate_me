@@ -14,7 +14,7 @@ const Widget hSpaceMedium = SizedBox(width: 25.0);
 const Widget vSpaceTiny = SizedBox(height: 5.0);
 const Widget vSpaceSmall = SizedBox(height: 10.0);
 const Widget vSpaceMedium = SizedBox(height: 25.0);
-const Widget vSpaceLarge = SizedBox(height: 80.0);
+const Widget vSpaceLarge = SizedBox(height: 40.0);
 const Widget vSpaceMassive = SizedBox(height: 120.0);
 
 Widget spacedDivider = Column(

@@ -25,7 +25,7 @@ class QuizCompletePage extends ViewModelWidget<QuizViewModel> {
             (index) => Text(
                   '${model.ans[index].qIndex}',
                   style: kSubheadingStyle.copyWith(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       color: model.ans[index].isCorrect
                           ? kcCorrectAns
                           : kcIncorrectAns),

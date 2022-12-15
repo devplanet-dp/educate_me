@@ -52,7 +52,7 @@ class ImageSliderAppBar extends StatelessWidget {
                     title,
                     style: kBodyStyle.copyWith(
                         color: Colors.white,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                         fontSize: _.isTablet ? 32 : 18),
                   ),
                 );
@@ -106,7 +106,7 @@ class ImageSliderAppBarNonFloating extends StatelessWidget {
                       title,
                       style: kBodyStyle.copyWith(
                           color: Colors.white,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                           fontSize:_.isTablet?32: 18),
                     ),
                   );

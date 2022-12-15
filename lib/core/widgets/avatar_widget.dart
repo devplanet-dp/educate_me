@@ -53,7 +53,7 @@ class AvatarView extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .headline6
-              ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+              ?.copyWith(fontWeight: FontWeight.w600, color: Colors.white),
         ),
       );
 }

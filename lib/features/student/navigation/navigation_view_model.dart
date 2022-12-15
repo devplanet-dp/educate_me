@@ -33,6 +33,8 @@ class NavigationViewModel extends IndexTrackingViewModel {
     for (var child in controller.appChild) {
       _childCount.add(ProfileController(
           childId: child.userId ?? '',
+          name: child.name??'',
+          age: child.age??'',
           nameTEC: TextEditingController(text: child.name?.capitalizeFirst??''),
           ageTEC: TextEditingController(text: child.age)));
     }
@@ -121,8 +123,13 @@ class NavigationViewModel extends IndexTrackingViewModel {
   }
   Future<void> updateMyProfiles() async {
     if (formKey.currentState!.validate()) {
+      var noUpdatedChildren=0;
       setBusy(true);
       for (var child in childCount) {
+        //check for not-updated childs
+        if(child.name == child.nameTEC.text && child.age == child.ageTEC.text){
+          noUpdatedChildren++;
+        }
         var user = UserModel(
             name: child.nameTEC.text,
             email: '',
@@ -136,7 +143,11 @@ class NavigationViewModel extends IndexTrackingViewModel {
       }
       await initAppUsers(selectedChildId: controller.currentChild?.userId);
       setBusy(false);
-      showInfoMessage(message: 'Your profile details have updated');
+      if(noUpdatedChildren !=childCount.length) {
+        showInfoMessage(message: 'Your profile details have updated');
+      }else{
+        showInfoMessage(message: 'No changes have been made');
+      }
     }
   }
 
@@ -151,9 +162,11 @@ class NavigationViewModel extends IndexTrackingViewModel {
 
 class ProfileController {
   final String childId;
+  final String name;
+  final String age;
   final TextEditingController nameTEC;
   final TextEditingController ageTEC;
 
   ProfileController(
-      {required this.childId, required this.nameTEC, required this.ageTEC});
+      {required this.childId, required this.nameTEC, required this.ageTEC,required this.name,required this.age});
 }

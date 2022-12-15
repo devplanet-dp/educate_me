@@ -49,7 +49,7 @@ class StatView extends StatelessWidget {
                       AutoSizeText(
                         'Hey ${controller.currentChild?.name ?? ''}!',
                         maxLines: 1,
-                        style: kHeading3Style.copyWith(fontWeight:_.isTablet?FontWeight.w900: FontWeight.w700,fontSize:_.isTablet?32:25 ),
+                        style: kHeading3Style.copyWith(fontWeight:_.isTablet?FontWeight.w600: FontWeight.w600,fontSize:_.isTablet?32:25 ),
                       ).center(),
                       Text(
                         'text031'.tr,
@@ -74,7 +74,7 @@ class StatView extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: kLabelStyle.copyWith(
                             color: kcTextDarkGrey,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w500,
                             fontStyle: FontStyle.italic,
                             fontSize: _.isTablet?14: 10.sp),
                       ),

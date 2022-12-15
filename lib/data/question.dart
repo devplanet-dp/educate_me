@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/data/option.dart';
 
 enum QuestionType { multipleChoice, inputSingle, inputMultiple, singleChoice }
@@ -87,13 +88,34 @@ class QuestionModel {
     ///disable shuffle if contains above keywords
     for (var e in disableShuffleKeywords) {
       for (var o in original) {
-        if (o.option == e) {
+        if (o.option?.trim() == e) {
           return original;
         }
       }
     }
 
     if (original.length < 4) {
+      //true/false questions
+      if(original.length==2){
+        //if first option is true keep the order as it is
+        if(original[0].option?.trim().toLowerCase() == 'true')  {
+          return original;
+        }else{
+          //swap the options
+
+          var falseOption = original[0];
+          var trueOption = original[1];
+          original[0]=trueOption;
+          original[1]=falseOption;
+
+          return original;
+
+        }
+
+
+      }
+
+
       return original;
     }
 

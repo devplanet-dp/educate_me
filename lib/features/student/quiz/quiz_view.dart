@@ -95,6 +95,7 @@ class QuizView extends StatelessWidget {
                               : const PageNavigationWidget(),
                           Expanded(
                               child: PageView(
+                                pageSnapping: true,
                             physics: vm.allowNextPage
                                 ? const ClampingScrollPhysics()
                                 : const NeverScrollableScrollPhysics(),

@@ -53,7 +53,7 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
         itemBuilder: (_, index) => [
               Text(
                 'Level ${model.levels[index].name ?? ''}',
-                style: kSubheadingStyle.copyWith(fontWeight: FontWeight.bold),
+                style: kSubheadingStyle.copyWith(fontWeight: FontWeight.w600),
               ).paddingOnly(left: 12),
               vSpaceSmall,
               _TopicList(

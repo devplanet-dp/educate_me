@@ -86,7 +86,7 @@ const TextStyle kLabelStyle =
     TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: kcTextPrimary);
 
 const TextStyle kSubheadingStyle =
-    TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: kcTextPrimary);
+    TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: kcTextPrimary);
 
 const TextStyle kCaptionStyle =
     TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: kcTextPrimary);

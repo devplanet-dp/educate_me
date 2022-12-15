@@ -105,7 +105,7 @@ class AppDialog extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: subtitle == null
-                  ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
+                  ? kBody1Style.copyWith(fontWeight: FontWeight.w600)
                   : kSubheadingStyle.copyWith(
                       fontSize: _.isTablet ? 10.sp : 25.sp,
                       fontWeight: FontWeight.w600,
@@ -117,7 +117,7 @@ class AppDialog extends StatelessWidget {
                   subtitle!,
                   textAlign: TextAlign.center,
                   style: kBody1Style.copyWith(
-                      fontWeight: FontWeight.bold, color: kcTextGrey),
+                      fontWeight: FontWeight.w600, color: kcTextGrey),
                 )
               : emptyBox()
         ],
@@ -242,7 +242,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
               widget.title,
               textAlign: TextAlign.center,
               style: widget.subtitle == null
-                  ? kBody1Style.copyWith(fontWeight: FontWeight.bold)
+                  ? kBody1Style.copyWith(fontWeight: FontWeight.w600)
                   : kSubheadingStyle.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Colors.black,

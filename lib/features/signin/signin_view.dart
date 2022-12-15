@@ -280,17 +280,17 @@ class SignInView extends StatelessWidget {
                   CustomAppBar(
                     onBack: () => Get.offAll(() => const WelcomeView()),
                   ),
-                  const Spacer(),
+                 vSpaceLarge,
                   Text(
                     'text002'.tr,
                     style: kHeading3Style.copyWith(
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.w700,
                         color: Colors.black,
                         fontSize: 28),
                   ),
                   Text('text012'.tr,
                       style: kBodyStyle.copyWith(
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
                           color: const Color(0xFF565656))),
                   const Spacer(
                     flex: 2,
@@ -339,6 +339,7 @@ class SignInView extends StatelessWidget {
                   BoxButtonWidget(
                     buttonText: 'text009'.tr,
                     isLoading: vm.isBusy,
+                    fontSize: 24,
                     onPressed: () {
                       DeviceUtils.hideKeyboard(context);
                       vm.doSignIn();
