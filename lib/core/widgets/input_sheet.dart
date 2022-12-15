@@ -35,7 +35,7 @@ class InputSheetWidget extends StatelessWidget {
               vSpaceSmall,
               Text(
                 title,
-                style: kBodyStyle.copyWith(fontWeight: FontWeight.bold),
+                style: kBodyStyle.copyWith(fontWeight: FontWeight.w600),
               ),
               vSpaceSmall,
               child,

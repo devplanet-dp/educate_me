@@ -1,4 +1,5 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
+import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/core/widgets/busy_overlay.dart';
@@ -15,6 +16,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/shared/app_colors.dart';
 import '../../../core/utils/device_utils.dart';
+import '../lesson/teacher_add_lesson_view.dart';
 import '../question/add_qns_view.dart';
 
 class TeacherQnsView extends StatelessWidget {
@@ -24,13 +26,14 @@ class TeacherQnsView extends StatelessWidget {
       this.topicId,
       this.subTopicId,
       this.lessonId,
-      this.isStartUp = false})
+      this.isStartUp = false,  this.isFromStatsView=false})
       : super(key: key);
   final String levelId;
   final String? topicId;
   final String? subTopicId;
   final LessonModel? lessonId;
   final bool isStartUp;
+  final bool isFromStatsView;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class TeacherQnsView extends StatelessWidget {
           model.listenToQns(
               levelId: levelId,
               subTopicId: subTopicId,
-              lessonId: lessonId?.id??'',
+              lessonId: lessonId?.id ?? '',
               topiId: topicId);
         }
       },
@@ -54,8 +57,19 @@ class TeacherQnsView extends StatelessWidget {
             backgroundColor: kcBg,
             appBar: AppBar(
               elevation: 0,
-              title: Text(lessonId?.title??''),
+              title: Text(lessonId?.title ?? ''),
               actions: [
+             isFromStatsView?   IconButton(
+                    onPressed: () => Get.to(() => TeacherAddLessonView(
+                          levelId: levelId,
+                          topicId: topicId ?? '',
+                          subTopicId: subTopicId ?? '',
+                          lesson: lessonId,
+                        )),
+                    icon: const Icon(
+                      Icons.edit,
+                      color: kErrorRed,
+                    )):emptyBox(),
                 IconButton(
                     onPressed: () => vm.toggleMultiSelect(),
                     icon: Icon(
@@ -95,20 +109,22 @@ class TeacherQnsView extends StatelessWidget {
                   label: const Text('Create'),
                   onPressed: () => Get.to(() => AddQuestionView(
                         topicId: topicId,
-                        lessonId: lessonId?.id??'',
+                        lessonId: lessonId?.id ?? '',
                         levelId: levelId,
                         subTopicId: subTopicId,
                         isStartUp: isStartUp,
                       )),
                 ),
                 ActionChip(
-                  label:  Text(lessonId?.raw==null? 'Import practice':'Edit practice'),
+                  label: Text(lessonId?.raw == null
+                      ? 'Import practice'
+                      : 'Edit practice'),
                   onPressed: () => Get.to(() => ImportQnsView(
                         levelId: levelId,
                         topicId: topicId,
-                        hasRaw: lessonId?.raw !=null,
+                        hasRaw: lessonId?.raw != null,
                         subTopicId: subTopicId,
-                        lessonId: lessonId?.id??'',
+                        lessonId: lessonId?.id ?? '',
                         isPractice: true,
                       )),
                 ),
@@ -118,7 +134,7 @@ class TeacherQnsView extends StatelessWidget {
                       levelId: levelId,
                       topicId: topicId,
                       subTopicId: subTopicId,
-                      lessonId: lessonId?.id??'')),
+                      lessonId: lessonId?.id ?? '')),
                 ),
                 const SizedBox(),
               ],
@@ -132,7 +148,7 @@ class TeacherQnsView extends StatelessWidget {
                     levelId: levelId,
                     topicId: topicId,
                     subTopicId: subTopicId,
-                    lessonId: lessonId?.id??'',
+                    lessonId: lessonId?.id ?? '',
                     isStartUp: isStartUp,
                   ),
           ),

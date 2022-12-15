@@ -48,7 +48,7 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
             model.levels.length,
             (index) => ExpansionPanel(
                 canTapOnHeader: true,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.blue,
                 isExpanded: model.levels[index].expanded ?? false,
                 headerBuilder: (context, isOpen) => _ExpandHeader(
                     expanded: isOpen,
@@ -246,6 +246,7 @@ class _LessonList extends StatelessWidget {
                     topicId: topicId,
                     levelId: levelId,
                     subTopicId: subTopicId,
+                    isFromStatsView: true,
                     lessonId: lessons[index],
                   )),
                   child: Text(

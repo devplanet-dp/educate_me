@@ -20,12 +20,13 @@ class TeacherAddLessonView extends StatelessWidget {
       required this.levelId,
       required this.topicId,
       required this.subTopicId,
-      this.lesson})
+      this.lesson,  this.isFromStatsView=false})
       : super(key: key);
   final String levelId;
   final String topicId;
   final String subTopicId;
   final LessonModel? lesson;
+  final bool isFromStatsView;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class TeacherAddLessonView extends StatelessWidget {
               topicId: topicId,
               subTopicId: subTopicId,
               l: lesson),
-          title: 'Add lesson',
+          title: lesson==null?'Add lesson':'Edit lesson',
           child: Form(
             key: vm.formKey,
             child: [

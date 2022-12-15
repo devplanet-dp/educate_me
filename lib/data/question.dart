@@ -77,20 +77,18 @@ class QuestionModel {
   List<OptionModel> shuffleAnswers(List<OptionModel> original) {
     //disable shuffle for not multiple type questions
     final disableShuffleKeywords = [
-      'None of the above',
-      'Both',
-      'All of the above',
-      'All',
-      'None of them',
-      'None',
-      'All of them'
+      'none of the above',
+      'both',
+      'all of the above',
+      'all',
+      'none of them',
+      'none',
+      'all of them'
     ];
     ///disable shuffle if contains above keywords
     for (var e in disableShuffleKeywords) {
-      for (var o in original) {
-        if (o.option?.trim() == e) {
-          return original;
-        }
+      if(original.any((p) => p.option?.trim().toLowerCase()==e)){
+        return original;
       }
     }
 
