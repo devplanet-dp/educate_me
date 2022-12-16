@@ -76,6 +76,8 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
       child: ResponsiveBuilder(builder: (context, _) {
         return Column(
           children: [
+            vSpaceSmall,
+
             Text(
               'text094'.tr,
               textAlign: TextAlign.center,

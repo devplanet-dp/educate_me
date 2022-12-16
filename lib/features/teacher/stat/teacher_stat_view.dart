@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -23,7 +25,7 @@ class TeacherStatView extends StatelessWidget {
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: ResponsiveBuilder(builder: (context, _) {
           return Scaffold(
-            backgroundColor: kcBg,
+              backgroundColor: kcBg,
               appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(kAppToolbarHeight),
                 child: AdminAppBar(title: 'Admin Statistics'),
@@ -35,26 +37,27 @@ class TeacherStatView extends StatelessWidget {
                   SizedBox(
                     height: 21.h,
                   ),
-                  // AutoSizeText(
-                  //   'Hey ${'Admin'}!',
-                  //   maxLines: 1,
-                  //   style: kHeading3Style.copyWith(
-                  //       fontWeight:
-                  //           _.isTablet ? FontWeight.w900 : FontWeight.w700,
-                  //       fontSize: _.isTablet ? 32 : 25),
-                  // ).center(),
-                  // Text(
-                  //   'Here are the Admin statistics!',
-                  //   style: kBody1Style.copyWith(
-                  //       color: kcTextGrey, fontSize: _.isTablet ? 24 : 15),
-                  // ),
+                  AutoSizeText(
+                    'Hey ${'Admin'}!',
+                    maxLines: 1,
+                    style: kHeading3Style.copyWith(
+                        fontWeight:
+                            _.isTablet ? FontWeight.w600 : FontWeight.w700,
+                        fontSize: _.isTablet ? 32 : 25),
+                  ).center(),
                   Text(
-                    'Lesson Statistics',
-                    style:
-                        kSubheadingStyle.copyWith(fontWeight: FontWeight.w600),
+                    'Here are the Admin statistics!',
+                    style: kBody1Style.copyWith(
+                        color: kcTextGrey, fontSize: _.isTablet ? 24 : 15),
                   ),
                   vSpaceMedium,
-                  const Expanded(child: LessonStatView())
+                  BoxButtonWidget(
+                          radius: 8,
+                          fontSize: 14,
+                          buttonText: 'Lesson Statistics',
+                          onPressed: () => Get.to(() => const LessonStatView()))
+                      .paddingSymmetric(horizontal: 16),
+                  vSpaceMedium,
                 ],
               ));
         }),

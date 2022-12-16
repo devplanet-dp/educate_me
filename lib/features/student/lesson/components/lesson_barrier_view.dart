@@ -36,8 +36,6 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
 
     return Scaffold(
       backgroundColor: kcBg,
-      extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(200.h),
         child: ImageSliderAppBarNonFloating(
@@ -48,59 +46,68 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
           },
         ),
       ),
-      body: PageView(
-        controller: model.barrierController,
-        physics: const NeverScrollableScrollPhysics(),
-        onPageChanged: (index) {
-          model.resetScroll();
-        },
-        children: List.generate(
-            lesson.content?.length ?? 0,
-            (index) => Scaffold(
-                  bottomNavigationBar: ResponsiveBuilder(builder: (context, _) {
-                    return BoxButtonWidget(
-                      radius: _.isTablet ? 17 : 8,
-                      fontSize: _.isTablet ? 24 : 14,
-                      buttonText:
-                          '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
-                      onPressed: () => model.goToNextBarrier(),
-                    ).paddingOnly(
-                        top: 16,
-                        left: _.isTablet ? kTabPaddingHorizontal * 1.2 : 16,
-                        bottom: 16,
-                        right: _.isTablet ? kTabPaddingHorizontal * 1.2 : 16);
-                  }),
-                  body: SingleChildScrollView(
-                    padding: fieldPadding,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 250.h,
+      body: ResponsiveBuilder(builder: (context, _) {
+        return PageView(
+          controller: model.barrierController,
+          physics: const NeverScrollableScrollPhysics(),
+          onPageChanged: (index) {
+            model.resetScroll();
+          },
+          children: List.generate(
+              lesson.content?.length ?? 0,
+              (index) => Stack(
+                    children: [
+                      SingleChildScrollView(
+                        padding: fieldPadding,
+                        child: Column(
+                          children: [
+                            index == 0
+                                ? Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'text100'.tr,
+                                      style: kBodyStyle.copyWith(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
+                                    ).paddingOnly(top: 12))
+                                : emptyBox(),
+                            vSpaceSmall,
+                            LessonBarrierView(
+                                content: lesson.content?[index] ?? ''),
+                            vSpaceMedium,
+                          ],
                         ),
-                        index == 0
-                            ? Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'text100'.tr,
-                                  style: kBodyStyle.copyWith(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ))
-                            : emptyBox(),
-                        vSpaceSmall,
-                        LessonBarrierView(
-                            content: lesson.content?[index] ?? ''),
-                        vSpaceMedium,
-                      ],
-                    ),
-                  ),
-                ))
-          ..add(PracticeQuestionView(
-              levelId: levelId,
-              topicId: topicId,
-              subTopicId: subTopicId,
-              lesson: lesson)),
-      ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child:  Container(
+                          color: Colors.white,
+                          child: BoxButtonWidget(
+                            radius: _.isTablet ? 17 : 8,
+                            fontSize: _.isTablet ? 24 : 14,
+                            buttonText:
+                            '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
+                            onPressed: () => model.goToNextBarrier(),
+                          ).paddingOnly(
+                              top: 16,
+                              left: _.isTablet
+                                  ? kTabPaddingHorizontal * 1.2
+                                  : 16,
+                              bottom: 16,
+                              right: _.isTablet
+                                  ? kTabPaddingHorizontal * 1.2
+                                  : 16),
+                        ),
+                      )
+                    ],
+                  ))
+            ..add(PracticeQuestionView(
+                levelId: levelId,
+                topicId: topicId,
+                subTopicId: subTopicId,
+                lesson: lesson)),
+        );
+      }),
     );
   }
 }

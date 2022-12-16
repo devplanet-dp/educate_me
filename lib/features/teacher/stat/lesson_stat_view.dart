@@ -11,6 +11,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/utils/device_utils.dart';
 import '../../../data/lesson.dart';
+import '../../signin/components/custom_app_bar.dart';
 import '../../student/topic/topic_view_model.dart';
 import '../level/teacher_qns_view.dart';
 
@@ -23,9 +24,16 @@ class LessonStatView extends StatelessWidget {
       onModelReady: (model) {
         model.listenToLevels();
       },
-      builder: (context, vm, child) => GestureDetector(
-          onTap: () => DeviceUtils.hideKeyboard(context),
-          child: const _LevelSection()),
+      builder: (context, vm, child) => Scaffold(
+        backgroundColor: kcBg,
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(kAppToolbarHeight),
+          child: AdminAppBar(title: 'Admin Statistics'),
+        ),
+        body: GestureDetector(
+            onTap: () => DeviceUtils.hideKeyboard(context),
+            child: const _LevelSection()),
+      ),
       viewModelBuilder: () => TopicViewModel(),
     );
   }
@@ -37,26 +45,26 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
   @override
   Widget build(BuildContext context, TopicViewModel model) {
     return ListView.separated(
-        itemCount: model.levels.length,
-        shrinkWrap: true,
-        separatorBuilder: (_, __) => vSpaceSmall,
-        itemBuilder: (_, index) => ExpansionTile(
-                trailing: emptyBox(),
-                onExpansionChanged: (isExpanded) {
-                  model.levels[index].expanded = !isExpanded;
-                  model.notifyListeners();
-                },
-                title: _ExpandHeader(
-                    expanded: model.levels[index].expanded,
-                    paddingLeft: 0,
-                    title: 'Level ${model.levels[index].name ?? ''}',
-                    style: kExpansionTitle),
-                children: [_TopicList(model.levels[index].id ?? '')])
-            .paddingSymmetric(horizontal: 8)
-            .decorated(
-                color: Colors.white,
-                borderRadius:
-                    const BorderRadius.all(Radius.circular(10)))).paddingSymmetric(horizontal: 16);
+            itemCount: model.levels.length,
+            shrinkWrap: true,
+            separatorBuilder: (_, __) => vSpaceSmall,
+            itemBuilder: (_, index) => ExpansionTile(
+                    trailing: emptyBox(),
+                    onExpansionChanged: (isExpanded) {
+                      model.levels[index].expanded = !isExpanded;
+                      model.notifyListeners();
+                    },
+                    title: _ExpandHeader(
+                        expanded: model.levels[index].expanded,
+                        paddingLeft: 0,
+                        title: 'Level ${model.levels[index].name ?? ''}',
+                        style: kExpansionTitle),
+                    children: [_TopicList(model.levels[index].id ?? '')])
+                .paddingSymmetric(horizontal: 8)
+                .decorated(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(10))))
+        .paddingSymmetric(horizontal: 16);
   }
 }
 
@@ -67,7 +75,7 @@ class _TrailingIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RotatedBox(
-        quarterTurns: expanded ?? false ? 3 : 0,
+        quarterTurns: expanded ?? false ?3 :0 ,
         child: SvgPicture.asset(kIcCollapsed));
   }
 }
@@ -107,10 +115,11 @@ class _ExpandHeader extends StatelessWidget {
         ),
         Divider(
           color: Colors.black.withOpacity(0.1),
+          height: 1,
           thickness: 0.5,
         )
       ],
-    );
+    ).paddingSymmetric(vertical: 8);
   }
 }
 
@@ -124,33 +133,27 @@ class _TopicList extends StatelessWidget {
       onModelReady: (model) {
         model.listenToTopics(levelId);
       },
-      builder: (context, vm, child) => SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: ExpansionPanelList(
-          elevation: 0,
-          expandedHeaderPadding: EdgeInsets.zero,
-          expansionCallback: (index, isExpanded) {
-            vm.topics[index].expanded = !isExpanded;
-            vm.notifyListeners();
-          },
-          children: List.generate(
-              vm.topics.length,
-              (index) => ExpansionPanel(
-                  canTapOnHeader: true,
-                  backgroundColor: Colors.transparent,
-                  isExpanded: vm.topics[index].expanded ?? false,
-                  headerBuilder: (context, isOpen) => Align(
-                      alignment: Alignment.centerLeft,
-                      child: _ExpandHeader(
-                          expanded: isOpen,
-                          paddingLeft: 12,
-                          title: vm.topics[index].name ?? '',
-                          style: kExpansionTitle.copyWith(
-                              fontSize: 14.5, fontWeight: FontWeight.w400))),
-                  body: _SubTopicList(
-                      levelId: levelId, topicId: vm.topics[index].id ?? ''))),
-        ),
-      ),
+      builder: (context, vm, child) => ListView.builder(
+          itemCount: vm.topics.length,
+          shrinkWrap: true,
+          itemBuilder: (_, index) => ExpansionTile(
+                  trailing: emptyBox(),
+                  onExpansionChanged: (isExpanded) {
+                    vm.topics[index].expanded = !isExpanded;
+                    vm.notifyListeners();
+                  },
+                  title: _ExpandHeader(
+                      expanded: vm.topics[index].expanded,
+                      paddingLeft: 0,
+                      title: vm.topics[index].name ?? '',
+                      style: kExpansionTitle.copyWith(
+                          fontSize: 14.5, fontWeight: FontWeight.w400)),
+                  children: [
+                    _SubTopicList(
+                      levelId: levelId,
+                      topicId: vm.topics[index].id ?? '',
+                    )
+                  ]).paddingOnly(left: 8)),
       viewModelBuilder: () => TopicViewModel(),
     );
   }
@@ -168,34 +171,28 @@ class _SubTopicList extends StatelessWidget {
       onModelReady: (model) {
         model.listenToSubTopics(levelId: levelId, topicId: topicId);
       },
-      builder: (context, vm, child) => SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: ExpansionPanelList(
-          elevation: 0,
-          expandedHeaderPadding: EdgeInsets.zero,
-          expansionCallback: (index, isExpanded) {
-            vm.subTopics[index].expanded = !isExpanded;
-            vm.notifyListeners();
-          },
-          children: List.generate(
-              vm.subTopics.length,
-              (index) => ExpansionPanel(
-                  canTapOnHeader: true,
-                  backgroundColor: Colors.transparent,
-                  isExpanded: vm.subTopics[index].expanded ?? false,
-                  headerBuilder: (context, isOpen) => _ExpandHeader(
-                      expanded: isOpen,
-                      paddingLeft: 24,
+      builder: (context, vm, child) => ListView.builder(
+          itemCount: vm.subTopics.length,
+          shrinkWrap: true,
+          itemBuilder: (_, index) => ExpansionTile(
+                  trailing: emptyBox(),
+                  onExpansionChanged: (isExpanded) {
+                    vm.subTopics[index].expanded = !isExpanded;
+                    vm.notifyListeners();
+                  },
+                  title: _ExpandHeader(
+                      expanded: vm.subTopics[index].expanded,
+                      paddingLeft: 0,
                       title: vm.subTopics[index].title ?? '',
                       style: kExpansionTitle.copyWith(
                           fontSize: 13, fontWeight: FontWeight.w300)),
-                  body: _LessonList(
-                    levelId: levelId,
-                    topicId: topicId,
-                    subTopicId: vm.subTopics[index].id ?? '',
-                  ))),
-        ),
-      ),
+                  children: [
+                    _LessonList(
+                      levelId: levelId,
+                      topicId: topicId,
+                      subTopicId: vm.subTopics[index].id ?? '',
+                    )
+                  ]).paddingOnly(left: 8)),
       viewModelBuilder: () => TopicViewModel(),
     );
   }
@@ -230,8 +227,8 @@ class _LessonList extends StatelessWidget {
         padding: fieldPadding,
         child: DataTable(
             dataRowHeight: 32,
-            headingTextStyle:
-                kBody1Style.copyWith(color: kcTextStatColor.withOpacity(0.6),fontSize: 12),
+            headingTextStyle: kBody1Style.copyWith(
+                color: kcTextStatColor.withOpacity(0.6), fontSize: 12),
             border: TableBorder(
                 horizontalInside:
                     BorderSide(color: Colors.black.withOpacity(.1))),
