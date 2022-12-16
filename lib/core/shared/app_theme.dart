@@ -12,6 +12,9 @@ final ThemeData themeData = ThemeData(
   dialogTheme: const DialogTheme(
 
   ),
+  dataTableTheme: DataTableThemeData(
+    headingRowHeight: 30
+  ),
   expansionTileTheme: const ExpansionTileThemeData(
     tilePadding: EdgeInsets.zero,
     childrenPadding: EdgeInsets.zero,

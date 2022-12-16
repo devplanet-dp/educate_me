@@ -24,6 +24,14 @@ List<BoxShadow> shadow = [
   ),
 ];
 
+List<BoxShadow> shadowDark = [
+   BoxShadow(
+    color: Colors.black.withOpacity(.2),
+    blurRadius: 10,
+    offset: Offset(1, 0),
+  ),
+];
+
 Border kBorder = Border.all(color: kcStroke);
 
 BoxDecoration disabledFieldDecortaion = BoxDecoration(

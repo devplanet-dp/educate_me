@@ -1,5 +1,6 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
+import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,48 +36,59 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
 
   @override
   Widget build(BuildContext context, TopicViewModel model) {
-    return SingleChildScrollView(
-      padding: fieldPadding,
-      child: ExpansionPanelList(
-        elevation: 0,
-        expandedHeaderPadding: EdgeInsets.zero,
-        expansionCallback: (index, isExpanded) {
-          model.levels[index].expanded = !isExpanded;
-          model.notifyListeners();
-        },
-        children: List.generate(
-            model.levels.length,
-            (index) => ExpansionPanel(
-                canTapOnHeader: true,
-                backgroundColor: Colors.blue,
-                isExpanded: model.levels[index].expanded ?? false,
-                headerBuilder: (context, isOpen) => _ExpandHeader(
-                    expanded: isOpen,
+    return ListView.separated(
+        itemCount: model.levels.length,
+        shrinkWrap: true,
+        separatorBuilder: (_, __) => vSpaceSmall,
+        itemBuilder: (_, index) => ExpansionTile(
+                trailing: emptyBox(),
+                onExpansionChanged: (isExpanded) {
+                  model.levels[index].expanded = !isExpanded;
+                  model.notifyListeners();
+                },
+                title: _ExpandHeader(
+                    expanded: model.levels[index].expanded,
                     paddingLeft: 0,
                     title: 'Level ${model.levels[index].name ?? ''}',
                     style: kExpansionTitle),
-                body: _TopicList(model.levels[index].id ?? ''))),
-      ),
-    );
+                children: [_TopicList(model.levels[index].id ?? '')])
+            .paddingSymmetric(horizontal: 8)
+            .decorated(
+                color: Colors.white,
+                borderRadius:
+                    const BorderRadius.all(Radius.circular(10)))).paddingSymmetric(horizontal: 16);
+  }
+}
+
+class _TrailingIcon extends StatelessWidget {
+  const _TrailingIcon({Key? key, this.expanded}) : super(key: key);
+  final bool? expanded;
+
+  @override
+  Widget build(BuildContext context) {
+    return RotatedBox(
+        quarterTurns: expanded ?? false ? 3 : 0,
+        child: SvgPicture.asset(kIcCollapsed));
   }
 }
 
 class _ExpandHeader extends StatelessWidget {
   const _ExpandHeader(
       {Key? key,
-      required this.expanded,
       required this.title,
       required this.paddingLeft,
-      required this.style})
+      required this.style,
+      this.expanded})
       : super(key: key);
-  final bool expanded;
   final String title;
   final TextStyle style;
   final double paddingLeft;
+  final bool? expanded;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -88,16 +100,17 @@ class _ExpandHeader extends StatelessWidget {
               ),
             ),
             const Expanded(child: SizedBox()),
-            RotatedBox(
-                quarterTurns: expanded ? 3 : 0,
-                child: SvgPicture.asset(kIcCollapsed))
+            _TrailingIcon(
+              expanded: expanded,
+            )
           ],
         ),
         Divider(
-          color: Colors.black.withOpacity(.09),
-        ),
+          color: Colors.black.withOpacity(0.1),
+          thickness: 0.5,
+        )
       ],
-    ).paddingAll(8);
+    );
   }
 }
 
@@ -218,7 +231,7 @@ class _LessonList extends StatelessWidget {
         child: DataTable(
             dataRowHeight: 32,
             headingTextStyle:
-                kBody1Style.copyWith(color: kcTextStatColor.withOpacity(0.6)),
+                kBody1Style.copyWith(color: kcTextStatColor.withOpacity(0.6),fontSize: 12),
             border: TableBorder(
                 horizontalInside:
                     BorderSide(color: Colors.black.withOpacity(.1))),
@@ -242,13 +255,13 @@ class _LessonList extends StatelessWidget {
 
               return DataRow(cells: [
                 DataCell(InkWell(
-                  onTap: ()=>Get.to(() => TeacherQnsView(
-                    topicId: topicId,
-                    levelId: levelId,
-                    subTopicId: subTopicId,
-                    isFromStatsView: true,
-                    lessonId: lessons[index],
-                  )),
+                  onTap: () => Get.to(() => TeacherQnsView(
+                        topicId: topicId,
+                        levelId: levelId,
+                        subTopicId: subTopicId,
+                        isFromStatsView: true,
+                        lessonId: lessons[index],
+                      )),
                   child: Text(
                     lessons[index].title ?? '',
                     style: kBodyStyle.copyWith(
