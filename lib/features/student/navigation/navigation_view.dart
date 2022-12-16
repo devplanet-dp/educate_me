@@ -17,13 +17,17 @@ import '../../../core/shared/app_colors.dart';
 import 'navigation_view_model.dart';
 
 class NavigationView extends StatelessWidget {
-  const NavigationView({Key? key}) : super(key: key);
+  const NavigationView({Key? key, this.initialIndex}) : super(key: key);
+  final int? initialIndex;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<NavigationViewModel>.reactive(
       onModelReady: (model) {
         model.initAppUsers();
+        if(initialIndex!=null){
+          model.setIndex(initialIndex??0);
+        }
       },
       builder: (context, model, child) => Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

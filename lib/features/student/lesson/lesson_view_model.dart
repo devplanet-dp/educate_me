@@ -61,6 +61,7 @@ class LessonViewModel extends BaseViewModel {
     answerModel.attemptCount++;
     answerModel.answer = text;
     if (correctAnswer.trim().toLowerCase() == text.trim().toLowerCase()) {
+      quizController.playSuccessSound();
       answerModel.state = AnswerState.correct;
     } else {
       if (isAttemptExceeded(index)) {

@@ -94,24 +94,25 @@ class SettingViewModel extends BaseViewModel {
     ));
   }
   void goToProfilesView() async {
-    Get.dialog(AppDialogWithInput(
-      title: 'text005'.tr,
-      image: kIcSafe,
-      subtitle: 'text081'.tr,
-      onNegativeTap: () => Get.back(),
-      secondaryActionWidget: TextButton(
-        onPressed: () =>Get.off(()=>const ForgotPwdView()),
-        child: Text(
-          'text083'.tr,
-          style: kCaptionStyle.copyWith(
-              color: kcPrimaryColor,
-              fontSize: 12, fontWeight: FontWeight.w500),
-        ).alignment(Alignment.topLeft),
-      ),
-      onPositiveTap: (input) {
-        Get.back();
-        authToProfileAccount(input);
-      },
-    ));
+    await Get.to(() => const MyProfileView());
+    // Get.dialog(AppDialogWithInput(
+    //   title: 'text005'.tr,
+    //   image: kIcSafe,
+    //   subtitle: 'text081'.tr,
+    //   onNegativeTap: () => Get.back(),
+    //   secondaryActionWidget: TextButton(
+    //     onPressed: () =>Get.off(()=>const ForgotPwdView()),
+    //     child: Text(
+    //       'text083'.tr,
+    //       style: kCaptionStyle.copyWith(
+    //           color: kcPrimaryColor,
+    //           fontSize: 12, fontWeight: FontWeight.w500),
+    //     ).alignment(Alignment.topLeft),
+    //   ),
+    //   onPositiveTap: (input) {
+    //     Get.back();
+    //     authToProfileAccount(input);
+    //   },
+    // ));
   }
 }

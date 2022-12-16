@@ -37,14 +37,15 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           bottomNavigationBar: BoxButtonWidget(
-              buttonText: 'text030'.tr,
-              radius: 8,
-              isEnabled: model.isQuizEnabled() || lesson.questions!.isEmpty,
-              onPressed: () => model.onStartQuizTapped(
-                  levelId: levelId,
-                  topicId: topicId,
-                  subTopicId: subTopicId,
-                  lesson: lesson)).paddingAll(_.isTablet ? kTabPaddingHorizontal : 16),
+                  buttonText: 'text030'.tr,
+                  radius: 8,
+                  isEnabled: model.isQuizEnabled() || lesson.questions!.isEmpty,
+                  onPressed: () => model.onStartQuizTapped(
+                      levelId: levelId,
+                      topicId: topicId,
+                      subTopicId: subTopicId,
+                      lesson: lesson))
+              .paddingAll(_.isTablet ? kTabPaddingHorizontal : 16),
           body: ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (_, index) =>
@@ -77,7 +78,6 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
         return Column(
           children: [
             vSpaceSmall,
-
             Text(
               'text094'.tr,
               textAlign: TextAlign.center,
@@ -121,7 +121,6 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                     isEnabled: !model.isQuizEnabled(),
                     textColor: model.getButtonStyle(index)[index]['color'],
                     hintText: 'Answer',
-
                     align: TextAlign.center,
                     label: '',
                     validator: (value) {
