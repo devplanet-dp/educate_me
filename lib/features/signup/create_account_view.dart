@@ -119,6 +119,7 @@ class CreateAccountView extends StatelessWidget {
                       Text(
                         isAddAccount ? 'text010.2'.tr : 'text010'.tr,
                         style: kHeading3Style.copyWith(
+                          fontSize: 32,
                             fontWeight: FontWeight.w700, color: Colors.black),
                       ),
                       Text(

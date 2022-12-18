@@ -9,17 +9,11 @@ class CustomBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return IconButton(
       onPressed: onBack ?? () => Get.back(),
-      style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.zero,
-          primary: kButtonColor,
-          elevation: 0,
-          shape: const CircleBorder(),
-          minimumSize: Size(40.h, 40.h)),
-      child: const Icon(
+      icon: const Icon(
         Icons.arrow_back,
-        color: Color(0xff8E8E8E),
+        color: Colors.black,
       ),
     );
   }

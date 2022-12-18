@@ -77,7 +77,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
       child: ResponsiveBuilder(builder: (context, _) {
         return Column(
           children: [
-            vSpaceSmall,
+            vSpaceMedium,
             Text(
               'text094'.tr,
               textAlign: TextAlign.center,
@@ -118,6 +118,14 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   constraints: BoxConstraints(maxHeight: 100.h),
                   child: AppTextFieldSecondary(
                     controller: controller,
+                    onTap: (){
+                      if (model.getUserAnswerState(index) ==
+                          AnswerState.tryAgain) {
+                        controller.text = '';
+                        model.onRetryQuestion(index);
+                        return;
+                      }
+                    },
                     isEnabled: !model.isQuizEnabled(),
                     textColor: model.getButtonStyle(index)[index]['color'],
                     hintText: 'Answer',

@@ -11,7 +11,6 @@ import '../../../core/utils/app_controller.dart';
 import '../../../core/utils/app_utils.dart';
 import '../../../data/complain_model.dart';
 import '../../../data/services/local_storage_service.dart';
-import 'navigation_view.dart';
 
 class NavigationViewModel extends IndexTrackingViewModel {
   final _service = locator<FirestoreService>();
@@ -33,9 +32,10 @@ class NavigationViewModel extends IndexTrackingViewModel {
     for (var child in controller.appChild) {
       _childCount.add(ProfileController(
           childId: child.userId ?? '',
-          name: child.name??'',
-          age: child.age??'',
-          nameTEC: TextEditingController(text: child.name?.capitalizeFirst??''),
+          name: child.name ?? '',
+          age: child.age ?? '',
+          nameTEC:
+              TextEditingController(text: child.name?.capitalizeFirst ?? ''),
           ageTEC: TextEditingController(text: child.age)));
     }
     notifyListeners();
@@ -64,9 +64,9 @@ class NavigationViewModel extends IndexTrackingViewModel {
   }
 
   void initChildAccountDetails() {
-    nameTEC.text =( controller.currentChild?.name ?? '').capitalizeFirst??'';
+    nameTEC.text = (controller.currentChild?.name ?? '').capitalizeFirst ?? '';
     ageTEC.text = controller.currentChild?.age ?? '';
-    ownerTECT.text = (controller.appUser?.fName ?? '').capitalizeFirst??'';
+    ownerTECT.text = (controller.appUser?.fName ?? '').capitalizeFirst ?? '';
     notifyListeners();
   }
 
@@ -121,13 +121,15 @@ class NavigationViewModel extends IndexTrackingViewModel {
       setBusy(false);
     }
   }
+
   Future<void> updateMyProfiles() async {
     if (formKey.currentState!.validate()) {
-      var noUpdatedChildren=0;
+      var noUpdatedChildren = 0;
       setBusy(true);
       for (var child in childCount) {
         //check for not-updated childs
-        if(child.name == child.nameTEC.text && child.age == child.ageTEC.text){
+        if (child.name == child.nameTEC.text &&
+            child.age == child.ageTEC.text) {
           noUpdatedChildren++;
         }
         var user = UserModel(
@@ -139,13 +141,12 @@ class NavigationViewModel extends IndexTrackingViewModel {
             age: child.ageTEC.text);
         var result = await _service.createChild(
             parentId: controller.appUser?.userId ?? '', child: user);
-
       }
       await initAppUsers(selectedChildId: controller.currentChild?.userId);
       setBusy(false);
-      if(noUpdatedChildren !=childCount.length) {
+      if (noUpdatedChildren != childCount.length) {
         showInfoMessage(message: 'Your profile details have updated');
-      }else{
+      } else {
         showInfoMessage(message: 'No changes have been made');
       }
     }
@@ -168,5 +169,9 @@ class ProfileController {
   final TextEditingController ageTEC;
 
   ProfileController(
-      {required this.childId, required this.nameTEC, required this.ageTEC,required this.name,required this.age});
+      {required this.childId,
+      required this.nameTEC,
+      required this.ageTEC,
+      required this.name,
+      required this.age});
 }

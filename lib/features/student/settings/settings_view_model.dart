@@ -8,7 +8,6 @@ import 'package:educate_me/features/student/account/account_view.dart';
 import 'package:educate_me/features/student/account/my_profile_view.dart';
 import 'package:educate_me/features/student/forgot/forgot_pwd_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -39,24 +38,23 @@ class SettingViewModel extends BaseViewModel {
     var result = await _authService.getAuthWithPassword(password: pwd);
     setBusyForObject(accountAuthBusy, false);
     if (!result.hasError) {
-
       Get.to(() => const AccountView());
-
     } else {
-      return showErrorMessage(message: result.errorMessage );
+      goToAccountView(isFailed: true, message: result.errorMessage);
     }
   }
+
   Future<void> authToProfileAccount(String pwd) async {
     setBusyForObject(profileAuthBusy, true);
     var result = await _authService.getAuthWithPassword(password: pwd);
     setBusyForObject(profileAuthBusy, false);
     if (!result.hasError) {
-     await Get.to(() => const MyProfileView());
-
+      await Get.to(() => const MyProfileView());
     } else {
-      return showErrorMessage(message: result.errorMessage );
+      goToProfilesView(isFailed: true,message: result.errorMessage);
     }
   }
+
   Future initAppUsers({String? selectedChildId}) async {
     setBusy(true);
     final child =
@@ -71,48 +69,48 @@ class SettingViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-
-  void goToAccountView() async {
+  void goToAccountView({bool isFailed = false, String? message}) async {
     Get.dialog(AppDialogWithInput(
       title: 'text005'.tr,
       image: kIcSafe,
-      subtitle: 'text081'.tr,
+      subtitle: message ?? 'text081'.tr,
       onNegativeTap: () => Get.back(),
       secondaryActionWidget: TextButton(
-        onPressed: () =>Get.off(()=>const ForgotPwdView()),
+        onPressed: () => Get.off(() => const ForgotPwdView()),
         child: Text(
           'text083'.tr,
           style: kCaptionStyle.copyWith(
-            color: kcPrimaryColor,
-              fontSize: 18, fontWeight: FontWeight.w500),
+              color: kcPrimaryColor, fontSize: 18, fontWeight: FontWeight.w500),
         ).alignment(Alignment.topLeft),
       ),
       onPositiveTap: (input) {
         Get.back();
         authToAccount(input);
       },
+      isFailed: isFailed,
     ));
   }
-  void goToProfilesView() async {
-    await Get.to(() => const MyProfileView());
-    // Get.dialog(AppDialogWithInput(
-    //   title: 'text005'.tr,
-    //   image: kIcSafe,
-    //   subtitle: 'text081'.tr,
-    //   onNegativeTap: () => Get.back(),
-    //   secondaryActionWidget: TextButton(
-    //     onPressed: () =>Get.off(()=>const ForgotPwdView()),
-    //     child: Text(
-    //       'text083'.tr,
-    //       style: kCaptionStyle.copyWith(
-    //           color: kcPrimaryColor,
-    //           fontSize: 12, fontWeight: FontWeight.w500),
-    //     ).alignment(Alignment.topLeft),
-    //   ),
-    //   onPositiveTap: (input) {
-    //     Get.back();
-    //     authToProfileAccount(input);
-    //   },
-    // ));
+
+  void goToProfilesView({bool isFailed = false, String? message}) async {
+    Get.dialog(AppDialogWithInput(
+      title: 'text005'.tr,
+      image: kIcSafe,
+      subtitle: message ?? 'text081'.tr,
+      onNegativeTap: () => Get.back(),
+      secondaryActionWidget: TextButton(
+        onPressed: () => Get.off(() => const ForgotPwdView()),
+        child: Text(
+          'text083'.tr,
+          style: kCaptionStyle.copyWith(
+              color: kcPrimaryColor,
+              fontSize: 12, fontWeight: FontWeight.w500),
+        ).alignment(Alignment.topLeft),
+      ),
+      onPositiveTap: (input) {
+        Get.back();
+        authToProfileAccount(input);
+      },
+      isFailed: isFailed,
+    ));
   }
 }

@@ -1,6 +1,7 @@
+import 'dart:ffi';
+
 import 'package:animations/animations.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
-import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/features/student/settings/settings_view.dart';
 import 'package:educate_me/features/student/stats/stat_view.dart';
@@ -25,8 +26,8 @@ class NavigationView extends StatelessWidget {
     return ViewModelBuilder<NavigationViewModel>.reactive(
       onModelReady: (model) {
         model.initAppUsers();
-        if(initialIndex!=null){
-          model.setIndex(initialIndex??0);
+        if (initialIndex != null) {
+          model.setIndex(initialIndex ?? 0);
         }
       },
       builder: (context, model, child) => Scaffold(
@@ -52,32 +53,7 @@ class NavigationView extends StatelessWidget {
                 )
               : getViewForIndex(model.currentIndex),
         ),
-        bottomNavigationBar: ResponsiveBuilder(
-          builder: (context,_) {
-            return BottomNavigationBar(
-                elevation: 0,
-                currentIndex: model.currentIndex,
-                selectedItemColor: kcPrimaryColor,
-                backgroundColor: Colors.white,
-                onTap: model.setIndex,
-                selectedFontSize:_.isTablet?18:14,
-                unselectedFontSize:_.isTablet?18:14,
-                items: [
-                  _buildNavIcon(
-                      assetName: kIcStat,
-                      isSelected: model.currentIndex == 0,
-                      name: 'text020'.tr),
-                  _buildNavIcon(
-                      assetName: kIcTopic,
-                      isSelected: model.currentIndex == 1,
-                      name: 'text021'.tr),
-                  _buildNavIcon(
-                      assetName: kIcSettings,
-                      isSelected: model.currentIndex == 2,
-                      name: 'text022'.tr),
-                ]).paddingSymmetric(horizontal:_.isTablet? kTabPaddingHorizontal/2:0);
-          }
-        ),
+        bottomNavigationBar: _buildBottom(model),
       ),
       viewModelBuilder: () => NavigationViewModel(),
     );
@@ -96,34 +72,77 @@ class NavigationView extends StatelessWidget {
     }
   }
 
-  BottomNavigationBarItem _buildNavIcon(
-          {required String assetName,
-          required bool isSelected,
-          required String name,
-          int? count}) =>
-      BottomNavigationBarItem(
-        icon: ResponsiveBuilder(
-          builder: (context,_) {
-            return Column(
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  height: 2.h,
-                  width: 20.w,
-                  decoration: BoxDecoration(
-                      color: !isSelected ? Colors.transparent : kcPrimaryColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(6))),
-                ),
-                SvgPicture.asset(
-                  assetName,
-                  height:_.isTablet?42: 24,
-                  width: 24,
-                  color: isSelected ? kcPrimaryColor : kButtonColor,
-                ).paddingAll(8),
-              ],
-            );
-          }
-        ),
-        label: name,
-      );
+  Widget _buildBottom(NavigationViewModel model) =>
+      ResponsiveBuilder(builder: (context, _) {
+        return Container(
+          color: Colors.white,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _item(
+                  assetName: kIcStat,
+                  isSelected: model.isIndexSelected(0),
+                  lable: 'text020'.tr,
+                  onTap: () {
+                    model.setIndex(0);
+                  }),
+              _item(
+                  assetName: kIcTopic,
+                  isSelected: model.isIndexSelected(1),
+                  lable: 'text021'.tr,
+                  onTap: () {
+                    model.setIndex(1);
+                  }),
+              _item(
+                  assetName: kIcSettings,
+                  isSelected: model.isIndexSelected(2),
+                  lable: 'text022'.tr,
+                  onTap: () {
+                    model.setIndex(2);
+                  }),
+            ],
+          ).paddingSymmetric(
+              horizontal: _.isTablet ? kTabPaddingHorizontal / 2 : 0),
+        );
+      });
+
+  Widget _item(
+          {required assetName,
+          required isSelected,
+          required lable,
+          required VoidCallback onTap}) =>
+      ResponsiveBuilder(builder: (context, _) {
+        return InkWell(
+          borderRadius: kBorderSmall,
+          onTap: onTap,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                height: 2.h,
+                width: 20.w,
+                decoration: BoxDecoration(
+                    color: !isSelected ? Colors.transparent : kcPrimaryColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(6))),
+              ),
+              SvgPicture.asset(
+                assetName,
+                height: _.isTablet ? 42 : 24,
+                width: 24,
+                color: isSelected ? kcPrimaryColor : kButtonColor,
+              ).paddingAll(8),
+              Text(lable,
+                  style: kBodyStyle.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: isSelected
+                          ? kcPrimaryColor
+                          : const Color(0xFFCBCBCB))).paddingOnly(bottom: 2),
+            ],
+          ),
+        );
+      });
+
 }

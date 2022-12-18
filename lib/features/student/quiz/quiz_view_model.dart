@@ -84,6 +84,7 @@ class QuizViewModel extends BaseViewModel {
   List<OptionModel> checkedMultipleOptions = [];
 
   onMultipleOptionChecked(OptionModel option) {
+    option.qId = selectedQn?.id;
     var state = selectedQn?.state;
     if (state == AnswerState.tryAgain ||
         state == AnswerState.correct ||
@@ -97,6 +98,7 @@ class QuizViewModel extends BaseViewModel {
     } else {
       checkedMultipleOptions.add(option);
     }
+
     notifyListeners();
   }
 
@@ -166,12 +168,18 @@ class QuizViewModel extends BaseViewModel {
       //disable selection on answered question
       if (!isAnswered()) {
         isFirstAttempt = true; //user tap once on option
-        var isCorrect =
-            checkedMultipleOptions.every((e) => e.isCorrect == true);
+        var isCorrect = selectedQn?.options
+                ?.where((e) => e.isCorrect == true)
+                .toList()
+                .length ==
+            checkedMultipleOptions
+                .where((e) => e.isCorrect == true && e.qId == selectedQn?.id)
+                .toList()
+                .length;
 
         if (isCorrect) {
           selectedQn?.state = AnswerState.correct;
-          _addQuestionAsAnswered(null);
+          _addQuestionAsAnswered(OptionModel(isCorrect: true));
           //play success sound
           quizController.playSuccessSound();
           await showSuccessDialog();
@@ -179,7 +187,7 @@ class QuizViewModel extends BaseViewModel {
           await autoMoveToNextPage();
         } else {
           isSecondAttempt
-              ? showSecondAttemptWrongDialog(null)
+              ? showSecondAttemptWrongDialog(OptionModel(isCorrect: false))
               : showFirstAttemptWrongPrompt();
         }
       }

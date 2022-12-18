@@ -26,7 +26,7 @@ class AppDialog extends StatelessWidget {
     required this.image,
     this.onNegativeTap,
     this.onPositiveTap,
-    this.singleSelection=false,
+    this.singleSelection = false,
     this.subtitle,
     this.positiveText,
   }) : super(key: key);
@@ -59,29 +59,31 @@ class AppDialog extends StatelessWidget {
   }
 
   Widget _buildDialogController() {
-    return singleSelection? BoxButtonWidget(
-        buttonText: positiveText ?? '',
-        radius: 8,
-        onPressed: onPositiveTap ?? () => Get.back())
-        .paddingSymmetric(horizontal: Get.width * .2):[
-      Expanded(
-        child: BoxButtonWidget(
-            buttonText: 'text043'.tr,
-            radius: 8,
-            fontSize: 16,
-            buttonColor: kButtonDisabledColor,
-            textColor: kcTextDarkGrey,
-            onPressed: onNegativeTap ?? () => Get.back()),
-      ),
-      hSpaceSmall,
-      Expanded(
-        child: BoxButtonWidget(
-            buttonText: positiveText ?? 'text044'.tr,
-            radius: 8,
-            fontSize: 16,
-            onPressed: onPositiveTap ?? () => Get.back()),
-      ),
-    ].toRow();
+    return singleSelection
+        ? BoxButtonWidget(
+                buttonText: positiveText ?? '',
+                radius: 8,
+                onPressed: onPositiveTap ?? () => Get.back())
+            .paddingSymmetric(horizontal: Get.width * .2)
+        : [
+            Expanded(
+              child: BoxButtonWidget(
+                  buttonText: 'text043'.tr,
+                  radius: 8,
+                  fontSize: 16,
+                  buttonColor: kButtonDisabledColor,
+                  textColor: kcTextDarkGrey,
+                  onPressed: onNegativeTap ?? () => Get.back()),
+            ),
+            hSpaceSmall,
+            Expanded(
+              child: BoxButtonWidget(
+                  buttonText: positiveText ?? 'text044'.tr,
+                  radius: 8,
+                  fontSize: 16,
+                  onPressed: onPositiveTap ?? () => Get.back()),
+            ),
+          ].toRow();
   }
 
   Widget _buildHeader() {
@@ -131,6 +133,7 @@ class AppDialogWithInput extends StatefulWidget {
   final VoidCallback? onNegativeTap;
   final Function(String)? onPositiveTap;
   final Widget? secondaryActionWidget;
+  final bool isFailed;
 
   const AppDialogWithInput({
     Key? key,
@@ -140,6 +143,7 @@ class AppDialogWithInput extends StatefulWidget {
     this.onPositiveTap,
     this.subtitle,
     this.secondaryActionWidget,
+    required this.isFailed,
   }) : super(key: key);
 
   @override
@@ -215,9 +219,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
               if (formKey.currentState!.validate()) {
                 if (widget.onPositiveTap != null) {
                   widget.onPositiveTap!(controller.text);
-                  return Get.back();
                 }
-                return Get.back();
               }
             }),
       ),
@@ -254,7 +256,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
                     textAlign: TextAlign.center,
                     style: kBody1Style.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: kcTextGrey,
+                        color: widget.isFailed ? kcIncorrectAns : kcTextGrey,
                         fontSize: _.isTablet ? 8 : 12.sp),
                   )
                 : emptyBox()
@@ -333,7 +335,7 @@ class AppDialogSingle extends StatelessWidget {
             buttonText: positiveText ?? '',
             radius: 8,
             onPressed: onPositiveTap ?? () => Get.back())
-        .paddingSymmetric(horizontal:isTab?72: 24);
+        .paddingSymmetric(horizontal: isTab ? 72 : 24);
   }
 
   Widget _buildHeader() => ResponsiveBuilder(builder: (context, _) {
@@ -364,8 +366,7 @@ class AppDialogSingle extends StatelessWidget {
           subtitle,
           textAlign: TextAlign.center,
           style: kBodyStyle.copyWith(
-              fontSize: _.isTablet ? 24 : 16.sp,
-              fontWeight: FontWeight.w400),
+              fontSize: _.isTablet ? 24 : 16.sp, fontWeight: FontWeight.w400),
         ).paddingAll(8).decorated(
           color: Colors.white,
           borderRadius: kBorderSmall,

@@ -2,8 +2,9 @@ class OptionModel {
   int? index;
   String? option;
   bool? isCorrect;
+  String? qId;
 
-  OptionModel({this.index, this.option, this.isCorrect});
+  OptionModel({this.index, this.option, this.isCorrect,this.qId});
 
   OptionModel.fromJson(Map<String, dynamic> json) {
     index = json['index'];
