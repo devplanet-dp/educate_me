@@ -51,12 +51,13 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
             itemBuilder: (_, index) => ExpansionTile(
                     trailing: emptyBox(),
                     onExpansionChanged: (isExpanded) {
-                      model.levels[index].expanded = !isExpanded;
+                      model.levels[index].expanded = isExpanded;
                       model.notifyListeners();
                     },
                     title: _ExpandHeader(
                         expanded: model.levels[index].expanded,
                         paddingLeft: 0,
+                        hasDivider: false,
                         title: 'Level ${model.levels[index].name ?? ''}',
                         style: kExpansionTitle),
                     children: [_TopicList(model.levels[index].id ?? '')])
@@ -75,7 +76,7 @@ class _TrailingIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RotatedBox(
-        quarterTurns: expanded ?? false ?3 :0 ,
+        quarterTurns: expanded ?? false ? 3 : 0,
         child: SvgPicture.asset(kIcCollapsed));
   }
 }
@@ -86,12 +87,14 @@ class _ExpandHeader extends StatelessWidget {
       required this.title,
       required this.paddingLeft,
       required this.style,
+      this.hasDivider = true,
       this.expanded})
       : super(key: key);
   final String title;
   final TextStyle style;
   final double paddingLeft;
   final bool? expanded;
+  final bool? hasDivider;
 
   @override
   Widget build(BuildContext context) {
@@ -113,11 +116,13 @@ class _ExpandHeader extends StatelessWidget {
             )
           ],
         ),
-        Divider(
-          color: Colors.black.withOpacity(0.1),
-          height: 1,
-          thickness: 0.5,
-        )
+        hasDivider ?? true
+            ?  Divider(
+                color: Colors.black.withOpacity(.1),
+                height: 1,
+                thickness: 0.5,
+              ).paddingOnly(top: 8)
+            : emptyBox()
       ],
     ).paddingSymmetric(vertical: 8);
   }
@@ -139,12 +144,13 @@ class _TopicList extends StatelessWidget {
           itemBuilder: (_, index) => ExpansionTile(
                   trailing: emptyBox(),
                   onExpansionChanged: (isExpanded) {
-                    vm.topics[index].expanded = !isExpanded;
+                    vm.topics[index].expanded = isExpanded;
                     vm.notifyListeners();
                   },
                   title: _ExpandHeader(
                       expanded: vm.topics[index].expanded,
                       paddingLeft: 0,
+                      hasDivider: vm.topics[index].expanded,
                       title: vm.topics[index].name ?? '',
                       style: kExpansionTitle.copyWith(
                           fontSize: 14.5, fontWeight: FontWeight.w400)),
@@ -177,7 +183,7 @@ class _SubTopicList extends StatelessWidget {
           itemBuilder: (_, index) => ExpansionTile(
                   trailing: emptyBox(),
                   onExpansionChanged: (isExpanded) {
-                    vm.subTopics[index].expanded = !isExpanded;
+                    vm.subTopics[index].expanded = isExpanded;
                     vm.notifyListeners();
                   },
                   title: _ExpandHeader(

@@ -37,6 +37,7 @@ class TeacherAddLessonView extends StatelessWidget {
       builder: (context, vm, child) => Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: true,
+          title: Text( lesson==null?'Add lesson':'Edit lesson'),
         ),
         body: InputSheetWidget(
           isBusy: vm.isBusy,
@@ -46,7 +47,7 @@ class TeacherAddLessonView extends StatelessWidget {
               topicId: topicId,
               subTopicId: subTopicId,
               l: lesson),
-          title: lesson==null?'Add lesson':'Edit lesson',
+          title:'',
           child: Form(
             key: vm.formKey,
             child: [

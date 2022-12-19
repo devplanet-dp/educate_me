@@ -33,7 +33,7 @@ class InputSheetWidget extends StatelessWidget {
           return SingleChildScrollView(
             child: [
               vSpaceSmall,
-              Text(
+             title.isEmpty?emptyBox() :Text(
                 title,
                 style: kBodyStyle.copyWith(fontWeight: FontWeight.w600),
               ),

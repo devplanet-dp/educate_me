@@ -165,7 +165,7 @@ class MultipleCheckOptionTile extends StatelessWidget {
                   ).paddingAll(4),
                 )
               : Text(
-                  '${option.option?.trim() ?? ''} - ${option.isCorrect}',
+                  option.option?.trim() ?? '',
                   textAlign: TextAlign.center,
                   style: kBody1Style.copyWith(
                       fontWeight: FontWeight.w500,
