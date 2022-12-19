@@ -40,6 +40,19 @@ class NavigationViewModel extends IndexTrackingViewModel {
     }
     notifyListeners();
   }
+  void refreshProfiles() {
+    _childCount.clear();
+    for (var child in controller.appChild) {
+      _childCount.add(ProfileController(
+          childId: child.userId ?? '',
+          name: child.name ?? '',
+          age: child.age ?? '',
+          nameTEC:
+          TextEditingController(text: child.name?.capitalizeFirst ?? ''),
+          ageTEC: TextEditingController(text: child.age)));
+    }
+    notifyListeners();
+  }
 
   final _list = [
     {'code': 'en', 'name': 'English'},
@@ -143,6 +156,7 @@ class NavigationViewModel extends IndexTrackingViewModel {
             parentId: controller.appUser?.userId ?? '', child: user);
       }
       await initAppUsers(selectedChildId: controller.currentChild?.userId);
+      refreshProfiles();
       setBusy(false);
       if (noUpdatedChildren != childCount.length) {
         showInfoMessage(message: 'Your profile details have updated');
