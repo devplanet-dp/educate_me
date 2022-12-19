@@ -124,6 +124,12 @@ class QuizViewModel extends BaseViewModel {
         duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
   }
 
+  goToPage(int index) {
+    quizController.isQuizCompleted = true;
+    pageController.animateToPage((index).toInt(),
+        duration: const Duration(milliseconds: 10), curve: Curves.bounceIn);
+  }
+
   goToPrvQn() {
     _resetAttempts();
     pageController.animateToPage((pageController.page! - 1).toInt(),
@@ -293,6 +299,7 @@ class QuizViewModel extends BaseViewModel {
       required subTopicId,
       required lessonId}) async {
     setBusy(true);
+    quizController.isQuizCompleted=false;
     var result = await _service.getQuestions(
         levelId: levelId,
         topicId: topicId,
@@ -523,6 +530,7 @@ class QuizViewModel extends BaseViewModel {
   }
 
   _resetAttempts() {
+    quizController.isQuizCompleted = false;
     isFirstAttempt = false;
     isSecondAttempt = false;
     _allowNextPage = false;

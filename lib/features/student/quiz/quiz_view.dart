@@ -1,6 +1,7 @@
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/data/lesson.dart';
@@ -45,84 +46,102 @@ class QuizView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: ResponsiveBuilder(builder: (context, _) {
-          return Scaffold(
-            backgroundColor: kcBgQuiz,
-            bottomNavigationBar: !vm.isLastPage() || vm.questions.isEmpty
-                ? emptyBox()
-                : Container(
-                    child: BoxButtonWidget(
-                      radius: 8,
-                      isLoading: vm.isBusy,
-                      buttonText: 'text055'.tr,
-                      onPressed: () => vm.finishExam(
-                          lesson: lesson,
-                          levelId: levelId,
-                          topicId: topicId,
-                          subTopicId: subTopicId),
-                    ).paddingSymmetric(
-                        horizontal: _.isTablet ? kTabPaddingHorizontal : 16,
-                        vertical: 8),
-                  ),
-            appBar: AppBar(
-              centerTitle: true,
-              iconTheme: IconThemeData(size: _.isTablet ? 32 : 24),
-              title: Text(
-                '${lesson.title} - Quiz',
-                style: kSubheadingStyle.copyWith(
-                    fontSize: _.isTablet ? 28 : 20,
-                    fontWeight: _.isTablet ? FontWeight.w600 : FontWeight.w500),
+          return WillPopScope(
+            onWillPop: ()async{
+              if(vm.quizController.isQuizCompleted){
+                vm.goToPage(vm.questions.length+1);
+                vm.quizController.isQuizCompleted=false;
+                return false;
+              }
+              return true;
+            },
+            child: Scaffold(
+              backgroundColor: kcBgQuiz,
+              bottomNavigationBar: !vm.isLastPage() || vm.questions.isEmpty
+                  ? emptyBox()
+                  : Container(
+                      child: BoxButtonWidget(
+                        radius: 8,
+                        isLoading: vm.isBusy,
+                        buttonText: 'text055'.tr,
+                        onPressed: () => vm.finishExam(
+                            lesson: lesson,
+                            levelId: levelId,
+                            topicId: topicId,
+                            subTopicId: subTopicId),
+                      ).paddingSymmetric(
+                          horizontal: _.isTablet ? kTabPaddingHorizontal : 16,
+                          vertical: 8),
+                    ),
+              appBar: AppBar(
+                centerTitle: true,
+                iconTheme: IconThemeData(size: _.isTablet ? 32 : 24),
+                title: Text(
+                  '${lesson.title} - Quiz',
+                  style: kSubheadingStyle.copyWith(
+                      fontSize: _.isTablet ? 28 : 20,
+                      fontWeight: _.isTablet ? FontWeight.w600 : FontWeight.w500),
+                ),
               ),
-            ),
-            body: vm.isBusy
-                ? const ShimmerQuiz()
-                : vm.questions.isEmpty
-                    ? AppInfoWidget(
-                            translateKey: 'text053'.tr,
-                            iconData: Iconsax.book_1)
-                        .center()
-                    : Column(
-                        children: [
-                          vSpaceMedium,
-                          vm.isLastPage()
-                              ? emptyBox()
-                              : const PageProgressWidget()
-                                  .paddingSymmetric(horizontal: 16),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          vm.isLastPage()
-                              ? const QuizResultsWidget()
-                              : const PageNavigationWidget(),
-                          Expanded(
-                              child: PageView(
-                                pageSnapping: true,
-                            physics: vm.allowNextPage
-                                ? const ClampingScrollPhysics()
-                                : const NeverScrollableScrollPhysics(),
-                            controller: vm.pageController,
-                            onPageChanged: (index) {
-                              vm.onPageChanged(index + 1);
+              body: vm.isBusy
+                  ? const ShimmerQuiz()
+                  : vm.questions.isEmpty
+                      ? AppInfoWidget(
+                              translateKey: 'text053'.tr,
+                              iconData: Iconsax.book_1)
+                          .center()
+                      : Column(
+                          children: [
+                            vSpaceMedium,
+                            vm.isLastPage()
+                                ? emptyBox()
+                                : const PageProgressWidget()
+                                    .paddingSymmetric(horizontal: 16),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            vm.quizController.isQuizCompleted
+                                ? emptyBox()
+                                : vm.isLastPage()
+                                    ? const QuizResultsWidget()
+                                    : const PageNavigationWidget(),
+                            Expanded(
+                                child: PageView(
+                              pageSnapping: true,
+                              physics: vm.allowNextPage
+                                  ? const ClampingScrollPhysics()
+                                  : const NeverScrollableScrollPhysics(),
+                              controller: vm.pageController,
+                              onPageChanged: (index) {
+                                vm.onPageChanged(index + 1);
 
-                              if (!vm.isLastPage()) {
-                                vm.selectedQn = vm.questions[index];
-                                vm.setAllowNextPage(index < vm.ans.length);
-                              }
-                              vm.setPreviousCheckedValues();
-                            },
-                            children: List.generate(
-                                vm.questions.length,
-                                (index) => QuestionCard(
-                                      levelId: levelId,
-                                      topicId: topicId,
-                                      subTopicId: subTopicId,
-                                      lessonId: lesson.id ?? '',
-                                      drawEnabled:
-                                          lesson.drawToolEnabled ?? false,
-                                    ))
-                              ..add(const QuizCompletePage()),
-                          ))
-                        ],
-                      ),
+                                if (!vm.isLastPage()) {
+                                  vm.selectedQn = vm.questions[index];
+                                  vm.setAllowNextPage(index < vm.ans.length);
+                                }
+                                vm.setPreviousCheckedValues();
+                              },
+                              children: List.generate(
+                                  vm.questions.length,
+                                  (index) => QuestionCard(
+                                        levelId: levelId,
+                                        topicId: topicId,
+                                        subTopicId: subTopicId,
+                                        lessonId: lesson.id ?? '',
+                                        drawEnabled:
+                                            lesson.drawToolEnabled ?? false,
+                                      ))
+                                ..add(QuizCompletePage(
+                                  levelId: levelId,
+                                  topicId: topicId,
+                                  subTopicId: subTopicId,
+                                  lessonId: lesson.id ?? '',
+                                  drawEnabled: false,
+                                )),
+                            ))
+                          ],
+                        ),
+            ),
           );
         }),
       ),

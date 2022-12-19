@@ -29,6 +29,6 @@ class QuizController extends GetxController {
       'user':'Ishara Kasun',
     });
   }
-
+  bool isQuizCompleted=false;
 
 }
