@@ -73,7 +73,9 @@ class SignInView extends StatelessWidget {
                   key: vm.formKey,
                   child: Column(
                     children: [
-                      const CustomAppBar().paddingSymmetric(horizontal: 16),
+                      CustomAppBar(
+                        onBack: () => Get.offAll(() => const WelcomeView()),
+                      ).paddingSymmetric(horizontal: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -280,7 +282,7 @@ class SignInView extends StatelessWidget {
                   CustomAppBar(
                     onBack: () => Get.offAll(() => const WelcomeView()),
                   ),
-                 vSpaceLarge,
+                  vSpaceLarge,
                   Text(
                     'text002'.tr,
                     style: kHeading3Style.copyWith(

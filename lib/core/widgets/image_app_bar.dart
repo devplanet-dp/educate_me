@@ -20,14 +20,16 @@ class ImageSliderAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var deviceType = getDeviceType(MediaQuery.of(context).size);
     return SliverAppBar(
       expandedHeight: 200.h,
       floating: true,
       pinned: true,
+      leadingWidth: deviceType == DeviceScreenType.tablet ?  72: 60,
       leading: AppRoundButton(
         icon: Icons.arrow_back_sharp,
         onTap: () => Get.back(),
-      ).paddingOnly(left: 8, top: 8),
+      ).paddingOnly(left:deviceType == DeviceScreenType.tablet?16: 8, top: 8),
       flexibleSpace: FlexibleSpaceBar(
           collapseMode: CollapseMode.pin,
           background: Stack(
@@ -71,16 +73,19 @@ class ImageSliderAppBarNonFloating extends StatelessWidget {
   const ImageSliderAppBarNonFloating({
     Key? key,
     required this.images,
-    required this.title, required this.onTap,
+    required this.title,
+    required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var deviceType = getDeviceType(MediaQuery.of(context).size);
     return AppBar(
       leading: AppRoundButton(
         icon: Icons.arrow_back_sharp,
         onTap: onTap,
       ).paddingOnly(left: 8, top: 8),
+      leadingWidth: deviceType == DeviceScreenType.tablet ? 75 : 56,
       flexibleSpace: FlexibleSpaceBar(
           collapseMode: CollapseMode.pin,
           background: Stack(
@@ -98,20 +103,18 @@ class ImageSliderAppBarNonFloating extends StatelessWidget {
                   isDark: true,
                 ),
               ),
-              ResponsiveBuilder(
-                builder: (context,_) {
-                  return Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      title,
-                      style: kBodyStyle.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize:_.isTablet?32: 18),
-                    ),
-                  );
-                }
-              )
+              ResponsiveBuilder(builder: (context, _) {
+                return Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    title,
+                    style: kBodyStyle.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: _.isTablet ? 32 : 18),
+                  ),
+                );
+              })
             ],
           )),
     );

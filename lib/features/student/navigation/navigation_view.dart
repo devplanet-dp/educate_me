@@ -121,7 +121,7 @@ class NavigationView extends StatelessWidget {
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
-                height: 2.h,
+                height:_.isTablet?0: 2.h,
                 width: 20.w,
                 decoration: BoxDecoration(
                     color: !isSelected ? Colors.transparent : kcPrimaryColor,

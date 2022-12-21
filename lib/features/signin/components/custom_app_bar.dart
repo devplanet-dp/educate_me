@@ -90,8 +90,8 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
                   duration: const Duration(microseconds: 300),
                   child: AvatarView(
                           path: model.controller.currentChild?.profileUrl ?? '',
-                          height:_.isTablet?34: 34.h,
-                          widget:_.isTablet?34: 34.w,
+                          height:_.isTablet?56: 34.h,
+                          widget:_.isTablet?56: 34.w,
                           userName: model.controller.currentChild?.name ?? 'E')
                       .paddingAll(4)
                       .decorated(

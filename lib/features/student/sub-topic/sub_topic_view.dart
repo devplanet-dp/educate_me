@@ -114,7 +114,7 @@ class _SubTopicSection extends StatelessWidget {
                 return Text(
                   s.title ?? '',
                   style: kBodyStyle.copyWith(fontWeight: FontWeight.w600,fontSize:_.isTablet?24: 16.sp,),
-                ).paddingOnly(left: 12);
+                ).paddingOnly(left:_.isTablet?32: 12);
               }
             ),
             AutoSizeText(
@@ -122,7 +122,7 @@ class _SubTopicSection extends StatelessWidget {
               maxLines: 1,
               style: kCaptionStyle.copyWith(
                   color: kcTextDarkGrey, fontWeight: FontWeight.w400,fontSize: _.isTablet?16:13),
-            ).paddingOnly(left: 12),
+            ).paddingOnly(left:_.isTablet?32: 12),
             vSpaceSmall,
             _LessonList(
                 levelId: levelId, topicId: topicId, subTopicId: s.id ?? ''),
@@ -162,17 +162,21 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
               child: Row(
                 children: List.generate(lessons.length, (index) {
                   final t = lessons[index];
-                  return LessonCard(
-                    lesson: t,
-                    isCompleted: model.isLessonCompleted(t.id??''),
-                    onTap: () => model.goToLessonView(
-                        currentLesson: t,
-                        levelId: levelId,
-                        topicId: topicId,
-                        subTopicId: subTopicId,
-                        lessons: lessons),
-                  ).paddingOnly(
-                      left: 10, right: index == lessons.length - 1 ? 10 : 0);
+                  return ResponsiveBuilder(
+                    builder: (context,_) {
+                      return LessonCard(
+                        lesson: t,
+                        isCompleted: model.isLessonCompleted(t.id??''),
+                        onTap: () => model.goToLessonView(
+                            currentLesson: t,
+                            levelId: levelId,
+                            topicId: topicId,
+                            subTopicId: subTopicId,
+                            lessons: lessons),
+                      ).paddingOnly(
+                          left:index==0?_.isTablet?32:10:10, right: index == lessons.length - 1 ?_.isTablet?32: 10 : 0);
+                    }
+                  );
                 }),
               ),
             );

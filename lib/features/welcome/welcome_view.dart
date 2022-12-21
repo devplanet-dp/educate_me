@@ -51,9 +51,9 @@ class _WelcomeTitle extends StatelessWidget {
             BoxButtonWidget(
               onPressed: () => Get.to(() => const SignInView()),
               buttonText: 'Join now',
-              fontSize: _.isTablet ? 32 : 24,
-              radius: _.isTablet ? 18 : 30,
-            ).width(_.isTablet ? Get.width * .4 : Get.width * 1).center(),
+              fontSize: _.isTablet ? 48 : 24,
+              radius: _.isTablet ? 18 : 48,
+            ).width(_.isTablet ? Get.width * .3 : Get.width * 1).center(),
             vSpaceMedium
           ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
         }));

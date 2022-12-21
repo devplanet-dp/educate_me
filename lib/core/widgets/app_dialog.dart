@@ -60,11 +60,15 @@ class AppDialog extends StatelessWidget {
 
   Widget _buildDialogController() {
     return singleSelection
-        ? BoxButtonWidget(
-                buttonText: positiveText ?? '',
-                radius: 8,
-                onPressed: onPositiveTap ?? () => Get.back())
-            .paddingSymmetric(horizontal: Get.width * .2)
+        ? ResponsiveBuilder(
+          builder: (context,_) {
+            return BoxButtonWidget(
+                    buttonText: positiveText ?? '',
+                    radius:_.isTablet?18: 8,
+                    onPressed: onPositiveTap ?? () => Get.back())
+                .paddingSymmetric(horizontal:_.isTablet?Get.width*0.08: Get.width * .2);
+          }
+        )
         : [
             Expanded(
               child: BoxButtonWidget(
@@ -248,7 +252,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
                   : kSubheadingStyle.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
-                      fontSize: _.isTablet ? 15 : 25.sp),
+                      fontSize: _.isTablet ? 32 : 25.sp),
             ),
             widget.subtitle != null
                 ? Text(
@@ -257,7 +261,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
                     style: kBody1Style.copyWith(
                         fontWeight: FontWeight.w500,
                         color: widget.isFailed ? kcIncorrectAns : kcTextGrey,
-                        fontSize: _.isTablet ? 8 : 12.sp),
+                        fontSize: _.isTablet ? 18 : 12.sp),
                   )
                 : emptyBox()
           ],

@@ -38,14 +38,23 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
           resizeToAvoidBottomInset: false,
           bottomNavigationBar: BoxButtonWidget(
                   buttonText: 'text030'.tr,
-                  radius: 8,
+              radius: _.isTablet ? 17 : 8,
+              fontSize: _.isTablet ? 24 : 14,
                   isEnabled: model.isQuizEnabled() || lesson.questions!.isEmpty,
                   onPressed: () => model.onStartQuizTapped(
                       levelId: levelId,
                       topicId: topicId,
                       subTopicId: subTopicId,
                       lesson: lesson))
-              .paddingAll(_.isTablet ? kTabPaddingHorizontal : 16),
+              .paddingOnly(
+              top: 16,
+              left: _.isTablet
+                  ? kTabPaddingHorizontal * 1.2
+                  : 16,
+              bottom: 16,
+              right: _.isTablet
+                  ? kTabPaddingHorizontal * 1.2
+                  : 16),
           body: ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (_, index) =>
@@ -53,7 +62,7 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
                   separatorBuilder: (_, index) => vSpaceMedium,
                   itemCount: lesson.questions?.length ?? 0)
               .paddingSymmetric(
-                  horizontal: !_.isTablet ? 16 : kTabPaddingHorizontal),
+                  horizontal: !_.isTablet ? 16 : kTabPaddingHorizontal,vertical: 16),
         );
       }),
     );

@@ -6,6 +6,7 @@ import 'package:educate_me/features/student/topic/topic_view_model.dart';
 import 'package:educate_me/features/teacher/topic/components/topic_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -51,10 +52,14 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
         itemCount: model.levels.length,
         separatorBuilder: (_, __) => vSpaceMedium,
         itemBuilder: (_, index) => [
-              Text(
-                'Level ${model.levels[index].name ?? ''}',
-                style: kSubheadingStyle.copyWith(fontWeight: FontWeight.w600),
-              ).paddingOnly(left: 12),
+              ResponsiveBuilder(
+                builder: (context,_) {
+                  return Text(
+                    'Level ${model.levels[index].name ?? ''}',
+                    style: kSubheadingStyle.copyWith(fontWeight: FontWeight.w600),
+                  ).paddingOnly(left:_.isTablet?32: 12);
+                }
+              ),
               vSpaceSmall,
               _TopicList(
                 level: model.levels[index],
@@ -88,15 +93,19 @@ class _TopicList extends ViewModelWidget<TopicViewModel> {
               child: Row(
                 children: List.generate(topics.length, (index) {
                   final t = topics[index];
-                  return TopicCard(
-                          isLocked: isLocked,
-                          isCompleted: isCompleted,
-                          url: t.cover ?? '',
-                          onTap: () =>
-                              model.goToSubtopic(level: level, topic: t),
-                          title: t.name ?? '')
-                      .paddingOnly(
-                          left: 10, right: index == topics.length - 1 ? 10 : 0);
+                  return ResponsiveBuilder(
+                    builder: (context,_) {
+                      return TopicCard(
+                              isLocked: isLocked,
+                              isCompleted: isCompleted,
+                              url: t.cover ?? '',
+                              onTap: () =>
+                                  model.goToSubtopic(level: level, topic: t),
+                              title: t.name ?? '')
+                          .paddingOnly(
+                              left:index==0?_.isTablet?32:0: 10, right: index == topics.length - 1 ?_.isTablet?32: 10 : 0);
+                    }
+                  );
                 }),
               ),
             );
