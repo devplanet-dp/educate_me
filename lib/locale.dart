@@ -70,7 +70,7 @@ class AppLocale extends Translations {
           'text056':'Success!',
           'text057':'Well done! You completed the quiz successfully. Please continue to the next quiz.',
           'text058':'Oops!',
-          'text059':'Nice try!\nYou unfortunately have failed the quiz. Please try again!',
+          'text059':'Nice try!\nYou unfortunately have failed the quiz.\n Please try again!',
           'text060':'What Is Your Political Interest',
           'text061':'You are Interested in',
           'text062':'Write your Bio to know more',

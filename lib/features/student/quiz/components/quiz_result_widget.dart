@@ -17,7 +17,7 @@ class QuizResultsWidget extends ViewModelWidget<QuizViewModel> {
           text: 'text054'.tr,
           style: kBodyStyle.copyWith(
               color: Colors.black,
-              fontWeight: _.isTablet ? FontWeight.w800 : FontWeight.w500,
+              fontWeight:  FontWeight.w500,
               fontSize: _.isTablet ? 24 : 16),
           children: [
             TextSpan(
@@ -26,7 +26,7 @@ class QuizResultsWidget extends ViewModelWidget<QuizViewModel> {
                     color: kcPrimaryColor,
                     fontWeight: _.isTablet ? FontWeight.w800 : FontWeight.w500,
                     fontSize: _.isTablet ? 24 : 16))
-          ]));
+          ])).paddingOnly(top: _.isTablet?24:0);
     });
   }
 }

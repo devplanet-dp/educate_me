@@ -32,7 +32,7 @@ class ChildControllerWidget extends ViewModelWidget<SignUpViewModel> {
             '${model.childCount.length}',
             style: kHeading1Style.copyWith(fontSize: _.isTablet?48:34),
             maxLines: 1,
-          ).center().width(_.isTablet?24.w:64.w),
+          ).center().width(_.isTablet?72:64.w),
           RoundButton(
             bgColor: kcPrimaryColor,
             icon: const Icon(

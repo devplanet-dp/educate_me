@@ -22,7 +22,7 @@ class QnsIndexWidget extends StatelessWidget {
             color: color,
             fontWeight: FontWeight.w800,
             fontSize: _.isTablet ? 28 : 18),
-      ).paddingAll(_.isTablet ? 14 : 12).decorated(
+      ).paddingAll(_.isTablet ? 20 : 12).decorated(
         shape: BoxShape.circle,
         color: Colors.white,
         boxShadow: [
@@ -54,20 +54,23 @@ class QnsIndexWidgetMultiple extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isChecked
-        ? Icon(
-            Icons.check,
-            color: color,
-          ).paddingAll(10).decorated(
-            shape: BoxShape.circle,
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: kcTextGrey.withOpacity(.3),
-                blurRadius: 15,
-                offset: const Offset(0, 1), // Shadow position
-              ),
-            ],
-          )
+        ? ResponsiveBuilder(builder: (context, _) {
+            return Icon(
+              Icons.check,
+              color: color,
+              size: 24,
+            ).paddingAll(10).decorated(
+              shape: BoxShape.circle,
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: kcTextGrey.withOpacity(.3),
+                  blurRadius: 15,
+                  offset: const Offset(0, 1), // Shadow position
+                ),
+              ],
+            );
+          })
         : QnsIndexWidget(
             index: index,
             color: color,
@@ -89,17 +92,20 @@ class QnsIndexMultiple extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      Icons.check,
-      color: isChecked ? color : Colors.transparent,
-    )
-        .paddingAll(10)
-        .decorated(shape: BoxShape.circle, color: Colors.white, boxShadow: [
-      BoxShadow(
-        color: kcTextGrey.withOpacity(.3),
-        blurRadius: 15,
-        offset: const Offset(0, 1), // Shadow position
-      ),
-    ]);
+    return ResponsiveBuilder(builder: (context, _) {
+      return Icon(
+        Icons.check,
+        color: isChecked ? color : Colors.transparent,
+        size: _.isTablet ? 32 : 24,
+      )
+          .paddingAll(_.isTablet ? 18 : 10)
+          .decorated(shape: BoxShape.circle, color: Colors.white, boxShadow: [
+        BoxShadow(
+          color: kcTextGrey.withOpacity(.3),
+          blurRadius: 15,
+          offset: const Offset(0, 1), // Shadow position
+        ),
+      ]);
+    });
   }
 }

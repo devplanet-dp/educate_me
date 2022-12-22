@@ -37,13 +37,13 @@ class AppDialog extends StatelessWidget {
       return Dialog(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        insetPadding: EdgeInsets.symmetric(horizontal: _.isTablet ? 400 : 16),
+        insetPadding: EdgeInsets.symmetric(horizontal: _.isTablet ? 350 : 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildHeader(),
-            vSpaceSmall,
+            vSpaceMedium,
             _buildDialogContent(),
             vSpaceMedium,
             _buildDialogController(),
@@ -60,15 +60,14 @@ class AppDialog extends StatelessWidget {
 
   Widget _buildDialogController() {
     return singleSelection
-        ? ResponsiveBuilder(
-          builder: (context,_) {
+        ? ResponsiveBuilder(builder: (context, _) {
             return BoxButtonWidget(
                     buttonText: positiveText ?? '',
-                    radius:_.isTablet?18: 8,
+                    radius: _.isTablet ? 18 : 8,
                     onPressed: onPositiveTap ?? () => Get.back())
-                .paddingSymmetric(horizontal:_.isTablet?Get.width*0.08: Get.width * .2);
-          }
-        )
+                .paddingSymmetric(
+                    horizontal: _.isTablet ? Get.width * 0.08 : Get.width * .2);
+          })
         : [
             Expanded(
               child: BoxButtonWidget(
@@ -92,7 +91,13 @@ class AppDialog extends StatelessWidget {
 
   Widget _buildHeader() {
     return image.split('.')[1].contains('svg')
-        ? SvgPicture.asset(image)
+        ? ResponsiveBuilder(builder: (context, _) {
+            return SvgPicture.asset(
+              image,
+              height: _.isTablet ? 160 : 148.h,
+              width: _.isTablet ? 160 : 148.w,
+            );
+          })
         : ResponsiveBuilder(builder: (context, _) {
             return Image.asset(
               image,
@@ -111,12 +116,14 @@ class AppDialog extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: subtitle == null
-                  ? kBody1Style.copyWith(fontWeight: FontWeight.w600)
+                  ? kBody1Style.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: _.isTablet ? 18 : 15)
                   : kSubheadingStyle.copyWith(
                       fontSize: _.isTablet ? 10.sp : 25.sp,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                       color: Colors.black),
-            ).paddingAll(12);
+            );
           }),
           subtitle != null
               ? Text(
@@ -318,7 +325,7 @@ class AppDialogSingle extends StatelessWidget {
             _buildHeader(),
             vSpaceSmall,
             _buildSubtitle(),
-            vSpaceSmall,
+            vSpaceMedium,
             _buildDialogContent(),
             vSpaceMedium,
             _buildDialogController(_.isTablet),
@@ -337,7 +344,7 @@ class AppDialogSingle extends StatelessWidget {
   Widget _buildDialogController(bool isTab) {
     return BoxButtonWidget(
             buttonText: positiveText ?? '',
-            radius: 8,
+            radius:isTab?16: 8,
             onPressed: onPositiveTap ?? () => Get.back())
         .paddingSymmetric(horizontal: isTab ? 72 : 24);
   }
@@ -386,10 +393,10 @@ class AppDialogSingle extends StatelessWidget {
 
   _buildDialogContent() => ResponsiveBuilder(builder: (context, _) {
         return Text(
-          content ?? '',
+          content??'',
           textAlign: TextAlign.center,
           style: kCaptionStyle.copyWith(
               color: kcTextGrey, fontSize: _.isTablet ? 6.sp : 13.5.sp),
-        );
+        ).paddingSymmetric(horizontal: 16);
       });
 }

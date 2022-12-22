@@ -61,7 +61,7 @@ class QuizView extends StatelessWidget {
                   ? emptyBox()
                   : Container(
                       child: BoxButtonWidget(
-                        radius: 8,
+                        radius:_.isTablet?18: 8,
                         isLoading: vm.isBusy,
                         buttonText: 'text055'.tr,
                         onPressed: () => vm.finishExam(
@@ -77,7 +77,7 @@ class QuizView extends StatelessWidget {
                 centerTitle: true,
                 iconTheme: IconThemeData(size: _.isTablet ? 32 : 24),
                 title: Text(
-                  '${lesson.title} - Quiz',
+                  '${lesson.title} - ${vm.isLastPage()?'Results':'Quiz'}',
                   style: kSubheadingStyle.copyWith(
                       fontSize: _.isTablet ? 28 : 20,
                       fontWeight: _.isTablet ? FontWeight.w600 : FontWeight.w500),

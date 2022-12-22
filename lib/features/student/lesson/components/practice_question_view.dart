@@ -95,7 +95,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   color: Colors.black,
                   fontSize: _.isTablet ? 28 : 18),
             ),
-            vSpaceSmall,
+            vSpaceMedium,
             Text(
               question.question ?? '',
               textAlign: TextAlign.center,

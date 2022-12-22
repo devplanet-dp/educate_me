@@ -42,6 +42,7 @@ class SignUpView extends StatelessWidget {
 
   Widget _buildTab(SignUpViewModel vm, BuildContext context) => SafeArea(
           child: Scaffold(
+        resizeToAvoidBottomInset: true,
         body: Stack(
           children: [
             Align(
@@ -76,16 +77,18 @@ class SignUpView extends StatelessWidget {
                           Text(
                             'text013'.tr,
                             style: kHeading3Style.copyWith(
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w600,
                                 color: Colors.black,
                                 fontSize: 60),
                           ),
                           Text(
                             'text014'.tr,
                             style: kBodyStyle.copyWith(
-                                fontSize: 22, fontWeight: FontWeight.w600),
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF565656)),
                           ),
-                          vSpaceMassive,
+                          vSpaceMedium,
                           AppTextField(
                             controller: vm.fullNameTEC,
                             hintText: 'text070'.tr,
@@ -99,7 +102,7 @@ class SignUpView extends StatelessWidget {
                               }
                               return null;
                             },
-                          ),
+                          ).paddingSymmetric(horizontal: kTabPaddingHorizontal),
                           vSpaceMedium,
                           AppTextField(
                             controller: vm.emailTEC,
@@ -115,32 +118,34 @@ class SignUpView extends StatelessWidget {
                               }
                               return null;
                             },
-                          ),
+                          ).paddingSymmetric(horizontal: kTabPaddingHorizontal),
                           vSpaceMedium,
                           AppTextField(
-                              controller: vm.passwordTEC,
-                              hintText: 'text005'.tr,
-                              isPassword: vm.isObscure,
-                              isDark: true,
-                              fillColor: kcPrimaryColor.withOpacity(.1),
-                              borderColor: kcStroke,
-                              suffix: InkWell(
-                                onTap: () => vm.toggleObscure(),
-                                child: Icon(
-                                  vm.isObscure
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined,
-                                  color: kcPrimaryColor,
-                                  size: 18,
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'text006.error'.tr;
-                                }
-                                return null;
-                              },
-                              label: ''),
+                                  controller: vm.passwordTEC,
+                                  hintText: 'text005'.tr,
+                                  isPassword: vm.isObscure,
+                                  isDark: true,
+                                  fillColor: kcPrimaryColor.withOpacity(.1),
+                                  borderColor: kcStroke,
+                                  suffix: InkWell(
+                                    onTap: () => vm.toggleObscure(),
+                                    child: Icon(
+                                      vm.isObscure
+                                          ? Icons.visibility_off_outlined
+                                          : Icons.visibility_outlined,
+                                      color: kcPrimaryColor,
+                                      size: 18,
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'text006.error'.tr;
+                                    }
+                                    return null;
+                                  },
+                                  label: '')
+                              .paddingSymmetric(
+                                  horizontal: kTabPaddingHorizontal),
                           vSpaceMassive,
                           BoxButtonWidget(
                             buttonText: 'text015'.tr,
@@ -150,10 +155,11 @@ class SignUpView extends StatelessWidget {
                               DeviceUtils.hideKeyboard(context);
                               vm.doSignSignUp();
                             },
-                          ).paddingSymmetric(horizontal: Get.width * .1),
+                          ).paddingSymmetric(
+                              horizontal: kTabPaddingHorizontal * 1.2),
                           vSpaceMedium,
                         ],
-                      ).paddingSymmetric(horizontal: kTabPaddingHorizontal),
+                      ),
                     ),
                   ),
                 ],
@@ -183,14 +189,14 @@ class SignUpView extends StatelessWidget {
                   Text(
                     'text013'.tr,
                     style: kHeading3Style.copyWith(
-                        fontWeight: FontWeight.w700, color: Colors.black,fontSize: 28),
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                        fontSize: 28),
                   ),
-                  Text(
-                    'text014'.tr,
-                    style: kBodyStyle.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF565656))
-                  ),
+                  Text('text014'.tr,
+                      style: kBodyStyle.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF565656))),
                   vSpaceMassive,
                   AppTextField(
                     controller: vm.fullNameTEC,

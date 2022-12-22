@@ -29,12 +29,13 @@ class StatCardTile extends ViewModelWidget<StatViewModel> {
             Text(
               'Level1',
               style: kBodyStyle.copyWith(
+                fontSize: _.isTablet?24:16,
                   color: Colors.white, fontWeight: FontWeight.bold),
             ),
             vSpaceSmall,
             Text(
               'Congratulations! You’re now on Intermediate level',
-              style: kBody1Style.copyWith(color: Colors.white),
+              style: kBody1Style.copyWith(color: Colors.white,fontSize: _.isTablet?17.5:15),
             ),
             vSpaceSmall,
             _buildUserProgress(_.isTablet),

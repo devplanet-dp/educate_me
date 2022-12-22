@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:educate_me/data/option.dart';
 import 'package:educate_me/data/question.dart';
 import 'package:flutter/material.dart';
@@ -86,8 +87,9 @@ class OptionTileWidget extends StatelessWidget {
                 ),
           _.isTablet
               ? Expanded(
-                  child: Text(
+                  child: AutoSizeText(
                     option.trim(),
+                    maxLines: 1,
                     textAlign: TextAlign.center,
                     style: kBody1Style.copyWith(
                         fontWeight: FontWeight.w500,

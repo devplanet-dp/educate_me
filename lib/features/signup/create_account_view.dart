@@ -71,7 +71,7 @@ class CreateAccountView extends StatelessWidget {
                         isAddAccount ? 'text010.2'.tr : 'text010'.tr,
                         textAlign: TextAlign.center,
                         style: kHeading3Style.copyWith(
-                            fontWeight: FontWeight.w900,
+                            fontWeight: FontWeight.w700,
                             color: Colors.black,
                             fontSize: 60),
                       ),
@@ -81,14 +81,14 @@ class CreateAccountView extends StatelessWidget {
                         style: kBodyStyle.copyWith(
                             fontSize: 22, fontWeight: FontWeight.w600,color: const Color(0xFF565656)),
                       ),
-                      vSpaceMassive,
-                      const ChildControllerWidget(),
+                      vSpaceMedium,
+                      const ChildControllerWidget().paddingSymmetric(horizontal: kTabPaddingHorizontal),
                       vSpaceMedium,
                       AddChildWidget(
                         isAddAccount: isAddAccount,
-                      ),
+                      ).paddingSymmetric(horizontal: kTabPaddingHorizontal),
                     ],
-                  ).paddingSymmetric(horizontal: kTabPaddingHorizontal),
+                  ),
                 ),
               ),
             ],

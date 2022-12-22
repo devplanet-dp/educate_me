@@ -59,7 +59,7 @@ class TeacherStatView extends StatelessWidget {
                       .paddingSymmetric(horizontal: 16),
                   vSpaceMedium,
                 ],
-              ));
+              ).paddingSymmetric(horizontal: _.isTablet?kTabPaddingHorizontal:16));
         }),
       ),
       viewModelBuilder: () => TeacherViewModel(),

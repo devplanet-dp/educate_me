@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
@@ -45,7 +46,7 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
                           text: ' ${model.qnNo}/${model.questions.length}',
                           style: kBodyStyle.copyWith(
                               color: kcPrimaryColor, fontWeight: FontWeight.w600,fontSize: _.isTablet?24:16))
-                    ])),
+                    ])).paddingSymmetric(horizontal: _.isTablet?16:0),
                 //show when answered
                 (model.isLastQn() || !model.allowNextPage)
                     ? IconButton(

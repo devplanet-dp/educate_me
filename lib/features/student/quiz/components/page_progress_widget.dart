@@ -19,7 +19,7 @@ class PageProgressWidget extends ViewModelWidget<QuizViewModel> {
             return ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: SizedBox(
-                height: _.isTablet ? 20 : 10,
+                height: _.isTablet ? 15 : 10,
                 child: LinearProgressIndicator(
                   value: model.qnNo / model.questions.length,
                   // percent filled
@@ -29,7 +29,7 @@ class PageProgressWidget extends ViewModelWidget<QuizViewModel> {
                 ),
               ),
             ).paddingSymmetric(
-                horizontal: _.isTablet ? kTabPaddingHorizontal + 16 : 0);
+                horizontal: _.isTablet ? kTabPaddingHorizontal - 48 : 0);
           });
   }
 }

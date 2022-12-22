@@ -43,6 +43,7 @@ class QuizCompletePage extends ViewModelWidget<QuizViewModel> {
                     '${model.ans[index].qIndex}',
                     style: kSubheadingStyle.copyWith(
                         fontWeight: FontWeight.w600,
+                        fontSize: _.isTablet?32:20,
                         color: model.ans[index].isCorrect
                             ? kcCorrectAns
                             : kcIncorrectAns),
@@ -56,8 +57,8 @@ class QuizCompletePage extends ViewModelWidget<QuizViewModel> {
                   ], color: Colors.white, shape: BoxShape.circle),
                 )),
       )
-          .paddingAll(16)
-          .paddingSymmetric(horizontal: _.isTablet ? kTabPaddingHorizontal : 0)
+          .paddingAll(_.isTablet?8:16)
+          .paddingSymmetric(horizontal: _.isTablet ? Get.width*0.32 : 0)
           .center();
     });
   }

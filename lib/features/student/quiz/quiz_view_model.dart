@@ -318,6 +318,7 @@ class QuizViewModel extends BaseViewModel {
 
   retryQns() {
     _resetAttempts();
+    checkedMultipleOptions.clear();
     _qnNo = 1;
     _selectedQn = questions[0];
     _ans.clear();
