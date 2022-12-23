@@ -37,7 +37,7 @@ class _BlackboardState extends State<Blackboard> {
   void initPastDrawing() async {
     controller.isBusy.value = true;
     var temp = controller.getTempDrawing(widget.qid);
-    _drawingPoints = temp?.drawingPoints ?? [];
+    // _drawingPoints = temp?.drawingPoints ?? [];
     controller.selectedStroke.value = temp?.colorsIndex ?? Colors.black;
     controller.isBusy.value = false;
   }
@@ -57,7 +57,7 @@ class _BlackboardState extends State<Blackboard> {
             alignment: Alignment.topRight,
             child: IconButton(
               onPressed: () {
-                controller.onDrawingCompleted(widget.qid, _drawingPoints);
+                // controller.onDrawingCompleted(widget.qid, _drawingPoints);
                 Get.back();
               },
               icon: const Icon(Iconsax.close_circle),

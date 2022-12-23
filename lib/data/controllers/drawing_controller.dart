@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:educate_me/core/utils/app_utils.dart';
+import 'package:educate_me/features/student/drawing/custom_drawing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +19,7 @@ class DrawingController extends GetxController {
 
   RxBool isBusy = false.obs;
 
-  void onDrawingCompleted(String qid, List<Offset?> points) {
+  void onDrawingCompleted(String qid, List<DrawingPoints?> points) {
     //remove item if exists
     tempDrawings.removeWhere((element) => element.qid == qid);
 
@@ -42,7 +43,7 @@ class DrawingController extends GetxController {
 
 class QuestionDrawings {
   final String qid;
-  final List<Offset?> drawingPoints;
+  final List<DrawingPoints?> drawingPoints;
   final Color colorsIndex;
 
   QuestionDrawings(

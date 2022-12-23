@@ -1,20 +1,17 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
-import 'package:educate_me/data/controllers/drawing_controller.dart';
 import 'package:educate_me/features/student/drawing/drawing_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/shared/app_colors.dart';
-import '../../../core/widgets/blackboard_widget.dart';
 import '../../../core/widgets/busy_button.dart';
+import 'custom_drawing.dart';
 
 class DrawQnsView extends StatelessWidget {
   const DrawQnsView({Key? key, required this.question, required this.qid})
@@ -49,7 +46,9 @@ class DrawQnsView extends StatelessWidget {
                       clipBehavior: Clip.antiAlias)
                   .width(Get.width),
               vSpaceMedium,
-               Blackboard(qid: qid,).card(
+              Draw(
+                qid: qid,
+              ).card(
                   elevation: 6,
                   shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
                   clipBehavior: Clip.antiAlias),
@@ -61,8 +60,6 @@ class DrawQnsView extends StatelessWidget {
     );
   }
 }
-
-
 
 class DisableDraw extends StatelessWidget {
   const DisableDraw({Key? key}) : super(key: key);
