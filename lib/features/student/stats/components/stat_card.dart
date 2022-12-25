@@ -29,7 +29,7 @@ class StatCardTile extends ViewModelWidget<StatViewModel> {
             Text(
               'Level 1',
               style: kBodyStyle.copyWith(
-                fontSize: _.isTablet?24:16,
+                fontSize: _.isTablet?24:20,
                   color: Colors.white, fontWeight: FontWeight.bold),
             ),
             vSpaceSmall,
@@ -64,7 +64,7 @@ class StatCardTile extends ViewModelWidget<StatViewModel> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: SizedBox(
-              height:isTab?15: 10,
+              height:isTab?15: 8,
               child: LinearProgressIndicator(
                 value: 0.45, // percent filled
                 valueColor: const AlwaysStoppedAnimation<Color>(kcAccent),

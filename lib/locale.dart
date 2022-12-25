@@ -43,7 +43,7 @@ class AppLocale extends Translations {
           'text029':'Description',
           'text030':'Begin Quiz',
           'text031':'Here are your statistics :)',
-          'text032':'Total Answered Questions',
+          'text032':'Total Questions Answered',
           'text033':'Right Answers',
           'text034':'Allow camera permission',
           'text035':'Allow gallery permission',
