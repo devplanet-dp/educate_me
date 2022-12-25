@@ -318,6 +318,9 @@ class QuizViewModel extends BaseViewModel {
 
   retryQns() {
     _resetAttempts();
+    for (var e in questions) {
+      e.state = AnswerState.init;
+    }
     checkedMultipleOptions.clear();
     _qnNo = 1;
     _selectedQn = questions[0];
@@ -459,6 +462,8 @@ class QuizViewModel extends BaseViewModel {
           },
         ));
       }
+    }else{
+      showErrorMessage(message: 'Please try again later');
     }
   }
 

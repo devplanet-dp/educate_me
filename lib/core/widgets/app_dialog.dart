@@ -43,7 +43,7 @@ class AppDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildHeader(),
-            vSpaceMedium,
+            _.isTablet ? vSpaceMedium : emptyBox(),
             _buildDialogContent(),
             vSpaceMedium,
             _buildDialogController(),
@@ -344,7 +344,7 @@ class AppDialogSingle extends StatelessWidget {
   Widget _buildDialogController(bool isTab) {
     return BoxButtonWidget(
             buttonText: positiveText ?? '',
-            radius:isTab?16: 8,
+            radius: isTab ? 16 : 8,
             onPressed: onPositiveTap ?? () => Get.back())
         .paddingSymmetric(horizontal: isTab ? 72 : 24);
   }
@@ -393,7 +393,7 @@ class AppDialogSingle extends StatelessWidget {
 
   _buildDialogContent() => ResponsiveBuilder(builder: (context, _) {
         return Text(
-          content??'',
+          content ?? '',
           textAlign: TextAlign.center,
           style: kCaptionStyle.copyWith(
               color: kcTextGrey, fontSize: _.isTablet ? 6.sp : 13.5.sp),

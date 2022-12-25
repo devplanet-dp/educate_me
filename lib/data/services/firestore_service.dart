@@ -125,6 +125,7 @@ class FirestoreService {
       await populateCurrentChild();
       return FirebaseResult(data: true);
     } catch (e) {
+      lg(e);
       return FirebaseResult.error(errorMessage: e.toString());
     }
   }
