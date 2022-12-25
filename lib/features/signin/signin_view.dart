@@ -85,14 +85,14 @@ class SignInView extends StatelessWidget {
                               'text002'.tr,
                               textAlign: TextAlign.center,
                               style: kHeading3Style.copyWith(
-                                  fontWeight: FontWeight.w900,
+                                  fontWeight: FontWeight.w700,
                                   color: Colors.black,
                                   fontSize: 60),
                             ),
                             Text(
                               'text012'.tr,
                               style: kBodyStyle.copyWith(
-                                  fontSize: 22, fontWeight: FontWeight.w600),
+                                  fontSize: 22, fontWeight: FontWeight.w600,color: const Color(0xFF565656)),
                             ),
                             const Spacer(
                               flex: 2,

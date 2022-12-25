@@ -88,7 +88,7 @@ class _AnswerCard extends StatelessWidget {
       builder: (context,_) {
         return [
           vSpaceSmall,
-          SvgPicture.asset(image,width: 25.w,height: 39.h,),
+          SvgPicture.asset(image,width:_.isTablet? 37:25.w,height:_.isTablet?57: 39.h,),
           vSpaceMedium,
           AutoSizeText(
             title.tr,

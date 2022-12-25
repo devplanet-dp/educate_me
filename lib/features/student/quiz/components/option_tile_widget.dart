@@ -20,7 +20,7 @@ class OptionTileWidget extends StatelessWidget {
     required this.option,
     required this.isUserOptionCorrect,
     required this.userSelectedIndex,
-    required this.isMultipleCorrect,
+    required this.isMultipleCorrect, required this.order,
   }) : super(key: key);
   final int index;
   final bool isOptionSelected;
@@ -29,6 +29,7 @@ class OptionTileWidget extends StatelessWidget {
   final bool isUserOptionCorrect;
   final int userSelectedIndex;
   final bool isMultipleCorrect;
+  final int order;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,7 @@ class OptionTileWidget extends StatelessWidget {
                   color: indexColor,
                   isChecked: false)
               : QnsIndexWidget(
-                  index: index,
+                  index: order,
                   color: indexColor,
                 ),
           _.isTablet

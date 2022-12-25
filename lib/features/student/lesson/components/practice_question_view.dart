@@ -82,6 +82,8 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
     controller.text = model.getUserAnswerState(index) == AnswerState.checkAgain
         ? ''
         : model.getUserAnswer(index) ?? '';
+
+
     return Form(
       key: formKey,
       child: ResponsiveBuilder(builder: (context, _) {

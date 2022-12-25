@@ -177,7 +177,7 @@ class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
                     mainAxisSpacing: 32,
                     children: List.generate(options.length, (index) {
                       final p = options[index];
-                      return _buildOption(p, model);
+                      return _buildOption(p, model,index);
                     }),
                   )
                 : ListView.builder(
@@ -186,12 +186,12 @@ class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
                     itemCount: options.length,
                     itemBuilder: (_, index) {
                       final p = options[index];
-                      return _buildOption(p, model);
+                      return _buildOption(p, model,index);
                     });
           });
   }
 
-  Widget _buildOption(OptionModel p, QuizViewModel model) => InkWell(
+  Widget _buildOption(OptionModel p, QuizViewModel model,int order) => InkWell(
         onTap: () => model.onOptionSelected(p),
         borderRadius: kBorderSmall,
         child: OptionTileWidget(
@@ -201,7 +201,7 @@ class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
           isCorrectOption: p.isCorrect ?? false,
           option: p.option ?? '',
           isUserOptionCorrect: model.isUserCorrect(),
-          userSelectedIndex: model.userAnsIndex(),
+          userSelectedIndex: model.userAnsIndex(), order: order,
         ),
       );
 }

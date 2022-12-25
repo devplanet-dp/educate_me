@@ -42,13 +42,15 @@ class _WelcomeTitle extends StatelessWidget {
             Text(
               'Let’s Get \nStarted',
               style: kHeading1Style.copyWith(
-                height: 1,
-                  fontWeight: FontWeight.w600, fontSize: 64),
-            ).paddingOnly(left: _.isTablet?48:0),
+                  height: 1,
+                  fontWeight: _.isTablet ? FontWeight.w800 : FontWeight.w600,
+                  fontSize: _.isTablet ? 120 : 64),
+            ).paddingOnly(left: _.isTablet ? 48 : 0),
             Text('We Math-welcome you :)',
-                style: kBodyStyle.copyWith(
-                    fontSize: 20, fontWeight: FontWeight.w300)).paddingOnly(left: _.isTablet?48:0),
-           _.isTablet? vSpaceMassive:vSpaceMedium,
+                    style: kBodyStyle.copyWith(
+                        fontSize: 20, fontWeight: FontWeight.w300))
+                .paddingOnly(left: _.isTablet ? 48 : 0),
+            _.isTablet ? vSpaceMassive : vSpaceMedium,
             BoxButtonWidget(
               onPressed: () => Get.to(() => const SignInView()),
               buttonText: 'Join now',

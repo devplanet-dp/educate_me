@@ -47,7 +47,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
       return AppBar(
         elevation: 0,
         centerTitle: true,
-        iconTheme: IconThemeData(size: _.isTablet ? 32 : 24),
+        iconTheme: IconThemeData(size: _.isTablet ? 24 : 24),
         backgroundColor: Colors.white,
         title: Text(
           title.tr,
@@ -90,8 +90,8 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
                   duration: const Duration(microseconds: 300),
                   child: AvatarView(
                           path: model.controller.currentChild?.profileUrl ?? '',
-                          height: 34.h,
-                          widget: 34.w,
+                          height:_.isTablet?48: 34.h,
+                          widget:_.isTablet?48: 34.w,
                           userName: model.controller.currentChild?.name ?? 'E')
                       .paddingAll(4)
                       .decorated(
@@ -100,7 +100,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
                               color: controller.popupMenuEnabled.value
                                   ? kcPrimaryColor
                                   : Colors.transparent))
-                      .paddingAll(_.isTablet?0:8),
+                      .paddingAll(_.isTablet?4:8),
                 ),
               )),
         ],

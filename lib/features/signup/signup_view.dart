@@ -77,7 +77,7 @@ class SignUpView extends StatelessWidget {
                           Text(
                             'text013'.tr,
                             style: kHeading3Style.copyWith(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.black,
                                 fontSize: 60),
                           ),
