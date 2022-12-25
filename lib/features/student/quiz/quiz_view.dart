@@ -56,7 +56,7 @@ class QuizView extends StatelessWidget {
               return true;
             },
             child: Scaffold(
-              backgroundColor: kcBgQuiz,
+              backgroundColor: kcBg,
               bottomNavigationBar: !vm.isLastPage() || vm.questions.isEmpty
                   ? emptyBox()
                   : Container(

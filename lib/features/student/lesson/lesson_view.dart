@@ -28,6 +28,7 @@ class LessonView extends StatelessWidget {
     return ViewModelBuilder<LessonViewModel>.reactive(
       builder: (context, vm, child) =>
           Scaffold(
+            backgroundColor: kcBg,
               body: LessonContentPageView(
                 lesson: lesson,
                 levelId: levelId,

@@ -35,6 +35,7 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
       onTap: () => DeviceUtils.hideKeyboard(context),
       child: ResponsiveBuilder(builder: (context, _) {
         return Scaffold(
+          backgroundColor: kcBg,
           resizeToAvoidBottomInset: false,
           bottomNavigationBar: BoxButtonWidget(
                   buttonText: 'text030'.tr,
