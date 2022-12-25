@@ -299,7 +299,7 @@ class AppTextFieldSecondary extends StatelessWidget {
                 ),
                 hintText: hintText,
                 floatingLabelBehavior: FloatingLabelBehavior.never,
-                alignLabelWithHint: true,
+                alignLabelWithHint: false,
                 labelStyle: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 15,

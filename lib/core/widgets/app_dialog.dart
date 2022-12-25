@@ -19,6 +19,8 @@ class AppDialog extends StatelessWidget {
   final VoidCallback? onPositiveTap;
   final String? positiveText;
   final bool singleSelection;
+  final double? height;
+  final double? width;
 
   const AppDialog({
     Key? key,
@@ -29,6 +31,8 @@ class AppDialog extends StatelessWidget {
     this.singleSelection = false,
     this.subtitle,
     this.positiveText,
+    this.height,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -94,8 +98,8 @@ class AppDialog extends StatelessWidget {
         ? ResponsiveBuilder(builder: (context, _) {
             return SvgPicture.asset(
               image,
-              height: _.isTablet ? 160 : 148.h,
-              width: _.isTablet ? 160 : 148.w,
+              height: _.isTablet ? 160 : height ?? 148.h,
+              width: _.isTablet ? 160 : width ?? 148.w,
             );
           })
         : ResponsiveBuilder(builder: (context, _) {

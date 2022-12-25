@@ -134,6 +134,8 @@ class LessonViewModel extends BaseViewModel {
     Get.dialog(AppDialog(
       title: 'text045'.tr,
       image: kIcQuiz,
+      height: 95,
+      width: 90,
       onPositiveTap: () {
         Get.back();
         Get.to(() => QuizView(
