@@ -51,7 +51,6 @@ class TeacherAddLessonView extends StatelessWidget {
           child: Form(
             key: vm.formKey,
             child: [
-              vSpaceMedium,
               AppTextField(
                 controller: vm.orderTEC,
                 hintText: 'Lesson order',

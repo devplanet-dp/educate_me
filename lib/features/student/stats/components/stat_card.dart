@@ -27,7 +27,7 @@ class StatCardTile extends ViewModelWidget<StatViewModel> {
         Expanded(
           child: [
             Text(
-              'Level1',
+              'Level 1',
               style: kBodyStyle.copyWith(
                 fontSize: _.isTablet?24:16,
                   color: Colors.white, fontWeight: FontWeight.bold),
@@ -44,16 +44,18 @@ class StatCardTile extends ViewModelWidget<StatViewModel> {
         )
       ].toRow().paddingAll(16).decorated(
         boxShadow: [
-          const BoxShadow(
-            color: kcPrimaryColor,
-            blurRadius: 9,
-            offset: Offset(0, 1), // Shadow position
+           BoxShadow(
+            color: kcCardBgColor.withOpacity(.2),
+            blurRadius: 6,
+            spreadRadius: 7,
+            offset: const Offset(-0, 6), // Shadow position
           ),
         ],
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: kcCardBgColor,
         image: const DecorationImage(
             image: AssetImage(kImgCard), fit: BoxFit.cover),
-      ).clipRRect(all: 10);
+      );
     });
   }
 

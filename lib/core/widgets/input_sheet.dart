@@ -32,12 +32,10 @@ class InputSheetWidget extends StatelessWidget {
         builder: (context,_) {
           return SingleChildScrollView(
             child: [
-              vSpaceSmall,
              title.isEmpty?emptyBox() :Text(
                 title,
                 style: kBodyStyle.copyWith(fontWeight: FontWeight.w600),
               ),
-              vSpaceSmall,
               child,
               vSpaceMedium,
               [
