@@ -1,3 +1,4 @@
+import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/core/widgets/two_row_button.dart';
@@ -26,6 +27,7 @@ class AccountView extends StatelessWidget {
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: ResponsiveBuilder(builder: (context, _) {
           return Scaffold(
+            backgroundColor: kcBg,
             bottomNavigationBar: TwoRowButton(
               onPositiveTap: () => vm.updateChildAccountDetails(),
               onNegativeTap: () => Get.back(),

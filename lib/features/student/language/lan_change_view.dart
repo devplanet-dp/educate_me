@@ -20,6 +20,7 @@ class LanChangeView extends StatelessWidget {
       builder: (context, vm, child) => ResponsiveBuilder(
         builder: (context,_) {
           return Scaffold(
+            backgroundColor: kcBg,
             bottomNavigationBar: TwoRowButton(
               onPositiveTap: () =>vm.updateChildAccountDetails(),
               onNegativeTap: () => Get.back(),

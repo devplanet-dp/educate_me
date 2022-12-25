@@ -1,3 +1,4 @@
+import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
@@ -24,6 +25,7 @@ class SupportView extends StatelessWidget {
           top: false,
           child: ResponsiveBuilder(builder: (context, _) {
             return Scaffold(
+              backgroundColor: kcBg,
               bottomNavigationBar: BoxButtonWidget(
                       buttonText: 'text072'.tr,
                       radius: _.isTablet?16:8,

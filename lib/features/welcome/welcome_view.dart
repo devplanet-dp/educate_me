@@ -42,6 +42,7 @@ class _WelcomeTitle extends StatelessWidget {
             Text(
               'Let’s Get \nStarted',
               style: kHeading1Style.copyWith(
+                height: 1,
                   fontWeight: FontWeight.w600, fontSize: 64),
             ).paddingOnly(left: _.isTablet?48:0),
             Text('We Math-welcome you :)',

@@ -25,6 +25,7 @@ class SettingsView extends StatelessWidget {
       builder: (context, vm, child) => GestureDetector(
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
+          backgroundColor: kcBg,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kAppToolbarHeight),
             child: SwitchUserAppBar(

@@ -7,6 +7,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
+import '../../../core/shared/app_colors.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../../core/widgets/text_field_widget.dart';
 import '../../../core/widgets/two_row_button.dart';
@@ -26,6 +27,7 @@ class MyProfileView extends StatelessWidget {
         child: ResponsiveBuilder(builder: (context, _) {
           return WillPopScope(
               child: Scaffold(
+                backgroundColor: kcBg,
                 bottomNavigationBar: TwoRowButton(
                   onPositiveTap: () => vm.updateMyProfiles(),
                   onNegativeTap: () => Get.offAll(() => const NavigationView(

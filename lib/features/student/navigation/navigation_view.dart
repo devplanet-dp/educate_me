@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:animations/animations.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
+import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/features/student/settings/settings_view.dart';
 import 'package:educate_me/features/student/stats/stat_view.dart';
@@ -140,6 +141,7 @@ class NavigationView extends StatelessWidget {
                       color: isSelected
                           ? kcPrimaryColor
                           : const Color(0xFFCBCBCB))).paddingOnly(bottom: 2),
+              vSpaceSmall
             ],
           ),
         );

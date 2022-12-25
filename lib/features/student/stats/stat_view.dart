@@ -30,6 +30,7 @@ class StatView extends StatelessWidget {
         child: ResponsiveBuilder(
           builder: (context,_) {
             return Scaffold(
+              backgroundColor: kcBg,
                 appBar: PreferredSize(
                   preferredSize: const Size.fromHeight(kAppToolbarHeight),
                   child: SwitchUserAppBar(
