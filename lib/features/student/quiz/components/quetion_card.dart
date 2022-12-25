@@ -119,7 +119,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
                     ),
                   ],
                 )
-                .width(Get.width)
+                .width(Get.width*.35)
                 .paddingSymmetric(horizontal: 16),
           ],
         );

@@ -89,8 +89,8 @@ class OptionTileWidget extends StatelessWidget {
           _.isTablet
               ? Expanded(
                   child: AutoSizeText(
-                    option.trim(),
-                    maxLines: 1,
+                    ' ${option.trim()}',
+                    maxLines: 3,
                     textAlign: TextAlign.center,
                     style: kBody1Style.copyWith(
                         fontWeight: FontWeight.w500,
@@ -158,9 +158,10 @@ class MultipleCheckOptionTile extends StatelessWidget {
           ),
           _.isTablet
               ? Expanded(
-                  child: Text(
+                  child: AutoSizeText(
                     option.option?.trim() ?? '',
                     textAlign: TextAlign.center,
+                    maxLines: 3,
                     style: kBody1Style.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: _.isTablet ? 28 : 15,

@@ -159,6 +159,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   buttonText:
                       (model.getButtonStyle(index)[index]['text'] as String).tr,
                   radius: 8,
+                  fontSize: 20,
                   buttonColor: model.getButtonStyle(index)[index]['color'],
                   onPressed: () {
                     //when try again clear the input

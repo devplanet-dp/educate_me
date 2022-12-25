@@ -46,8 +46,9 @@ class AppDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
+            vSpaceSmall,
             _buildHeader(),
-            _.isTablet ? vSpaceMedium : emptyBox(),
+            vSpaceTiny,
             _buildDialogContent(),
             vSpaceMedium,
             _buildDialogController(),
@@ -107,7 +108,7 @@ class AppDialog extends StatelessWidget {
               image,
               fit: BoxFit.contain,
               height: _.isTablet ? 200 : 148.h,
-              width: _.isTablet ? 200 : 148.w,
+              width: _.isTablet ? 250 : 148.w,
             );
           });
   }
@@ -122,7 +123,7 @@ class AppDialog extends StatelessWidget {
               style: subtitle == null
                   ? kBody1Style.copyWith(
                       fontWeight: FontWeight.w700,
-                      fontSize: _.isTablet ? 18 : 15)
+                      fontSize: _.isTablet ? 24 : 15)
                   : kSubheadingStyle.copyWith(
                       fontSize: _.isTablet ? 10.sp : 25.sp,
                       fontWeight: FontWeight.w700,
@@ -187,7 +188,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
       return Dialog(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        insetPadding: EdgeInsets.symmetric(horizontal: _.isTablet ? 400 : 16),
+        insetPadding: EdgeInsets.symmetric(horizontal: _.isTablet ? 350 : 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -203,7 +204,7 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
             _buildDialogController(),
             vSpaceMedium,
           ],
-        ).paddingSymmetric(horizontal: 12).card(
+        ).paddingSymmetric(horizontal: _.isTablet ? 32 : 12).card(
             clipBehavior: Clip.antiAlias,
             shape: RoundedRectangleBorder(
               borderRadius: _.isTablet ? kBorderLarge : kBorderSmall,
@@ -243,7 +244,13 @@ class _AppDialogWithInputState extends State<AppDialogWithInput> {
 
   Widget _buildHeader() {
     return widget.image.split('.')[1].contains('svg')
-        ? SvgPicture.asset(widget.image)
+        ? ResponsiveBuilder(builder: (context, _) {
+            return SvgPicture.asset(
+              widget.image,
+              height: _.isTablet ? 185 : 105.h,
+              width: _.isTablet ? 180 : 71.w,
+            );
+          })
         : Image.asset(
             widget.image,
             height: 105.h,

@@ -26,7 +26,7 @@ class BoxButtonWidget extends StatelessWidget {
     required this.onPressed,
     this.isLoading = false,
     this.radius,
-    this.fontSize = 14,
+    this.fontSize,
     this.isEnabled = true,
   }) : super(key: key);
 
@@ -67,7 +67,7 @@ class BoxButtonWidget extends StatelessWidget {
                             color: isEnabled
                                 ? textColor ?? Colors.white
                                 : Colors.white,
-                            fontSize: _.isTablet ? 24 : fontSize),
+                            fontSize: fontSize ?? (_.isTablet ? 24 : 14)),
                       ).paddingAll(4))),
       );
     });

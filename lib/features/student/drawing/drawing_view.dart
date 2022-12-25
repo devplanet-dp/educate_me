@@ -26,7 +26,7 @@ class DrawQnsView extends StatelessWidget {
         return Dialog(
           elevation: 0,
           insetPadding: EdgeInsets.symmetric(
-              horizontal: _.isTablet ? kTabPaddingHorizontal : 16),
+              horizontal: _.isTablet ? kTabPaddingHorizontal * .8 : 16),
           backgroundColor: Colors.transparent,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -36,21 +36,24 @@ class DrawQnsView extends StatelessWidget {
               Text(
                 question,
                 textAlign: TextAlign.center,
-                style: kBodyStyle.copyWith(fontWeight: FontWeight.bold),
+                style: kBodyStyle.copyWith(fontSize: _.isTablet?24:16),
               )
                   .center()
                   .paddingAll(16)
                   .card(
                       elevation: 6,
-                      shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              _.isTablet ? kBorderMedium : kBorderSmall),
                       clipBehavior: Clip.antiAlias)
-                  .width(Get.width),
+                  .width(_.isTablet ? Get.width * .45 : Get.width),
               vSpaceMedium,
               Draw(
                 qid: qid,
               ).card(
                   elevation: 6,
-                  shape: RoundedRectangleBorder(borderRadius: kBorderSmall),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: _.isTablet ? kBorderLarge : kBorderSmall),
                   clipBehavior: Clip.antiAlias),
             ],
           ),
@@ -79,25 +82,29 @@ class DisableDraw extends StatelessWidget {
           children: [
             Image.asset(
               kIcBrush,
-              height: 88.h,
-              width: 88.h,
+              fit: BoxFit.contain,
+              height: _.isTablet ? 180 : 88.h,
+              width: _.isTablet ? 180 : 88.h,
             ),
             vSpaceSmall,
             Text(
               'Sorry!',
-              style: kHeading3Style.copyWith(fontWeight: FontWeight.w700),
+              style: kHeading3Style.copyWith(
+                  fontWeight: FontWeight.w700, fontSize: _.isTablet ? 48 : 25),
             ),
             vSpaceSmall,
             Text(
               'text092'.tr,
               textAlign: TextAlign.center,
-              style: kCaptionStyle.copyWith(color: kcTextGrey),
+              style: kCaptionStyle.copyWith(
+                  color: kcTextGrey, fontSize: _.isTablet ? 20 : 13),
             ),
             vSpaceSmall,
             BoxButtonWidget(
-                buttonText: 'text079'.tr,
-                radius: 8,
-                onPressed: () => Get.back()).paddingSymmetric(horizontal: 48),
+                    buttonText: 'text079'.tr,
+                    radius: 8,
+                    onPressed: () => Get.back())
+                .paddingSymmetric(horizontal: _.isTablet ? 130 : 48),
             vSpaceSmall
           ],
         ).paddingAll(16),

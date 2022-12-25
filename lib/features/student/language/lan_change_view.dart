@@ -39,7 +39,7 @@ class LanChangeView extends StatelessWidget {
             ),
             body: [
               vSpaceMedium,
-              _.isTablet?vSpaceMedium:emptyBox(),
+              _.isTablet?vSpaceSmall:emptyBox(),
               Text(
                 'text063'.tr,
                 style: kBodyStyle,

@@ -31,7 +31,7 @@ class QuizCompletePage extends ViewModelWidget<QuizViewModel> {
         shrinkWrap: true,
         crossAxisSpacing: 8,
         mainAxisSpacing: 16,
-        childAspectRatio: 1.2,
+        childAspectRatio:_.isTablet?1.5 :1.2,
         children: List.generate(
             model.ans.length,
             (index) => InkWell(

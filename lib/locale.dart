@@ -19,7 +19,7 @@ class AppLocale extends Translations {
           'text010':'How many users?',
           'text010.2':'How many more profiles?',
           'text011':'Select the number of users that will be using this app (e.g. number of siblings)',
-          'text011.2':'Select the number of extra profiles you wanted added to your account',
+          'text011.2':'Select the number of additional profiles\nyou want added to your account',
           'text012':'Enter Your Username & Password',
           'text013':'Create account :)',
           'text014':'Enter The Email & Password',

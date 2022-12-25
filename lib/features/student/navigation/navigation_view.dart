@@ -136,7 +136,7 @@ class NavigationView extends StatelessWidget {
               ).paddingAll(8),
               Text(lable,
                   style: kBodyStyle.copyWith(
-                      fontSize: 12,
+                      fontSize:_.isTablet?18: 12,
                       fontWeight: FontWeight.w500,
                       color: isSelected
                           ? kcPrimaryColor

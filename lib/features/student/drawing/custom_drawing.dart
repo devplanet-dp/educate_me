@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:educate_me/core/utils/app_utils.dart';
+import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../core/shared/app_colors.dart';
 import '../../../core/utils/constants/app_assets.dart';
@@ -79,63 +80,97 @@ class _DrawState extends State<Draw> {
           points.add(null);
         });
       },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              onPressed: () {
-                controller.onDrawingCompleted(widget.qid, points);
-                Get.back();
-              },
-              icon: const Icon(Iconsax.close_circle),
+      child: ResponsiveBuilder(builder: (context, _) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                onPressed: () {
+                  controller.onDrawingCompleted(widget.qid, points);
+                  Get.back();
+                },
+                icon:  Icon(Iconsax.close_circle,size: _.isTablet?32:24,),
+              ),
             ),
-          ),
-          controller.isBusy.value
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : CustomPaint(
-                  size: Size.fromHeight(Get.height * 0.3),
-                  painter: DrawingPainter(
-                    pointsList: points,
+            _.isTablet ? vSpaceLarge : emptyBox(),
+            controller.isBusy.value
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : CustomPaint(
+                    size: Size.fromHeight(Get.height * 0.3),
+                    painter: DrawingPainter(
+                      pointsList: points,
+                    ),
                   ),
-                ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: getColorList(),
-          ),
-        ],
-      ),
+            _.isTablet
+                ? Row(
+                    children: [
+                      _trash(),
+                      const Expanded(child: SizedBox()),
+                      _colorsForTab(),
+                      const Expanded(child: SizedBox()),
+                      _eraser()
+                    ],
+                  ).paddingAll(8)
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: getColorList(_.isTablet),
+                  ),
+          ],
+        );
+      }),
     );
   }
 
-  getColorList() {
+  Widget _trash() => ResponsiveBuilder(builder: (context, _) {
+        return InkWell(
+            onTap: () => _onClear(),
+            child: SvgPicture.asset(
+              kIcTrash,
+              fit: BoxFit.contain,
+              height: _.isTablet ? 48 : 36,
+              width: _.isTablet ? 48 : 36,
+            ));
+      });
+
+  Widget _eraser() => ResponsiveBuilder(builder: (context, _) {
+        return InkWell(
+            onTap: () {
+              setState(() {
+                strokeWidth = 10;
+                selectedColor = Colors.white;
+              });
+            },
+            child: SvgPicture.asset(
+              kIcEraser,
+              fit: BoxFit.contain,
+              height: _.isTablet ? 48 : 36,
+              width: _.isTablet ? 48 : 36,
+            ));
+      });
+
+  getColorList(bool isTab) {
     List<Widget> listWidget = [];
 
-    var trash = IconButton(
-        onPressed: () => _onClear(), icon: SvgPicture.asset(kIcTrash));
-    var eraser = IconButton(
-        onPressed: () {
-          setState(() {
-            strokeWidth = 10;
-            selectedColor = Colors.white;
-          });
-        },
-        icon: SvgPicture.asset(kIcEraser));
-
-    listWidget.add(trash);
+    listWidget.add(_trash());
     for (Color color in colors) {
-      listWidget.add(colorCircle(color));
+      listWidget.add(colorCircle(color, isTab));
     }
-    listWidget.add(eraser);
+    listWidget.add(_eraser());
     return listWidget;
   }
 
-  Widget colorCircle(Color color) {
+  Widget _colorsForTab() => Row(
+        children: List.generate(colors.length,
+            (index) => colorCircle(colors[index], true).paddingOnly(left: 16)),
+      );
+
+  Widget colorCircle(Color color, bool isTab) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -146,8 +181,8 @@ class _DrawState extends State<Draw> {
       child: ClipOval(
         child: Container(
           padding: const EdgeInsets.only(bottom: 16.0),
-          height: 36,
-          width: 36,
+          height: isTab ? 60 : 36,
+          width: isTab ? 60 : 36,
           color: color,
         ),
       ),

@@ -25,11 +25,13 @@ class ImageSliderAppBar extends StatelessWidget {
       expandedHeight: 200.h,
       floating: true,
       pinned: true,
-      leadingWidth: deviceType == DeviceScreenType.tablet ?  72: 60,
+      leadingWidth: deviceType == DeviceScreenType.tablet ? 72 : 60,
       leading: AppRoundButton(
         icon: Icons.arrow_back_sharp,
         onTap: () => Get.back(),
-      ).paddingOnly(left:deviceType == DeviceScreenType.tablet?16: 8, top: 8),
+      ).paddingOnly(
+          left: deviceType == DeviceScreenType.tablet ? 16 : 8,
+          top: deviceType == DeviceScreenType.tablet ? 2 : 8),
       flexibleSpace: FlexibleSpaceBar(
           collapseMode: CollapseMode.pin,
           background: Stack(
@@ -84,7 +86,7 @@ class ImageSliderAppBarNonFloating extends StatelessWidget {
       leading: AppRoundButton(
         icon: Icons.arrow_back_sharp,
         onTap: onTap,
-      ).paddingOnly(left: 8, top: 8),
+      ).paddingOnly(left: 8, top: deviceType == DeviceScreenType.tablet ? 2 : 8),
       leadingWidth: deviceType == DeviceScreenType.tablet ? 75 : 56,
       flexibleSpace: FlexibleSpaceBar(
           collapseMode: CollapseMode.pin,
