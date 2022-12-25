@@ -146,6 +146,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
             return BoxButtonWidget(
                 onPressed: () => model.onMultipleOptionSelected(),
                 radius: 8,
+                fontSize: 16,
                 buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
                 buttonColor: model.getButtonStyleQuiz()['color'],
               ).height(_.isTablet?55:40).width(_.isTablet?200:150);
