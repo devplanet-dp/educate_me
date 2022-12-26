@@ -37,33 +37,38 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
   Widget build(BuildContext context, QuizViewModel model) {
     return ResponsiveBuilder(builder: (context, _) {
       return SingleChildScrollView(
-        padding: _.isTablet ? fieldPaddingTablet*0.6 : fieldPadding,
+        padding: _.isTablet ? fieldPaddingTablet * 0.6 : fieldPadding,
         child: Column(
           children: [
+            vSpaceMedium,
             _buildQuestion(
                 model.selectedQn?.question ?? '', model.selectedQn?.photoUrl),
             vSpaceMedium,
             [
               _buildCheckAnswerButton(model),
               const Expanded(child: SizedBox()),
-              DrawBrushWidget(
-                qns: model.selectedQn?.question ?? '',
-                // enableDraw:  model.selectedQn?.enableDraw ?? true,
-                enableDraw: drawEnabled,
-                qid: model.selectedQn?.id ?? '',
-                onDrawOpen: () {
-                  //update stats on drawing tool used
-                  model.updateDrawingToolCount(
-                      lesson: lessonId,
-                      levelId: levelId,
-                      topicId: topicId,
-                      subTopicId: subTopicId);
-                },
-              ),
+              (model.selectedQn?.type == QuestionType.inputSingle && _.isTablet)
+                  ? emptyBox()
+                  : DrawBrushWidget(
+                      qns: model.selectedQn?.question ?? '',
+                      // enableDraw:  model.selectedQn?.enableDraw ?? true,
+                      enableDraw: drawEnabled,
+                      qid: model.selectedQn?.id ?? '',
+                      onDrawOpen: () {
+                        //update stats on drawing tool used
+                        model.updateDrawingToolCount(
+                            lesson: lessonId,
+                            levelId: levelId,
+                            topicId: topicId,
+                            subTopicId: subTopicId);
+                      },
+                    ),
               hSpaceSmall,
-              SpeechButton(
-                question: model.selectedQn,
-              ),
+              (model.selectedQn?.type == QuestionType.inputSingle && _.isTablet)
+                  ? emptyBox()
+                  : SpeechButton(
+                      question: model.selectedQn,
+                    ),
             ]
                 .toRow(
                     mainAxisSize: MainAxisSize.min,
@@ -85,7 +90,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
           children: [
             photoUrl == null || photoUrl.trim().toLowerCase() == 'noimage'
                 ? SizedBox(
-                    height:_.isTablet?24: 90.h,
+                    height: _.isTablet ? 24 : 90.h,
                   )
                 : emptyBox(),
             photoUrl == null || photoUrl.trim().toLowerCase() == 'noimage'
@@ -104,8 +109,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
               qns,
               textAlign: TextAlign.center,
               style: kBodyStyle.copyWith(
-                  fontWeight:  FontWeight.w400,
-                  fontSize: _.isTablet ? 24 : 17),
+                  fontWeight: FontWeight.w400, fontSize: _.isTablet ? 24 : 17),
             )
                 .paddingAll(16)
                 .decorated(
@@ -119,7 +123,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
                     ),
                   ],
                 )
-                .width(Get.width*.35)
+                .width(_.isTablet?Get.width * .35:Get.width)
                 .paddingSymmetric(horizontal: 16),
           ],
         );
@@ -131,7 +135,13 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
       case QuestionType.singleChoice:
         return const SingleChoiceQns();
       case QuestionType.inputSingle:
-        return InputTypeQns();
+        return InputTypeQns(
+          levelId: levelId,
+          topicId: topicId,
+          subTopicId: subTopicId,
+          lessonId: lessonId,
+          drawEnabled: drawEnabled,
+        );
       case QuestionType.inputMultiple:
         return const MultipleChoiceQns();
       default:
@@ -141,17 +151,15 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
 
   Widget _buildCheckAnswerButton(QuizViewModel model) {
     return model.isMultipleCorrect()
-        ? ResponsiveBuilder(
-          builder: (context,_) {
+        ? ResponsiveBuilder(builder: (context, _) {
             return BoxButtonWidget(
-                onPressed: () => model.onMultipleOptionSelected(),
-                radius: 8,
-                fontSize: 16,
-                buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
-                buttonColor: model.getButtonStyleQuiz()['color'],
-              ).height(_.isTablet?55:40).width(_.isTablet?200:150);
-          }
-        )
+              onPressed: () => model.onMultipleOptionSelected(),
+              radius: 8,
+              fontSize: 16,
+              buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
+              buttonColor: model.getButtonStyleQuiz()['color'],
+            ).height(_.isTablet ? 55 : 40).width(_.isTablet ? 200 : 150);
+          })
         : const SizedBox();
   }
 }
@@ -177,7 +185,7 @@ class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
                     mainAxisSpacing: 32,
                     children: List.generate(options.length, (index) {
                       final p = options[index];
-                      return _buildOption(p, model,index);
+                      return _buildOption(p, model, index);
                     }),
                   )
                 : ListView.builder(
@@ -186,12 +194,12 @@ class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
                     itemCount: options.length,
                     itemBuilder: (_, index) {
                       final p = options[index];
-                      return _buildOption(p, model,index);
+                      return _buildOption(p, model, index);
                     });
           });
   }
 
-  Widget _buildOption(OptionModel p, QuizViewModel model,int order) => InkWell(
+  Widget _buildOption(OptionModel p, QuizViewModel model, int order) => InkWell(
         onTap: () => model.onOptionSelected(p),
         borderRadius: kBorderSmall,
         child: OptionTileWidget(
@@ -201,7 +209,8 @@ class SingleChoiceQns extends ViewModelWidget<QuizViewModel> {
           isCorrectOption: p.isCorrect ?? false,
           option: p.option ?? '',
           isUserOptionCorrect: model.isUserCorrect(),
-          userSelectedIndex: model.userAnsIndex(), order: order,
+          userSelectedIndex: model.userAnsIndex(),
+          order: order,
         ),
       );
 }
@@ -256,7 +265,19 @@ class MultipleChoiceQns extends ViewModelWidget<QuizViewModel> {
 }
 
 class InputTypeQns extends ViewModelWidget<QuizViewModel> {
-  InputTypeQns({Key? key}) : super(key: key);
+  InputTypeQns(
+      {Key? key,
+      required this.levelId,
+      required this.topicId,
+      required this.subTopicId,
+      required this.lessonId,
+      required this.drawEnabled})
+      : super(key: key);
+  final String levelId;
+  final String topicId;
+  final String subTopicId;
+  final String lessonId;
+  final bool drawEnabled;
 
   @override
   Widget build(BuildContext context, QuizViewModel model) {
@@ -268,8 +289,8 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
         child: ResponsiveBuilder(builder: (context, _) {
           return _.isTablet
               ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Expanded(
                       flex: 1,
@@ -278,14 +299,32 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                     hSpaceMedium,
                     Expanded(
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight:_.isTablet?48: 100.h),
+                        constraints:
+                            BoxConstraints(maxHeight: _.isTablet ? 60 : 100.h),
                         child: _buildInput(model),
                       ),
                     ),
                     hSpaceMedium,
-                    const Expanded(flex: 1, child: SizedBox()),
+                    DrawBrushWidget(
+                      qns: model.selectedQn?.question ?? '',
+                      // enableDraw:  model.selectedQn?.enableDraw ?? true,
+                      enableDraw: drawEnabled,
+                      qid: model.selectedQn?.id ?? '',
+                      onDrawOpen: () {
+                        //update stats on drawing tool used
+                        model.updateDrawingToolCount(
+                            lesson: lessonId,
+                            levelId: levelId,
+                            topicId: topicId,
+                            subTopicId: subTopicId);
+                      },
+                    ),
+                    hSpaceSmall,
+                    SpeechButton(
+                      question: model.selectedQn,
+                    ),
                   ],
-                )
+                ).paddingOnly(top: 16)
               : Column(
                   children: [
                     _buildInput(model)
@@ -297,28 +336,27 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
         }));
   }
 
-  Widget _buildInput(QuizViewModel model) => ResponsiveBuilder(
-    builder: (context,_) {
-      return AppTextFieldSecondary(
-        onTap: (){
-          model.onInputTypeChanged();
-        },
-        controller: model.inputController,
-        hintText: 'Enter answer',
-        verticalPadding:_.isTablet? 18:4,
-        label: '',
-        align: TextAlign.center,
-        minLine: 1,
-        textColor: model.getButtonStyleQuiz()['color'],
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Enter an answer';
-          }
-          return null;
-        },
-      );
-    }
-  );
+  Widget _buildInput(QuizViewModel model) =>
+      ResponsiveBuilder(builder: (context, _) {
+        return AppTextFieldSecondary(
+          onTap: () {
+            model.onInputTypeChanged();
+          },
+          controller: model.inputController,
+          hintText: 'Enter answer',
+          verticalPadding: _.isTablet ? 18 : 4,
+          label: '',
+          align: TextAlign.center,
+          minLine: 1,
+          textColor: model.getButtonStyleQuiz()['color'],
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Enter an answer';
+            }
+            return null;
+          },
+        );
+      });
 
   Widget _buildButton(QuizViewModel model, dynamic formKey) => BoxButtonWidget(
         buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,

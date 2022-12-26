@@ -16,10 +16,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  //todo undo here and check password input dialog icon mobile
   SystemChrome.setPreferredOrientations([
-    // DeviceOrientation.portraitDown,
-    // DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]).then((_) async {

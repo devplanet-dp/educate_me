@@ -23,7 +23,7 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: model.isFirstPage()?IconButton(
-                      onPressed: () {},
+                      onPressed: null,
                       icon:  Icon(
                         Iconsax.arrow_circle_left,
                         size:_.isTablet?32: 26,
@@ -50,7 +50,7 @@ class PageNavigationWidget extends ViewModelWidget<QuizViewModel> {
                 //show when answered
                 (model.isLastQn() || !model.allowNextPage)
                     ? IconButton(
-                        onPressed: () {},
+                        onPressed: null,
                         icon:  Icon(
                           Iconsax.arrow_circle_right,
                           size:_.isTablet?32: 26,
