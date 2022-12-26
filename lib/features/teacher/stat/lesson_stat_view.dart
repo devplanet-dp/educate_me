@@ -116,15 +116,8 @@ class _ExpandHeader extends StatelessWidget {
             )
           ],
         ),
-        hasDivider ?? true
-            ?  Divider(
-                color: Colors.black.withOpacity(.1),
-                height: 1,
-                thickness: 0.5,
-              ).paddingOnly(top: 8)
-            : emptyBox()
       ],
-    ).paddingSymmetric(vertical: 8);
+    ).paddingSymmetric(vertical: 12);
   }
 }
 
