@@ -170,7 +170,7 @@ class TeacherLevelViewModel extends BaseViewModel {
             lessonId: lessonId,
             questionId: e);
       }
-
+      selectedQnsIds.clear();
       setBusy(false);
     }
   }

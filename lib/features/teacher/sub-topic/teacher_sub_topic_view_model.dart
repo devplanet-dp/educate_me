@@ -26,6 +26,16 @@ class TeacherSubTopicViewModel extends BaseViewModel {
   final nameTEC = TextEditingController();
   final descTEC = TextEditingController();
 
+  bool _isMultiselect = false;
+
+  bool get multiSelect => _isMultiselect;
+
+  toggleMultiSelect() {
+    _isMultiselect = !_isMultiselect;
+    selectedQnsIds.clear();
+    notifyListeners();
+  }
+
   File? _images;
   String? _uploadedImages;
 
@@ -36,6 +46,40 @@ class TeacherSubTopicViewModel extends BaseViewModel {
   List<SubTopicModel> _topics = [];
 
   List<SubTopicModel> get topics => _topics;
+
+
+  List<String> selectedQnsIds = [];
+
+  bool isLessonSelected(String qns) => selectedQnsIds.contains(qns) && multiSelect;
+
+  void onQnsSelectedForDelete(String qns) {
+    if (selectedQnsIds.contains(qns)) {
+      selectedQnsIds.remove(qns);
+    } else {
+      selectedQnsIds.add(qns);
+    }
+    notifyListeners();
+  }
+
+  Future removeSubTopic(
+      {required levelId,
+        required topic}) async {
+    var response = await _dialogService.showConfirmationDialog(
+        title: 'Are you sure?',
+        description: 'Delete ${selectedQnsIds.length} sub-topics?');
+    if (response?.confirmed ?? false) {
+      setBusy(true);
+      for (var e in selectedQnsIds) {
+        await _service.removeSubTopic(
+            levelId: levelId,
+            topicId: topic,
+            subTopic: e);
+      }
+      selectedQnsIds.clear();
+      setBusy(false);
+    }
+  }
+
 
   setInitDate(SubTopicModel topic) {
     orderTEC.text = '${topic.order}';

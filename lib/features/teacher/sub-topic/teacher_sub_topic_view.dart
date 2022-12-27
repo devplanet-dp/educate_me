@@ -1,3 +1,4 @@
+import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/data/topic.dart';
 import 'package:educate_me/features/teacher/lesson/teacher_lesson_view.dart';
 import 'package:educate_me/features/teacher/sub-topic/teacher_add_sub_topic_view.dart';
@@ -35,13 +36,21 @@ class TeacherSubTopicView extends StatelessWidget {
               elevation: 0,
               title: Text('Add sub-topics for ${topic.name}'),
               actions: [
+                (vm.multiSelect && vm.selectedQnsIds.isNotEmpty)
+                    ? IconButton(
+                        onPressed: () => vm.removeSubTopic(
+                            levelId: levelId, topic: topic.id,),
+                        icon: const Icon(
+                          Iconsax.trash,
+                          color: kErrorRed,
+                        ))
+                    : emptyBox(),
                 IconButton(
-                    onPressed: () => vm.removeTopic(
-                        levelId: levelId, topicId: topic.id ?? ''),
-                    icon: const Icon(
-                      Iconsax.trash,
+                    onPressed: () => vm.toggleMultiSelect(),
+                    icon: Icon(
+                      vm.multiSelect ? Iconsax.edit5 : Iconsax.edit,
                       color: kErrorRed,
-                    ))
+                    )),
               ],
             ),
             floatingActionButton: FloatingActionButton(
@@ -74,30 +83,48 @@ class _TopicGridView extends ViewModelWidget<TeacherSubTopicViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherSubTopicViewModel model) {
-    return ResponsiveBuilder(
-      builder: (context,_) {
-        return GridView.count(
-          crossAxisCount: _.isDesktop?4: 2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: _.isDesktop?3:1,
-          children: List.generate(model.topics.length, (index) {
-            var t = model.topics[index];
-            return TopicCard(
-              onTap: () => Get.to(() => TeacherLessonView(
-                    subTopic: t,
-                    topicId: topicId,
-                    levelId: levelId,
-                  )),
-              url: t.cover ?? '',
-              title: t.title ?? '',
-              onEditTap: () => Get.bottomSheet(
-                  TeacherAddSubTopicView(levelId: levelId, topicId: topicId,topic: t,),
-                  isScrollControlled: true),
-            );
-          }),
-        ).paddingSymmetric(horizontal: 12);
-      }
-    );
+    return ResponsiveBuilder(builder: (context, _) {
+      return GridView.count(
+        crossAxisCount: _.isDesktop ? 4 : 2,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        childAspectRatio: _.isDesktop ? 3 : 1,
+        children: List.generate(model.topics.length, (index) {
+          var t = model.topics[index];
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned.fill(
+                child: TopicCard(
+                  onTap: () => model.multiSelect
+                      ? model.onQnsSelectedForDelete(t.id ?? '')
+                      : Get.to(() => TeacherLessonView(
+                            subTopic: t,
+                            topicId: topicId,
+                            levelId: levelId,
+                          )),
+                  url: t.cover ?? '',
+                  title: t.title ?? '',
+                  onEditTap: () => Get.bottomSheet(
+                      TeacherAddSubTopicView(
+                        levelId: levelId,
+                        topicId: topicId,
+                        topic: t,
+                      ),
+                      isScrollControlled: true),
+                ),
+              ),
+              Visibility(
+                visible: model.isLessonSelected(t.id??''),
+                child: const Icon(
+                  Icons.check,
+                  size: 32,
+                ).paddingAll(8).decorated(shape: BoxShape.circle, color: kcBg),
+              )
+            ],
+          );
+        }),
+      ).paddingSymmetric(horizontal: 12);
+    });
   }
 }

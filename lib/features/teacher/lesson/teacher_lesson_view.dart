@@ -1,3 +1,4 @@
+import 'package:educate_me/core/shared/ui_helpers.dart';
 import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/features/teacher/lesson/teacher_add_lesson_view.dart';
 import 'package:educate_me/features/teacher/lesson/teacher_lesson_view_model.dart';
@@ -40,34 +41,26 @@ class TeacherLessonView extends StatelessWidget {
           show: vm.isBusy,
           child: Scaffold(
               backgroundColor: kcBg,
-              bottomNavigationBar:
-              (vm.multiSelect && vm.selectedQnsIds.isNotEmpty)
-                  ? BoxButtonWidget(
-                  buttonText: 'Delete Lessons',
-                  onPressed: () => vm.removeLesson(
-                      levelId: levelId,
-                      topic: topicId,
-                      subTopic: subTopic.id)).paddingAll(16)
-                  : const SizedBox(),
               appBar: AppBar(
                 elevation: 0,
                 title: Text('Add Lessons for ${subTopic.title}'),
                 actions: [
+                  (vm.multiSelect && vm.selectedQnsIds.isNotEmpty)?  IconButton(
+                      onPressed: () => vm.removeLesson(
+                          levelId: levelId,
+                          topic: topicId,
+                          subTopic: subTopic.id),
+                      icon: const Icon(
+                        Iconsax.trash,
+                        color: kErrorRed,
+                      )):emptyBox(),
                   IconButton(
                       onPressed: () => vm.toggleMultiSelect(),
                       icon: Icon(
                         vm.multiSelect ? Iconsax.edit5 : Iconsax.edit,
                         color: kErrorRed,
                       )),
-                  IconButton(
-                      onPressed: () => vm.removeSubTopic(
-                          levelId: levelId,
-                          topicId: topicId,
-                          subTopicId: subTopic.id),
-                      icon: const Icon(
-                        Iconsax.trash,
-                        color: kErrorRed,
-                      ))
+
                 ],
               ),
               floatingActionButton: FloatingActionButton(

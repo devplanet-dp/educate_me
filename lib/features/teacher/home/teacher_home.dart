@@ -14,6 +14,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
+import '../../../core/shared/ui_helpers.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../signin/components/custom_app_bar.dart';
 
@@ -30,9 +31,27 @@ class TeacherHomeView extends StatelessWidget {
         onTap: () => DeviceUtils.hideKeyboard(context),
         child: Scaffold(
           backgroundColor: kcBg,
-          appBar:  const PreferredSize(
-            preferredSize: Size.fromHeight(kAppToolbarHeight),
-            child: AdminAppBar(title: 'Topics'),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kAppToolbarHeight),
+            child: AdminAppBar(
+              title: 'Topics',
+              actions: [
+                (vm.multiSelect && vm.selectedQnsIds.isNotEmpty)
+                    ? IconButton(
+                        onPressed: () => vm.removeLevels(),
+                        icon: const Icon(
+                          Iconsax.trash,
+                          color: kErrorRed,
+                        ))
+                    : emptyBox(),
+                IconButton(
+                    onPressed: () => vm.toggleMultiSelect(),
+                    icon: Icon(
+                      vm.multiSelect ? Iconsax.edit5 : Iconsax.edit,
+                      color: kErrorRed,
+                    ))
+              ],
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             backgroundColor: kcPrimaryColor,
@@ -60,43 +79,58 @@ class _LevelGrid extends ViewModelWidget<TeacherViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherViewModel model) {
-    return ResponsiveBuilder(
-      builder: (context,_) {
-        return GridView.count(
-          crossAxisCount:_.isDesktop?4 :3,
-          crossAxisSpacing: 8,
-          childAspectRatio: _.isDesktop?3:1,
-          mainAxisSpacing: 8,
-          children: List.generate(model.levels.length, (index) {
-            var l = model.levels[index];
-            return TileWidget(
-                header: Text(
-                  '${l.order}',
-                  style: kHeading3Style.copyWith(
-                      fontWeight: FontWeight.bold, color: kAltWhite),
-                ),
-                subHeader: l.name ?? '',
-                icon: IconButton(
-                  icon: const Icon(Iconsax.edit),
-                  onPressed: () => Get.bottomSheet(
-                      AddLevelSheet(
-                        level: l,
-                      ),
-                      isScrollControlled: true),
-                ),
-                primaryColor: kcPrimaryColor.withOpacity(.5),
-                onTap: () => model.levels[index].order != 0
-                    ? Get.to(() => TeacherTopicView(
-                          level: model.levels[index],
-                        ))
-                    : Get.to(() => TeacherQnsView(
-                          levelId: model.levels[index].id ?? '',
-                          isStartUp: true,
-                        )),
-                isDark: false);
-          }),
-        ).paddingSymmetric(horizontal: 12,vertical: 16);
-      }
-    );
+    return ResponsiveBuilder(builder: (context, _) {
+      return GridView.count(
+        crossAxisCount: _.isDesktop ? 4 : 3,
+        crossAxisSpacing: 8,
+        childAspectRatio: _.isDesktop ? 3 : 1,
+        mainAxisSpacing: 8,
+        children: List.generate(model.levels.length, (index) {
+          var l = model.levels[index];
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned.fill(
+                child: TileWidget(
+                    header: Text(
+                      '${l.order}',
+                      style: kHeading3Style.copyWith(
+                          fontWeight: FontWeight.bold, color: kAltWhite),
+                    ),
+                    subHeader: l.name ?? '',
+                    icon: IconButton(
+                      icon: const Icon(Iconsax.edit),
+                      onPressed: () => Get.bottomSheet(
+                          AddLevelSheet(
+                            level: l,
+                          ),
+                          isScrollControlled: true),
+                    ),
+                    primaryColor: kcPrimaryColor.withOpacity(.5),
+                    onTap: () => model.multiSelect
+                        ? model.onQnsSelectedForDelete(l.id ?? '')
+                        : model.levels[index].order != 0
+                            ? Get.to(() => TeacherTopicView(
+                                  level: model.levels[index],
+                                ))
+                            : Get.to(() => TeacherQnsView(
+                                  levelId: model.levels[index].id ?? '',
+                                  isStartUp: true,
+                                )),
+                    isDark: false),
+              ),
+              Visibility(
+                  visible: model.isLessonSelected(l.id ?? ''),
+                  child: const Icon(
+                    Icons.check,
+                    size: 32,
+                  )
+                      .paddingAll(8)
+                      .decorated(shape: BoxShape.circle, color: kcBg)),
+            ],
+          );
+        }),
+      ).paddingSymmetric(horizontal: 12, vertical: 16);
+    });
   }
 }

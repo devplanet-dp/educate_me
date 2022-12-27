@@ -19,10 +19,13 @@ import 'back_button.dart';
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({Key? key, this.onBack}) : super(key: key);
   final VoidCallback? onBack;
+
   @override
   Widget build(BuildContext context) {
     return [
-       CustomBackButton(onBack: onBack,),
+      CustomBackButton(
+        onBack: onBack,
+      ),
       const Expanded(child: SizedBox()),
       Image.asset(
         kAppLogoOutlined,
@@ -51,7 +54,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
         backgroundColor: Colors.white,
         title: Text(
           title.tr,
-          style: kSubheadingStyle.copyWith( fontSize: _.isTablet ? 32 : 20),
+          style: kSubheadingStyle.copyWith(fontSize: _.isTablet ? 32 : 20),
         ),
         actions: [
           Obx(() => PopupMenuButton(
@@ -90,8 +93,8 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
                   duration: const Duration(microseconds: 300),
                   child: AvatarView(
                           path: model.controller.currentChild?.profileUrl ?? '',
-                          height:_.isTablet?48: 34.h,
-                          widget:_.isTablet?48: 34.w,
+                          height: _.isTablet ? 48 : 34.h,
+                          widget: _.isTablet ? 48 : 34.w,
                           userName: model.controller.currentChild?.name ?? 'E')
                       .paddingAll(4)
                       .decorated(
@@ -100,7 +103,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
                               color: controller.popupMenuEnabled.value
                                   ? kcPrimaryColor
                                   : Colors.transparent))
-                      .paddingAll(_.isTablet?4:8),
+                      .paddingAll(_.isTablet ? 4 : 8),
                 ),
               )),
         ],
@@ -136,8 +139,10 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
 }
 
 class AdminAppBar extends StatelessWidget {
-  const AdminAppBar({Key? key, required this.title}) : super(key: key);
+  const AdminAppBar({Key? key, required this.title, this.actions})
+      : super(key: key);
   final String title;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
@@ -153,8 +158,8 @@ class AdminAppBar extends StatelessWidget {
             style: kSubheadingStyle.copyWith(
                 fontWeight: FontWeight.bold, fontSize: _.isTablet ? 32 : 20),
           ),
-          actions: [
-            PopupMenuButton(
+          actions: actions ?? []
+            ..add(PopupMenuButton(
                 child: AvatarView(
                         path: '', height: 34.h, widget: 34.w, userName: 'Admin')
                     .paddingAll(4)
@@ -166,8 +171,7 @@ class AdminAppBar extends StatelessWidget {
                         child: const Text('Sign out'),
                         onTap: () => vm.signOut(),
                       )
-                    ])
-          ],
+                    ])),
         ).decorated(
           color: Colors.white,
           borderRadius: kBorderSmall,

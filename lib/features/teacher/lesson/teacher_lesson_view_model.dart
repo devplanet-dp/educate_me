@@ -86,6 +86,7 @@ class TeacherLessonViewModel extends BaseViewModel {
             subTopic: subTopic,
             lessonId: e);
       }
+      selectedQnsIds.clear();
       setBusy(false);
     }
   }

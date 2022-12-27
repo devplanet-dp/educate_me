@@ -11,6 +11,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../core/shared/app_colors.dart';
+import '../../../core/shared/ui_helpers.dart';
 import '../../../core/utils/device_utils.dart';
 import '../../../core/widgets/app_info.dart';
 
@@ -32,10 +33,20 @@ class TeacherTopicView extends StatelessWidget {
               elevation: 0,
               title: Text('Add topics for ${level.name}'),
               actions: [
+                (vm.multiSelect && vm.selectedQnsIds.isNotEmpty)
+                    ? IconButton(
+                        onPressed: () => vm.removeTopics(
+                              levelId: level.id,
+                            ),
+                        icon: const Icon(
+                          Iconsax.trash,
+                          color: kErrorRed,
+                        ))
+                    : emptyBox(),
                 IconButton(
-                    onPressed: () => vm.removeLevel(level.id ?? ''),
-                    icon: const Icon(
-                      Iconsax.trash,
+                    onPressed: () => vm.toggleMultiSelect(),
+                    icon: Icon(
+                      vm.multiSelect ? Iconsax.edit5 : Iconsax.edit,
                       color: kErrorRed,
                     ))
               ],
@@ -67,32 +78,47 @@ class _TopicGridView extends ViewModelWidget<TeacherTopicViewModel> {
 
   @override
   Widget build(BuildContext context, TeacherTopicViewModel model) {
-    return ResponsiveBuilder(
-      builder: (context,_) {
-        return GridView.count(
-          crossAxisCount: _.isDesktop?4:2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: _.isDesktop?3:1,
-          children: List.generate(model.topics.length, (index) {
-            var t = model.topics[index];
-            return TopicCard(
-              url: t.cover ?? '',
-              title: t.name ?? '',
-              onTap: () => Get.to(() => TeacherSubTopicView(
-                    levelId: levelId,
-                    topic: t,
-                  )),
-              onEditTap: () => Get.bottomSheet(
-                  TeacherAddTopicView(
-                    levelId: levelId,
-                    topic: t,
-                  ),
-                  isScrollControlled: true),
-            );
-          }),
-        ).paddingSymmetric(horizontal: 12);
-      }
-    );
+    return ResponsiveBuilder(builder: (context, _) {
+      return GridView.count(
+        crossAxisCount: _.isDesktop ? 4 : 2,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        childAspectRatio: _.isDesktop ? 3 : 1,
+        children: List.generate(model.topics.length, (index) {
+          var t = model.topics[index];
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned.fill(
+                child: TopicCard(
+                  url: t.cover ?? '',
+                  title: t.name ?? '',
+                  onTap: () => model.multiSelect
+                      ? model.onQnsSelectedForDelete(t.id ?? '')
+                      : Get.to(() => TeacherSubTopicView(
+                            levelId: levelId,
+                            topic: t,
+                          )),
+                  onEditTap: () => Get.bottomSheet(
+                      TeacherAddTopicView(
+                        levelId: levelId,
+                        topic: t,
+                      ),
+                      isScrollControlled: true),
+                ),
+              ),
+              Visibility(
+                  visible: model.isLessonSelected(t.id ?? ''),
+                  child: const Icon(
+                    Icons.check,
+                    size: 32,
+                  )
+                      .paddingAll(8)
+                      .decorated(shape: BoxShape.circle, color: kcBg)),
+            ],
+          );
+        }),
+      ).paddingSymmetric(horizontal: 12);
+    });
   }
 }
