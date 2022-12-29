@@ -31,8 +31,24 @@ class _DrawState extends State<Draw> {
   StrokeCap strokeCap = (Platform.isAndroid) ? StrokeCap.butt : StrokeCap.round;
   SelectedMode selectedMode = SelectedMode.StrokeWidth;
   List<Color> colors = [Colors.black, kcStrokeYellow, kcStrokeGreen];
+  bool _isEraserEnabled = false;
 
   void _onClear() => setState(() => points.clear());
+
+  toggleEraser(){
+    setState(() {
+      if(_isEraserEnabled){
+       _isEraserEnabled = false;
+       strokeWidth = 3;
+       selectedColor = Colors.black;
+      }else{
+        _isEraserEnabled = true;
+        strokeWidth = 10;
+        selectedColor = Colors.white;
+      }
+    });
+
+  }
 
   @override
   void initState() {
@@ -93,7 +109,10 @@ class _DrawState extends State<Draw> {
                   controller.onDrawingCompleted(widget.qid, points);
                   Get.back();
                 },
-                icon:  Icon(Iconsax.close_circle,size: _.isTablet?32:24,),
+                icon: Icon(
+                  Iconsax.close_circle,
+                  size: _.isTablet ? 32 : 24,
+                ),
               ),
             ),
             _.isTablet ? vSpaceLarge : emptyBox(),
@@ -121,6 +140,7 @@ class _DrawState extends State<Draw> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: getColorList(_.isTablet),
                   ),
+            vSpaceSmall,
           ],
         );
       }),
@@ -140,14 +160,10 @@ class _DrawState extends State<Draw> {
 
   Widget _eraser() => ResponsiveBuilder(builder: (context, _) {
         return InkWell(
-            onTap: () {
-              setState(() {
-                strokeWidth = 10;
-                selectedColor = Colors.white;
-              });
-            },
+            onTap: () =>toggleEraser(),
             child: SvgPicture.asset(
               kIcEraser,
+              color: _isEraserEnabled ? Colors.red : Colors.black,
               fit: BoxFit.contain,
               height: _.isTablet ? 48 : 36,
               width: _.isTablet ? 48 : 36,
@@ -174,6 +190,7 @@ class _DrawState extends State<Draw> {
     return GestureDetector(
       onTap: () {
         setState(() {
+          _isEraserEnabled = false;
           strokeWidth = 3;
           selectedColor = color;
         });

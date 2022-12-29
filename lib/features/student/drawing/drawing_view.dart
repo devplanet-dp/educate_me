@@ -73,7 +73,7 @@ class DisableDraw extends StatelessWidget {
       return Dialog(
         elevation: 0,
         insetPadding: EdgeInsets.symmetric(
-            horizontal: _.isTablet ? kTabPaddingHorizontal : 16),
+            horizontal: _.isTablet ? kTabPaddingHorizontal : 24),
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: kBorderMedium),
         child: Column(
@@ -97,7 +97,7 @@ class DisableDraw extends StatelessWidget {
               'text092'.tr,
               textAlign: TextAlign.center,
               style: kCaptionStyle.copyWith(
-                  color: kcTextGrey, fontSize: _.isTablet ? 20 : 13),
+                  color: kcTextGrey, fontSize: _.isTablet ? 20 : 15),
             ),
             vSpaceSmall,
             BoxButtonWidget(

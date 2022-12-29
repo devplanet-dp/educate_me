@@ -21,7 +21,7 @@ class AppDialog extends StatelessWidget {
   final bool singleSelection;
   final double? height;
   final double? width;
-
+  final double contentPaddingTop;
   const AppDialog({
     Key? key,
     required this.title,
@@ -32,7 +32,7 @@ class AppDialog extends StatelessWidget {
     this.subtitle,
     this.positiveText,
     this.height,
-    this.width,
+    this.width, this.contentPaddingTop=0,
   }) : super(key: key);
 
   @override
@@ -46,14 +46,13 @@ class AppDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            vSpaceSmall,
             _buildHeader(),
             vSpaceTiny,
             _buildDialogContent(),
             vSpaceMedium,
             _buildDialogController(),
           ],
-        ).paddingSymmetric(horizontal: 24, vertical: 24).card(
+        ).paddingSymmetric(horizontal: 24, vertical: 16).card(
             clipBehavior: Clip.antiAlias,
             shape: RoundedRectangleBorder(
               borderRadius: _.isTablet ? kBorderLarge : kBorderSmall,
@@ -123,7 +122,7 @@ class AppDialog extends StatelessWidget {
               style: subtitle == null
                   ? kBody1Style.copyWith(
                       fontWeight: FontWeight.w700,
-                      fontSize: _.isTablet ? 24 : 15)
+                      fontSize: _.isTablet ? 24 : 16)
                   : kSubheadingStyle.copyWith(
                       fontSize: _.isTablet ? 10.sp : 25.sp,
                       fontWeight: FontWeight.w700,
@@ -139,7 +138,7 @@ class AppDialog extends StatelessWidget {
                 )
               : emptyBox()
         ],
-      );
+      ).paddingOnly(top: contentPaddingTop);
 }
 
 class AppDialogWithInput extends StatefulWidget {

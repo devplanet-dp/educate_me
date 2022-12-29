@@ -136,6 +136,7 @@ class LessonViewModel extends BaseViewModel {
       image: kIcQuiz,
       height: 95,
       width: 90,
+      contentPaddingTop: 12,
       onPositiveTap: () {
         Get.back();
         Get.to(() => QuizView(

@@ -45,7 +45,7 @@ class StatCardTile extends ViewModelWidget<StatViewModel> {
       ].toRow().paddingAll(16).decorated(
         boxShadow: [
            BoxShadow(
-            color: kcCardBgColor.withOpacity(.2),
+            color: kcCardBgColor.withOpacity(.15),
             blurRadius: 6,
             spreadRadius: 7,
             offset: const Offset(-0, 6), // Shadow position

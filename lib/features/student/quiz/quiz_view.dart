@@ -100,18 +100,7 @@ class QuizView extends StatelessWidget {
                             const SizedBox(
                               height: 5,
                             ),
-                            vm.quizController.isQuizCompleted
-                                ? Text.rich(TextSpan(
-                                text: 'Question:',
-                                style: kBodyStyle.copyWith(
-                                    color: Colors.black, fontWeight: FontWeight.w600,fontSize: _.isTablet?24:16),
-                                children: [
-                                  TextSpan(
-                                      text: ' ${vm.qnNo}/${vm.questions.length}',
-                                      style: kBodyStyle.copyWith(
-                                          color: kcPrimaryColor, fontWeight: FontWeight.w600,fontSize: _.isTablet?24:16))
-                                ])).paddingSymmetric(horizontal: _.isTablet?16:0)
-                                : vm.isLastPage()
+                           vm.isLastPage()
                                     ? const QuizResultsWidget()
                                     : const PageNavigationWidget(),
                             Expanded(

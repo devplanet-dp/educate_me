@@ -130,13 +130,13 @@ class NavigationView extends StatelessWidget {
               ),
               SvgPicture.asset(
                 assetName,
-                height: _.isTablet ? 42 : 24,
+                height: _.isTablet ? 42 : 28,
                 width: 24,
                 color: isSelected ? kcPrimaryColor : kButtonColor,
               ).paddingAll(8),
               Text(lable,
                   style: kBodyStyle.copyWith(
-                      fontSize:_.isTablet?18: 12,
+                      fontSize:_.isTablet?18: 14,
                       fontWeight: FontWeight.w500,
                       color: isSelected
                           ? kcPrimaryColor
