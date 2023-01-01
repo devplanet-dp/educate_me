@@ -162,15 +162,15 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
 
   @override
   Widget build(BuildContext context, TopicViewModel model) {
-    return FirestoreListView<LessonModel>(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        query: model.queryLesson(
-            levelId: levelId, topicId: topicId, subTopicId: subTopicId),
-        itemBuilder: (_, snapshot) {
-          final t = snapshot.data();
-          return ResponsiveBuilder(builder: (context, _) {
+    return ResponsiveBuilder(builder: (context, _) {
+      return FirestoreListView<LessonModel>(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+          query: model.queryLesson(
+              levelId: levelId, topicId: topicId, subTopicId: subTopicId),
+          itemBuilder: (_, snapshot) {
+            final t = snapshot.data();
             return LessonCard(
               lesson: t,
               isCompleted: model.isLessonCompleted(t.id ?? ''),
@@ -179,8 +179,8 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
                   levelId: levelId,
                   topicId: topicId,
                   subTopicId: subTopicId),
-            ).paddingOnly(right: _.isTablet ? 32 : 10);
-          });
-        }).paddingOnly(left: 16).height(180);
+            ).paddingOnly(right: _.isTablet ? 18 : 10);
+          }).paddingOnly(left: _.isTablet ? 24 : 16).height(180);
+    });
   }
 }

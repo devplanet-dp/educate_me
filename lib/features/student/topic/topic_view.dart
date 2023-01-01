@@ -86,26 +86,28 @@ class _TopicList extends ViewModelWidget<TopicViewModel> {
 
   @override
   Widget build(BuildContext context, TopicViewModel model) {
-    return FirestoreListView<TopicModel>(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        query: model.levelTopicsQuery(level.id??''),
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (_, snapshot) {
-          return ResponsiveBuilder(builder: (context, _) {
-            final t = snapshot.data();
-            return TopicCard(
-                isLocked: isLocked,
-                isCompleted: isCompleted,
-                url: t.cover ?? '',
-                onTap: () =>
-                    model.goToSubtopic(level: level, topic: t),
-                title: t.name ?? '')
-                .paddingOnly(
-                right: _.isTablet
-                    ? 32
-                    : 10);
-          });
-        }).paddingOnly(left: 10).height(120);
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return FirestoreListView<TopicModel>(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            query: model.levelTopicsQuery(level.id??''),
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (_, snapshot) {
+              final t = snapshot.data();
+              return TopicCard(
+                  isLocked: isLocked,
+                  isCompleted: isCompleted,
+                  url: t.cover ?? '',
+                  onTap: () =>
+                      model.goToSubtopic(level: level, topic: t),
+                  title: t.name ?? '')
+                  .paddingOnly(
+                  right: _.isTablet
+                      ? 12
+                      : 10);
+            }).paddingOnly(left:_.isTablet?22: 10).height(120);
+      }
+    );
   }
 }

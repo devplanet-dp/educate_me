@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
@@ -17,33 +16,43 @@ class TotalAnswerCard extends ViewModelWidget<StatViewModel> {
 
   @override
   Widget build(BuildContext context, StatViewModel model) {
-    return Row(
-      children: [
-        SvgPicture.asset(kIcAsk,width: 32,height: 32,).paddingAll(16),
-        Expanded(
-          child: [
-            Text(
-              'text032'.tr,
-              style: kBody1Style.copyWith(color: kcTextDarkGrey),
-            ),
-            Text(
-              '${model.controller.currentChild?.stats?.totalAnswered ?? 0}',
-              style: kHeading3Style.copyWith(
-                  color: Colors.black, fontWeight: FontWeight.bold),
+    return ResponsiveBuilder(
+      builder: (context,_) {
+        return Row(
+          children: [
+            SvgPicture.asset(
+              kIcAsk,
+              width: 32,
+              height: 32,
+            ).paddingAll(16),
+            Expanded(
+              child: [
+                Text(
+                  'text032'.tr,
+
+                  style: kBody1Style.copyWith(color: kcTextDarkGrey,fontSize: _.isTablet ? 18 : 15,
+                    fontWeight: FontWeight.w500,),
+                ),
+                Text(
+                  '${model.controller.currentChild?.stats?.totalAnswered ?? 0}',
+                  style: kHeading3Style.copyWith(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                )
+              ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
             )
-          ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
-        )
-      ],
-    ).paddingSymmetric(vertical: 12).decorated(
-      color: Colors.white,
-      borderRadius: kBorderSmall,
-      boxShadow: [
-        BoxShadow(
-          color: kcTextGrey.withOpacity(.2),
-          blurRadius: 9,
-          offset: const Offset(0, 1), // Shadow position
-        ),
-      ],
+          ],
+        ).paddingSymmetric(vertical: 12).decorated(
+          color: Colors.white,
+          borderRadius: kBorderSmall,
+          boxShadow: [
+            BoxShadow(
+              color: kcTextGrey.withOpacity(.2),
+              blurRadius: 9,
+              offset: const Offset(0, 1), // Shadow position
+            ),
+          ],
+        );
+      }
     );
   }
 }
@@ -84,41 +93,49 @@ class _AnswerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveBuilder(
-      builder: (context,_) {
-        return [
-          vSpaceSmall,
-          SvgPicture.asset(image,width:_.isTablet? 37:25.w,height:_.isTablet?57: 39.h,),
-          vSpaceMedium,
-          AutoSizeText(
-            title.tr,
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            style: kBody1Style.copyWith(color: kcTextDarkGrey,fontWeight: FontWeight.w500,fontSize: _.isTablet?20:15),
+    return ResponsiveBuilder(builder: (context, _) {
+      return [
+        vSpaceSmall,
+        SvgPicture.asset(
+          image,
+          width: _.isTablet ? 37 : 25.w,
+          height: _.isTablet ? 57 : 39.h,
+        ),
+        vSpaceMedium,
+        Text(
+          title.tr,
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          style: kBody1Style.copyWith(
+              color: kcTextDarkGrey,
+              fontWeight: FontWeight.w500,
+              fontSize: _.isTablet ? 18 : 15),
+        ),
+        vSpaceSmall,
+        Text(
+          '$amount',
+          style: kHeading3Style.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.w900,
+              fontSize: _.isTablet ? 25 : 20.sp),
+        )
+      ]
+          .toColumn(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min)
+          .paddingSymmetric(horizontal: 26.w, vertical: 10)
+          .decorated(
+        color: Colors.white,
+        borderRadius: kBorderSmall,
+        boxShadow: [
+          BoxShadow(
+            color: kcTextGrey.withOpacity(.2),
+            blurRadius: 9,
+            offset: const Offset(0, 1), // Shadow position
           ),
-          vSpaceSmall,
-          Text(
-            '$amount',
-            style: kHeading3Style.copyWith(
-                color: Colors.black, fontWeight: FontWeight.w900,fontSize:_.isTablet?25: 20.sp),
-          )
-        ]
-            .toColumn(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min).paddingSymmetric(horizontal: 26.w,vertical: 10)
-            .decorated(
-          color: Colors.white,
-          borderRadius: kBorderSmall,
-          boxShadow: [
-            BoxShadow(
-              color: kcTextGrey.withOpacity(.2),
-              blurRadius: 9,
-              offset: const Offset(0, 1), // Shadow position
-            ),
-          ],
-        );
-      }
-    );
+        ],
+      );
+    });
   }
 }

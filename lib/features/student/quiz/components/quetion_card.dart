@@ -343,7 +343,7 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
           hintText: 'Enter answer',
           verticalPadding: _.isTablet ? 18 : 4,
           label: '',
-          isEnabled: model.selectedQn?.state != AnswerState.checkAgain
+          isEnabled: model.selectedQn?.state == AnswerState.tryAgain
               ? false
               : !model.isAnswered(),
           align: TextAlign.center,

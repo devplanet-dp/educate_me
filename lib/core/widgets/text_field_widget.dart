@@ -258,7 +258,7 @@ class AppTextFieldSecondary extends StatelessWidget {
                           : TextInputType.multiline,
               style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 15,
+                  fontSize: _.isTablet?18:15,
                   color: isDark ? Colors.black : textColor),
               decoration: InputDecoration(
                 focusedBorder: DecoratedInputBorder(
@@ -300,9 +300,9 @@ class AppTextFieldSecondary extends StatelessWidget {
                 labelText: hintText,
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 alignLabelWithHint: false,
-                labelStyle: const TextStyle(
+                labelStyle:  TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 15,
+                    fontSize:_.isTablet?24: 15,
                     color: kcTextHint),
                 counterText: "",
                 contentPadding:
