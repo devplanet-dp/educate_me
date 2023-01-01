@@ -121,11 +121,11 @@ class AppDialog extends StatelessWidget {
               textAlign: TextAlign.center,
               style: subtitle == null
                   ? kBody1Style.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       fontSize: _.isTablet ? 24 : 16)
                   : kSubheadingStyle.copyWith(
                       fontSize: _.isTablet ? 10.sp : 25.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       color: Colors.black),
             );
           }),

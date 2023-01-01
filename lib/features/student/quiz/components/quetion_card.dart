@@ -290,39 +290,41 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
           return _.isTablet
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: _buildButton(model, formKey),
-                    ),
-                    hSpaceMedium,
+                    Expanded(child: _buildButton(model, formKey)),
+                    const Expanded(child: SizedBox()),
                     Expanded(
                       child: ConstrainedBox(
-                        constraints:
-                            BoxConstraints(maxHeight: _.isTablet ? 60 : 100.h),
+                        constraints: const BoxConstraints(maxHeight: 60),
                         child: _buildInput(model),
                       ),
                     ),
-                    hSpaceMedium,
-                    DrawBrushWidget(
-                      qns: model.selectedQn?.question ?? '',
-                      // enableDraw:  model.selectedQn?.enableDraw ?? true,
-                      enableDraw: drawEnabled,
-                      qid: model.selectedQn?.id ?? '',
-                      onDrawOpen: () {
-                        //update stats on drawing tool used
-                        model.updateDrawingToolCount(
-                            lesson: lessonId,
-                            levelId: levelId,
-                            topicId: topicId,
-                            subTopicId: subTopicId);
-                      },
-                    ),
-                    hSpaceSmall,
-                    SpeechButton(
-                      question: model.selectedQn,
-                    ),
+                    const Expanded(child: SizedBox()),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          DrawBrushWidget(
+                            qns: model.selectedQn?.question ?? '',
+                            // enableDraw:  model.selectedQn?.enableDraw ?? true,
+                            enableDraw: drawEnabled,
+                            qid: model.selectedQn?.id ?? '',
+                            onDrawOpen: () {
+                              //update stats on drawing tool used
+                              model.updateDrawingToolCount(
+                                  lesson: lessonId,
+                                  levelId: levelId,
+                                  topicId: topicId,
+                                  subTopicId: subTopicId);
+                            },
+                          ),
+                          hSpaceSmall,
+                          SpeechButton(
+                            question: model.selectedQn,
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ).paddingOnly(top: 16)
               : Column(
@@ -358,19 +360,23 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
         );
       });
 
-  Widget _buildButton(QuizViewModel model, dynamic formKey) => BoxButtonWidget(
-        buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
-        radius: 8,
-        buttonColor: model.getButtonStyleQuiz()['color'],
-        onPressed: () {
-          //check user has already answered
-          if (!model.isAnswered()) {
-            if (formKey.currentState!.validate()) {
-              model.onInputTypeSubmit(model.inputController.text);
+  Widget _buildButton(QuizViewModel model, dynamic formKey) =>
+      ResponsiveBuilder(builder: (context, _) {
+        return BoxButtonWidget(
+          buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
+          radius: 8,
+          fontSize: _.isTablet ? 20 : 14,
+          buttonColor: model.getButtonStyleQuiz()['color'],
+          onPressed: () {
+            //check user has already answered
+            if (!model.isAnswered()) {
+              if (formKey.currentState!.validate()) {
+                model.onInputTypeSubmit(model.inputController.text);
+              }
             }
-          }
-        },
-      );
+          },
+        );
+      });
 }
 
 class DrawingPadWidget extends StatefulWidget {

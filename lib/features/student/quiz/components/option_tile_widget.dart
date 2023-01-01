@@ -165,7 +165,7 @@ class MultipleCheckOptionTile extends StatelessWidget {
                     style: kBody1Style.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: _.isTablet ? 28 : 15,
-                        color: optionTileColor),
+                        color: optionTextColor),
                   ).paddingAll(24),
                 )
               : Text(

@@ -302,7 +302,7 @@ class AppTextFieldSecondary extends StatelessWidget {
                 alignLabelWithHint: false,
                 labelStyle:  TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize:_.isTablet?24: 15,
+                    fontSize:_.isTablet?20: 15,
                     color: kcTextHint),
                 counterText: "",
                 contentPadding:

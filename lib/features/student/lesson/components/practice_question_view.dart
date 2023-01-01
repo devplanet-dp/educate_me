@@ -130,7 +130,7 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                             ? false
                             : !model.isQuizEnabled(index),
                     textColor: model.getButtonStyle(index)[index]['color'],
-                    hintText: '        Answer',
+                    hintText: '          Answer',
                     align: TextAlign.center,
                     label: '',
                     validator: (value) {

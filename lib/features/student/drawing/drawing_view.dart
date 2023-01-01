@@ -90,14 +90,13 @@ class DisableDraw extends StatelessWidget {
             Text(
               'Sorry!',
               style: kHeading3Style.copyWith(
-                  fontWeight: FontWeight.w700, fontSize: _.isTablet ? 48 : 25),
+                  fontWeight: FontWeight.w600, fontSize: _.isTablet ? 48 : 25),
             ),
-            vSpaceSmall,
             Text(
               'text092'.tr,
               textAlign: TextAlign.center,
               style: kCaptionStyle.copyWith(
-                  color: kcTextGrey, fontSize: _.isTablet ? 20 : 15),
+                  color: kcTextGrey, fontSize: _.isTablet ? 18 : 15),
             ),
             vSpaceSmall,
             BoxButtonWidget(

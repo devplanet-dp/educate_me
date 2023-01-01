@@ -20,7 +20,7 @@ class AppNetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: "path",
+      imageUrl: path,
       height: thumbHeight,
       width: thumbWidth,
       fit: fit?? BoxFit.cover,
