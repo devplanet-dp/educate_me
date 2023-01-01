@@ -1,17 +1,16 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
-import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/features/student/lesson/components/practice_question_view.dart';
 import 'package:educate_me/features/student/lesson/lesson_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../core/shared/app_colors.dart';
 import '../../../../core/widgets/busy_button.dart';
@@ -81,19 +80,18 @@ class LessonContentPageView extends ViewModelWidget<LessonViewModel> {
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child:  Container(
+                        child: Container(
                           color: Colors.white,
                           child: BoxButtonWidget(
                             radius: _.isTablet ? 17 : 8,
                             fontSize: _.isTablet ? 24 : 14,
                             buttonText:
-                            '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
+                                '${'text093'.tr} (${index + 1}/${lesson.content?.length})',
                             onPressed: () => model.goToNextBarrier(),
                           ).paddingOnly(
                               top: 16,
-                              left: _.isTablet
-                                  ? kTabPaddingHorizontal * 1.2
-                                  : 16,
+                              left:
+                                  _.isTablet ? kTabPaddingHorizontal * 1.2 : 16,
                               bottom: 16,
                               right: _.isTablet
                                   ? kTabPaddingHorizontal * 1.2
@@ -119,9 +117,30 @@ class LessonBarrierView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HtmlWidget(
-      content,
-      textStyle: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400),
+    return Html(
+      data: content,
+      customRenders: {
+        tagMatcher("video"): CustomRender.widget(
+          widget: (context, buildChildren) {
+            var element = context.tree.element?.outerHtml ?? '';
+            var trimmed = element.substring(24);
+            var trimmedLast = trimmed.substring(0, trimmed.length - 10);
+
+            YoutubePlayerController controller = YoutubePlayerController(
+              initialVideoId: YoutubePlayer.convertUrlToId(trimmedLast) ?? '',
+              flags: const YoutubePlayerFlags(
+                autoPlay: false,
+                mute: false,
+              ),
+            );
+
+            return YoutubePlayer(
+              controller: controller,
+              showVideoProgressIndicator: true,
+            );
+          },
+        )
+      },
     );
   }
 }

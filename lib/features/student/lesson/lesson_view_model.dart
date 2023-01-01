@@ -126,9 +126,9 @@ class LessonViewModel extends BaseViewModel {
   }
 
   resetScroll() {
-    scrollController.animateTo(scrollController.position.minScrollExtent,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.fastOutSlowIn);
+    // scrollController.animateTo(scrollController.position.minScrollExtent,
+    //     duration: const Duration(milliseconds: 500),
+    //     curve: Curves.fastOutSlowIn);
   }
 
   void onStartQuizTapped(

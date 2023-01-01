@@ -2,17 +2,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:educate_me/core/shared/app_colors.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
-import 'package:educate_me/core/widgets/app_info.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/sub_topic.dart';
 import 'package:educate_me/data/topic.dart';
 import 'package:educate_me/features/student/topic/topic_view_model.dart';
 import 'package:educate_me/features/teacher/lesson/components/lesson_card.dart';
+import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -42,7 +41,8 @@ class SubTopicView extends StatelessWidget {
             slivers: [
               ImageSliderAppBar(
                 images: topic.cover ?? '',
-                title: 'Level ${vm.quizController.currentLevel?.name} - ${topic.name}',
+                title:
+                    'Level ${vm.quizController.currentLevel?.name} - ${topic.name}',
               ),
               SliverList(
                   delegate: SliverChildListDelegate([
@@ -66,23 +66,37 @@ class _SubTopicList extends ViewModelWidget<TopicViewModel> {
 
   @override
   Widget build(BuildContext context, TopicViewModel model) {
-    return StreamBuilder<List<SubTopicModel>>(
-        stream: model.streamSubTopics(levelId: levelId, topicId: topicId),
-        builder: (_, snapshot) {
-          if (snapshot.hasData) {
-            var list = snapshot.data ?? [];
-            if (list.isEmpty) {
-              return AppInfoWidget(
-                      translateKey: 'text027'.tr, iconData: Iconsax.book)
-                  .center();
-            }
-            return _SubTopicSection(
-              subtopics: list,
-              levelId: levelId,
-              topicId: topicId,
-            );
-          }
-          return const ShimmerView(thumbHeight: 20, thumbWidth: 80);
+    return FirestoreListView<SubTopicModel>(
+        query: model.querySubTopics(levelId: levelId, topicId: topicId),
+        physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        itemBuilder: (_, snapshot) {
+          var s = snapshot.data();
+
+          return [
+            ResponsiveBuilder(builder: (context, _) {
+              return Text(
+                s.title ?? '',
+                style: kBodyStyle.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: _.isTablet ? 24 : 16.sp,
+                ),
+              ).paddingOnly(left: _.isTablet ? 32 : 12);
+            }),
+            AutoSizeText(
+              s.description ?? '',
+              maxLines: 1,
+              style: kCaptionStyle.copyWith(
+                  color: kcTextDarkGrey,
+                  fontWeight: FontWeight.w400,
+                  fontSize: _.isTablet ? 16 : 13),
+            ).paddingOnly(left: _.isTablet ? 32 : 12),
+            vSpaceSmall,
+            _LessonList(
+                levelId: levelId, topicId: topicId, subTopicId: s.id ?? ''),
+            vSpaceSmall,
+          ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
         });
   }
 }
@@ -109,20 +123,23 @@ class _SubTopicSection extends StatelessWidget {
         itemBuilder: (_, index) {
           var s = subtopics[index];
           return [
-            ResponsiveBuilder(
-              builder: (context,_) {
-                return Text(
-                  s.title ?? '',
-                  style: kBodyStyle.copyWith(fontWeight: FontWeight.w600,fontSize:_.isTablet?24: 16.sp,),
-                ).paddingOnly(left:_.isTablet?32: 12);
-              }
-            ),
+            ResponsiveBuilder(builder: (context, _) {
+              return Text(
+                s.title ?? '',
+                style: kBodyStyle.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: _.isTablet ? 24 : 16.sp,
+                ),
+              ).paddingOnly(left: _.isTablet ? 32 : 12);
+            }),
             AutoSizeText(
               s.description ?? '',
               maxLines: 1,
               style: kCaptionStyle.copyWith(
-                  color: kcTextDarkGrey, fontWeight: FontWeight.w400,fontSize: _.isTablet?16:13),
-            ).paddingOnly(left:_.isTablet?32: 12),
+                  color: kcTextDarkGrey,
+                  fontWeight: FontWeight.w400,
+                  fontSize: _.isTablet ? 16 : 13),
+            ).paddingOnly(left: _.isTablet ? 32 : 12),
             vSpaceSmall,
             _LessonList(
                 levelId: levelId, topicId: topicId, subTopicId: s.id ?? ''),
@@ -145,43 +162,25 @@ class _LessonList extends ViewModelWidget<TopicViewModel> {
 
   @override
   Widget build(BuildContext context, TopicViewModel model) {
-    return StreamBuilder<List<LessonModel>>(
-        stream: model.streamLesson(
-            topicId: topicId, levelId: levelId, subTopicId: subTopicId),
-        builder: (_, snapshot) {
-          if (snapshot.hasData) {
-            final lessons = snapshot.data ?? [];
-            if (lessons.isEmpty) {
-              return AppInfoWidget(
-                      translateKey: 'text028'.tr, iconData: Iconsax.book)
-                  .center();
-            }
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              child: Row(
-                children: List.generate(lessons.length, (index) {
-                  final t = lessons[index];
-                  return ResponsiveBuilder(
-                    builder: (context,_) {
-                      return LessonCard(
-                        lesson: t,
-                        isCompleted: model.isLessonCompleted(t.id??''),
-                        onTap: () => model.goToLessonView(
-                            currentLesson: t,
-                            levelId: levelId,
-                            topicId: topicId,
-                            subTopicId: subTopicId,
-                            lessons: lessons),
-                      ).paddingOnly(
-                          left:index==0?_.isTablet?32:10:10, right: index == lessons.length - 1 ?_.isTablet?32: 10 : 0);
-                    }
-                  );
-                }),
-              ),
-            );
-          }
-          return const ShimmerTopic();
-        });
+    return FirestoreListView<LessonModel>(
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        physics: const BouncingScrollPhysics(),
+        query: model.queryLesson(
+            levelId: levelId, topicId: topicId, subTopicId: subTopicId),
+        itemBuilder: (_, snapshot) {
+          final t = snapshot.data();
+          return ResponsiveBuilder(builder: (context, _) {
+            return LessonCard(
+              lesson: t,
+              isCompleted: model.isLessonCompleted(t.id ?? ''),
+              onTap: () => model.goToLessonView(
+                  currentLesson: t,
+                  levelId: levelId,
+                  topicId: topicId,
+                  subTopicId: subTopicId),
+            ).paddingOnly(right: _.isTablet ? 32 : 10);
+          });
+        }).paddingOnly(left: 16).height(180);
   }
 }

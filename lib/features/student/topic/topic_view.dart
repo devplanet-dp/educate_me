@@ -69,26 +69,7 @@ class _LevelSection extends ViewModelWidget<TopicViewModel> {
         ].toColumn(crossAxisAlignment: CrossAxisAlignment.start);
       },
     ).paddingOnly(top: 16);
-    return ListView.separated(
-            shrinkWrap: true,
-            itemCount: model.levels.length,
-            separatorBuilder: (_, __) => vSpaceMedium,
-            itemBuilder: (_, index) => [
-                  ResponsiveBuilder(builder: (context, _) {
-                    return Text(
-                      'Level ${model.levels[index].name ?? ''}',
-                      style: kSubheadingStyle.copyWith(
-                          fontWeight: FontWeight.w600),
-                    ).paddingOnly(left: _.isTablet ? 32 : 12);
-                  }),
-                  vSpaceSmall,
-                  _TopicList(
-                    level: model.levels[index],
-                    isLocked: model.isLevelLocked(model.levels[index].id ?? ''),
-                    isCompleted: false,
-                  )
-                ].toColumn(crossAxisAlignment: CrossAxisAlignment.start))
-        .paddingOnly(top: 16);
+
   }
 }
 
@@ -125,6 +106,6 @@ class _TopicList extends ViewModelWidget<TopicViewModel> {
                     ? 32
                     : 10);
           });
-        }).height(120.h);
+        }).paddingOnly(left: 10).height(120);
   }
 }

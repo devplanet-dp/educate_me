@@ -432,6 +432,21 @@ class FirestoreService {
           return SubTopicModel.fromSnapshot(doc);
         }).toList());
   }
+  Query<SubTopicModel> querySubTopics(
+      {required levelId, required topicId}) {
+
+    final query =   FirebaseFirestore.instance.collection(tbLevel).doc(levelId)
+        .collection(tbTopic)
+        .doc(topicId)
+        .collection(tbSubTopic)
+        .orderBy('order')
+        .withConverter<SubTopicModel>(
+      fromFirestore: (snapshot, _) => SubTopicModel.fromJson(snapshot.data()!),
+      toFirestore: (user, _) => user.toJson(),
+    );
+    return query;
+
+  }
 
   Future<FirebaseResult> removeSubTopic(
       {required levelId, required topicId, required subTopic}) async {
@@ -493,6 +508,24 @@ class FirestoreService {
     return snap.map((snapshot) => snapshot.docs.map((doc) {
           return LessonModel.fromSnapshot(doc);
         }).toList());
+  }
+
+  Query<LessonModel> queryLessons(
+      {required levelId, required topicId, required subTopicId}) {
+
+    final query =   FirebaseFirestore.instance.collection(tbLevel).doc(levelId)
+        .collection(tbTopic)
+        .doc(topicId)
+        .collection(tbSubTopic)
+        .doc(subTopicId)
+        .collection(tbLesson)
+        .orderBy('order')
+        .withConverter<LessonModel>(
+      fromFirestore: (snapshot, _) => LessonModel.fromJson(snapshot.data()!),
+      toFirestore: (user, _) => user.toJson(),
+    );
+
+   return query;
   }
 
   Future<FirebaseResult> removeLesson(

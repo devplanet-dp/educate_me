@@ -40,7 +40,8 @@ class TopicViewModel extends BaseViewModel {
       notifyListeners();
     });
   }
-  Query<LevelModel> levelQuery()=>_service.levelsQuery;
+
+  Query<LevelModel> levelQuery() => _service.levelsQuery;
 
   listenToTopics(levelId) {
     _service.streamLevelTopics(levelId).listen((d) {
@@ -69,15 +70,24 @@ class TopicViewModel extends BaseViewModel {
   Stream<List<TopicModel>> streamLevelTopics(String levelId) =>
       _service.streamLevelTopics(levelId);
 
-  Query<TopicModel> levelTopicsQuery(String levelId)=>_service.levelTopicsQuery(levelId);
+  Query<TopicModel> levelTopicsQuery(String levelId) =>
+      _service.levelTopicsQuery(levelId);
 
   Stream<List<SubTopicModel>> streamSubTopics(
           {required levelId, required topicId}) =>
       _service.streamSubTopic(levelId: levelId, topicId: topicId);
 
+  Query<SubTopicModel> querySubTopics({required levelId, required topicId}) =>
+      _service.querySubTopics(levelId: levelId, topicId: topicId);
+
   Stream<List<LessonModel>> streamLesson(
           {required levelId, required topicId, required subTopicId}) =>
       _service.streamLessons(
+          levelId: levelId, topicId: topicId, subTopicId: subTopicId);
+
+  Query<LessonModel> queryLesson(
+          {required levelId, required topicId, required subTopicId}) =>
+      _service.queryLessons(
           levelId: levelId, topicId: topicId, subTopicId: subTopicId);
 
   goToSubtopic({required LevelModel level, required TopicModel topic}) {
@@ -93,9 +103,7 @@ class TopicViewModel extends BaseViewModel {
       {required LessonModel currentLesson,
       required levelId,
       required topicId,
-      required subTopicId,
-      required lessons}) {
-    quizController.lessonModel = lessons;
+      required subTopicId}) {
     Get.to(() => LessonView(
         lesson: currentLesson,
         levelId: levelId,

@@ -81,6 +81,7 @@ dependencies:
   html_editor_enhanced:
   flutter_widget_from_html: ^0.9.0+2
   flutter_html:
+  youtube_player_flutter:
   #texttospeech
   flutter_tts: ^3.6.2
   #audio

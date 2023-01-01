@@ -33,7 +33,25 @@ class LessonContentAddView extends StatelessWidget {
           ),
           body: HtmlEditor(
             controller: vm.htmlController,
+            htmlToolbarOptions: HtmlToolbarOptions(
+              initiallyExpanded: true,
+              defaultToolbarButtons: [
+                StyleButtons(),
+                FontSettingButtons(fontSizeUnit: true),
+                FontButtons(clearAll: true),
+                ColorButtons(),
+                ListButtons(listStyles: true),
+                ParagraphButtons(
+                    textDirection: true, lineHeight: true, caseConverter: true),
+                InsertButtons(
+                    video: true,
+                    audio: false,
+                    table: false,
+                    hr: false,
+                    otherFile: false),
+              ]
 
+            ),
             htmlEditorOptions: const HtmlEditorOptions(
               hint: 'Add your content here...',
 
@@ -43,6 +61,7 @@ class LessonContentAddView extends StatelessWidget {
             }),
             otherOptions: OtherOptions(
                 height: Get.height,
+
                ),
           )),
       viewModelBuilder: () => TeacherLessonViewModel(),
