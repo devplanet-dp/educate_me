@@ -95,7 +95,7 @@ class SettingViewModel extends BaseViewModel {
     Get.dialog(AppDialogWithInput(
       title: 'text005'.tr,
       image: kIcSafe,
-      subtitle: message ?? 'text081'.tr,
+      subtitle: message ?? 'text081.profile'.tr,
       onNegativeTap: () => Get.back(),
       secondaryActionWidget: TextButton(
         onPressed: () => Get.off(() => const ForgotPwdView()),

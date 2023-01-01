@@ -31,7 +31,7 @@ class TeacherTopicView extends StatelessWidget {
             backgroundColor: kcBg,
             appBar: AppBar(
               elevation: 0,
-              title: Text('Add topics for ${level.name}'),
+              title: Text('Add topics for Level ${level.name}'),
               actions: [
                 (vm.multiSelect && vm.selectedQnsIds.isNotEmpty)
                     ? IconButton(

@@ -274,6 +274,12 @@ class FirestoreService {
     }
   }
 
+  final levelsQuery =  FirebaseFirestore.instance.collection(tbLevel).orderBy('order')
+      .withConverter<LevelModel>(
+    fromFirestore: (snapshot, _) => LevelModel.fromMap(snapshot.data()!),
+    toFirestore: (user, _) => user.toJson(),
+  );
+
   Stream<List<LevelModel>> streamLevels() {
     Stream<QuerySnapshot> snap = _levelReference.orderBy('order').snapshots();
 
@@ -353,6 +359,17 @@ class FirestoreService {
       return FirebaseResult.error(errorMessage: e.toString());
     }
   }
+
+ Query<TopicModel>  levelTopicsQuery(String levelId){
+    final query =   FirebaseFirestore.instance.collection(tbLevel).doc(levelId)
+        .collection(tbTopic)
+        .orderBy('order')
+        .withConverter<TopicModel>(
+      fromFirestore: (snapshot, _) => TopicModel.fromJson(snapshot.data()!),
+      toFirestore: (user, _) => user.toJson(),
+    );
+    return query;
+   }
 
   Stream<List<TopicModel>> streamLevelTopics(String levelId) {
     Stream<QuerySnapshot> snap = _levelReference

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/data/sub_topic.dart';
 
 class TopicModel {
@@ -18,6 +19,8 @@ class TopicModel {
         this.expanded,
       this.createdAt,
       this.subtopics});
+
+
 
   TopicModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

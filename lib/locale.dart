@@ -94,6 +94,7 @@ class AppLocale extends Translations {
           'text079':'Confirm',
           'text080':'This field is required*',
           'text081':'Please enter the account password to access the My Account page.',
+          'text081.profile':'Please enter the account password to access the My Profiles page.',
           'text082':'A password change request has been sent to your email. Please check your emails and proceed further. Thank you',
           'text083':'Reset password',
           'text084':'Reset',
@@ -120,7 +121,8 @@ class AppLocale extends Translations {
           'text105':'Fantastic!',
           'text106':'You selected the correct answer!',
           'text107':'Good job! Complete the quiz :)',
-          'text108':'Nice try!'
+          'text108':'Nice try!',
+          'text109':'Camera'
 
 
 

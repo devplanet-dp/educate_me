@@ -15,6 +15,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/shared/app_colors.dart';
+import '../../../../core/utils/app_utils.dart';
 
 class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
   const PracticeQuestionView(
@@ -38,24 +39,19 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
           backgroundColor: kcBg,
           resizeToAvoidBottomInset: false,
           bottomNavigationBar: BoxButtonWidget(
-                  buttonText: 'text030'.tr,
+              buttonText: 'text030'.tr,
               radius: _.isTablet ? 17 : 8,
               fontSize: _.isTablet ? 24 : 14,
-                  isEnabled: model.isQuizEnabled() || lesson.questions!.isEmpty,
-                  onPressed: () => model.onStartQuizTapped(
-                      levelId: levelId,
-                      topicId: topicId,
-                      subTopicId: subTopicId,
-                      lesson: lesson))
-              .paddingOnly(
+              isEnabled: model.isQuizEnabled(-1) || lesson.questions!.isEmpty,
+              onPressed: () => model.onStartQuizTapped(
+                  levelId: levelId,
+                  topicId: topicId,
+                  subTopicId: subTopicId,
+                  lesson: lesson)).paddingOnly(
               top: 16,
-              left: _.isTablet
-                  ? kTabPaddingHorizontal * 1.2
-                  : 16,
+              left: _.isTablet ? kTabPaddingHorizontal * 1.2 : 16,
               bottom: 16,
-              right: _.isTablet
-                  ? kTabPaddingHorizontal * 1.2
-                  : 16),
+              right: _.isTablet ? kTabPaddingHorizontal * 1.2 : 16),
           body: ListView.separated(
                   shrinkWrap: true,
                   itemBuilder: (_, index) =>
@@ -63,7 +59,8 @@ class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
                   separatorBuilder: (_, index) => vSpaceMedium,
                   itemCount: lesson.questions?.length ?? 0)
               .paddingSymmetric(
-                  horizontal: !_.isTablet ? 16 : kTabPaddingHorizontal,vertical: 16),
+                  horizontal: !_.isTablet ? 16 : kTabPaddingHorizontal,
+                  vertical: 16),
         );
       }),
     );
@@ -82,7 +79,6 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
     controller.text = model.getUserAnswerState(index) == AnswerState.checkAgain
         ? ''
         : model.getUserAnswer(index) ?? '';
-
 
     return Form(
       key: formKey,
@@ -131,16 +127,11 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   child: AppTextFieldSecondary(
                     controller: controller,
                     onTap: (){
-                      if (model.getUserAnswerState(index) ==
-                          AnswerState.tryAgain) {
-                        controller.text = '';
-                        model.onRetryQuestion(index);
-                        return;
-                      }
+                      model.isQuizEnabled(index);
                     },
-                    isEnabled: !model.isQuizEnabled(),
+                    isEnabled: !model.isQuizEnabled(index),
                     textColor: model.getButtonStyle(index)[index]['color'],
-                    hintText: 'Answer',
+                    hintText: '        Answer',
                     align: TextAlign.center,
                     label: '',
                     validator: (value) {
@@ -159,9 +150,10 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   buttonText:
                       (model.getButtonStyle(index)[index]['text'] as String).tr,
                   radius: 8,
-                  fontSize: 20,
+                  fontSize: _.isTablet ? 20 : 14,
                   buttonColor: model.getButtonStyle(index)[index]['color'],
                   onPressed: () {
+
                     //when try again clear the input
                     if (model.getUserAnswerState(index) ==
                         AnswerState.tryAgain) {
@@ -177,14 +169,9 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                             text: controller.text,
                             index: index,
                             correctAnswer: question.options!
-                                    .where((o) => o.isCorrect ?? false)
-                                    .isNotEmpty
-                                ? question.options!
-                                        .where((o) => o.isCorrect ?? false)
-                                        .first
-                                        .option ??
-                                    'NO ANSWER'
-                                : 'NO ANSWER');
+                                .where((o) => o.isCorrect ?? false)
+                                .map((e) => e.option?.trim().toLowerCase() ?? 'NO-ANSWER')
+                                .toList());
                       }
                     }
                   },

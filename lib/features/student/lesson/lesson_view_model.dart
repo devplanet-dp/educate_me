@@ -1,4 +1,5 @@
 import 'package:educate_me/core/shared/app_colors.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/utils/constants/app_assets.dart';
 import 'package:educate_me/core/widgets/app_dialog.dart';
 import 'package:educate_me/data/controllers/quiz_controller.dart';
@@ -29,7 +30,10 @@ class LessonViewModel extends BaseViewModel {
       ? answers[answers.indexWhere((e) => e.index == index)].state
       : null;
 
-  bool isQuizEnabled() {
+  bool isQuizEnabled(index) {
+    if(getUserAnswerState(index)==AnswerState.tryAgain){
+      return false;
+    }
     var enable = answers.isNotEmpty &&
         (answers[0].state == AnswerState.correct ||
             answers[0].attemptCount == 2);
@@ -46,8 +50,8 @@ class LessonViewModel extends BaseViewModel {
   onQuestionAnswered(
       {required String text,
       required int index,
-      required String correctAnswer}) {
-    isQuizEnabled();
+      required List<String> correctAnswer}) {
+    isQuizEnabled(index);
     if (!isAnswered(index)) {
       answers.add(PracticeAnswerModel(
           index: index,
@@ -60,7 +64,8 @@ class LessonViewModel extends BaseViewModel {
         answers[answers.indexWhere((e) => e.index == index)];
     answerModel.attemptCount++;
     answerModel.answer = text;
-    if (correctAnswer.trim().toLowerCase() == text.trim().toLowerCase()) {
+
+    if (correctAnswer.contains(text.trim().toLowerCase())) {
       quizController.playSuccessSound();
       answerModel.state = AnswerState.correct;
     } else {

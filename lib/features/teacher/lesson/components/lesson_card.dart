@@ -62,7 +62,7 @@ class LessonCard extends StatelessWidget {
                       fontWeight: FontWeight.w600),
                 ).paddingSymmetric(horizontal: 12),
                 AutoSizeText(
-                  '${lesson.description ?? ''}\n',
+                  '${lesson.description?.trim() ?? ''}\n',
                   maxLines: 2,
                   style: kBody2Style.copyWith(color: kcTextGrey),
                 ).paddingSymmetric(horizontal: 12),

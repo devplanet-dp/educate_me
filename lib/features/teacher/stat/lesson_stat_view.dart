@@ -32,7 +32,7 @@ class LessonStatView extends StatelessWidget {
         ),
         body: GestureDetector(
             onTap: () => DeviceUtils.hideKeyboard(context),
-            child: const _LevelSection()),
+            child: const _LevelSection().paddingOnly(top: 18)),
       ),
       viewModelBuilder: () => TopicViewModel(),
     );

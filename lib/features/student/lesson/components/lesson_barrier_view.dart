@@ -1,5 +1,6 @@
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/features/student/lesson/components/practice_question_view.dart';
 import 'package:educate_me/features/student/lesson/lesson_view_model.dart';
@@ -121,8 +122,6 @@ class LessonBarrierView extends StatelessWidget {
     return HtmlWidget(
       content,
       textStyle: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w400),
-      webView: true,
-      webViewJs: true,
     );
   }
 }

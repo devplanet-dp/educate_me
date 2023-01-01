@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educate_me/data/controllers/quiz_controller.dart';
 import 'package:educate_me/data/lesson.dart';
 import 'package:educate_me/data/sub_topic.dart';
@@ -39,6 +40,7 @@ class TopicViewModel extends BaseViewModel {
       notifyListeners();
     });
   }
+  Query<LevelModel> levelQuery()=>_service.levelsQuery;
 
   listenToTopics(levelId) {
     _service.streamLevelTopics(levelId).listen((d) {
@@ -66,6 +68,8 @@ class TopicViewModel extends BaseViewModel {
 
   Stream<List<TopicModel>> streamLevelTopics(String levelId) =>
       _service.streamLevelTopics(levelId);
+
+  Query<TopicModel> levelTopicsQuery(String levelId)=>_service.levelTopicsQuery(levelId);
 
   Stream<List<SubTopicModel>> streamSubTopics(
           {required levelId, required topicId}) =>

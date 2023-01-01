@@ -43,8 +43,8 @@ class ChildControllerWidget extends ViewModelWidget<SignUpViewModel> {
           )
         ].toRow(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center);
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center).decorated(color: Colors.white,borderRadius: BorderRadius.circular(60)).center();
       }
     );
   }

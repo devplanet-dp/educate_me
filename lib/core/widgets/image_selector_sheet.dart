@@ -17,7 +17,7 @@ class ImageSelectorSheet extends StatelessWidget {
       ListTile(
         leading: SvgPicture.asset(kIcGallery),
         title: Text(
-          'text036'.tr,
+          'text109'.tr,
           style: kBodyStyle.copyWith(
               color: Colors.white, fontWeight: FontWeight.w700),
         ),

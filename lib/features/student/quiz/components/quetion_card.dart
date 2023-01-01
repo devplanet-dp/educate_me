@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
+import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_network_image.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/data/question.dart';
@@ -123,7 +124,7 @@ class QuestionCard extends ViewModelWidget<QuizViewModel> {
                     ),
                   ],
                 )
-                .width(_.isTablet?Get.width * .35:Get.width)
+                .width(_.isTablet ? Get.width * .35 : Get.width)
                 .paddingSymmetric(horizontal: 16),
           ],
         );
@@ -339,13 +340,12 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
   Widget _buildInput(QuizViewModel model) =>
       ResponsiveBuilder(builder: (context, _) {
         return AppTextFieldSecondary(
-          onTap: () {
-            model.onInputTypeChanged();
-          },
           controller: model.inputController,
           hintText: 'Enter answer',
           verticalPadding: _.isTablet ? 18 : 4,
           label: '',
+
+          isEnabled: !model.isAnswered()||model.selectedQn?.state!=AnswerState.checkAgain,
           align: TextAlign.center,
           minLine: 1,
           textColor: model.getButtonStyleQuiz()['color'],

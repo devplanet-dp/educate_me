@@ -297,7 +297,7 @@ class AppTextFieldSecondary extends StatelessWidget {
                     blurRadius: 8,
                   ),
                 ),
-                hintText: hintText,
+                labelText: hintText,
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 alignLabelWithHint: false,
                 labelStyle: const TextStyle(
