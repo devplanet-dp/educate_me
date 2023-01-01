@@ -167,7 +167,7 @@ class TeacherLevelViewModel extends BaseViewModel {
             levelId: levelId,
             topicId: topicId,
             subTopic: subTopicId,
-            lessonId: lessonId,
+            lessonId: lessonId.id,
             questionId: e);
       }
       selectedQnsIds.clear();

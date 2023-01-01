@@ -15,7 +15,6 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../core/shared/app_colors.dart';
-import '../../../../core/utils/app_utils.dart';
 
 class PracticeQuestionView extends ViewModelWidget<LessonViewModel> {
   const PracticeQuestionView(
@@ -126,10 +125,10 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   constraints: BoxConstraints(maxHeight: 100.h),
                   child: AppTextFieldSecondary(
                     controller: controller,
-                    onTap: (){
-                      model.isQuizEnabled(index);
-                    },
-                    isEnabled: !model.isQuizEnabled(index),
+                    isEnabled:
+                        model.getUserAnswerState(index) == AnswerState.tryAgain
+                            ? false
+                            : !model.isQuizEnabled(index),
                     textColor: model.getButtonStyle(index)[index]['color'],
                     hintText: '        Answer',
                     align: TextAlign.center,
@@ -153,7 +152,6 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                   fontSize: _.isTablet ? 20 : 14,
                   buttonColor: model.getButtonStyle(index)[index]['color'],
                   onPressed: () {
-
                     //when try again clear the input
                     if (model.getUserAnswerState(index) ==
                         AnswerState.tryAgain) {
@@ -170,7 +168,9 @@ class _QnsCard extends ViewModelWidget<LessonViewModel> {
                             index: index,
                             correctAnswer: question.options!
                                 .where((o) => o.isCorrect ?? false)
-                                .map((e) => e.option?.trim().toLowerCase() ?? 'NO-ANSWER')
+                                .map((e) =>
+                                    e.option?.trim().toLowerCase() ??
+                                    'NO-ANSWER')
                                 .toList());
                       }
                     }

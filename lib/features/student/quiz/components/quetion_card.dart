@@ -1,7 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:educate_me/core/shared/shared_styles.dart';
 import 'package:educate_me/core/shared/ui_helpers.dart';
-import 'package:educate_me/core/utils/app_utils.dart';
 import 'package:educate_me/core/widgets/app_network_image.dart';
 import 'package:educate_me/core/widgets/busy_button.dart';
 import 'package:educate_me/data/question.dart';
@@ -344,8 +343,9 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
           hintText: 'Enter answer',
           verticalPadding: _.isTablet ? 18 : 4,
           label: '',
-
-          isEnabled: !model.isAnswered()||model.selectedQn?.state!=AnswerState.checkAgain,
+          isEnabled: model.selectedQn?.state != AnswerState.checkAgain
+              ? false
+              : !model.isAnswered(),
           align: TextAlign.center,
           minLine: 1,
           textColor: model.getButtonStyleQuiz()['color'],
