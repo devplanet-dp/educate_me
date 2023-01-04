@@ -39,8 +39,8 @@ class ImageSliderAppBar extends StatelessWidget {
               Positioned.fill(
                 child: AppNetworkImage(
                   path: images,
-                  thumbHeight: Get.height * 0.25,
-                  thumbWidth: Get.width * .4,
+                  thumbHeight: Get.height,
+                  thumbWidth: Get.width,
                 ),
               ),
               const Align(
@@ -95,8 +95,8 @@ class ImageSliderAppBarNonFloating extends StatelessWidget {
               Positioned.fill(
                 child: AppNetworkImage(
                   path: images,
-                  thumbHeight: Get.height * 0.25,
-                  thumbWidth: Get.width * .4,
+                  thumbHeight: Get.height,
+                  thumbWidth: Get.width,
                 ),
               ),
               const Align(

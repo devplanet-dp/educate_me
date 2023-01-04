@@ -166,10 +166,7 @@ class QuizViewModel extends BaseViewModel {
     if (checkedMultipleOptions.isNotEmpty) {
       //if try again clicked
       if (selectedQn?.state == AnswerState.tryAgain) {
-        selectedQn?.state = AnswerState.checkAgain;
-        checkedMultipleOptions.removeWhere((e) => e.isCorrect == false);
-        notifyListeners();
-        return;
+       onTryAgain();
       }
       //disable selection on answered question
       if (!isAnswered()) {
@@ -198,6 +195,12 @@ class QuizViewModel extends BaseViewModel {
         }
       }
     }
+  }
+  void onTryAgain(){
+    selectedQn?.state = AnswerState.checkAgain;
+    checkedMultipleOptions.removeWhere((e) => e.isCorrect == false);
+    notifyListeners();
+    return;
   }
 
   void onInputTypeSubmit(String answer) {

@@ -35,7 +35,7 @@ class DrawBrushWidget extends StatelessWidget {
               qid: qid,
             )
                 :  const DisableDraw(),
-            barrierDismissible: false);
+            barrierDismissible: true);
       },
       child: Container(
           decoration: BoxDecoration(
