@@ -66,6 +66,7 @@ class SwitchUserAppBar extends ViewModelWidget<NavigationViewModel> {
                   controller.popupMenuEnabled.value = false;
                   //on add account clicked
                   if (value == 0) {
+                    Get.back();
                     Get.to(() => const CreateAccountView(
                           isAddAccount: true,
                         ));

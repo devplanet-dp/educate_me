@@ -102,46 +102,44 @@ class CreateAccountView extends StatelessWidget {
   }
 
   Widget _buildBody(SignUpViewModel vm, BuildContext context) {
-    return SafeArea(
-      child: Container(
+    return Scaffold(
+      body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(kImgUnionPng2), fit: BoxFit.cover),
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Column(
-            children: [
-              const CustomAppBar().paddingSymmetric(horizontal: 16),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      vSpaceLarge,
-                      Text(
-                        isAddAccount ? 'text010.2'.tr : 'text010'.tr,
-                        style: kHeading3Style.copyWith(
+        child: Column(
+          children: [
+            const SizedBox(height: kToolbarHeight,),
+            const CustomAppBar().paddingSymmetric(horizontal: 16),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    vSpaceLarge,
+                    Text(
+                      isAddAccount ? 'text010.2'.tr : 'text010'.tr,
+                      style: kHeading3Style.copyWith(
                           fontSize: 32,
-                            fontWeight: FontWeight.w700, color: Colors.black),
-                      ),
-                      Text(
-                        isAddAccount ? 'text011.2'.tr: 'text011'.tr,
-                        style: kBodyStyle.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF565656)),
-                      ).paddingOnly(right: 48),
-                      vSpaceMassive,
-                      const ChildControllerWidget(),
-                      AddChildWidget(
-                        isAddAccount: isAddAccount,
-                      ),
-                    ],
-                  ).paddingSymmetric(horizontal: 24),
-                ),
+                          fontWeight: FontWeight.w700, color: Colors.black),
+                    ),
+                    Text(
+                      isAddAccount ? 'text011.2'.tr: 'text011'.tr,
+                      style: kBodyStyle.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF565656)),
+                    ).paddingOnly(right: 48),
+                    vSpaceMassive,
+                    const ChildControllerWidget(),
+                    AddChildWidget(
+                      isAddAccount: isAddAccount,
+                    ),
+                  ],
+                ).paddingSymmetric(horizontal: 24),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
