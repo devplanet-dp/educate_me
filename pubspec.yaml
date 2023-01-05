@@ -90,6 +90,8 @@ dependencies:
   #expandable
   expandable: ^5.0.1
   equatable:
+  #pageview
+  horizontal_blocked_scroll_physics:
 
 dev_dependencies:
   flutter_test:

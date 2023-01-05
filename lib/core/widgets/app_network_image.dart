@@ -26,7 +26,7 @@ class AppNetworkImage extends StatelessWidget {
     return ProgressiveImage(
         placeholder: const NetworkImage('https://i.imgur.com/7XL923M.jpg'),
         thumbnail: const NetworkImage('https://i.imgur.com/7XL923M.jpg'),
-        image: CachedNetworkImageProvider(path),
+        image: CachedNetworkImageProvider("path"),
         fit: fit ?? BoxFit.cover,
         width: thumbWidth!,
         height: thumbHeight!);

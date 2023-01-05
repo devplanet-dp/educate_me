@@ -166,7 +166,7 @@ class QuizViewModel extends BaseViewModel {
     if (checkedMultipleOptions.isNotEmpty) {
       //if try again clicked
       if (selectedQn?.state == AnswerState.tryAgain) {
-       onTryAgain();
+        return;
       }
       //disable selection on answered question
       if (!isAnswered()) {
@@ -205,10 +205,7 @@ class QuizViewModel extends BaseViewModel {
 
   void onInputTypeSubmit(String answer) {
     if (selectedQn?.state == AnswerState.tryAgain) {
-      inputController.text = '';
-      selectedQn?.state = AnswerState.checkAgain;
-      notifyListeners();
-      return;
+     return;
     }
     bool? isCorrect = selectedQn?.options!.any(
         (e) => e.option?.trim().toLowerCase() == answer.trim().toLowerCase());
@@ -216,14 +213,16 @@ class QuizViewModel extends BaseViewModel {
         OptionModel(index: 0, isCorrect: isCorrect ?? false, option: answer);
     onOptionSelected(p);
   }
-
-  void onInputTypeChanged() {
-    if (selectedQn?.state == AnswerState.tryAgain) {
-      inputController.text = '';
-      selectedQn?.state = AnswerState.checkAgain;
-      notifyListeners();
-    }
+  autoRetryInputTypeQuestion()async{
+    await Future.delayed(const Duration(milliseconds: 1750));
+    inputController.text = '';
+    checkedMultipleOptions.removeWhere((e) => e.isCorrect == false);
+    selectedQn?.state = AnswerState.checkAgain;
+    notifyListeners();
+    return;
   }
+
+
 
   void _addQuestionAsAnswered(OptionModel? option) {
     final userAnswer = UserAnsModel(
@@ -497,6 +496,7 @@ class QuizViewModel extends BaseViewModel {
                 _ans.removeWhere((e) => e.id == selectedQn?.id);
                 notifyListeners();
                 Get.back();
+                autoRetryInputTypeQuestion();
               },
             ),
             barrierDismissible: true)
@@ -504,6 +504,7 @@ class QuizViewModel extends BaseViewModel {
       isSecondAttempt = true;
       _ans.removeWhere((e) => e.id == selectedQn?.id);
       notifyListeners();
+      autoRetryInputTypeQuestion();
     });
   }
 

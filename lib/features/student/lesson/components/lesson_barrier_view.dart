@@ -134,9 +134,13 @@ class LessonBarrierView extends StatelessWidget {
               ),
             );
 
-            return YoutubePlayer(
-              controller: controller,
-              showVideoProgressIndicator: true,
+            return ResponsiveBuilder(
+              builder: (context,_) {
+                return YoutubePlayer(
+                  controller: controller,
+                  showVideoProgressIndicator: true,
+                ).paddingSymmetric(horizontal: _.isTablet?Get.width*.2:0);
+              }
             );
           },
         )

@@ -12,6 +12,7 @@ import 'package:educate_me/features/student/quiz/quiz_complete_page.dart';
 import 'package:educate_me/features/student/quiz/quiz_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:horizontal_blocked_scroll_physics/horizontal_blocked_scroll_physics.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
@@ -106,9 +107,7 @@ class QuizView extends StatelessWidget {
                             Expanded(
                                 child: PageView(
                               pageSnapping: true,
-                              physics: vm.allowNextPage
-                                  ? const ClampingScrollPhysics()
-                                  : const NeverScrollableScrollPhysics(),
+                              physics:(vm.isLastQn() || !vm.allowNextPage)?const LeftBlockedScrollPhysics():   const ClampingScrollPhysics(),
                               controller: vm.pageController,
                               onPageChanged: (index) {
                                 vm.onPageChanged(index + 1);

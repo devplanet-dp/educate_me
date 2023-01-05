@@ -48,7 +48,7 @@ class AppLocale extends Translations {
           'text034':'Allow camera permission',
           'text035':'Allow gallery permission',
           'text036':'Wrong Answers',
-          'text037':'Take a Snap',
+          'text037':'Camera',
           'text038':'Crop',
           'text039':'Signed in',
           'text040':'Add profile',
@@ -122,7 +122,7 @@ class AppLocale extends Translations {
           'text106':'You selected the correct answer!',
           'text107':'Good job! Complete the quiz :)',
           'text108':'Nice try!',
-          'text109':'Camera'
+          'text109':'Gallery'
 
 
 

@@ -98,14 +98,16 @@ class OptionTileWidget extends StatelessWidget {
                         color: optionTileColor),
                   ).paddingAll(24),
                 )
-              : Text(
-                  option.trim(),
-                  textAlign: TextAlign.center,
-                  style: kBody1Style.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: _.isTablet ? 28 : 15,
-                      color: optionTileColor),
-                ).paddingAll(12),
+              : Expanded(
+                child: AutoSizeText(
+                    option.trim(),
+                    textAlign: TextAlign.start,
+                    style: kBody1Style.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: _.isTablet ? 28 : 15,
+                        color: optionTileColor),
+                  ).paddingAll(12),
+              ),
         ],
       ).height(60.h).paddingAll(_.isTablet ? 16 : 8).card(
           color: tileColor,
