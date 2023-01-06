@@ -292,8 +292,9 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Expanded(child: SizedBox(width: Get.width*.04,)),
                     Expanded(child: _buildButton(model, formKey)),
-                    const Expanded(child: SizedBox()),
+                     const SizedBox(width: 12,),
                     Expanded(
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(maxHeight: 60),
@@ -326,7 +327,7 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
                       ),
                     )
                   ],
-                ).paddingOnly(top: 16)
+                ).paddingOnly(top: 32)
               : Column(
                   children: [
                     _buildInput(model)
@@ -365,7 +366,7 @@ class InputTypeQns extends ViewModelWidget<QuizViewModel> {
         return BoxButtonWidget(
           buttonText: (model.getButtonStyleQuiz()['text'] as String).tr,
           radius: 8,
-          fontSize: _.isTablet ? 20 : 14,
+          fontSize: _.isTablet ? 18 : 14,
           buttonColor: model.getButtonStyleQuiz()['color'],
           onPressed: () {
             //check user has already answered

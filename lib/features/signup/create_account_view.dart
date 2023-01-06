@@ -81,7 +81,7 @@ class CreateAccountView extends StatelessWidget {
                         isAddAccount ? 'text011.2'.tr : 'text011'.tr,
                         textAlign: TextAlign.center,
                         style: kBodyStyle.copyWith(
-                          height: 1,
+                          height: 1.25,
                             fontSize: 18, fontWeight: FontWeight.w500,color: const Color(0xFF565656)),
                       ),
                       vSpaceMedium,

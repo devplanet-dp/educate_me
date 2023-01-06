@@ -20,8 +20,8 @@ class StatCardTile extends ViewModelWidget<StatViewModel> {
         Image.asset(
           kIcAchievement,
           fit: BoxFit.contain,
-          height: _.isTablet ? 160 : 111.h,
-          width: _.isTablet ? 180 : 79.w,
+          height: _.isTablet ? 130 : 111.h,
+          width: _.isTablet ? 130 : 79.w,
         ),
         hSpaceSmall,
         Expanded(
@@ -29,13 +29,13 @@ class StatCardTile extends ViewModelWidget<StatViewModel> {
             Text(
               'Level 1',
               style: kBodyStyle.copyWith(
-                fontSize: _.isTablet?24:20,
+                fontSize: _.isTablet?22:20,
                   color: Colors.white, fontWeight: FontWeight.bold),
             ),
             vSpaceSmall,
             Text(
               'Congratulations! You’re now on Intermediate level',
-              style: kBody1Style.copyWith(color: Colors.white,fontSize: _.isTablet?17.5:15),
+              style: kBody1Style.copyWith(color: Colors.white,fontSize: _.isTablet?15.5:15),
             ),
             vSpaceSmall,
             _buildUserProgress(_.isTablet),

@@ -109,6 +109,7 @@ class QuizView extends StatelessWidget {
                               pageSnapping: true,
                               physics:(vm.isLastQn() || !vm.allowNextPage)?const LeftBlockedScrollPhysics():   const ClampingScrollPhysics(),
                               controller: vm.pageController,
+                              padEnds: false,
                               onPageChanged: (index) {
                                 vm.onPageChanged(index + 1);
 

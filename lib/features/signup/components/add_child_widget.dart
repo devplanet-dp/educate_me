@@ -23,7 +23,7 @@ class AddChildWidget extends ViewModelWidget<SignUpViewModel> {
             ..add(BoxButtonWidget(
               buttonText: isAddAccount ? 'text016.2'.tr : 'text016'.tr,
               isLoading: model.isBusy,
-              fontSize: _.isTablet ? 28 : 24,
+              fontSize:  24,
               onPressed: () => model.addUsers(),
             ).paddingSymmetric(
                 vertical: _.isTablet ? Get.width * .1 : 12,

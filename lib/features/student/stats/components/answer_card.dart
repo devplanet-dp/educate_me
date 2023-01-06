@@ -22,8 +22,8 @@ class TotalAnswerCard extends ViewModelWidget<StatViewModel> {
           children: [
             SvgPicture.asset(
               kIcAsk,
-              width: 32,
-              height: 32,
+              width: _.isTablet?28:32,
+              height:_.isTablet?28: 32,
             ).paddingAll(16),
             Expanded(
               child: [
@@ -36,7 +36,7 @@ class TotalAnswerCard extends ViewModelWidget<StatViewModel> {
                 Text(
                   '${model.controller.currentChild?.stats?.totalAnswered ?? 0}',
                   style: kHeading3Style.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                      color: Colors.black, fontWeight: FontWeight.bold,fontSize: _.isTablet ? 22 : 20.sp),
                 )
               ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
             )
@@ -98,8 +98,8 @@ class _AnswerCard extends StatelessWidget {
         vSpaceSmall,
         SvgPicture.asset(
           image,
-          width: _.isTablet ? 37 : 25.w,
-          height: _.isTablet ? 57 : 39.h,
+          width: _.isTablet ? 27 : 25.w,
+          height: _.isTablet ? 47 : 39.h,
         ),
         vSpaceMedium,
         Text(
@@ -117,14 +117,14 @@ class _AnswerCard extends StatelessWidget {
           style: kHeading3Style.copyWith(
               color: Colors.black,
               fontWeight: FontWeight.w900,
-              fontSize: _.isTablet ? 25 : 20.sp),
+              fontSize: _.isTablet ? 22 : 20.sp),
         )
       ]
           .toColumn(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min)
-          .paddingSymmetric(horizontal: 26.w, vertical: 10)
+          .paddingSymmetric(horizontal: 2.w, vertical: 10)
           .decorated(
         color: Colors.white,
         borderRadius: kBorderSmall,
